@@ -55,7 +55,7 @@ class SharedDao {
       });
       return JSON.parse(userData.userData);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       return null;
     }
   }

@@ -8,4 +8,10 @@ describe('sharedDao', function () {
     const res = await sharedDao.getUserDataByGoogleJwt(googleToken);
     console.log(res);
   });
+
+  it('getUserDataBySessionToken', async function () {
+    const sessionToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxpbmNvbG5uZ3V5ZW4wMDBAZ21haWwuY29tIiwiaWF0IjoxNjcyMjAxODM0fQ.GKZ_HZtp-vh5TkotTXzA4BvB-OoCG3DY569LgQOzHkE';
+    const res = await sharedDao.getUserDataBySessionToken(sessionToken);
+    console.log(res);
+  });
 });
