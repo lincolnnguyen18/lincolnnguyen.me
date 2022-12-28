@@ -43,7 +43,7 @@ const sharedSlice = createSlice({
 
       if (tokenType === 'googleToken') {
         if (userData && userData.sessionToken) {
-          Cookies.set('sessionToken', userData.sessionToken);
+          Cookies.set('sessionToken', userData.sessionToken, { expires: 365 });
         }
       } else if (tokenType === 'sessionToken') {
         if (!userData) {
