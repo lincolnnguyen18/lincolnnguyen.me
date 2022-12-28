@@ -11,6 +11,7 @@ module.exports = {
         },
         red: {
           custom: '#BB6565',
+          custom2: '#975252',
         },
       },
     },
