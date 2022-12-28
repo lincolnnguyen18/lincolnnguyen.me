@@ -22,7 +22,7 @@ export function LoginScreen () {
           useOneTap
         />
         <span
-          className="font-semibold text-l cursor-pointer"
+          className="font-semibold cursor-pointer"
           onClick={onCancel}
         >Cancel</span>
       </div>

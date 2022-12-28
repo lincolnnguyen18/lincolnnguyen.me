@@ -9,11 +9,11 @@ export function AppIcon ({ bgColor, text, placeholderInitials, path }) {
   }
 
   return (
-    <div
-      className="flex flex-col items-center justify-center w-fit"
-      onClick={handleClick}
-    >
-      <div className={bgColor + ' flex items-center justify-center w-16 h-16 rounded-2xl m-2 text-white cursor-pointer hover:opacity-90'}>
+    <div className="flex flex-col items-center justify-center w-fit">
+      <div
+        className={bgColor + ' flex items-center justify-center w-16 h-16 rounded-2xl m-2 text-white cursor-pointer hover:opacity-90'}
+        onClick={handleClick}
+      >
         <span className="text-2xl">{placeholderInitials}</span>
       </div>
       <span className="text-xs">{text}</span>
