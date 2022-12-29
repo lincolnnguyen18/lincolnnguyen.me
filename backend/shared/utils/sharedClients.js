@@ -11,7 +11,7 @@ const privateKey = secretObject.private_key;
 const googleAuthClient = new JWT({
   email: clientEmail,
   key: privateKey,
-  scopes: ['https://www.googleapis.com/auth/cloud-platform']
+  scopes: ['https://www.googleapis.com/auth/cloud-platform'],
 });
 
 export { googleAuthClient };

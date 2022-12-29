@@ -6,6 +6,7 @@ import { ContactsScreen } from '../apps/speech-chat/screens/contacts/ContactsScr
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserData, sharedActions, sharedSelector } from '../slices/main/sharedSlice';
 import Cookies from 'js-cookie';
+import { graphQLClient } from './clients';
 
 export function App () {
   const location = useLocation();
@@ -20,6 +21,7 @@ export function App () {
     // console.log('loading session token');
     const sessionToken = Cookies.get('sessionToken');
     if (sessionToken) {
+      graphQLClient.setHeader('authorization', `Bearer ${sessionToken}`);
       dispatch(getUserData({
         tokenType: 'sessionToken',
         token: sessionToken,

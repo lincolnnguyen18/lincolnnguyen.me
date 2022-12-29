@@ -9,7 +9,7 @@ export function ContactsScreen () {
   const { navbarMode, contacts } = useSelector(contactsSelector);
 
   let content;
-  if (navbarMode === 'default' && contacts.length === 0) {
+  if (navbarMode !== 'add-contact' && contacts.length === 0) {
     content = (
       <div className="flex flex-col items-center space-y-4 mt-[40%]">
         <span className="icon-contacts text-6xl text-red-custom" />

@@ -19,6 +19,7 @@
         "space-before-function-paren": ["error", "always"],
         "space-before-blocks": ["error", "always"],
         "no-tabs": ["error", { "allowIndentationTabs": true }],
-        "no-unused-vars": [ "error", { "vars": "all", "args": "all", "ignoreRestSiblings": false, "varsIgnorePattern": "^_" } ]
+//        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+        "no-unused-vars": "off"
     }
 }

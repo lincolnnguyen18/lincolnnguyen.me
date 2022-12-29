@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { request } from 'graphql-request';
 import Cookies from 'js-cookie';
+import { graphQLClient } from '../../shared/clients';
+import { gql } from 'graphql-request';
 
 const initialState = {
   userData: null,
@@ -8,20 +9,38 @@ const initialState = {
 };
 
 const getUserData = createAsyncThunk('shared/login', async ({ tokenType, token }) => {
-  const query = `
-      query {
-          shared {
-              userData(${tokenType}: "${token}") {
-                  picture
-                  email
-                  familyName
-                  givenName
-                  ${tokenType === 'googleToken' ? 'sessionToken' : ''}
-              }
-          }
-      }
-  `;
-  return request(process.env.REACT_APP_GRAPHQL_URL, query);
+  let query;
+  if (tokenType === 'googleToken') {
+    query = gql`
+        query {
+            shared {
+                userData(googleToken: "${token}") {
+                    picture
+                    email
+                    familyName
+                    givenName
+                    sessionToken
+                    lastLogin
+                }
+            }
+        }
+    `;
+  } else if (tokenType === 'sessionToken') {
+    query = gql`
+        query {
+            shared {
+                userData {
+                    picture
+                    email
+                    familyName
+                    givenName
+                    lastLogin
+                }
+            }
+        }
+    `;
+  }
+  return graphQLClient.request(query);
 });
 
 const sharedSlice = createSlice({
@@ -44,6 +63,7 @@ const sharedSlice = createSlice({
       if (tokenType === 'googleToken') {
         if (userData && userData.sessionToken) {
           Cookies.set('sessionToken', userData.sessionToken, { expires: 7 });
+          graphQLClient.setHeader('authorization', `Bearer ${userData.sessionToken}`);
         }
       } else if (tokenType === 'sessionToken') {
         if (!userData) {

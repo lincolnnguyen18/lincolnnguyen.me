@@ -26,10 +26,13 @@ export function LoginScreen () {
     <div className="h-screen w-screen overflow-y-auto overflow-x-hidden pt-16 space-y-4 px-4 max-w-screen-sm mx-auto bg-green-custom text-white flex flex-col items-center justify-center">
       <div className="flex flex-col items-center justify-center w-full space-y-4">
         <GoogleLogin
-          onSuccess={(credentialResponse) => dispatch(getUserData({
-            tokenType: 'googleToken',
-            token: credentialResponse.credential,
-          }))}
+          onSuccess={async (response) => {
+            console.log('response', response);
+          }}
+          // onSuccess={(credentialResponse) => dispatch(getUserData({
+          //   tokenType: 'googleToken',
+          //   token: credentialResponse.credential,
+          // }))}
           onError={() => console.error('Login Failed')}
           useOneTap
         />

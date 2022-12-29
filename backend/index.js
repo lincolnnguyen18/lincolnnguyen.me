@@ -1,30 +1,53 @@
-import { createServer } from 'http';
-import { Server } from 'socket.io';
-import express from 'express';
-import { graphqlHTTP } from 'express-graphql';
-import cors from 'cors';
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
 import dotenv from 'dotenv';
-import { sharedResolvers, sharedTypeDefs } from './daos/sharedSchema.js';
+import { sharedResolvers, sharedTypeDefs } from './shared/sharedSchema.js';
+import { getIdFromSessionToken } from './shared/utils/sharedUtils.js';
 dotenv.config();
 
-const app = express();
-app.use(cors({ origin: process.env.CLIENT_ORIGIN, credentials: true }));
-const httpServer = createServer(app);
-const io = new Server(httpServer, { cors: { origin: process.env.CLIENT_ORIGIN } });
+// app.use('/graphql', graphqlHTTP(async (req) => {
+//   const authorization = req.headers.authorization;
+//   // console.log('authorization', authorization);
+//   const sessionToken = authorization && authorization.split(' ')[1];
+//   // console.log('sessionToken', sessionToken);
+//
+//   let context;
+//   if (sessionToken) {
+//     try {
+//       const userData = await sharedDao.getUserDataBySessionToken(sessionToken);
+//       // console.log('userData', userData);
+//       context = { userData };
+//     } catch (err) {
+//       console.error(err);
+//       context = {};
+//     }
+//   }
+//
+//   return {
+//     schema: sharedTypeDefs,
+//     rootValue: sharedResolvers,
+//     graphiql: true,
+//     context,
+//   };
+// }));
 
-io.on('connection', (socket) => {
-  console.log('Client connected');
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
-  });
+const server = new ApolloServer({
+  typeDefs: [sharedTypeDefs],
+  resolvers: [sharedResolvers],
 });
 
-app.use('/graphql', graphqlHTTP({
-  schema: sharedTypeDefs,
-  rootValue: sharedResolvers,
-  graphiql: true,
-}));
+const { url } = await startStandaloneServer(server, {
+  context: async ({ req }) => {
+    const authorization = req.headers.authorization;
+    // console.log('authorization', authorization);
+    const sessionToken = authorization && authorization.split(' ')[1];
+    // console.log('sessionToken', sessionToken);
 
-httpServer.listen(process.env.PORT, () => {
-  console.info(`Socket.IO server running at http://localhost:${process.env.PORT}/`);
+    const id = getIdFromSessionToken(sessionToken);
+    // console.log('id', id);
+
+    return { id };
+  },
+  listen: { port: process.env.PORT },
 });
+console.log(`🚀 Server ready at ${url}`);
