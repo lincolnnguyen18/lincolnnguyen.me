@@ -1,9 +1,9 @@
-import { buildSchema, GraphQLScalarType } from 'graphql';
+import { GraphQLScalarType } from 'graphql';
 import { sharedDao } from './sharedDao.js';
 import { decodeGoogleToken, getSessionTokenFromId, uuid } from './utils/sharedUtils.js';
 
 // language=GraphQL
-const sharedTypeDefs = buildSchema(`
+const sharedTypeDefs = `
   scalar UnixDate
   
   type User {
@@ -17,7 +17,7 @@ const sharedTypeDefs = buildSchema(`
       user: User
       sessionToken(googleToken: String): String
   }
-`);
+`;
 
 const UnixDate = new GraphQLScalarType({
   name: 'UnixDate',
@@ -40,18 +40,13 @@ const sharedResolvers = {
       const payload = await decodeGoogleToken(googleToken);
       console.log('payload', payload);
       const { picture, email, family_name: familyName, given_name: givenName } = payload;
-      // console.log('email', email);
       let id = await sharedDao.getIdFromEmail(email);
-      // console.log('existing id', id);
       if (!id) {
         const user = await sharedDao.addUser({ id: uuid(), picture, email, familyName, givenName, createdAt: Date.now().toString() });
-        // console.log('new user', user);
         id = user.id;
       } else {
-        const user = await sharedDao.updateUser(id, { picture, email, familyName, givenName, updatedAt: Date.now().toString() });
-        // console.log('updated user', user);
+        await sharedDao.updateUser(id, { picture, email, familyName, givenName, updatedAt: Date.now().toString() });
       }
-      // console.log('id', id);
       return getSessionTokenFromId(id);
     },
     user: async (_, __, { id }) => {
