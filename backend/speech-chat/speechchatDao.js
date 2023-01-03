@@ -1,33 +1,14 @@
-import dynamoose from 'dynamoose';
 import dotenv from 'dotenv';
 import { SharedDao } from '../shared/sharedDao.js';
+import { dynamoDBClient } from '../shared/utils/sharedClients.js';
+import { PutCommand, QueryCommand, TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
+import { GraphQLError } from 'graphql';
 dotenv.config({ path: './.env' });
-
-const tableSchema = new dynamoose.Schema({
-  pk: { type: String, hashKey: true },
-  sk: { type: String, rangeKey: true },
-  createdAt: String,
-  updatedAt: String,
-
-  // user contact
-  contactId: String,
-
-  // message
-  type: String,
-  direction: String,
-  text: String,
-  callId: Number,
-  imageUrl: String,
-
-  // call
-  id: String,
-  duration: Number,
-});
 
 class SpeechchatDao {
   constructor (tableName) {
-    this.table = dynamoose.model(tableName, tableSchema, { throughput: 'ON_DEMAND' });
     this.sharedDao = new SharedDao(tableName);
+    this.tableName = tableName;
   }
 
   async addConnection ({ initiatorUserId, receiverUserId, timestamp }) {
@@ -35,80 +16,141 @@ class SpeechchatDao {
     const initiatorUser = await this.sharedDao.getUserById(initiatorUserId);
     const receiverUser = await this.sharedDao.getUserById(receiverUserId);
     if (!initiatorUser || !receiverUser) {
-      throw new Error('No user exists with this id');
+      throw new GraphQLError('No user exists with this id');
     }
 
     try {
-      await dynamoose.transaction([
-        this.table.transaction.create({
-          pk: `speechchat#${initiatorUserId}`,
-          sk: `contact#${timestamp}#${initiatorUserId}`,
-          createdAt: timestamp,
-          updatedAt: timestamp,
-          contactId: receiverUserId,
-        }),
-        this.table.transaction.create({
-          pk: `speechchat#${receiverUserId}`,
-          sk: `contact#${timestamp}#${receiverUserId}`,
-          createdAt: timestamp,
-          updatedAt: timestamp,
-          contactId: initiatorUserId,
-        }),
-      ]);
-    } catch (error) {
-      // console.error(error);
-      throw new Error('This user is already in your contacts');
+      await dynamoDBClient.send(new TransactWriteCommand({
+        TransactItems: [
+          {
+            Put: {
+              TableName: this.tableName,
+              Item: {
+                pk: `speechchat#${initiatorUserId}`,
+                sk: `contact#${receiverUserId}`,
+                createdAt: timestamp,
+                updatedAt: timestamp,
+                contactId: receiverUserId,
+              },
+              ConditionExpression: 'attribute_not_exists(pk)',
+            },
+          },
+          {
+            Put: {
+              TableName: this.tableName,
+              Item: {
+                pk: `speechchat#${receiverUserId}`,
+                sk: `contact#${initiatorUserId}`,
+                createdAt: timestamp,
+                updatedAt: timestamp,
+                contactId: initiatorUserId,
+              },
+              ConditionExpression: 'attribute_not_exists(pk)',
+            },
+          },
+        ],
+      }));
+    } catch (e) {
+      // console.log('error', e);
+      throw new GraphQLError('This user is already in your contacts');
     }
   }
 
-  async getContacts (userId) {
-    // pk = connection
-    // sk starts with info#{lookupEmail}
-    return await this.table
-      .query('pk').eq(`speechchat#${userId}`)
-      .where('sk').beginsWith('contact#')
-      .sort('descending')
-      .exec();
+  async getContacts (userId, { limit, lastKey }) {
+    const params = {
+      TableName: this.tableName,
+      IndexName: 'contactsUpdatedAtIndex',
+      KeyConditionExpression: 'pk = :pk',
+      ExpressionAttributeValues: {
+        ':pk': `speechchat#${userId}`,
+      },
+      Limit: limit,
+      ScanIndexForward: false,
+      ExclusiveStartKey: lastKey ?? undefined,
+    };
+    const res = await dynamoDBClient.send(new QueryCommand(params));
+    const contacts = res.Items;
+    let users = await Promise.all(contacts.map(contact => this.sharedDao.getUserById(contact.contactId)));
+    // set user.updatedAt (user's lastLogin) to contact.updatedAt (contact's last message)
+    users = users.map(user => {
+      const contact = contacts.find(contact => contact.contactId === user.id);
+      user.updatedAt = contact.updatedAt;
+      return user;
+    });
+    return {
+      contacts: users,
+      lastKey: res.LastEvaluatedKey,
+    };
   }
 
-  async addMessage ({ senderUserId, receiverUserId, type, text, createdAt, callId, imageUrl }) {
+  async addMessage (params) {
+    const { senderUserId, receiverUserId, type, createdAt } = params;
     if (senderUserId === receiverUserId) {
-      throw new Error('You cannot send a message to yourself');
+      throw new GraphQLError('You cannot send a message to yourself');
     }
 
     // verify both emails exist
     const senderUser = await this.sharedDao.getUserById(senderUserId);
     const receiverUser = await this.sharedDao.getUserById(receiverUserId);
     if (!senderUser || !receiverUser) {
-      throw new Error('No user exists with this id');
+      throw new GraphQLError('No user exists with this id');
     }
 
-    try {
-      let pk, direction;
-      if (senderUserId < receiverUserId) {
-        pk = `speechchat#${senderUserId}#${receiverUserId}`;
-        direction = 'right';
-      } else {
-        pk = `speechchat#${receiverUserId}#${senderUserId}`;
-        direction = 'left';
-      }
-      const sk = `message#${createdAt}`;
-      await this.table.create({
-        pk,
-        sk,
-        type,
-        text,
-        direction,
-        createdAt,
-        callId,
-        imageUrl,
-      }, {
-        overwrite: false,
-      });
-    } catch (error) {
-      console.error(error);
-      throw new Error('Could not send message');
+    let pk, direction;
+    if (senderUserId < receiverUserId) {
+      pk = `speechchat#${senderUserId}#${receiverUserId}`;
+      direction = 'right';
+    } else {
+      pk = `speechchat#${receiverUserId}#${senderUserId}`;
+      direction = 'left';
     }
+    const sk = `message#${createdAt}`;
+    const Item = {
+      pk,
+      sk,
+      type,
+      direction,
+      createdAt,
+    };
+    ['text', 'callId', 'imageUrl'].forEach(key => {
+      if (params[key]) {
+        Item[key] = params[key];
+      }
+    });
+    try {
+      await dynamoDBClient.send(new PutCommand({
+        TableName: this.tableName,
+        Item,
+        ConditionExpression: 'attribute_not_exists(pk)',
+      }));
+    } catch (e) {
+      // console.log('error', e);
+      throw new GraphQLError('Sent message too quickly');
+    }
+  }
+
+  async getMessages (userId, contactId, { limit, lastKey }) {
+    let pk;
+    if (userId < contactId) {
+      pk = `speechchat#${userId}#${contactId}`;
+    } else {
+      pk = `speechchat#${contactId}#${userId}`;
+    }
+    const params = {
+      TableName: this.tableName,
+      KeyConditionExpression: 'pk = :pk',
+      ExpressionAttributeValues: {
+        ':pk': pk,
+      },
+      Limit: limit,
+      ScanIndexForward: false,
+      ExclusiveStartKey: lastKey ?? undefined,
+    };
+    const res = await dynamoDBClient.send(new QueryCommand(params));
+    return {
+      messages: res.Items,
+      lastKey: res.LastEvaluatedKey,
+    };
   }
 }
 

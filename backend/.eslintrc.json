@@ -19,7 +19,9 @@
         "space-before-function-paren": ["error", "always"],
         "space-before-blocks": ["error", "always"],
         "no-tabs": ["error", { "allowIndentationTabs": true }],
-//        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
-        "no-unused-vars": "off"
+        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+//        "no-unused-vars": "off",
+        "no-useless-constructor": "off",
+        "no-new": "off"
     }
 }

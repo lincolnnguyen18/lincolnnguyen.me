@@ -14,7 +14,7 @@ function getMockUserData () {
     email: faker.internet.email(),
     familyName: faker.name.lastName(),
     givenName: faker.name.firstName(),
-    createdAt: faker.date.recent().getTime().toString(),
+    createdAt: faker.date.recent().getTime(),
   };
 }
 
@@ -39,4 +39,10 @@ function getIdFromSessionToken (sessionToken) {
   }
 }
 
-export { uuid, getMockUserData, decodeGoogleToken, getSessionTokenFromId, getIdFromSessionToken };
+export {
+  uuid,
+  getMockUserData,
+  decodeGoogleToken,
+  getSessionTokenFromId,
+  getIdFromSessionToken,
+};

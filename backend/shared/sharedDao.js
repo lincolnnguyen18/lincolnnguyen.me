@@ -1,145 +1,126 @@
-import dynamoose from 'dynamoose';
 import dotenv from 'dotenv';
+import { dynamoDBClient } from './utils/sharedClients.js';
+import { DeleteCommand, GetCommand, PutCommand, QueryCommand, ScanCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+
 dotenv.config({ path: './.env' });
-
-const tableSchema = new dynamoose.Schema({
-  pk: { type: String, hashKey: true },
-  sk: { type: String, rangeKey: true },
-  createdAt: String,
-  updatedAt: String,
-
-  // user info
-  id: String,
-  picture: String,
-  email: String,
-  familyName: String,
-  givenName: String,
-
-  pk2: {
-    type: String,
-    index: {
-      global: true,
-      name: 'usersIndex',
-      project: ['id', 'picture', 'email', 'familyName', 'givenName', 'createdAt', 'updatedAt'],
-      rangeKey: 'pk',
-    },
-  },
-
-  pk3: {
-    type: String,
-    index: {
-      global: true,
-      name: 'emailsIndex',
-      project: ['id'],
-      rangeKey: 'email',
-    },
-  },
-});
 
 class SharedDao {
   constructor (tableName) {
-    this.table = dynamoose.model(tableName, tableSchema, { throughput: 'ON_DEMAND' });
+    this.tableName = tableName;
   }
 
-  // async getSessionToken (googleToken) {
-  //   try {
-  //     const ticket = await googleAuthClient.verifyIdToken({
-  //       idToken: googleToken,
-  //       audience: process.env.GOOGLE_CLIENT_ID,
-  //     });
-  //     const payload = ticket.getPayload();
-  //     const payloadData = {
-  //       picture: payload.picture,
-  //       email: payload.email,
-  //       familyName: payload.family_name,
-  //       givenName: payload.given_name,
-  //       lastLogin: Date.now().toString(),
-  //     };
-  //     await this.table.create({
-  //       pk: `user#${payloadData.email}`,
-  //       sk: 'userData',
-  //       userData: JSON.stringify(payloadData),
-  //     }, {
-  //       overwrite: true,
-  //     });
-  //
-  //     const sessionToken = jwt.sign({ email: payloadData.email }, process.env.JWT_SECRET);
-  //     return sessionToken;
-  //   } catch (error) {
-  //     console.error(error);
-  //     return null;
-  //   }
-  // }
-  //
-  // async getUserData (sessionToken) {
-  //   try {
-  //     const { email } = jwt.verify(sessionToken, process.env.JWT_SECRET);
-  //     const userData = await this.table.get({
-  //       pk: `user#${email}`,
-  //       sk: 'userData',
-  //     });
-  //     return JSON.parse(userData.userData);
-  //   } catch (error) {
-  //     // console.error(error);
-  //     return null;
-  //   }
-  // }
-
-  async getUserById (userId) {
-    const res = await this.table
-      .query('pk').eq(`user#${userId}`)
-      .where('sk').eq('info')
-      .exec();
-    return res[0];
-  }
-
-  async getIdFromEmail (email) {
-    const res = await this.table
-      .query('pk3').eq('emails')
-      .where('email').eq(email)
-      .exec();
-    if (res.length === 0) {
-      return null;
-    } else {
-      return res[0].id;
-    }
+  async getUserById (id) {
+    const params = {
+      TableName: this.tableName,
+      Key: {
+        pk: `user#${id}`,
+        sk: 'info',
+      },
+    };
+    const res = await dynamoDBClient.send(new GetCommand(params));
+    return res.Item;
   }
 
   async addUser ({ id, picture, email, familyName, givenName, createdAt }) {
-    return await this.table.create({
-      pk: `user#${id}`,
-      sk: 'info',
-      id,
-      picture,
-      email,
-      familyName,
-      givenName,
-      createdAt,
-      updatedAt: createdAt,
-
-      pk2: 'users',
-      pk3: 'emails',
-    }, { overwrite: false });
-  }
-
-  async updateUser (id, updateObj) {
-    return await this.table.update(
-      { pk: `user#${id}`, sk: 'info' },
-      updateObj,
-      { condition: new dynamoose.Condition().where('pk').exists() },
-    );
+    const params = {
+      TableName: this.tableName,
+      Item: {
+        pk: `user#${id}`,
+        sk: 'info',
+        id,
+        picture,
+        email,
+        familyName,
+        givenName,
+        createdAt,
+        updatedAt: createdAt,
+        pk2: 'users',
+        pk3: 'emails',
+      },
+      ConditionExpression: 'attribute_not_exists(pk)',
+    };
+    return dynamoDBClient.send(new PutCommand(params));
   }
 
   async getAllUsers () {
-    return await this.table.query('pk2').eq('users').where('pk').beginsWith('user#').using('usersIndex').exec();
+    const params = {
+      TableName: this.tableName,
+      IndexName: 'emailsIndex',
+      KeyConditionExpression: 'pk3 = :pk3',
+      ExpressionAttributeValues: {
+        ':pk3': 'emails',
+      },
+    };
+    const res = await dynamoDBClient.send(new QueryCommand(params));
+    return res.Items;
+  }
+
+  async getIdFromEmail (email) {
+    const params = {
+      TableName: this.tableName,
+      IndexName: 'emailsIndex',
+      KeyConditionExpression: 'pk3 = :pk3 AND email = :email',
+      ExpressionAttributeValues: {
+        ':pk3': 'emails',
+        ':email': email,
+      },
+    };
+    const res = await dynamoDBClient.send(new QueryCommand(params));
+    if (res.Items.length === 0) {
+      return null;
+    } else {
+      return res.Items[0].id;
+    }
+  }
+
+  async updateUser (id, updateObj) {
+    updateObj.updatedAt = Date.now();
+    let UpdateExpression = 'set';
+    const ExpressionAttributeValues = {};
+    const ExpressionAttributeNames = {};
+    for (const key in updateObj) {
+      const value = updateObj[key];
+      const keyName = `:${key}`;
+      const attrName = `#${key}`;
+      UpdateExpression += ` ${attrName} = ${keyName},`;
+      ExpressionAttributeValues[keyName] = value;
+      ExpressionAttributeNames[attrName] = key;
+    }
+    UpdateExpression = UpdateExpression.slice(0, -1);
+
+    const params = {
+      TableName: this.tableName,
+      Key: {
+        pk: `user#${id}`,
+        sk: 'info',
+      },
+      UpdateExpression,
+      ExpressionAttributeValues,
+      ExpressionAttributeNames,
+      ReturnValues: 'UPDATED_NEW',
+      ConditionExpression: 'attribute_exists(pk)',
+    };
+    const res = await dynamoDBClient.send(new UpdateCommand(params));
+    return res.Attributes;
   }
 
   async deleteAllItemsInTable () {
-    await this.table.scan().exec().then(async (items) => {
-      for (const item of items) {
-        await this.table.delete(item);
-      }
-    });
+    const params = {
+      TableName: this.tableName,
+    };
+    const res = await dynamoDBClient.send(new ScanCommand(params));
+    const promises = [];
+    for (const item of res.Items) {
+      const params = {
+        TableName: this.tableName,
+        Key: {
+          pk: item.pk,
+          sk: item.sk,
+        },
+      };
+      promises.push(dynamoDBClient.send(new DeleteCommand(params)));
+    }
+    await Promise.all(promises);
   }
 }
 

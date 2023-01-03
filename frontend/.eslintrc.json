@@ -26,8 +26,8 @@
         "quotes": ["error", "single"],
         "comma-dangle": ["error", "always-multiline"],
         "indent": ["error", 2],
-        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-//        "no-unused-vars": "off",
+//        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "no-unused-vars": "off",
         "space-before-function-paren": ["error", "always"],
         "space-before-blocks": ["error", "always"],
         "react/prop-types": "off"

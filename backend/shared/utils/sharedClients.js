@@ -1,5 +1,7 @@
 import fs from 'fs';
 import { JWT } from 'google-auth-library';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -14,4 +16,14 @@ const googleAuthClient = new JWT({
   scopes: ['https://www.googleapis.com/auth/cloud-platform'],
 });
 
-export { googleAuthClient };
+const ddb = new DynamoDBClient({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
+
+const dynamoDBClient = DynamoDBDocumentClient.from(ddb);
+
+export { googleAuthClient, dynamoDBClient };

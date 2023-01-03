@@ -1,12 +1,11 @@
-import { GraphQLScalarType } from 'graphql';
 import { sharedDao } from './sharedDao.js';
 import { decodeGoogleToken, getSessionTokenFromId, uuid } from './utils/sharedUtils.js';
+import { GraphQLError } from 'graphql';
 
 // language=GraphQL
 const sharedTypeDefs = `
-  scalar UnixDate
-  
   type User {
+      id: ID
       picture: String
       email: String
       familyName: String
@@ -19,42 +18,26 @@ const sharedTypeDefs = `
   }
 `;
 
-const UnixDate = new GraphQLScalarType({
-  name: 'UnixDate',
-  description: 'Unix date custom scalar type',
-  parseValue (value) {
-    return value.getTime();
-  },
-  serialize (value) {
-    return new Date(value);
-  },
-  parseLiteral (ast) {
-    return new Date(ast.value);
-  },
-});
-
 const sharedResolvers = {
   Query: {
     sessionToken: async (_, args) => {
       const { googleToken } = args;
       const payload = await decodeGoogleToken(googleToken);
-      console.log('payload', payload);
       const { picture, email, family_name: familyName, given_name: givenName } = payload;
       let id = await sharedDao.getIdFromEmail(email);
       if (!id) {
-        const user = await sharedDao.addUser({ id: uuid(), picture, email, familyName, givenName, createdAt: Date.now().toString() });
-        id = user.id;
+        id = uuid();
+        await sharedDao.addUser({ id, picture, email, familyName, givenName, createdAt: Date.now() });
       } else {
-        await sharedDao.updateUser(id, { picture, email, familyName, givenName, updatedAt: Date.now().toString() });
+        await sharedDao.updateUser(id, { picture, email, familyName, givenName, updatedAt: Date.now() });
       }
       return getSessionTokenFromId(id);
     },
     user: async (_, __, { id }) => {
-      if (!id) throw new Error('Unauthorized');
+      if (!id) throw new GraphQLError('Unauthorized');
       return sharedDao.getUserById(id);
     },
   },
-  UnixDate,
 };
 
 export { sharedTypeDefs, sharedResolvers };
