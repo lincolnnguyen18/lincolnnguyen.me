@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { sharedReducer } from '../slices/main/sharedSlice';
-import { contactsReducer } from '../slices/speech-chat/contactsSlice';
+import { sharedReducer } from '../slices/sharedSlice';
+import { speechchatReducer } from '../slices/speechchatSlice';
 
 export const store = configureStore({
   reducer: {
     shared: sharedReducer,
-    contacts: contactsReducer,
+    speechchat: speechchatReducer,
   },
 });

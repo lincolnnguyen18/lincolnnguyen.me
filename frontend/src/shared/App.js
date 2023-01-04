@@ -1,52 +1,39 @@
 import React from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { HomeScreen } from '../apps/main/screens/home/HomeScreen';
 import { LoginScreen } from '../apps/main/screens/login/LoginScreen';
 import { ContactsScreen } from '../apps/speech-chat/screens/contacts/ContactsScreen';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserData, sharedActions, sharedSelector } from '../slices/main/sharedSlice';
+import { getUserData, sharedActions, sharedSelector } from '../slices/sharedSlice';
 import Cookies from 'js-cookie';
 import { graphQLClient } from './clients';
+import { Protected } from './components/Protected';
 
 export function App () {
-  const location = useLocation();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { userData } = useSelector(sharedSelector);
-  const protectedRootRoutes = [
-    '/speech-chat',
-  ];
+  const { loggedIn, sessionToken } = useSelector(sharedSelector);
 
   React.useEffect(() => {
-    // console.log('loading session token');
-    const sessionToken = Cookies.get('sessionToken');
-    if (sessionToken) {
-      graphQLClient.setHeader('authorization', `Bearer ${sessionToken}`);
-      dispatch(getUserData({
-        tokenType: 'sessionToken',
-        token: sessionToken,
-      }));
-    }
-  }, []);
-
-  React.useEffect(() => {
-    const { pathname } = location;
-    const sessionToken = Cookies.get('sessionToken');
     // console.log('sessionToken', sessionToken);
-    if (
-      protectedRootRoutes.some((protectedRootRoute) => pathname.startsWith(protectedRootRoute)) &&
-      !userData && !sessionToken
-    ) {
-      dispatch(sharedActions.setSlice({ loggingInTo: pathname }));
-      navigate('/login');
+    if (sessionToken) {
+      // console.log('getting user data');
+      dispatch(getUserData());
+    } else {
+      const sessionToken = Cookies.get('sessionToken');
+      if (sessionToken) {
+        dispatch(sharedActions.setSlice({ sessionToken }));
+        graphQLClient.setHeader('authorization', `Bearer ${sessionToken}`);
+      } else {
+        dispatch(sharedActions.setSlice({ loggedIn: false }));
+      }
     }
-  }, [location.pathname, userData]);
+  }, [sessionToken]);
 
-  return (
+  return loggedIn !== null && (
     <Routes>
       <Route path="/" element={<HomeScreen />} />
       <Route path="/login" element={<LoginScreen />} />
-      <Route path="/speech-chat/contacts" element={<ContactsScreen />} />
+      <Route path="/speech-chat/contacts" element={<Protected><ContactsScreen /></Protected>} />
     </Routes>
   );
 }

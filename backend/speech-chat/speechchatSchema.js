@@ -17,6 +17,7 @@ const speechchatTypeDefs = `
       givenName: String
       updatedAt: Float
       messages(limit: Int = 30, nextToken: String): PaginatedMessages
+      lastMessage: Message
       call(callId: String): Call
   }
   
@@ -76,6 +77,11 @@ const speechchatResolvers = {
   Contact: {
     messages: async ({ id: contactId }, { limit, nextToken }, { id }) => {
       return speechchatDao.getMessages(id, contactId, { limit, nextToken });
+    },
+    lastMessage: async ({ id: contactId }, _, { id }) => {
+      const res = await speechchatDao.getMessages(id, contactId, { limit: 1 });
+      // console.log('res', res);
+      return res.messages[0];
     },
   },
   Mutation: {

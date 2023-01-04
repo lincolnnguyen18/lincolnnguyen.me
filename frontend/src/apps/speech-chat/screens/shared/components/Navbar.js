@@ -1,28 +1,28 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { contactsActions, contactsSelector } from '../../../../../slices/speech-chat/contactsSlice';
+import { speechchatSelector, speechchatActions } from '../../../../../slices/speechchatSlice';
 
-export function Navbar () {
+export function Navbar ({ onOpenSidebar }) {
   const dispatch = useDispatch();
-  const { navbarMode, navbarTextInputValue } = useSelector(contactsSelector);
+  const { navbarMode, navbarTextInputValue } = useSelector(speechchatSelector);
 
   function handleTextInputClear () {
-    dispatch(contactsActions.setSlice({ navbarTextInputValue: '' }));
+    dispatch(speechchatActions.setSlice({ navbarTextInputValue: '' }));
   }
 
   function handleTextInputOnChange (e) {
-    dispatch(contactsActions.setSlice({ navbarTextInputValue: e.target.value }));
+    dispatch(speechchatActions.setSlice({ navbarTextInputValue: e.target.value }));
   }
 
   function setNavbarMode (navbarMode) {
-    dispatch(contactsActions.setSlice({ navbarMode, navbarTextInputValue: '' }));
+    dispatch(speechchatActions.setSlice({ navbarMode, navbarTextInputValue: '' }));
   }
 
   if (navbarMode === 'default') {
     return (
       <nav className="bg-red-custom text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0">
         <div className="flex items-center space-x-4">
-          <span className="icon-menu text-2xl ml-2 cursor-pointer"></span>
+          <span className="icon-menu text-2xl ml-2 cursor-pointer" onClick={onOpenSidebar}></span>
           <span>SpeechChat</span>
         </div>
         <div className="flex items-center space-x-4 mr-1">

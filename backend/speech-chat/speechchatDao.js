@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import { SharedDao } from '../shared/sharedDao.js';
 import { dynamoDBClient } from '../shared/utils/sharedClients.js';
-import { PutCommand, QueryCommand, TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
+import { PutCommand, QueryCommand, TransactWriteCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { GraphQLError } from 'graphql';
 dotenv.config({ path: './.env' });
 
@@ -127,6 +127,33 @@ class SpeechchatDao {
       // console.log('error', e);
       throw new GraphQLError('Sent message too quickly');
     }
+    // update updatedAt for contacts table for both users
+    await Promise.all([
+      dynamoDBClient.send(new UpdateCommand({
+        TableName: this.tableName,
+        Key: {
+          pk: `speechchat#${senderUserId}`,
+          sk: `contact#${receiverUserId}`,
+        },
+        UpdateExpression: 'set updatedAt = :updatedAt',
+        ExpressionAttributeValues: {
+          ':updatedAt': createdAt,
+        },
+        ConditionExpression: 'attribute_exists(pk)',
+      })),
+      dynamoDBClient.send(new UpdateCommand({
+        TableName: this.tableName,
+        Key: {
+          pk: `speechchat#${receiverUserId}`,
+          sk: `contact#${senderUserId}`,
+        },
+        UpdateExpression: 'set updatedAt = :updatedAt',
+        ExpressionAttributeValues: {
+          ':updatedAt': createdAt,
+        },
+        ConditionExpression: 'attribute_exists(pk)',
+      })),
+    ]);
   }
 
   async getMessages (userId, contactId, { limit, lastKey }) {
