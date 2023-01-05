@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 import { SharedDao } from '../shared/sharedDao.js';
 import { dynamoDBClient } from '../shared/utils/sharedClients.js';
 import { PutCommand, QueryCommand, TransactWriteCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
-import { GraphQLError } from 'graphql';
 dotenv.config({ path: './.env' });
 
 class SpeechchatDao {
@@ -15,8 +14,10 @@ class SpeechchatDao {
     // verify both emails exist
     const initiatorUser = await this.sharedDao.getUserById(initiatorUserId);
     const receiverUser = await this.sharedDao.getUserById(receiverUserId);
+    // console.log('initiatorUser', initiatorUser);
+    // console.log('receiverUser', receiverUser);
     if (!initiatorUser || !receiverUser) {
-      throw new GraphQLError('No user exists with this id');
+      throw new Error('User not found');
     }
 
     try {
@@ -52,7 +53,7 @@ class SpeechchatDao {
       }));
     } catch (e) {
       // console.log('error', e);
-      throw new GraphQLError('This user is already in your contacts');
+      throw new Error('This user is already in your contacts');
     }
   }
 
@@ -86,14 +87,14 @@ class SpeechchatDao {
   async addMessage (params) {
     const { senderUserId, receiverUserId, type, createdAt } = params;
     if (senderUserId === receiverUserId) {
-      throw new GraphQLError('You cannot send a message to yourself');
+      throw new Error('You cannot send a message to yourself');
     }
 
     // verify both emails exist
     const senderUser = await this.sharedDao.getUserById(senderUserId);
     const receiverUser = await this.sharedDao.getUserById(receiverUserId);
     if (!senderUser || !receiverUser) {
-      throw new GraphQLError('No user exists with this id');
+      throw new Error('User not found');
     }
 
     let pk, direction;
@@ -125,7 +126,7 @@ class SpeechchatDao {
       }));
     } catch (e) {
       // console.log('error', e);
-      throw new GraphQLError('Sent message too quickly');
+      throw new Error('Sent message too quickly');
     }
     // update updatedAt for contacts table for both users
     await Promise.all([

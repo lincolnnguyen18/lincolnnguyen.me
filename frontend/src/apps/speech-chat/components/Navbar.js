@@ -1,10 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { speechchatSelector, speechchatActions } from '../../../../../slices/speechchatSlice';
+import { speechchatSelector, speechchatActions, addConnection } from '../../../slices/speechchatSlice';
+import { sharedActions } from '../../../slices/sharedSlice';
 
-export function Navbar ({ onOpenSidebar }) {
+export function Navbar () {
   const dispatch = useDispatch();
+  const [loading, setLoading] = React.useState(false);
   const { navbarMode, navbarTextInputValue } = useSelector(speechchatSelector);
+  const formRef = React.useRef();
 
   function handleTextInputClear () {
     dispatch(speechchatActions.setSlice({ navbarTextInputValue: '' }));
@@ -18,6 +21,28 @@ export function Navbar ({ onOpenSidebar }) {
     dispatch(speechchatActions.setSlice({ navbarMode, navbarTextInputValue: '' }));
   }
 
+  function onOpenSidebar (e) {
+    e.preventDefault();
+    dispatch(speechchatActions.setSlice({ sidebarPosition: '0' }));
+  }
+
+  async function onAddContact (e) {
+    e.preventDefault();
+    if (!navbarTextInputValue) return;
+    setLoading(true);
+    const { payload: errors } = await dispatch(addConnection({ email: navbarTextInputValue }));
+    console.log('errors', errors);
+    setLoading(false);
+    if (errors.length > 0) {
+      dispatch(sharedActions.setSlice({
+        toast: {
+          message: errors[0].message,
+          position: '0',
+        },
+      }));
+    }
+  }
+
   if (navbarMode === 'default') {
     return (
       <nav className="bg-red-custom text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0">
@@ -26,10 +51,10 @@ export function Navbar ({ onOpenSidebar }) {
           <span>SpeechChat</span>
         </div>
         <div className="flex items-center space-x-4 mr-1">
-          <span
-            className="icon-search text-2xl cursor-pointer"
-            onClick={() => setNavbarMode('search-contacts')}
-          />
+          {/*<span*/}
+          {/*  className="icon-search text-2xl cursor-pointer"*/}
+          {/*  onClick={() => setNavbarMode('search-contacts')}*/}
+          {/*/>*/}
           <span
             className="icon-add text-2xl cursor-pointer"
             onClick={() => setNavbarMode('add-contact')}
@@ -39,7 +64,11 @@ export function Navbar ({ onOpenSidebar }) {
     );
   } else if (navbarMode === 'add-contact') {
     return (
-      <nav className="bg-red-custom text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between fixed top-0">
+      <form
+        className="bg-red-custom text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between fixed top-0"
+        onSubmit={onAddContact}
+        ref={formRef}
+      >
         <span
           className="icon-back text-2xl cursor-pointer px-2"
           onClick={() => setNavbarMode('default')}
@@ -64,8 +93,12 @@ export function Navbar ({ onOpenSidebar }) {
             />
           </span>}
         </label>
-        <span className="cursor-pointer font-semibold px-4">Add</span>
-      </nav>
+        <button
+          className="cursor-pointer font-semibold px-4 h-full disabled:opacity-50 disabled:cursor-not-allowed"
+          type="submit"
+          disabled={loading || !navbarTextInputValue}
+        >Add</button>
+      </form>
     );
   } else if (navbarMode === 'search-contacts') {
     return (

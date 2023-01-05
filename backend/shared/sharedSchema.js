@@ -1,6 +1,5 @@
 import { sharedDao } from './sharedDao.js';
 import { decodeGoogleToken, getSessionTokenFromId, uuid } from './utils/sharedUtils.js';
-import { GraphQLError } from 'graphql';
 
 // language=GraphQL
 const sharedTypeDefs = `
@@ -10,6 +9,11 @@ const sharedTypeDefs = `
       email: String
       familyName: String
       givenName: String
+  }
+  
+  type Error {
+      field: String
+      message: String
   }
   
   type Query {
@@ -34,7 +38,7 @@ const sharedResolvers = {
       return getSessionTokenFromId(id);
     },
     user: async (_, __, { id }) => {
-      if (!id) throw new GraphQLError('Unauthorized');
+      if (!id) throw new Error('Unauthorized');
       return sharedDao.getUserById(id);
     },
   },

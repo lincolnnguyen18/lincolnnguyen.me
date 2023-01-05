@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { sharedSelector } from '../../slices/sharedSlice';
+import { sharedSelector } from '../../../slices/sharedSlice';
 import React from 'react';
 
 export function Protected ({ children }) {

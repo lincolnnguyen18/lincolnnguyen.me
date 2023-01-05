@@ -7,6 +7,10 @@ const initialState = {
   loggingInTo: null,
   loggedIn: null,
   sessionToken: null,
+  toast: {
+    position: '32',
+    message: 'Hello',
+  },
 };
 
 const getSessionToken = createAsyncThunk('shared/getSessionToken', async ({ googleToken }) => {

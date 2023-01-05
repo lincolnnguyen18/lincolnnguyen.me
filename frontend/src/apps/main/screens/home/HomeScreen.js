@@ -1,6 +1,6 @@
 import React from 'react';
-import { Navbar } from './components/Navbar';
-import { AppIcon } from './components/AppIcon';
+import { Navbar } from './Navbar';
+import { AppIcon } from './AppIcon';
 
 export function HomeScreen () {
   return (

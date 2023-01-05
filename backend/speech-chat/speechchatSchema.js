@@ -1,6 +1,5 @@
 import { speechchatDao } from './speechchatDao.js';
 import { sharedDao } from '../shared/sharedDao.js';
-import { GraphQLError } from 'graphql';
 
 // language=GraphQL
 const speechchatTypeDefs = `
@@ -52,15 +51,15 @@ const speechchatTypeDefs = `
   }
   
   type Mutation {
-      addConnection(receiverUserId: ID!): Boolean
-      sendMessage(receiverUserId: ID!, text: String): Boolean
+      addConnection(receiverEmail: String!): [Error]
+      sendMessage(receiverUserId: ID!, text: String): [Error]
   }
 `;
 
 const speechchatResolvers = {
   Query: {
     speechChat: async (_, __, { id }) => {
-      if (!id) throw new GraphQLError('Unauthorized');
+      if (!id) throw new Error('Unauthorized');
       return {};
     },
   },
@@ -70,7 +69,7 @@ const speechchatResolvers = {
       return speechchatDao.getContacts(id, { limit, lastKey });
     },
     contact: async (_, { contactId }, { id }) => {
-      if (!id) throw new GraphQLError('Unauthorized');
+      if (!id) throw new Error('Unauthorized');
       return sharedDao.getUserById(contactId);
     },
   },
@@ -86,16 +85,26 @@ const speechchatResolvers = {
   },
   Mutation: {
     addConnection: async (_, args, { id }) => {
-      if (!id) throw new GraphQLError('Unauthorized');
-      const { receiverUserId } = args;
-      await speechchatDao.addConnection({ initiatorUserId: id, receiverUserId, timestamp: Date.now() });
-      return true;
+      if (!id) throw new Error('Unauthorized');
+      const { receiverEmail } = args;
+      console.log('receiverEmail', receiverEmail);
+      const receiverUserId = await sharedDao.getIdFromEmail(receiverEmail);
+      console.log('receiverUserId', receiverUserId);
+      try {
+        await speechchatDao.addConnection({ initiatorUserId: id, receiverUserId, timestamp: Date.now() });
+        return [];
+      } catch (e) {
+        return [{ field: 'primary', message: e.message }];
+      }
     },
     sendMessage: async (_, args, { id }) => {
-      if (!id) throw new GraphQLError('Unauthorized');
+      if (!id) throw new Error('Unauthorized');
       const { receiverUserId, text } = args;
-      await speechchatDao.addMessage({ senderUserId: id, receiverUserId, type: 'text', text, createdAt: Date.now() });
-      return true;
+      try {
+        await speechchatDao.addMessage({ senderUserId: id, receiverUserId, type: 'text', text, createdAt: Date.now() });
+      } catch (e) {
+        return [{ field: 'primary', message: e.message }];
+      }
     },
   },
 };
