@@ -41,7 +41,7 @@ export function ContactsScreen () {
     );
   } else if (contacts) {
     content = (
-      <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col space-y-4 max-w-screen-sm mx-auto pt-16">
+      <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col space-y-4 max-w-screen-sm mx-auto pt-14">
         <div className="flex flex-col space-y-4">
           {contacts.map((contact, index) => (
             <div className="flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 cursor-pointer" key={index} onClick={() => onContactClick(contact)}>

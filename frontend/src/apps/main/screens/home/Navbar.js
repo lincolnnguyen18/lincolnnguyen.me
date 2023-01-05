@@ -10,14 +10,12 @@ export function Navbar () {
   }
 
   return (
-    <nav className="bg-green-custom text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0">
-      <div className="flex items-center space-x-4">
-        <span
-          className="icon-menu text-2xl ml-2 cursor-pointer"
-          onClick={onOpenSidebar}
-        />
-        <span>Apps</span>
-      </div>
+    <nav className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0 z-10">
+      <span
+        className="icon-menu text-2xl ml-2 cursor-pointer"
+        onClick={onOpenSidebar}
+      />
+      <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Apps</span>
     </nav>
   );
 }

@@ -15,7 +15,7 @@ export function Navbar () {
   }
 
   return (
-    <nav className={`${getPreviousScreen(history).color} text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between fixed top-0`}>
+    <nav className='text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between fixed top-0 z-10'>
       <div
         className="absolute flex items-center space-x-2 cursor-pointer"
         onClick={onBackClick}

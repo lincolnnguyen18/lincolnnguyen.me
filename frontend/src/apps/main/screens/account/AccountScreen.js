@@ -20,7 +20,7 @@ export function AccountScreen () {
   }
 
   return (
-    <div className='max-w-screen-sm mx-auto relative pt-16'>
+    <div className='max-w-screen-sm mx-auto relative pt-14'>
       <Navbar />
       <div
         className='flex items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer select-none'

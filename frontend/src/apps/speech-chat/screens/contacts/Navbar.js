@@ -45,14 +45,12 @@ export function Navbar () {
 
   if (navbarMode === 'default') {
     return (
-      <nav className="bg-red-custom text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0">
-        <div className="flex items-center space-x-4">
-          <span
-            className="icon-menu text-2xl ml-2 cursor-pointer"
-            onClick={onOpenSidebar}
-          />
-          <span>SpeechChat</span>
-        </div>
+      <nav className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0 z-10">
+        <span
+          className="icon-menu text-2xl ml-2 cursor-pointer"
+          onClick={onOpenSidebar}
+        />
+        <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Contacts</span>
         <div className="flex items-center space-x-4 mr-1">
           {/*<span*/}
           {/*  className="icon-search text-2xl cursor-pointer"*/}
@@ -60,15 +58,15 @@ export function Navbar () {
           {/*/>*/}
           <span
             className="icon-add text-2xl cursor-pointer"
-            onClick={() => setNavbarMode('add-messages')}
+            onClick={() => setNavbarMode('add-contact')}
           />
         </div>
       </nav>
     );
-  } else if (navbarMode === 'add-messages') {
+  } else if (navbarMode === 'add-contact') {
     return (
       <form
-        className="bg-red-custom text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between fixed top-0"
+        className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between fixed top-0 z-10"
         onSubmit={onAddContact}
         ref={formRef}
       >
@@ -91,7 +89,7 @@ export function Navbar () {
           />
           {navbarTextInputValue && <span className="absolute inset-y-0 right-0 flex items-center pr-2">
             <span
-              className="icon-cancel text-2xl cursor-pointer"
+              className="icon-cancel text-xl cursor-pointer"
               onClick={handleTextInputClear}
             />
           </span>}
@@ -105,7 +103,7 @@ export function Navbar () {
     );
   } else if (navbarMode === 'search-contacts') {
     return (
-      <nav className="bg-red-custom text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between fixed top-0">
+      <nav className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between fixed top-0 z-10">
         <span
           className="icon-back text-2xl cursor-pointer px-2"
           onClick={() => setNavbarMode('default')}

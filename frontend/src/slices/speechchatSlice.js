@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { graphQLClient } from '../shared/clients';
 
 const initialState = {
-  // default, add-messages, search-contacts
+  // default, add-contact, search-contacts
   navbarMode: 'default',
   navbarTextInputValue: '',
   contacts: null,

@@ -11,12 +11,12 @@ import { Protected } from '../apps/main/components/Protected';
 import { Toast } from '../apps/main/components/Toast';
 import { AccountScreen } from '../apps/main/screens/account/AccountScreen';
 import { MessagesScreen } from '../apps/speech-chat/screens/messages/MessagesScreen';
+import { getCurrentScreen, homeScreen } from './utils/navUtils';
 
 export function App () {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { loggedIn, sessionToken } = useSelector(sharedSelector);
-  const [previousScreen, setPreviousScreen] = React.useState(null);
+  const { loggedIn, sessionToken, history } = useSelector(sharedSelector);
 
   React.useEffect(() => {
     if (sessionToken) {
@@ -33,15 +33,17 @@ export function App () {
   }, [sessionToken]);
 
   React.useEffect(() => {
-    if (previousScreen) {
-      dispatch(sharedActions.pushHistory(previousScreen));
-    }
     const path = location.pathname;
-    let color = 'bg-green-custom';
+    let color = homeScreen.color;
+    let label = homeScreen.label;
     if (path.startsWith('/speech-chat')) {
       color = 'bg-red-custom';
+      label = 'SpeechChat';
+    } else if (path.startsWith('/account') && history.length > 1) {
+      color = history[history.length - 1].color;
+      label = history[history.length - 1].label;
     }
-    setPreviousScreen({ path, color });
+    dispatch(sharedActions.pushHistory({ path, color, label }));
   }, [location.pathname]);
 
   // React.useEffect(() => {
@@ -50,6 +52,7 @@ export function App () {
 
   return loggedIn !== null && (
     <>
+      <div className={`${getCurrentScreen(history).color} h-11 w-screen fixed top-0 z-10`} />
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/login" element={<LoginScreen />} />

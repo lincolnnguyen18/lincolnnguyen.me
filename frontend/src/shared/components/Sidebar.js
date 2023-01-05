@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sharedActions, sharedSelector } from '../../slices/sharedSlice';
+import { getCurrentScreen } from '../utils/navUtils';
 
 export function closeSidebar (e, dispatch, path, navigate) {
   e.preventDefault();
@@ -14,7 +15,7 @@ export function closeSidebar (e, dispatch, path, navigate) {
 export function Sidebar ({ items }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { sidebarPosition, loggedIn, userData } = useSelector(sharedSelector);
+  const { sidebarPosition, loggedIn, userData, history } = useSelector(sharedSelector);
 
   const loggedInItem = loggedIn && (
     <>
@@ -50,12 +51,13 @@ export function Sidebar ({ items }) {
     <>
       {sidebarPosition === '0' && (
         <div
-          className='max-w-screen-sm w-full h-screen mx-auto fixed top-0 bg-black opacity-50 cursor-pointer'
+          className='w-full h-screen fixed top-0 bg-black opacity-50 cursor-pointer z-10'
           onMouseDown={e => closeSidebar(e, dispatch)}
         />
       )}
-      <div className={`bg-white fixed top-0 h-screen w-48 transition-transform -translate-x-${sidebarPosition} duration-300 justify-between flex flex-col py-12`}>
+      <div className={`bg-white fixed top-0 h-screen w-48 transition-transform -translate-x-${sidebarPosition} duration-300 justify-between flex flex-col z-10`}>
         <div>
+          <span className={`${getCurrentScreen(history).color} flex items-center px-3 space-x-2 font-semibold text-white h-11`}>{getCurrentScreen(history).label}</span>
           {items.map((item, index) => (
             <div
               key={index}
