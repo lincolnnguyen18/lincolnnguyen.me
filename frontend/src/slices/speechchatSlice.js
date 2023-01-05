@@ -2,10 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { graphQLClient } from '../shared/clients';
 
 const initialState = {
-  // default, add-contact, search-contacts
+  // default, add-messages, search-contacts
   navbarMode: 'default',
   navbarTextInputValue: '',
-  sidebarPosition: '-12rem',
   contacts: null,
 };
 
@@ -57,7 +56,6 @@ const speechchatSlice = createSlice({
     setSlice: (state, action) => {
       return { ...state, ...action.payload };
     },
-    resetSlice: () => initialState,
   },
   extraReducers: (builder) => {
     builder

@@ -8,14 +8,24 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { store } from './shared/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//   <React.StrictMode>
+//     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+//       <Provider store={store}>
+//         <BrowserRouter>
+//           <App />
+//         </BrowserRouter>
+//       </Provider>
+//     </GoogleOAuthProvider>
+//   </React.StrictMode>,
+// );
+console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 root.render(
-  <React.StrictMode>
-    <GoogleOAuthProvider clientId="493124278798-sremdepaq957svqqllaoiidlq8qp57ok.apps.googleusercontent.com">
-      <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
-    </GoogleOAuthProvider>
-  </React.StrictMode>,
+  <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </GoogleOAuthProvider>,
 );

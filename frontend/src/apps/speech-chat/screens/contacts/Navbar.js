@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { speechchatSelector, speechchatActions, addConnection } from '../../../slices/speechchatSlice';
-import { sharedActions } from '../../../slices/sharedSlice';
+import { speechchatSelector, speechchatActions, addConnection } from '../../../../slices/speechchatSlice';
+import { sharedActions } from '../../../../slices/sharedSlice';
 
 export function Navbar () {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export function Navbar () {
 
   function onOpenSidebar (e) {
     e.preventDefault();
-    dispatch(speechchatActions.setSlice({ sidebarPosition: '0' }));
+    dispatch(sharedActions.setSlice({ sidebarPosition: '0' }));
   }
 
   async function onAddContact (e) {
@@ -47,7 +47,10 @@ export function Navbar () {
     return (
       <nav className="bg-red-custom text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0">
         <div className="flex items-center space-x-4">
-          <span className="icon-menu text-2xl ml-2 cursor-pointer" onClick={onOpenSidebar}></span>
+          <span
+            className="icon-menu text-2xl ml-2 cursor-pointer"
+            onClick={onOpenSidebar}
+          />
           <span>SpeechChat</span>
         </div>
         <div className="flex items-center space-x-4 mr-1">
@@ -57,12 +60,12 @@ export function Navbar () {
           {/*/>*/}
           <span
             className="icon-add text-2xl cursor-pointer"
-            onClick={() => setNavbarMode('add-contact')}
+            onClick={() => setNavbarMode('add-messages')}
           />
         </div>
       </nav>
     );
-  } else if (navbarMode === 'add-contact') {
+  } else if (navbarMode === 'add-messages') {
     return (
       <form
         className="bg-red-custom text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between fixed top-0"

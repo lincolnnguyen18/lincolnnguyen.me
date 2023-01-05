@@ -11,6 +11,8 @@ const initialState = {
     position: '32',
     message: 'Hello',
   },
+  sidebarPosition: '48',
+  history: [],
 };
 
 const getSessionToken = createAsyncThunk('shared/getSessionToken', async ({ googleToken }) => {
@@ -45,6 +47,14 @@ const sharedSlice = createSlice({
   reducers: {
     setSlice: (state, action) => {
       return { ...state, ...action.payload };
+    },
+    pushHistory: (state, action) => {
+      return { ...state, history: [...state.history, action.payload] };
+    },
+    popHistory: (state) => {
+      const history = state.history.slice();
+      history.pop();
+      return { ...state, history };
     },
   },
   extraReducers: (builder) => {

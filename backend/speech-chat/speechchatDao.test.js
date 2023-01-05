@@ -49,7 +49,7 @@ describe('speechchatDao', function () {
     });
     console.log('res', res);
 
-    // for each contact, fetch contact info
+    // for each messages, fetch messages info
     const contactIds = res.contacts.map((contact) => contact.contactId);
     const contactInfos = await Promise.all(contactIds.map((contactId) => sharedDao.getUserById(contactId)));
     console.log('contactInfos', contactInfos);
