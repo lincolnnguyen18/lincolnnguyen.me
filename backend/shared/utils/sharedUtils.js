@@ -39,10 +39,15 @@ function getIdFromSessionToken (sessionToken) {
   }
 }
 
+function wait (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export {
   uuid,
   getMockUserData,
   decodeGoogleToken,
   getSessionTokenFromId,
   getIdFromSessionToken,
+  wait,
 };

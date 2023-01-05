@@ -15,7 +15,7 @@ const initialState = {
   history: [],
 };
 
-const getSessionToken = createAsyncThunk('shared/getSessionToken', async ({ googleToken }) => {
+const getSessionToken = createAsyncThunk('utilities/getSessionToken', async ({ googleToken }) => {
   // language=GraphQL
   const query = `
     query SessionToken($googleToken: String!) {
@@ -25,7 +25,7 @@ const getSessionToken = createAsyncThunk('shared/getSessionToken', async ({ goog
   return graphQLClient.request(query, { googleToken });
 });
 
-const getUserData = createAsyncThunk('shared/getUserData', async () => {
+const getUserData = createAsyncThunk('utilities/getUserData', async () => {
   // language=GraphQL
   const query = `
       query User {

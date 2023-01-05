@@ -1,5 +1,6 @@
 import { speechchatDao } from './speechchatDao.js';
 import { sharedDao } from '../shared/sharedDao.js';
+import { wait } from '../shared/utils/sharedUtils.js';
 
 // language=GraphQL
 const speechchatTypeDefs = `
@@ -66,6 +67,7 @@ const speechchatResolvers = {
   SpeechChat: {
     contacts: async (_, { limit, lastKey }, { id }) => {
       // console.log('id', id);
+      await wait(400);
       return speechchatDao.getContacts(id, { limit, lastKey });
     },
     contact: async (_, { contactId }, { id }) => {

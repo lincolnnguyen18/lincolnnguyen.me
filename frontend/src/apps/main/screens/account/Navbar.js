@@ -23,9 +23,7 @@ export function Navbar () {
         <span className="icon-back text-2xl ml-2" />
         <span>Back</span>
       </div>
-      <div className="flex items-center w-full justify-center">
-        <span className="font-semibold">Your Account</span>
-      </div>
+      <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Your Account</span>
     </nav>
   );
 }

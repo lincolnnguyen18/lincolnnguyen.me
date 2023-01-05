@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { getContacts, speechchatActions, speechchatSelector } from '../../../../slices/speechchatSlice';
 import { formatUnixTimestamp } from '../../../../shared/utils/timeUtils';
 import { Sidebar } from '../../../../shared/components/Sidebar';
+import { Spinner } from '../../../../shared/components/Spinner';
+import { twConfig } from '../../../../shared/clients';
 
 export function ContactsScreen () {
   const navigate = useNavigate();
@@ -28,7 +30,13 @@ export function ContactsScreen () {
   }
 
   let content;
-  if (contacts?.length === 0) {
+  if (contacts === null) {
+    content = (
+      <div className="w-full flex justify-center mt-16">
+        <Spinner color={twConfig.theme.colors.red.custom} />
+      </div>
+    );
+  } else if (contacts?.length === 0) {
     content = (
       <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col pt-16 space-y-4 px-4 max-w-screen-sm mx-auto">
         <div className="flex flex-col items-center space-y-4 mt-[40%]">
@@ -44,7 +52,7 @@ export function ContactsScreen () {
       <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col space-y-4 max-w-screen-sm mx-auto pt-14">
         <div className="flex flex-col space-y-4">
           {contacts.map((contact, index) => (
-            <div className="flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 cursor-pointer" key={index} onClick={() => onContactClick(contact)}>
+            <div className="flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 cursor-pointer rounded-xl mx-2" key={index} onClick={() => onContactClick(contact)}>
               <img
                 src={contact.picture}
                 className="w-11 h-11 rounded-full flex-shrink-0"

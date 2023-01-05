@@ -17,6 +17,7 @@ export function App () {
   const dispatch = useDispatch();
   const location = useLocation();
   const { loggedIn, sessionToken, history } = useSelector(sharedSelector);
+  const noNav = ['/login'];
 
   React.useEffect(() => {
     if (sessionToken) {
@@ -52,7 +53,10 @@ export function App () {
 
   return loggedIn !== null && (
     <>
-      <div className={`${getCurrentScreen(history).color} h-11 w-screen fixed top-0 z-10`} />
+      {!noNav.some(path => location.pathname.startsWith(path)) && (
+        <div className={`${getCurrentScreen(history).color} h-11 w-screen fixed top-0 z-10`} />
+      )}
+
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/login" element={<LoginScreen />} />
