@@ -2,7 +2,7 @@ import React from 'react';
 import { sharedActions, sharedSelector } from '../../../../slices/sharedSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getPreviousScreen } from '../../../../shared/utils/navUtils';
+import { getPreviousScreen } from '../../../../shared/utils/stateUtils';
 export function Navbar () {
   const dispatch = useDispatch();
   const navigate = useNavigate();

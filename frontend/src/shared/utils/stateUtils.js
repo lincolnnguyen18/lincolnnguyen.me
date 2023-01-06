@@ -20,4 +20,10 @@ function getCurrentScreen (history) {
   }
 }
 
-export { homeScreen, getPreviousScreen, getCurrentScreen };
+const actionStatus = {
+  pending: 'pending',
+  fulfilled: 'fulfilled',
+  rejected: 'rejected',
+};
+
+export { homeScreen, getPreviousScreen, getCurrentScreen, actionStatus };

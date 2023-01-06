@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sharedActions, sharedSelector } from '../../slices/sharedSlice';
-import { getCurrentScreen } from '../utils/navUtils';
+import { getCurrentScreen } from '../utils/stateUtils';
 
 export function closeSidebar (dispatch) {
   dispatch(sharedActions.setSlice({ sidebarPosition: '100' }));

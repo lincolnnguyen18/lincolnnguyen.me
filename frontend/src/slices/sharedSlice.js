@@ -9,23 +9,27 @@ const initialState = {
   sessionToken: null,
   toast: {
     position: '32',
-    message: 'Hello',
+    message: '',
   },
   sidebarPosition: '100',
+  cardMenu: {
+    state: 'hidden',
+    items: [],
+  },
   history: [],
 };
 
-const getSessionToken = createAsyncThunk('utilities/getSessionToken', async ({ googleToken }) => {
+const getSessionToken = createAsyncThunk('shared/getSessionToken', async ({ googleToken }) => {
   // language=GraphQL
   const query = `
-    query SessionToken($googleToken: String!) {
-      sessionToken(googleToken: $googleToken)
-    }
+      query SessionToken($googleToken: String!) {
+          sessionToken(googleToken: $googleToken)
+      }
   `;
   return graphQLClient.request(query, { googleToken });
 });
 
-const getUserData = createAsyncThunk('utilities/getUserData', async () => {
+const getUserData = createAsyncThunk('shared/getUserData', async () => {
   // language=GraphQL
   const query = `
       query User {
@@ -55,6 +59,16 @@ const sharedSlice = createSlice({
       const history = state.history.slice();
       history.pop();
       return { ...state, history };
+    },
+    openToast: (state, action) => {
+      const { message } = action.payload;
+      const toast = { state: 'visible', message };
+      return { ...state, toast };
+    },
+    closeToast: (state) => {
+      const toast = { ...state.toast };
+      toast.state = 'hidden';
+      return { ...state, toast };
     },
   },
   extraReducers: (builder) => {

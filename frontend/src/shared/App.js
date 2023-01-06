@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { HomeScreen } from '../apps/main/screens/home/HomeScreen';
 import { LoginScreen } from '../apps/main/screens/login/LoginScreen';
 import { ContactsScreen } from '../apps/speech-chat/screens/contacts/ContactsScreen';
@@ -11,7 +11,7 @@ import { Protected } from '../apps/main/components/Protected';
 import { Toast } from '../apps/main/components/Toast';
 import { AccountScreen } from '../apps/main/screens/account/AccountScreen';
 import { MessagesScreen } from '../apps/speech-chat/screens/messages/MessagesScreen';
-import { getCurrentScreen, getPreviousScreen, homeScreen } from './utils/navUtils';
+import { getCurrentScreen, homeScreen } from './utils/stateUtils';
 import { TempScreen1 } from '../apps/testing/TempScreen1';
 
 export function App () {
@@ -19,7 +19,6 @@ export function App () {
   const location = useLocation();
   const { loggedIn, sessionToken, history } = useSelector(sharedSelector);
   const noNav = ['/login', '/testing'];
-  const subScreens = ['/account'];
 
   React.useEffect(() => {
     if (sessionToken) {
@@ -55,12 +54,7 @@ export function App () {
 
   let navbarBackground;
   if (!noNav.some(path => location.pathname.startsWith(path))) {
-    let color;
-    if (subScreens.some(path => location.pathname.startsWith(path))) {
-      color = getPreviousScreen(history).color;
-    } else {
-      color = getCurrentScreen(history).color;
-    }
+    const color = getCurrentScreen(history).color;
     navbarBackground = (
       <div className={`${color} h-11 w-screen fixed top-0 z-10`} />
     );
@@ -77,7 +71,7 @@ export function App () {
           <Route path="/speech-chat/contacts" element={<Protected><ContactsScreen /></Protected>} />
           <Route path="/speech-chat/contacts/:contactId" element={<Protected><MessagesScreen /></Protected>} />
           <Route path="/testing" element={<TempScreen1 />} />
-          <Route path="*" element={<div className="mt-16">404</div>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
       <Toast />

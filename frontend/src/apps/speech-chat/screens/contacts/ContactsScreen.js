@@ -4,7 +4,7 @@ import { sharedSelector } from '../../../../slices/sharedSlice';
 import { Navbar } from './Navbar';
 import { Link } from 'react-router-dom';
 import { getContacts, speechchatActions, speechchatSelector } from '../../../../slices/speechchatSlice';
-import { formatUnixTimestamp } from '../../../../shared/utils/timeUtils';
+import { formatUnixTimestamp } from '../../../../shared/utils/stringUtils';
 import { Sidebar } from '../../../../shared/components/Sidebar';
 import { Spinner } from '../../../../shared/components/Spinner';
 import { twConfig } from '../../../../shared/clients';
@@ -87,7 +87,6 @@ export function ContactsScreen () {
       {content}
       <Sidebar items={[
         { icon: 'icon-apps', label: 'Apps', path: '/' },
-        // { icon: 'icon-contacts', label: 'Contacts', path: '/speech-chat/contacts' },
       ]} />
     </div>
   );

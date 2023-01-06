@@ -18,6 +18,7 @@ class SharedDao {
       },
     };
     const res = await dynamoDBClient.send(new GetCommand(params));
+    if (!res.Item) throw new Error('User not found');
     return res.Item;
   }
 

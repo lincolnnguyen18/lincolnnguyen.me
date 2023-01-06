@@ -34,12 +34,7 @@ export function Navbar () {
     console.log('errors', errors);
     setLoading(false);
     if (errors.length > 0) {
-      dispatch(sharedActions.setSlice({
-        toast: {
-          message: errors[0].message,
-          position: '0',
-        },
-      }));
+      dispatch(sharedActions.openToast({ message: errors[0].message }));
     }
   }
 
