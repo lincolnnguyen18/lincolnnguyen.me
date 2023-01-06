@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sharedSelector } from '../../../../slices/sharedSlice';
 import { Navbar } from './Navbar';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getContacts, speechchatActions, speechchatSelector } from '../../../../slices/speechchatSlice';
 import { formatUnixTimestamp } from '../../../../shared/utils/timeUtils';
 import { Sidebar } from '../../../../shared/components/Sidebar';
@@ -10,7 +10,6 @@ import { Spinner } from '../../../../shared/components/Spinner';
 import { twConfig } from '../../../../shared/clients';
 
 export function ContactsScreen () {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loggedIn } = useSelector(sharedSelector);
   const { contacts } = useSelector(speechchatSelector);
@@ -24,10 +23,6 @@ export function ContactsScreen () {
       dispatch(getContacts());
     }
   }, []);
-
-  function onContactClick (contact) {
-    navigate(`/speech-chat/contacts/${contact.id}`);
-  }
 
   let content;
   if (contacts === null) {
@@ -49,22 +44,27 @@ export function ContactsScreen () {
     );
   } else if (contacts) {
     content = (
-      <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col space-y-4 max-w-screen-sm mx-auto pt-14">
-        <div className="flex flex-col space-y-4">
+      <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col space-y-4 max-w-screen-sm mx-auto">
+        <div className="flex flex-col space-y-3 overflow-y-scroll fixed top-11 bottom-0 w-full max-w-screen-sm pt-2">
           {contacts.map((contact, index) => (
-            <div className="flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 cursor-pointer rounded-xl mx-2" key={index} onClick={() => onContactClick(contact)}>
-              <img
-                src={contact.picture}
-                className="w-11 h-11 rounded-full flex-shrink-0"
-                alt="avatar"
-                referrerPolicy="no-referrer"
-              />
-              <div className="flex flex-col w-full">
-                <span className="text-sm sm:text-base">{contact.givenName} {contact.familyName}</span>
-                <span className="text-sm sm:text-base text-gray-500">{contact.lastMessage?.text || 'Connection established'}</span>
+            <Link to={`/speech-chat/contacts/${contact.id}`} key={index}>
+              <div
+                className="flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 cursor-pointer rounded-xl mx-2"
+                key={index}
+              >
+                <img
+                  src={contact.picture}
+                  className="w-11 h-11 rounded-full flex-shrink-0"
+                  alt="avatar"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="flex flex-col w-full">
+                  <span className="text-sm sm:text-base">{contact.givenName} {contact.familyName}</span>
+                  <span className="text-sm sm:text-base text-gray-500">{contact.lastMessage?.text || 'Connection established'}</span>
+                </div>
+                <span className="text-xs sm:text-sm text-gray-500 min-w-fit">{formatUnixTimestamp(contact.updatedAt)}</span>
               </div>
-              <span className="text-xs sm:text-sm text-gray-500 min-w-fit">{formatUnixTimestamp(contact.updatedAt)}</span>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

@@ -11,7 +11,7 @@ const initialState = {
     position: '32',
     message: 'Hello',
   },
-  sidebarPosition: '48',
+  sidebarPosition: '100',
   history: [],
 };
 

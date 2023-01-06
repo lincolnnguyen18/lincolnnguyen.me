@@ -11,13 +11,15 @@ import { Protected } from '../apps/main/components/Protected';
 import { Toast } from '../apps/main/components/Toast';
 import { AccountScreen } from '../apps/main/screens/account/AccountScreen';
 import { MessagesScreen } from '../apps/speech-chat/screens/messages/MessagesScreen';
-import { getCurrentScreen, homeScreen } from './utils/navUtils';
+import { getCurrentScreen, getPreviousScreen, homeScreen } from './utils/navUtils';
+import { TempScreen1 } from '../apps/testing/TempScreen1';
 
 export function App () {
   const dispatch = useDispatch();
   const location = useLocation();
   const { loggedIn, sessionToken, history } = useSelector(sharedSelector);
-  const noNav = ['/login'];
+  const noNav = ['/login', '/testing'];
+  const subScreens = ['/account'];
 
   React.useEffect(() => {
     if (sessionToken) {
@@ -51,19 +53,33 @@ export function App () {
   //   console.log('history', history);
   // }, [history]);
 
+  let navbarBackground;
+  if (!noNav.some(path => location.pathname.startsWith(path))) {
+    let color;
+    if (subScreens.some(path => location.pathname.startsWith(path))) {
+      color = getPreviousScreen(history).color;
+    } else {
+      color = getCurrentScreen(history).color;
+    }
+    navbarBackground = (
+      <div className={`${color} h-11 w-screen fixed top-0 z-10`} />
+    );
+  }
+
   return loggedIn !== null && (
     <>
-      {!noNav.some(path => location.pathname.startsWith(path)) && (
-        <div className={`${getCurrentScreen(history).color} h-11 w-screen fixed top-0 z-10`} />
-      )}
-
-      <Routes>
-        <Route path="/" element={<HomeScreen />} />
-        <Route path="/login" element={<LoginScreen />} />
-        <Route path="/account" element={<Protected><AccountScreen /></Protected>} />
-        <Route path="/speech-chat/contacts" element={<Protected><ContactsScreen /></Protected>} />
-        <Route path="/speech-chat/contacts/:contactId" element={<Protected><MessagesScreen /></Protected>} />
-      </Routes>
+      {navbarBackground}
+      <div className="overflow-hidden absolute top-0 bottom-0 left-0 right-0">
+        <Routes>
+          <Route path="/" element={<HomeScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/account" element={<Protected><AccountScreen /></Protected>} />
+          <Route path="/speech-chat/contacts" element={<Protected><ContactsScreen /></Protected>} />
+          <Route path="/speech-chat/contacts/:contactId" element={<Protected><MessagesScreen /></Protected>} />
+          <Route path="/testing" element={<TempScreen1 />} />
+          <Route path="*" element={<div className="mt-16">404</div>} />
+        </Routes>
+      </div>
       <Toast />
     </>
   );

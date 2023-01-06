@@ -14,7 +14,7 @@ export function Spinner ({ size = '0.8rem', color = 'red', className = '' }) {
           innerRadius={sizeInPixels / 1.6}
           outerRadius={sizeInPixels}
           fill={color}
-          opacity="0.5"
+          opacity={0.5}
         />
         <Arc
           x={sizeInPixels}

@@ -64,7 +64,11 @@ const speechchatSlice = createSlice({
         // console.log('getContacts.fulfilled', action.payload);
         const { contacts } = action.payload.speechChat.contacts;
         console.log('contacts', contacts);
-        return { ...state, contacts };
+        const duplicateContacts = [];
+        for (let i = 0; i < 30; i++) {
+          duplicateContacts.push(...contacts);
+        }
+        return { ...state, contacts: duplicateContacts };
       });
   },
 });
