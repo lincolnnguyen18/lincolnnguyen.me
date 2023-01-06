@@ -6,6 +6,7 @@ const initialState = {
   navbarMode: 'default',
   navbarTextInputValue: '',
   contacts: null,
+  selectedContact: null,
 };
 
 const getContacts = createAsyncThunk('speechchat/getContacts', async () => {
@@ -69,6 +70,7 @@ const speechchatSlice = createSlice({
           duplicateContacts.push(...contacts);
         }
         return { ...state, contacts: duplicateContacts };
+        // return { ...state, contacts };
       });
   },
 });

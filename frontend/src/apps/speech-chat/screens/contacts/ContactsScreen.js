@@ -24,6 +24,12 @@ export function ContactsScreen () {
     }
   }, []);
 
+  function onContactClick (contact) {
+    dispatch(speechchatActions.setSlice({
+      selectedContact: contact,
+    }));
+  }
+
   let content;
   if (contacts === null) {
     content = (
@@ -47,7 +53,11 @@ export function ContactsScreen () {
       <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col space-y-4 max-w-screen-sm mx-auto">
         <div className="flex flex-col space-y-3 overflow-y-scroll fixed top-11 bottom-0 w-full max-w-screen-sm pt-2">
           {contacts.map((contact, index) => (
-            <Link to={`/speech-chat/contacts/${contact.id}`} key={index}>
+            <Link
+              to={`/speech-chat/contacts/${contact.id}`}
+              key={index}
+              onClick={() => onContactClick(contact)}
+            >
               <div
                 className="flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 cursor-pointer rounded-xl mx-2"
                 key={index}

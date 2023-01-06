@@ -3,9 +3,11 @@ import { useSelector } from 'react-redux';
 import { sharedSelector } from '../../../../slices/sharedSlice';
 import { Navbar } from './Navbar';
 import { Sidebar } from '../../../../shared/components/Sidebar';
+import { speechchatSelector } from '../../../../slices/speechchatSlice';
 
 export function MessagesScreen () {
   const { loggedIn } = useSelector(sharedSelector);
+  const { selectedContact } = useSelector(speechchatSelector);
   const messages = [];
 
   let content;
@@ -25,6 +27,13 @@ export function MessagesScreen () {
   return loggedIn && (
     <div className='max-w-screen-sm mx-auto relative'>
       <Navbar />
+      <div className="fixed top-11 w-full max-w-screen-sm p-2 border-b border-gray-200 flex justify-between items-center bg-white">
+        <div>
+          <p className="text-sm sm:text-base">{selectedContact.givenName} {selectedContact.familyName}</p>
+          <p className="text-gray-500 text-sm sm:text-base">{selectedContact.email}</p>
+        </div>
+        <span className="icon-more-horiz text-2xl cursor-pointer" />
+      </div>
       {content}
       <Sidebar
         items={[
