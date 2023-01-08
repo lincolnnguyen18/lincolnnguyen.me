@@ -68,8 +68,8 @@ export function App () {
           <Route path="/" element={<HomeScreen />} />
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/account" element={<Protected><AccountScreen /></Protected>} />
-          <Route path="/speech-chat/contacts" element={<Protected><ContactsScreen /></Protected>} />
-          <Route path="/speech-chat/contacts/:contactId" element={<Protected><MessagesScreen /></Protected>} />
+          <Route path="/messages/contacts" element={<Protected><ContactsScreen /></Protected>} />
+          <Route path="/messages/contacts/:contactId" element={<Protected><MessagesScreen /></Protected>} />
           <Route path="/testing" element={<TempScreen1 />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

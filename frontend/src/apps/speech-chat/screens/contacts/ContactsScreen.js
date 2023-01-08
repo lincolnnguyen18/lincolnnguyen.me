@@ -51,10 +51,10 @@ export function ContactsScreen () {
   } else if (contacts) {
     content = (
       <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col space-y-4 max-w-screen-sm mx-auto">
-        <div className="flex flex-col space-y-3 overflow-y-scroll fixed top-11 bottom-0 w-full max-w-screen-sm pt-2">
+        <div className="flex flex-col space-y-3 overflow-y-scroll fixed top-11 bottom-0 w-full max-w-screen-sm py-2">
           {contacts.map((contact, index) => (
             <Link
-              to={`/speech-chat/contacts/${contact.id}`}
+              to={`/messages/contacts/${contact.id}`}
               key={index}
               onClick={() => onContactClick(contact)}
             >

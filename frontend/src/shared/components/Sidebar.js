@@ -18,6 +18,11 @@ export function Sidebar ({ items }) {
     closeSidebar(dispatch);
   }
 
+  function onLoginClick () {
+    navigate('/login');
+    closeSidebar(dispatch);
+  }
+
   const loggedInItem = loggedIn && (
     <div
       className='flex items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer select-none rounded-xl mx-2'
@@ -39,7 +44,7 @@ export function Sidebar ({ items }) {
   const loggedOutItem = (
     <div
       className='flex items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer select-none rounded-xl mx-2'
-      onClick={() => closeSidebar(dispatch)}
+      onClick={onLoginClick}
     >
       <span className={'icon-login text-2xl'} />
       <span>Login</span>

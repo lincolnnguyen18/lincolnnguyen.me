@@ -13,6 +13,9 @@ module.exports = {
           custom: '#BB6565',
           custom2: '#975252',
         },
+        purple: {
+          custom: '#7165BB',
+        },
       },
     },
   },
