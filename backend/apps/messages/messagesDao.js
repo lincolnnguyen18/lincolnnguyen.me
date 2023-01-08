@@ -4,7 +4,7 @@ import { dynamoDBClient } from '../shared/utils/sharedClients.js';
 import { PutCommand, QueryCommand, TransactWriteCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 dotenv.config({ path: './.env' });
 
-class SpeechchatDao {
+class MessagesDao {
   constructor (tableName) {
     this.sharedDao = new SharedDao(tableName);
     this.tableName = tableName;
@@ -27,7 +27,7 @@ class SpeechchatDao {
             Put: {
               TableName: this.tableName,
               Item: {
-                pk: `speechchat#${initiatorUserId}`,
+                pk: `messages#${initiatorUserId}`,
                 sk: `contact#${receiverUserId}`,
                 createdAt: timestamp,
                 updatedAt: timestamp,
@@ -40,7 +40,7 @@ class SpeechchatDao {
             Put: {
               TableName: this.tableName,
               Item: {
-                pk: `speechchat#${receiverUserId}`,
+                pk: `messages#${receiverUserId}`,
                 sk: `contact#${initiatorUserId}`,
                 createdAt: timestamp,
                 updatedAt: timestamp,
@@ -63,7 +63,7 @@ class SpeechchatDao {
       IndexName: 'contactsUpdatedAtIndex',
       KeyConditionExpression: 'pk = :pk',
       ExpressionAttributeValues: {
-        ':pk': `speechchat#${userId}`,
+        ':pk': `messages#${userId}`,
       },
       Limit: limit,
       ScanIndexForward: false,
@@ -99,10 +99,10 @@ class SpeechchatDao {
 
     let pk, direction;
     if (senderUserId < receiverUserId) {
-      pk = `speechchat#${senderUserId}#${receiverUserId}`;
+      pk = `messages#${senderUserId}#${receiverUserId}`;
       direction = 'right';
     } else {
-      pk = `speechchat#${receiverUserId}#${senderUserId}`;
+      pk = `messages#${receiverUserId}#${senderUserId}`;
       direction = 'left';
     }
     const sk = `message#${createdAt}`;
@@ -133,7 +133,7 @@ class SpeechchatDao {
       dynamoDBClient.send(new UpdateCommand({
         TableName: this.tableName,
         Key: {
-          pk: `speechchat#${senderUserId}`,
+          pk: `messages#${senderUserId}`,
           sk: `contact#${receiverUserId}`,
         },
         UpdateExpression: 'set updatedAt = :updatedAt',
@@ -145,7 +145,7 @@ class SpeechchatDao {
       dynamoDBClient.send(new UpdateCommand({
         TableName: this.tableName,
         Key: {
-          pk: `speechchat#${receiverUserId}`,
+          pk: `messages#${receiverUserId}`,
           sk: `contact#${senderUserId}`,
         },
         UpdateExpression: 'set updatedAt = :updatedAt',
@@ -160,9 +160,9 @@ class SpeechchatDao {
   async getMessages (userId, contactId, { limit, lastKey }) {
     let pk;
     if (userId < contactId) {
-      pk = `speechchat#${userId}#${contactId}`;
+      pk = `messages#${userId}#${contactId}`;
     } else {
-      pk = `speechchat#${contactId}#${userId}`;
+      pk = `messages#${contactId}#${userId}`;
     }
     const params = {
       TableName: this.tableName,
@@ -182,6 +182,6 @@ class SpeechchatDao {
   }
 }
 
-const speechchatDao = new SpeechchatDao(process.env.SHARED_TABLE_NAME);
+const messagesDao = new MessagesDao(process.env.SHARED_TABLE_NAME);
 
-export { SpeechchatDao, speechchatDao };
+export { MessagesDao, messagesDao };

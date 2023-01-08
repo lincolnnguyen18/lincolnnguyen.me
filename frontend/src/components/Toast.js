@@ -1,5 +1,5 @@
 import React from 'react';
-import { sharedActions, sharedSelector } from '../../../slices/sharedSlice';
+import { sharedActions, sharedSelector } from '../slices/sharedSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export function Toast () {

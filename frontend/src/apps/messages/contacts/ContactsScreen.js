@@ -1,21 +1,21 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sharedSelector } from '../../../../slices/sharedSlice';
+import { sharedSelector } from '../../../slices/sharedSlice';
 import { Navbar } from './Navbar';
 import { Link } from 'react-router-dom';
-import { getContacts, speechchatActions, speechchatSelector } from '../../../../slices/speechchatSlice';
-import { formatUnixTimestamp } from '../../../../shared/utils/stringUtils';
-import { Sidebar } from '../../../../shared/components/Sidebar';
-import { Spinner } from '../../../../shared/components/Spinner';
-import { twConfig } from '../../../../shared/clients';
+import { getContacts, messagesActions, messagesSelector } from '../../../slices/messagesSlice';
+import { formatUnixTimestamp } from '../../../shared/utils/stringUtils';
+import { Sidebar } from '../../../shared/components/Sidebar';
+import { Spinner } from '../../../shared/components/Spinner';
+import { twConfig } from '../../../shared/clients';
 
 export function ContactsScreen () {
   const dispatch = useDispatch();
   const { loggedIn } = useSelector(sharedSelector);
-  const { contacts } = useSelector(speechchatSelector);
+  const { contacts } = useSelector(messagesSelector);
 
   React.useEffect(() => {
-    dispatch(speechchatActions.setSlice({
+    dispatch(messagesActions.setSlice({
       navbarMode: 'default',
       navbarTextInputValue: '',
     }));
@@ -25,7 +25,7 @@ export function ContactsScreen () {
   }, []);
 
   function onContactClick (contact) {
-    dispatch(speechchatActions.setSlice({
+    dispatch(messagesActions.setSlice({
       selectedContact: contact,
     }));
   }

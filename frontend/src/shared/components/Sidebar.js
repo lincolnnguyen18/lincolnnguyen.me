@@ -2,10 +2,10 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sharedActions, sharedSelector } from '../../slices/sharedSlice';
-import { getCurrentScreen } from '../utils/stateUtils';
+import { getCurrentScreen, getNavColor } from '../utils/stateUtils';
 
 export function closeSidebar (dispatch) {
-  dispatch(sharedActions.setSlice({ sidebarPosition: '100' }));
+  dispatch(sharedActions.closeSidebar());
 }
 
 export function Sidebar ({ items }) {
@@ -61,7 +61,7 @@ export function Sidebar ({ items }) {
       )}
       <div className='bg-white fixed top-0 bottom-0 w-48 transition-transform duration-300 justify-between flex flex-col z-10 rounded-br-xl overflow-y-scroll' style={{ transform: `translateX(-${sidebarPosition}%)` }}>
         <div>
-          <span className={`${getCurrentScreen(history).color} flex items-center px-3 space-x-2 font-semibold text-white h-11 mb-2`}>{getCurrentScreen(history).label}</span>
+          <span className={`${getNavColor(location, history)} flex items-center px-3 space-x-2 font-semibold text-white h-11 mb-2`}>{getCurrentScreen(history).label}</span>
           {items.map((item, index) => (
             <Link to={item.path} key={index}>
               <div

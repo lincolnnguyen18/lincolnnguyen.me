@@ -1,14 +1,14 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import dotenv from 'dotenv';
-import { sharedResolvers, sharedTypeDefs } from './shared/sharedSchema.js';
-import { getIdFromSessionToken } from './shared/utils/sharedUtils.js';
-import { speechchatResolvers, speechchatTypeDefs } from './speech-chat/speechchatSchema.js';
+import { sharedResolvers, sharedTypeDefs } from './apps/shared/sharedSchema.js';
+import { getIdFromSessionToken } from './apps/shared/utils/sharedUtils.js';
+import { messagesResolvers, messagesTypeDefs } from './apps/messages/messagesSchema.js';
 dotenv.config();
 
 const server = new ApolloServer({
-  typeDefs: [sharedTypeDefs, speechchatTypeDefs],
-  resolvers: [sharedResolvers, speechchatResolvers],
+  typeDefs: [sharedTypeDefs, messagesTypeDefs],
+  resolvers: [sharedResolvers, messagesResolvers],
 });
 
 const { url } = await startStandaloneServer(server, {

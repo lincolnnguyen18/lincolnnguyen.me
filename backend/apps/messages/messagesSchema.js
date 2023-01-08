@@ -1,10 +1,10 @@
-import { speechchatDao } from './speechchatDao.js';
+import { messagesDao } from './messagesDao.js';
 import { sharedDao } from '../shared/sharedDao.js';
 import { wait } from '../shared/utils/sharedUtils.js';
 
 // language=GraphQL
-const speechchatTypeDefs = `
-  type SpeechChat {
+const messagesTypeDefs = `
+  type Messages {
       contact(contactId: ID!): Contact
       contacts: PaginatedContacts
   }
@@ -48,7 +48,7 @@ const speechchatTypeDefs = `
   }
 
   extend type Query {
-      speechChat: SpeechChat
+      messages: Messages
   }
   
   type Mutation {
@@ -57,18 +57,18 @@ const speechchatTypeDefs = `
   }
 `;
 
-const speechchatResolvers = {
+const messagesResolvers = {
   Query: {
-    speechChat: async (_, __, { id }) => {
+    messages: async (_, __, { id }) => {
       if (!id) throw new Error('Unauthorized');
       return {};
     },
   },
-  SpeechChat: {
+  Messages: {
     contacts: async (_, { limit, lastKey }, { id }) => {
       // console.log('id', id);
       await wait(400);
-      return speechchatDao.getContacts(id, { limit, lastKey });
+      return messagesDao.getContacts(id, { limit, lastKey });
     },
     contact: async (_, { contactId }, { id }) => {
       if (!id) throw new Error('Unauthorized');
@@ -77,10 +77,10 @@ const speechchatResolvers = {
   },
   Contact: {
     messages: async ({ id: contactId }, { limit, nextToken }, { id }) => {
-      return speechchatDao.getMessages(id, contactId, { limit, nextToken });
+      return messagesDao.getMessages(id, contactId, { limit, nextToken });
     },
     lastMessage: async ({ id: contactId }, _, { id }) => {
-      const res = await speechchatDao.getMessages(id, contactId, { limit: 1 });
+      const res = await messagesDao.getMessages(id, contactId, { limit: 1 });
       // console.log('res', res);
       return res.messages[0];
     },
@@ -93,7 +93,7 @@ const speechchatResolvers = {
       const receiverUserId = await sharedDao.getIdFromEmail(receiverEmail);
       console.log('receiverUserId', receiverUserId);
       try {
-        await speechchatDao.addConnection({ initiatorUserId: id, receiverUserId, timestamp: Date.now() });
+        await messagesDao.addConnection({ initiatorUserId: id, receiverUserId, timestamp: Date.now() });
         return [];
       } catch (e) {
         return [{ field: 'primary', message: e.message }];
@@ -103,7 +103,7 @@ const speechchatResolvers = {
       if (!id) throw new Error('Unauthorized');
       const { receiverUserId, text } = args;
       try {
-        await speechchatDao.addMessage({ senderUserId: id, receiverUserId, type: 'text', text, createdAt: Date.now() });
+        await messagesDao.addMessage({ senderUserId: id, receiverUserId, type: 'text', text, createdAt: Date.now() });
       } catch (e) {
         return [{ field: 'primary', message: e.message }];
       }
@@ -111,4 +111,4 @@ const speechchatResolvers = {
   },
 };
 
-export { speechchatTypeDefs, speechchatResolvers };
+export { messagesTypeDefs, messagesResolvers };

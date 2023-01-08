@@ -11,11 +11,11 @@ const initialState = {
   statuses: {},
 };
 
-const getContacts = createAsyncThunk('speechchat/getContacts', async () => {
+const getContacts = createAsyncThunk('messages/getContacts', async () => {
   // language=GraphQL
   const query = `
       query Contact {
-          speechChat {
+          messages {
               contacts {
                   contacts {
                       id
@@ -38,11 +38,11 @@ const getContacts = createAsyncThunk('speechchat/getContacts', async () => {
   return graphQLClient.request(query);
 });
 
-const getContact = createAsyncThunk('speechchat/getContact', async ({ id }) => {
+const getContact = createAsyncThunk('messages/getContact', async ({ id }) => {
   // language=GraphQL
   const query = gql`
       query Contact($contactId: ID!) {
-          speechChat {
+          messages {
               contact(contactId: $contactId) {
                   id
                   picture
@@ -64,7 +64,7 @@ const getContact = createAsyncThunk('speechchat/getContact', async ({ id }) => {
   return graphQLClient.request(query, { contactId: id });
 });
 
-const addConnection = createAsyncThunk('speechchat/addConnection', async ({ email }) => {
+const addConnection = createAsyncThunk('messages/addConnection', async ({ email }) => {
   // language=GraphQL
   const query = `
       mutation Mutation($receiverEmail: String!) {
@@ -78,8 +78,8 @@ const addConnection = createAsyncThunk('speechchat/addConnection', async ({ emai
   return addConnection;
 });
 
-const speechchatSlice = createSlice({
-  name: 'speechchat',
+const messagesSlice = createSlice({
+  name: 'messages',
   initialState,
   reducers: {
     setSlice: (state, action) => {
@@ -94,7 +94,7 @@ const speechchatSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getContacts.fulfilled, (state, action) => {
-        const { contacts } = action.payload.speechChat.contacts;
+        const { contacts } = action.payload.messages.contacts;
         // console.log('contacts', contacts);
 
         const duplicateContacts = [];
@@ -107,7 +107,7 @@ const speechchatSlice = createSlice({
       })
       .addCase(getContact.fulfilled, (state, action) => {
         console.log('getContact.fulfilled', action.payload);
-        const { contact } = action.payload.speechChat;
+        const { contact } = action.payload.messages;
         return { ...state, selectedContact: contact };
       })
       .addMatcher(
@@ -122,15 +122,15 @@ const speechchatSlice = createSlice({
           const newStatuses = { ...state.statuses };
           const actionPrefix = action.type.split('/').slice(0, -1).join('/');
           newStatuses[actionPrefix] = status;
-          console.log('statuses', newStatuses);
+          // console.log('statuses', newStatuses);
           return { ...state, statuses: newStatuses };
         });
   },
 });
 
-const speechchatActions = speechchatSlice.actions;
-const speechchatReducer = speechchatSlice.reducer;
-const speechchatSelector = (state) => state.speechchat;
+const messagesActions = messagesSlice.actions;
+const messagesReducer = messagesSlice.reducer;
+const messagesSelector = (state) => state.messages;
 
-export { speechchatActions, speechchatReducer, speechchatSelector };
+export { messagesActions, messagesReducer, messagesSelector };
 export { getContacts, getContact, addConnection };

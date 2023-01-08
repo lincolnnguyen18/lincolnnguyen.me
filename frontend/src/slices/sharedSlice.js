@@ -55,9 +55,14 @@ const sharedSlice = createSlice({
     pushHistory: (state, action) => {
       return { ...state, history: [...state.history, action.payload] };
     },
-    popHistory: (state) => {
+    popHistory: (state, action) => {
       const history = state.history.slice();
       history.pop();
+      if (action.payload?.navigate) {
+        const lastPath = history[history.length - 1]?.path || '/';
+        // console.log('lastPath', lastPath);
+        action.payload.navigate(lastPath);
+      }
       return { ...state, history };
     },
     openToast: (state, action) => {
@@ -69,6 +74,14 @@ const sharedSlice = createSlice({
       const toast = { ...state.toast };
       toast.state = 'hidden';
       return { ...state, toast };
+    },
+    openSidebar: (state) => {
+      const sidebarPosition = '0';
+      return { ...state, sidebarPosition };
+    },
+    closeSidebar: (state) => {
+      const sidebarPosition = '100';
+      return { ...state, sidebarPosition };
     },
   },
   extraReducers: (builder) => {

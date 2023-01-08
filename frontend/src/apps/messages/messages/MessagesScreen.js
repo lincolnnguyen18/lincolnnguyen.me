@@ -1,18 +1,18 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sharedSelector } from '../../../../slices/sharedSlice';
+import { sharedSelector } from '../../../slices/sharedSlice';
 import { Navbar } from './Navbar';
-import { Sidebar } from '../../../../shared/components/Sidebar';
-import { getContact, speechchatActions, speechchatSelector } from '../../../../slices/speechchatSlice';
+import { Sidebar } from '../../../shared/components/Sidebar';
+import { getContact, messagesActions, messagesSelector } from '../../../slices/messagesSlice';
 import { useNavigate, useParams } from 'react-router-dom';
-import { actionStatus } from '../../../../shared/utils/stateUtils';
+import { actionStatus } from '../../../shared/utils/stateUtils';
 
 export function MessagesScreen () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { contactId } = useParams();
+  const { id } = useParams();
   const { loggedIn } = useSelector(sharedSelector);
-  const { selectedContact, statuses } = useSelector(speechchatSelector);
+  const { selectedContact, statuses } = useSelector(messagesSelector);
   const messages = [];
   // fill messages array with 100 random numbers
   for (let i = 0; i < 100; i++) {
@@ -48,14 +48,14 @@ export function MessagesScreen () {
 
   React.useEffect(() => {
     if (loggedIn && !selectedContact) {
-      dispatch(getContact({ id: contactId }));
+      dispatch(getContact({ id }));
     }
   }, []);
 
   React.useEffect(() => {
     if (statuses[getContact.typePrefix] === actionStatus.rejected) {
-      dispatch(speechchatActions.clearStatus(getContact.typePrefix));
-      navigate('/speech-chat/contacts');
+      dispatch(messagesActions.clearStatus(getContact.typePrefix));
+      navigate('/messages/contacts');
     }
   }, [statuses]);
 

@@ -4,6 +4,23 @@ const homeScreen = {
   label: 'Home',
 };
 
+const messagesScreen = {
+  path: '/messages',
+  color: 'bg-red-custom',
+  label: 'Messages',
+};
+
+const transcribeScreen = {
+  path: '/transcribe',
+  color: 'bg-purple-custom',
+  label: 'Transcribe',
+};
+
+const nonHomeScreens = [messagesScreen, transcribeScreen];
+
+const noNav = ['/login', '/testing'];
+const subScreen = ['/account'];
+
 function getPreviousScreen (history) {
   if (history.length > 1) {
     return history[history.length - 2];
@@ -20,10 +37,29 @@ function getCurrentScreen (history) {
   }
 }
 
+function getNavColor (location, history) {
+  if (!noNav.some(path => location.pathname.startsWith(path))) {
+    let color = getCurrentScreen(history).color;
+    if (subScreen.some(path => location.pathname.startsWith(path))) {
+      color = getPreviousScreen(history).color;
+    }
+    return color;
+  }
+}
+
 const actionStatus = {
   pending: 'pending',
   fulfilled: 'fulfilled',
   rejected: 'rejected',
 };
 
-export { homeScreen, getPreviousScreen, getCurrentScreen, actionStatus };
+export {
+  homeScreen,
+  messagesScreen,
+  transcribeScreen,
+  nonHomeScreens,
+  getPreviousScreen,
+  getCurrentScreen,
+  getNavColor,
+  actionStatus,
+};

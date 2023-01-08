@@ -1,8 +1,8 @@
 import React from 'react';
 import { Navbar } from './Navbar';
-import { Sidebar } from '../../../../shared/components/Sidebar';
+import { Sidebar } from '../../../shared/components/Sidebar';
 import Cookies from 'js-cookie';
-import { sharedActions } from '../../../../slices/sharedSlice';
+import { sharedActions } from '../../../slices/sharedSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 

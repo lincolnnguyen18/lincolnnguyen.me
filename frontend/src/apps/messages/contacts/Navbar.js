@@ -1,38 +1,30 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { speechchatSelector, speechchatActions, addConnection } from '../../../../slices/speechchatSlice';
-import { sharedActions } from '../../../../slices/sharedSlice';
+import { messagesSelector, messagesActions, addConnection } from '../../../slices/messagesSlice';
+import { sharedActions } from '../../../slices/sharedSlice';
+import { actionStatus } from '../../../shared/utils/stateUtils';
 
 export function Navbar () {
   const dispatch = useDispatch();
-  const [loading, setLoading] = React.useState(false);
-  const { navbarMode, navbarTextInputValue } = useSelector(speechchatSelector);
+  const { navbarMode, navbarTextInputValue, statuses } = useSelector(messagesSelector);
   const formRef = React.useRef();
 
   function handleTextInputClear () {
-    dispatch(speechchatActions.setSlice({ navbarTextInputValue: '' }));
+    dispatch(messagesActions.setSlice({ navbarTextInputValue: '' }));
   }
 
   function handleTextInputOnChange (e) {
-    dispatch(speechchatActions.setSlice({ navbarTextInputValue: e.target.value }));
+    dispatch(messagesActions.setSlice({ navbarTextInputValue: e.target.value }));
   }
 
   function setNavbarMode (navbarMode) {
-    dispatch(speechchatActions.setSlice({ navbarMode, navbarTextInputValue: '' }));
+    dispatch(messagesActions.setSlice({ navbarMode, navbarTextInputValue: '' }));
   }
 
-  function onOpenSidebar (e) {
-    e.preventDefault();
-    dispatch(sharedActions.setSlice({ sidebarPosition: '0' }));
-  }
-
-  async function onAddContact (e) {
-    e.preventDefault();
+  async function onAddContact () {
     if (!navbarTextInputValue) return;
-    setLoading(true);
     const { payload: errors } = await dispatch(addConnection({ email: navbarTextInputValue }));
     console.log('errors', errors);
-    setLoading(false);
     if (errors.length > 0) {
       dispatch(sharedActions.openToast({ message: errors[0].message }));
     }
@@ -43,7 +35,7 @@ export function Navbar () {
       <nav className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0 z-10">
         <span
           className="icon-menu text-2xl ml-2 cursor-pointer"
-          onClick={onOpenSidebar}
+          onClick={() => dispatch(sharedActions.openSidebar())}
         />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Contacts</span>
         <div className="flex items-center space-x-4 mr-1">
@@ -92,7 +84,7 @@ export function Navbar () {
         <button
           className="cursor-pointer font-semibold px-4 h-full disabled:opacity-50 disabled:cursor-not-allowed"
           type="submit"
-          disabled={loading || !navbarTextInputValue}
+          disabled={statuses[addConnection.typePrefix] === actionStatus.pending || !navbarTextInputValue}
         >Add</button>
       </form>
     );

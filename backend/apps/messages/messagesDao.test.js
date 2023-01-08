@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { faker } from '@faker-js/faker';
-import { speechchatDao } from './speechchatDao.js';
+import { messagesDao } from './messagesDao.js';
 import { sharedDao } from '../shared/sharedDao.js';
 
-describe('speechchatDao', function () {
+describe('messagesDao', function () {
   let users;
   beforeAll(async function () {
     users = await sharedDao.getAllUsers();
@@ -16,7 +16,7 @@ describe('speechchatDao', function () {
       const receiverUserId = _.sample(users).id;
       const timestamp = faker.date.recent().getTime();
       promises.push(
-        speechchatDao.addConnection({
+        messagesDao.addConnection({
           initiatorUserId,
           receiverUserId,
           timestamp,
@@ -34,7 +34,7 @@ describe('speechchatDao', function () {
     const userId = _.sample(users).id;
     // const userId = 'd256fe97-626e-4971-9fe3-51cd9df60910';
     console.log('userId', userId);
-    const res = await speechchatDao.getContacts(userId, {
+    const res = await messagesDao.getContacts(userId, {
       limit: 999,
       lastKey: null,
     });
@@ -43,7 +43,7 @@ describe('speechchatDao', function () {
 
   it('getContacts with lastKey', async function () {
     const userId = '67219799-d26a-4fd8-a705-ec48b032ff3d';
-    const res = await speechchatDao.getContacts(userId, {
+    const res = await messagesDao.getContacts(userId, {
       limit: 1,
       lastKey: null,
     });
@@ -68,7 +68,7 @@ describe('speechchatDao', function () {
     const createdAt = faker.date.recent().getTime();
     const text = faker.lorem.sentence();
     try {
-      await speechchatDao.addMessage({
+      await messagesDao.addMessage({
         senderUserId,
         receiverUserId,
         type: 'text',
@@ -83,7 +83,7 @@ describe('speechchatDao', function () {
   it('getMessages', async function () {
     const senderUserId = 'b08de5bb-a494-4403-9c19-b3ee2586c49e';
     const receiverUserId = 'ccfc7113-6156-47f5-8225-9b384377cb82';
-    const res = await speechchatDao.getMessages(senderUserId, receiverUserId, {
+    const res = await messagesDao.getMessages(senderUserId, receiverUserId, {
       limit: 999,
       lastKey: null,
     });
