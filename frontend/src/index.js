@@ -19,7 +19,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 //     </GoogleOAuthProvider>
 //   </React.StrictMode>,
 // );
-console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID);
+// console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 root.render(
   <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
     <Provider store={store}>

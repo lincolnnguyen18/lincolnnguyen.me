@@ -10,14 +10,10 @@ export function Toast () {
     dispatch(sharedActions.closeToast());
   }
 
-  function getToastPosition () {
-    return toast?.state === 'visible' ? '0' : '-32rem';
-  }
-
   return (
     <div
       className='fixed top-16 mx-auto left-0 right-0 flex flex-row justify-center items-center transition-transform duration-300 pointer-events-none drop-shadow'
-      style={{ transform: `translateY(${getToastPosition()})` }}
+      style={{ transform: `translateY(${toast.position})` }}
     >
       <div className="bg-red-custom max-w-fit text-white py-1 px-3 rounded flex flex-row items-center space-x-3 pointer-events-auto">
         <span>{toast?.message}</span>

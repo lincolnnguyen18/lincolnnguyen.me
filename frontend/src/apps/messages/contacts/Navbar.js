@@ -21,7 +21,8 @@ export function Navbar () {
     dispatch(messagesActions.setSlice({ navbarMode, navbarTextInputValue: '' }));
   }
 
-  async function onAddContact () {
+  async function onAddContact (e) {
+    e.preventDefault();
     if (!navbarTextInputValue) return;
     const { payload: errors } = await dispatch(addConnection({ email: navbarTextInputValue }));
     console.log('errors', errors);

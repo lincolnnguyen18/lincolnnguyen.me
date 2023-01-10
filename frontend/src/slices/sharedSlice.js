@@ -8,10 +8,18 @@ const initialState = {
   loggedIn: null,
   sessionToken: null,
   toast: {
-    position: '32',
+    state: 'closed',
+    position: '-32rem',
     message: '',
   },
-  sidebarPosition: '100',
+  sidebar: {
+    position: '100',
+    state: 'closed',
+  },
+  navbar: {
+    position: '0',
+    state: 'open',
+  },
   cardMenu: {
     state: 'hidden',
     items: [],
@@ -67,21 +75,20 @@ const sharedSlice = createSlice({
     },
     openToast: (state, action) => {
       const { message } = action.payload;
-      const toast = { state: 'visible', message };
+      const toast = { state: 'open', message, position: '0' };
       return { ...state, toast };
     },
     closeToast: (state) => {
-      const toast = { ...state.toast };
-      toast.state = 'hidden';
+      const toast = { ...state.toast, state: 'closed', position: '-32rem' };
       return { ...state, toast };
     },
     openSidebar: (state) => {
-      const sidebarPosition = '0';
-      return { ...state, sidebarPosition };
+      const sidebar = { state: 'open', position: '0' };
+      return { ...state, sidebar };
     },
     closeSidebar: (state) => {
-      const sidebarPosition = '100';
-      return { ...state, sidebarPosition };
+      const sidebar = { state: 'closed', position: '100' };
+      return { ...state, sidebar };
     },
   },
   extraReducers: (builder) => {

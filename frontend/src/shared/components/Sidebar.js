@@ -11,7 +11,7 @@ export function closeSidebar (dispatch) {
 export function Sidebar ({ items }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { sidebarPosition, loggedIn, userData, history } = useSelector(sharedSelector);
+  const { sidebar, loggedIn, userData, history } = useSelector(sharedSelector);
 
   function onAccountClick () {
     navigate('/account');
@@ -53,13 +53,13 @@ export function Sidebar ({ items }) {
 
   return (
     <>
-      {sidebarPosition === '0' && (
+      {sidebar.state === 'open' && (
         <div
           className='w-full h-screen fixed top-0 bg-black opacity-50 cursor-pointer z-10'
           onMouseDown={() => closeSidebar(dispatch)}
         />
       )}
-      <div className='bg-white fixed top-0 bottom-0 w-48 transition-transform duration-300 justify-between flex flex-col z-10 rounded-br-xl overflow-y-scroll' style={{ transform: `translateX(-${sidebarPosition}%)` }}>
+      <div className='bg-white fixed top-0 bottom-0 w-48 transition-transform duration-300 justify-between flex flex-col z-10 rounded-br-xl overflow-y-scroll' style={{ transform: `translateX(-${sidebar.position}%)` }}>
         <div>
           <span className={`${getNavColor(location, history)} flex items-center px-3 space-x-2 font-semibold text-white h-11 mb-2`}>{getCurrentScreen(history).label}</span>
           {items.map((item, index) => (
