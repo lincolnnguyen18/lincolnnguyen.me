@@ -59,7 +59,7 @@ export function App () {
 
   return loggedIn !== null && (
     <>
-      <div className={`${getNavColor(location, history)} h-11 w-screen fixed top-0 z-10`} />
+      <div className={`${getNavColor(location, history)} h-11 w-screen fixed top-0`} />
       {/*<div*/}
       {/*  className={`${getNavColor(location, history)} h-11 w-screen fixed top-0 z-10 transition-transform duration-300`}*/}
       {/*  style={{ transform: `translateY(-${navbar.position}%)` }}*/}

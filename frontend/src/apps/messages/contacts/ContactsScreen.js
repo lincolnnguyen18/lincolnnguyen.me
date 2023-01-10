@@ -50,8 +50,8 @@ export function ContactsScreen () {
     );
   } else if (contacts) {
     content = (
-      <div className="h-screen w-screen overflow-x-hidden flex flex-col space-y-4 max-w-screen-sm mx-auto">
-        <div className="flex flex-col space-y-3 overflow-y-scroll fixed top-11 bottom-0 w-full max-w-screen-sm py-2">
+      <div className="space-y-4 fixed overflow-y-scroll left-0 right-0 top-11 bottom-0">
+        <div className="flex flex-col space-y-3 w-full max-w-screen-sm py-2 mx-auto">
           {contacts.map((contact, index) => (
             <Link
               to={`/messages/contacts/${contact.id}`}

@@ -42,19 +42,21 @@ export function TranscriptionScreen () {
   return loggedIn && (
     <div className='max-w-screen-sm mx-auto relative'>
       <Navbar />
-      <div
-        className='flex flex-col space-y-3 overflow-y-scroll fixed top-11 w-full max-w-screen-sm transition-all duration-300'
-        onScroll={onScroll}
-        style={{ bottom: bottomBar.state === 'open' ? '2.75rem' : '0' }}
-      >
-        {transcriptions.map((transcription, index) => (
-          <div
-            key={index}
-            className='flex flex-col space-y-2 px-4 py-2 items-center'
-          >
-            {transcription}
-          </div>
-        ))}
+      <div className="space-y-4 fixed overflow-y-scroll left-0 right-0 top-11 sm:bottom-0 sm:pb-11 bottom-11">
+        <div
+          className='flex flex-col space-y-3 top-11 w-full mx-auto max-w-screen-sm transition-all duration-300 left-0 right-0'
+          onScroll={onScroll}
+          style={{ bottom: bottomBar.state === 'open' ? '2.75rem' : '0' }}
+        >
+          {transcriptions.map((transcription, index) => (
+            <div
+              key={index}
+              className='flex flex-col space-y-2 px-4 py-2 items-center'
+            >
+              {transcription}
+            </div>
+          ))}
+        </div>
       </div>
       <div
         className="bg-purple-custom fixed bottom-0 w-full max-w-screen-sm sm:rounded-t-lg text-white flex items-center h-11 px-3 justify-between transition-all duration-300"

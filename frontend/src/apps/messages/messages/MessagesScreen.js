@@ -33,15 +33,17 @@ export function MessagesScreen () {
     );
   } else {
     content = (
-      <div className="flex flex-col space-y-3 overflow-y-scroll fixed top-[6.75rem] bottom-0 w-full max-w-screen-sm pt-2">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className="flex flex-col space-y-2 px-4 py-2"
-          >
-            {message}
-          </div>
-        ))}
+      <div className="space-y-4 fixed overflow-y-scroll left-0 right-0 bottom-0 top-[6.75rem] sm:top-11 sm:pt-16">
+        <div className="flex flex-col space-y-3 w-full max-w-screen-sm mx-auto">
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className="flex flex-col space-y-2 px-4 py-2"
+            >
+              {message}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -63,7 +65,7 @@ export function MessagesScreen () {
     <div className='max-w-screen-sm mx-auto relative'>
       <Navbar />
       {selectedContact && (
-        <div className="fixed top-11 w-full max-w-screen-sm p-2 border-b border-gray-200 flex justify-between items-center bg-white h-16">
+        <div className="fixed top-11 w-full max-w-screen-sm p-2 border-b border-gray-200 flex justify-between items-center bg-white h-16 z-10">
           <div>
             <p className="text-sm sm:text-base">{selectedContact.givenName} {selectedContact.familyName}</p>
             <p className="text-gray-500 text-sm sm:text-base">{selectedContact.email}</p>
