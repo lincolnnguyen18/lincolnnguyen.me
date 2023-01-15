@@ -53,6 +53,14 @@ export function App () {
     }
   }, [location.pathname]);
 
+  React.useEffect(() => {
+    function handleResize () {
+      dispatch(sharedActions.setSlice({ screenWidth: window.innerWidth }));
+    }
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // React.useEffect(() => {
   //   console.log('history', history);
   // }, [history]);

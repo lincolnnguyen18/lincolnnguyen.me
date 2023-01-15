@@ -20,4 +20,17 @@ function formatUnixTimestamp (unix) {
   }
 }
 
-export { formatUnixTimestamp };
+function formatFloatToTime (float) {
+  // if < 1 hr, return x:xx
+  // if >= 1 hr, return x:xx:xx
+  const hours = Math.floor(float / 3600);
+  const minutes = Math.floor((float % 3600) / 60);
+  const seconds = Math.floor(float % 60);
+  if (hours === 0) {
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  } else {
+    return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }
+}
+
+export { formatUnixTimestamp, formatFloatToTime };

@@ -8,7 +8,11 @@ html, body, #root {
     background: white;
 }
 
-/*body, #root {*/
-/*    !*overflow: hidden;*!*/
-/*    background-color: white;*/
-/*}*/
+/* make thumb of range sliders with white class white */
+input[type=range].white::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    background-color: white;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+}

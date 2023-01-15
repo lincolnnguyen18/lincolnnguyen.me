@@ -1,11 +1,16 @@
 import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import _ from 'lodash';
 
 const initialState = {
-  bottomBar: {
-    // recording, replay
-    mode: 'recording',
-    state: 'open',
-  },
+  // recording, replay
+  bottomBarMode: 'recording',
+  duration: 0,
+  currentTime: 0,
+  player: null,
+  playing: false,
+  recording: false,
+  recorder: null,
+  transcriptionResults: [],
   statuses: {},
 };
 
@@ -15,6 +20,9 @@ const transcribeSlice = createSlice({
   reducers: {
     setSlice: (state, action) => {
       return { ...state, ...action.payload };
+    },
+    updateSlice: (state, action) => {
+      return _.merge(state, action.payload);
     },
     clearStatus: (state, action) => {
       const statuses = { ...state.statuses };
@@ -29,6 +37,7 @@ const transcribeSlice = createSlice({
       const bottomBar = { state: 'closed', position: '100' };
       return { ...state, bottomBar };
     },
+    resetSlice: () => initialState,
   },
   extraReducers: (builder) => {
     builder

@@ -25,6 +25,7 @@ const initialState = {
     items: [],
   },
   history: [],
+  screenWidth: window.innerWidth,
 };
 
 const getSessionToken = createAsyncThunk('shared/getSessionToken', async ({ googleToken }) => {
