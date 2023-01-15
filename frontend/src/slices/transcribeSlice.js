@@ -2,6 +2,7 @@ import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolki
 import _ from 'lodash';
 
 const initialState = {
+  // transcription screen
   // recording, replay
   bottomBarMode: 'recording',
   duration: 0,
@@ -10,8 +11,12 @@ const initialState = {
   playing: false,
   recording: false,
   recorder: null,
+  transcriber: null,
   transcriptionResults: [],
   statuses: {},
+
+  // transcriptions screen
+  transcriptions: [],
 };
 
 const transcribeSlice = createSlice({

@@ -2,21 +2,22 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { sharedSelector } from '../../../slices/sharedSlice';
 import { Spinner } from '../../../shared/components/Spinner';
-import { twConfig } from '../../../shared/clients';
+import { colors } from '../../../shared/clients';
 import { Link } from 'react-router-dom';
 import { formatUnixTimestamp } from '../../../shared/utils/stringUtils';
 import { Sidebar } from '../../../shared/components/Sidebar';
 import { Navbar } from './Navbar';
+import { transcribeSelector } from '../../../slices/transcribeSlice';
 
 export function TranscriptionsScreen () {
   const { loggedIn } = useSelector(sharedSelector);
-  const transcriptions = [];
+  const { transcriptions } = useSelector(transcribeSelector);
 
   let content;
   if (!transcriptions) {
     content = (
       <div className="w-full flex justify-center mt-16">
-        <Spinner color={twConfig.theme.colors.red.custom} />
+        <Spinner color={colors.red.custom} />
       </div>
     );
   } else if (transcriptions?.length === 0) {

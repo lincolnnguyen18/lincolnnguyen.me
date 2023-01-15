@@ -6,6 +6,8 @@ import { Sidebar } from '../../../shared/components/Sidebar';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
 import { Recorder } from '../../../shared/utils/recorder';
 import { BottomBar } from './BottomBar';
+import { Transcriber } from '../../../shared/utils/transcriber';
+import { screenSizes } from '../../../shared/clients';
 
 export function TranscriptionScreen () {
   const dispatch = useDispatch();
@@ -17,7 +19,7 @@ export function TranscriptionScreen () {
 
   function onDurationChange (player) {
     const duration = player.duration;
-    console.log('duration', duration);
+    // console.log('duration', duration);
 
     if (duration === Infinity) {
       player.currentTime = 24 * 60 * 60;
@@ -37,6 +39,14 @@ export function TranscriptionScreen () {
     dispatch(transcribeActions.setSlice({ playing: false }));
   }
 
+  function onFinalResult (result) {
+    console.log('final result', result);
+  }
+
+  function onInterimResult (result) {
+    console.log('interim result', result);
+  }
+
   React.useEffect(() => {
     dispatch(transcribeActions.resetSlice());
     // fill messages array with 100 random numbers
@@ -47,7 +57,8 @@ export function TranscriptionScreen () {
     dispatch(transcribeActions.setSlice({ transcriptionResults }));
 
     const recorder = new Recorder({ onDurationChange, onTimeUpdate, onEnded });
-    dispatch(transcribeActions.setSlice({ player: recorder.player, recorder }));
+    const transcriber = new Transcriber({ onFinalResult, onInterimResult });
+    dispatch(transcribeActions.setSlice({ player: recorder.player, recorder, transcriber }));
   }, []);
 
   function onScroll (e) {
@@ -71,7 +82,7 @@ export function TranscriptionScreen () {
 
   React.useEffect(() => {
     if (bottomBarMode === 'replay') {
-      if (screenWidth >= 640) {
+      if (screenWidth >= parseInt(screenSizes.sm)) {
         setScrollboxBottom(0);
         setScrollboxPaddingBottom('6rem');
       } else {
@@ -79,7 +90,7 @@ export function TranscriptionScreen () {
         setScrollboxPaddingBottom(0);
       }
     } else {
-      if (screenWidth >= 640) {
+      if (screenWidth >= parseInt(screenSizes.sm)) {
         setScrollboxBottom(0);
         setScrollboxPaddingBottom('2.75rem');
       } else {

@@ -67,7 +67,7 @@ const messagesResolvers = {
   Messages: {
     contacts: async (_, { limit, lastKey }, { id }) => {
       // console.log('id', id);
-      await wait(400);
+      await wait(200);
       return messagesDao.getContacts(id, { limit, lastKey });
     },
     contact: async (_, { contactId }, { id }) => {

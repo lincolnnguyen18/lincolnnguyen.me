@@ -22,13 +22,13 @@ class Recorder {
     this.mediaRecorder.addEventListener('dataavailable', e => this.onRecordingReady(e));
   }
 
-  startRecording () {
+  start () {
     this.player.src = '';
     this.mediaRecorder.start();
     // console.log('recording started');
   }
 
-  stopRecording () {
+  stop () {
     this.mediaRecorder.stop();
     // console.log('recording stopped');
   }

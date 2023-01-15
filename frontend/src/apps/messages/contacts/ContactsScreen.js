@@ -7,7 +7,7 @@ import { getContacts, messagesActions, messagesSelector } from '../../../slices/
 import { formatUnixTimestamp } from '../../../shared/utils/stringUtils';
 import { Sidebar } from '../../../shared/components/Sidebar';
 import { Spinner } from '../../../shared/components/Spinner';
-import { twConfig } from '../../../shared/clients';
+import { colors } from '../../../shared/clients';
 
 export function ContactsScreen () {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ export function ContactsScreen () {
   if (contacts === null) {
     content = (
       <div className="w-full flex justify-center mt-16">
-        <Spinner color={twConfig.theme.colors.red.custom} />
+        <Spinner color={colors.red.custom} />
       </div>
     );
   } else if (contacts?.length === 0) {

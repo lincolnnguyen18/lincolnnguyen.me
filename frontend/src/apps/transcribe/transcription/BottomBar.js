@@ -5,7 +5,7 @@ import { formatFloatToTime } from '../../../shared/utils/stringUtils';
 
 export function BottomBar () {
   const dispatch = useDispatch();
-  const { bottomBarMode, duration, currentTime, player, playing, recording, recorder } = useSelector(transcribeSelector);
+  const { bottomBarMode, duration, currentTime, player, playing, recording, recorder, transcriber } = useSelector(transcribeSelector);
   const [recordingDuration, setRecordingDuration] = React.useState(0);
 
   function updateCurrentTime (e) {
@@ -31,12 +31,14 @@ export function BottomBar () {
   }
 
   function recordingStart () {
-    recorder.startRecording();
+    recorder.start();
+    transcriber.start();
     dispatch(transcribeActions.setSlice({ recording: true }));
   }
 
   function recordingStop () {
-    recorder.stopRecording();
+    recorder.stop();
+    transcriber.stop();
     dispatch(transcribeActions.setSlice({ recording: false, bottomBarMode: 'replay' }));
   }
 
