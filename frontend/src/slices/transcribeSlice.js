@@ -12,7 +12,10 @@ const initialState = {
   recording: false,
   recorder: null,
   transcriber: null,
+  // [{ timestamp, text }]
   transcriptionResults: [],
+  // transcriptionResults: [{ text: 'Hello', timestamp: 0 }, { text: 'World', timestamp: 1 }],
+  interimResult: '',
   statuses: {},
 
   // transcriptions screen
@@ -41,6 +44,10 @@ const transcribeSlice = createSlice({
     closeBottomBar: (state) => {
       const bottomBar = { state: 'closed', position: '100' };
       return { ...state, bottomBar };
+    },
+    addTranscriptionResult: (state, action) => {
+      const transcriptionResults = [...state.transcriptionResults, action.payload];
+      return { ...state, transcriptionResults };
     },
     resetSlice: () => initialState,
   },

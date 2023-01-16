@@ -8,14 +8,14 @@ import { Recorder } from '../../../shared/utils/recorder';
 import { BottomBar } from './BottomBar';
 import { Transcriber } from '../../../shared/utils/transcriber';
 import { screenSizes } from '../../../shared/clients';
+import { formatFloatToTime } from '../../../shared/utils/stringUtils';
 
 export function TranscriptionScreen () {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   // const { id } = useParams();
   const { loggedIn, screenWidth } = useSelector(sharedSelector);
-  const { bottomBarMode, transcriptionResults } = useSelector(transcribeSelector);
-  const [lastScrollTop, setLastScrollTop] = React.useState(0);
+  const { bottomBarMode, transcriptionResults, interimResult } = useSelector(transcribeSelector);
 
   function onDurationChange (player) {
     const duration = player.duration;
@@ -40,42 +40,22 @@ export function TranscriptionScreen () {
   }
 
   function onFinalResult (result) {
-    console.log('final result', result);
+    // console.log(result);
+    dispatch(transcribeActions.addTranscriptionResult(result));
+    dispatch(transcribeActions.setSlice({ interimResult: '' }));
   }
 
   function onInterimResult (result) {
-    console.log('interim result', result);
+    // console.log(`interim result: "${result}"`);
+    dispatch(transcribeActions.setSlice({ interimResult: result }));
   }
 
   React.useEffect(() => {
     dispatch(transcribeActions.resetSlice());
-    // fill messages array with 100 random numbers
-    const transcriptionResults = [];
-    for (let i = 0; i < 100; i++) {
-      transcriptionResults.push(Math.floor(Math.random() * 20));
-    }
-    dispatch(transcribeActions.setSlice({ transcriptionResults }));
-
     const recorder = new Recorder({ onDurationChange, onTimeUpdate, onEnded });
     const transcriber = new Transcriber({ onFinalResult, onInterimResult });
     dispatch(transcribeActions.setSlice({ player: recorder.player, recorder, transcriber }));
   }, []);
-
-  function onScroll (e) {
-    const scrollTop = e.target.scrollTop;
-    // console.log('scrollTop', scrollTop);
-    const isAtBottom = scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10;
-    const isAtTop = scrollTop <= 10;
-    // console.log('isAtBottom', isAtBottom);
-    if ((scrollTop > lastScrollTop && !isAtTop) || isAtBottom) {
-      // console.log('down');
-      dispatch(transcribeActions.closeBottomBar());
-    } else {
-      // console.log('up');
-      dispatch(transcribeActions.openBottomBar());
-    }
-    setLastScrollTop(e.target.scrollTop);
-  }
 
   const [scrollboxBottom, setScrollboxBottom] = React.useState(0);
   const [scrollboxPaddingBottom, setScrollboxPaddingBottom] = React.useState(0);
@@ -100,6 +80,25 @@ export function TranscriptionScreen () {
     }
   }, [bottomBarMode, screenWidth]);
 
+  function getTimestampWidth (timestamp) {
+    // if x:xx, then 1.5rem
+    // if xx:xx, then 2.5rem
+    // if x:xx:xx, then 2.5rem
+    // if xx:xx:xx, then 3.5rem
+    // else fit to content
+    if (timestamp.length === 4) {
+      return '2.7rem';
+    } else if (timestamp.length === 5) {
+      return '3.2rem';
+    } else if (timestamp.length === 7) {
+      return '3.8rem';
+    } else if (timestamp.length === 8) {
+      return '4.3rem';
+    } else {
+      return 'fit-content';
+    }
+  }
+
   return loggedIn && (
     <div className='max-w-screen-sm mx-auto relative'>
       <Navbar />
@@ -108,18 +107,40 @@ export function TranscriptionScreen () {
         style={{ bottom: scrollboxBottom, paddingBottom: scrollboxPaddingBottom }}
       >
         <div
-          className='flex flex-col space-y-3 top-11 w-full mx-auto max-w-screen-sm transition-all duration-300 left-0 right-0 items-center'
-          onScroll={onScroll}
+          className='flex flex-col top-11 w-full mx-auto max-w-screen-sm transition-all duration-300 left-0 right-0 pt-2'
           style={{ bottom: '2.75rem' }}
         >
-          {transcriptionResults.map((transcription, index) => (
+          {transcriptionResults.map(({ text, timestamp }, index) => {
+            const formattedTimestamp = formatFloatToTime(timestamp);
+
+            return (
+              <div
+                key={index}
+                className='flex flex-row gap-3 space-y-2 px-4 py-2 hover:bg-gray-100 sm:rounded-lg'
+              >
+                <div
+                  className="bg-purple-custom2 text-white h-6 rounded-[0.4rem] flex items-center justify-center text-sm shrink-0"
+                  style={{ width: getTimestampWidth(formattedTimestamp) }}
+                >
+                  {formattedTimestamp}
+                </div>
+                {text}
+              </div>
+            );
+          })}
+          {interimResult && (
             <div
-              key={index}
-              className='flex flex-col space-y-2 px-4 py-2 items-center'
+              className='flex flex-row gap-3 space-y-2 px-4 py-2 hover:bg-gray-100 sm:rounded-lg'
             >
-              {transcription}
+              <div
+                className="bg-purple-custom2 text-white h-6 rounded-[0.4rem] flex items-center justify-center text-sm opacity-0 select-none shrink-0"
+                style={{ width: getTimestampWidth('0:00') }}
+              >
+                0:00
+              </div>
+              {interimResult}
             </div>
-          ))}
+          )}
         </div>
       </div>
       <BottomBar />

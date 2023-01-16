@@ -15,6 +15,7 @@ module.exports = {
         },
         purple: {
           custom: '#7165BB',
+          custom2: '#958EC2',
         },
       },
     },
