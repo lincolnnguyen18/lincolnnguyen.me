@@ -4,6 +4,10 @@ import { AppIcon } from './AppIcon';
 import { Sidebar } from '../../../shared/components/Sidebar';
 
 export function HomeScreen () {
+  React.useEffect(() => {
+    document.title = 'Apps';
+  }, []);
+
   return (
     <div className='max-w-screen-sm mx-auto relative'>
       <Navbar />

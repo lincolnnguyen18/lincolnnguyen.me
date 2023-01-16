@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSessionToken, sharedSelector } from '../../../slices/sharedSlice';
 
 export function LoginScreen () {
+  React.useEffect(() => {
+    document.title = 'Login';
+  }, []);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loggedIn, loggingInTo } = useSelector(sharedSelector);

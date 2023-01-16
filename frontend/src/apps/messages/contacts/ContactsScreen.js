@@ -10,6 +10,10 @@ import { Spinner } from '../../../shared/components/Spinner';
 import { colors } from '../../../shared/clients';
 
 export function ContactsScreen () {
+  React.useEffect(() => {
+    document.title = 'Contacts - Messages';
+  }, []);
+
   const dispatch = useDispatch();
   const { loggedIn } = useSelector(sharedSelector);
   const { contacts } = useSelector(messagesSelector);

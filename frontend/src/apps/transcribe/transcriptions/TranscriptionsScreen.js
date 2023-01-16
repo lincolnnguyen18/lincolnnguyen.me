@@ -10,6 +10,10 @@ import { Navbar } from './Navbar';
 import { transcribeSelector } from '../../../slices/transcribeSlice';
 
 export function TranscriptionsScreen () {
+  React.useEffect(() => {
+    document.title = 'Transcriptions - Transcribe';
+  }, []);
+
   const { loggedIn } = useSelector(sharedSelector);
   const { transcriptions } = useSelector(transcribeSelector);
 

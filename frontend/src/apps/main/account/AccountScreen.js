@@ -7,6 +7,10 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 export function AccountScreen () {
+  React.useEffect(() => {
+    document.title = 'Account';
+  }, []);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

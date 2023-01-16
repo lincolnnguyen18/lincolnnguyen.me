@@ -11,6 +11,10 @@ import { screenSizes } from '../../../shared/clients';
 import { formatFloatToTime } from '../../../shared/utils/stringUtils';
 
 export function TranscriptionScreen () {
+  React.useEffect(() => {
+    document.title = 'Unsaved - Transcribe';
+  }, []);
+
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   // const { id } = useParams();

@@ -8,6 +8,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { actionStatus } from '../../../shared/utils/stateUtils';
 
 export function MessagesScreen () {
+  React.useEffect(() => {
+    document.title = 'Messages';
+  }, []);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -60,6 +64,12 @@ export function MessagesScreen () {
       navigate('/messages/contacts');
     }
   }, [statuses]);
+
+  React.useEffect(() => {
+    if (selectedContact) {
+      document.title = `${selectedContact.givenName} ${selectedContact.familyName} - Messages`;
+    }
+  }, [selectedContact]);
 
   return loggedIn && (
     <div className='max-w-screen-sm mx-auto relative'>

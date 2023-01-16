@@ -12,7 +12,6 @@ import { Toast } from '../components/Toast';
 import { AccountScreen } from '../apps/main/account/AccountScreen';
 import { MessagesScreen } from '../apps/messages/messages/MessagesScreen';
 import { getCurrentScreen, getNavColor, homeScreen, nonHomeScreens } from './utils/stateUtils';
-import { TempScreen1 } from '../apps/testing/TempScreen1';
 import { TranscriptionsScreen } from '../apps/transcribe/transcriptions/TranscriptionsScreen';
 import { TranscriptionScreen } from '../apps/transcribe/transcription/TranscriptionScreen';
 
@@ -81,7 +80,6 @@ export function App () {
           <Route path="/messages/contacts/:id" element={<Protected><MessagesScreen /></Protected>} />
           <Route path="/transcribe/transcriptions" element={<Protected><TranscriptionsScreen /></Protected>} />
           <Route path="/transcribe/transcriptions/:id" element={<Protected><TranscriptionScreen /></Protected>} />
-          <Route path="/testing" element={<TempScreen1 />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
