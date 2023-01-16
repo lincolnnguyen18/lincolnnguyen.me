@@ -25,7 +25,7 @@ export function TranscriptionsScreen () {
       <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col pt-16 space-y-4 px-4 max-w-screen-sm mx-auto">
         <div className="flex flex-col items-center space-y-4 mt-[40%]">
           <span className="icon-article text-6xl text-purple-custom" />
-          <span className="text-center max-w-sm text-sm sm:text-base">
+          <span className="text-center max-w-sm text-sm sm:text-base transition-text duration-100">
             You have no transcriptions. Add a transcription by pressing the plus button at the top right.
           </span>
         </div>
@@ -51,8 +51,8 @@ export function TranscriptionsScreen () {
                   referrerPolicy="no-referrer"
                 />
                 <div className="flex flex-col w-full">
-                  <span className="text-sm sm:text-base">{contact.givenName} {contact.familyName}</span>
-                  <span className="text-sm sm:text-base text-gray-500">{contact.lastMessage?.text || 'Connection established'}</span>
+                  <span className="text-sm sm:text-base transition-text duration-100">{contact.givenName} {contact.familyName}</span>
+                  <span className="text-sm sm:text-base text-gray-500 transition-text duration-100">{contact.lastMessage?.text || 'Connection established'}</span>
                 </div>
                 <span className="text-xs sm:text-sm text-gray-500 min-w-fit">{formatUnixTimestamp(contact.updatedAt)}</span>
               </div>

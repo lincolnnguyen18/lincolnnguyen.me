@@ -95,8 +95,8 @@ export function BottomBar () {
             value={currentTime}
             onChange={updateCurrentTime}
             onInput={updateCurrentTime}
-            max={duration}
-            step={duration / 100}
+            max={Math.round(duration)}
+            step={1}
           />
           <div className="flex items-center gap-1 justify-between">
             <span className="text-sm">{formatFloatToTime(currentTime)}</span>

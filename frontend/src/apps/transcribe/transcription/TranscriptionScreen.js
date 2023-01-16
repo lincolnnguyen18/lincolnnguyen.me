@@ -122,14 +122,27 @@ export function TranscriptionScreen () {
                 currentStyle = 'bg-purple-custom text-white';
                 currentTimestampStyle = 'bg-white text-purple-custom';
               } else {
-                currentStyle = 'hover:bg-gray-100';
+                if (bottomBarMode === 'replay') {
+                  currentStyle = 'hover:bg-gray-100';
+                }
                 currentTimestampStyle = 'bg-purple-custom2 text-white';
+              }
+              let cursorStyle;
+              if (bottomBarMode === 'replay') {
+                cursorStyle = 'cursor-pointer';
+              }
+
+              function onClick () {
+                if (bottomBarMode === 'replay') {
+                  dispatch(transcribeActions.updateCurrentTime(timestamp + 0.1));
+                }
               }
 
               return (
                 <div
                   key={index}
-                  className={'flex flex-row gap-3 space-y-2 p-2 sm:rounded-lg result ' + currentStyle}
+                  className={'flex flex-row gap-3 space-y-2 p-2 sm:rounded-lg result ' + [currentStyle, cursorStyle].join(' ')}
+                  onClick={onClick}
                 >
                   <div
                     className={'h-6 rounded-[0.4rem] flex items-center justify-center text-sm shrink-0 ' + currentTimestampStyle}
@@ -162,7 +175,7 @@ export function TranscriptionScreen () {
         <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col pt-16 space-y-4 px-4 max-w-screen-sm mx-auto">
           <div className="flex flex-col items-center space-y-4 mt-[40%]">
             <span className="icon-article text-6xl text-purple-custom" />
-            <span className="text-center max-w-sm text-sm sm:text-base">
+            <span className="text-center max-w-sm text-sm sm:text-base transition-text duration-100">
               Press the button below to start transcribing.
             </span>
           </div>

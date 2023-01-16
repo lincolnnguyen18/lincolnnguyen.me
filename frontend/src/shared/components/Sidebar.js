@@ -35,8 +35,8 @@ export function Sidebar ({ items }) {
         referrerPolicy="no-referrer"
       />
       <div className="flex flex-col overflow-hidden">
-        <p className="text-xs sm:text-sm truncate">{userData.givenName} {userData.familyName}</p>
-        <p className="text-xs sm:text-sm text-gray-500 truncate">{userData.email}</p>
+        <p className="text-xs sm:text-sm truncate transition-text duration-100">{userData.givenName} {userData.familyName}</p>
+        <p className="text-xs sm:text-sm text-gray-500 truncate transition-text duration-100">{userData.email}</p>
       </div>
     </div>
   );

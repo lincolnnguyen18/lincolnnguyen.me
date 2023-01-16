@@ -15,7 +15,6 @@ const initialState = {
   transcriber: null,
   // [{ timestamp, text }]
   transcriptionResults: [],
-  // transcriptionResults: [{ text: 'Hello', timestamp: 0 }, { text: 'World', timestamp: 1 }],
   interimResult: '',
   statuses: {},
 
