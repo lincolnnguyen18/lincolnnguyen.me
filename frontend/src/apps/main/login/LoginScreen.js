@@ -31,7 +31,7 @@ export function LoginScreen () {
     }
   }, [loggedIn]);
 
-  return (
+  return loggedIn === false && (
     <div className="h-screen w-screen bg-green-custom text-white flex flex-col items-center justify-center w-full space-y-4 z-20">
       <GoogleLogin
         onSuccess={onSuccess}
