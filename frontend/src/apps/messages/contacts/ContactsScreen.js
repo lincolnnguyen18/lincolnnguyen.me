@@ -68,9 +68,9 @@ export function ContactsScreen () {
                   alt="avatar"
                   referrerPolicy="no-referrer"
                 />
-                <div className="flex flex-col w-full">
-                  <span className="text-sm sm:text-base transition-text duration-100">{contact.givenName} {contact.familyName}</span>
-                  <span className="text-sm sm:text-base text-gray-500 transition-text duration-100">{contact.lastMessage?.text || 'Connection established'}</span>
+                <div className="flex flex-col w-full overflow-hidden">
+                  <span className="text-sm sm:text-base transition-text duration-100 truncate">{contact.givenName} {contact.familyName}</span>
+                  <span className="text-sm sm:text-base text-gray-500 transition-text duration-100 truncate">{contact.lastMessage?.text || 'Connection established'}</span>
                 </div>
                 <span className="text-xs sm:text-sm text-gray-500 min-w-fit transition-text duration-100">{formatUnixTimestamp(contact.updatedAt)}</span>
               </div>
