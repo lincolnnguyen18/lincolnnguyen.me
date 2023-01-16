@@ -70,16 +70,14 @@ class MessagesDao {
       ExclusiveStartKey: lastKey ?? undefined,
     };
     const res = await dynamoDBClient.send(new QueryCommand(params));
-    const contacts = res.Items;
-    let users = await Promise.all(contacts.map(contact => this.sharedDao.getUserById(contact.contactId)));
-    // overwrite user.updatedAt (user's lastLogin) to messages.updatedAt (messages's last message)
-    users = users.map(user => {
-      const contact = contacts.find(contact => contact.contactId === user.id);
-      user.updatedAt = contact.updatedAt;
-      return user;
+    const contactMetadatas = res.Items;
+    const contacts = await Promise.all(contactMetadatas.map(contactMetadata => this.sharedDao.getUserById(contactMetadata.contactId)));
+    contacts.forEach((contact, i) => {
+      contact.updatedAt = contactMetadatas[i].updatedAt;
+      contact.createdAt = contactMetadatas[i].createdAt;
     });
     return {
-      contacts: users,
+      contacts,
       lastKey: res.LastEvaluatedKey,
     };
   }

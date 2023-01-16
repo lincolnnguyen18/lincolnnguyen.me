@@ -16,6 +16,7 @@ const messagesTypeDefs = `
       familyName: String
       givenName: String
       updatedAt: Float
+      createdAt: Float
       messages(limit: Int = 30, nextToken: String): PaginatedMessages
       lastMessage: Message
       call(callId: String): Call
