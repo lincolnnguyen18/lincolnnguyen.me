@@ -9,8 +9,8 @@ const initialState = {
   sessionToken: null,
   toast: {
     state: 'closed',
-    position: '-32rem',
-    message: '',
+    position: '-100%',
+    message: 'Test',
   },
   sidebar: {
     position: '100',
@@ -76,11 +76,11 @@ const sharedSlice = createSlice({
     },
     openToast: (state, action) => {
       const { message } = action.payload;
-      const toast = { state: 'open', message, position: '0' };
+      const toast = { state: 'open', message, position: '4rem' };
       return { ...state, toast };
     },
     closeToast: (state) => {
-      const toast = { ...state.toast, state: 'closed', position: '-32rem' };
+      const toast = { ...state.toast, state: 'closed', position: '-100%' };
       return { ...state, toast };
     },
     openSidebar: (state) => {
