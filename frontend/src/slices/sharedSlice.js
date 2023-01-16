@@ -26,6 +26,11 @@ const initialState = {
   },
   history: [],
   screenWidth: window.innerWidth,
+  scrollboxTwStyle: null,
+  scrollboxStyle: null,
+  scrollboxHeight: null,
+  scrollboxTop: '2.75rem',
+  scrollboxBottom: '0',
 };
 
 const getSessionToken = createAsyncThunk('shared/getSessionToken', async ({ googleToken }) => {

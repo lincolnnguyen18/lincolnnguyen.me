@@ -32,12 +32,12 @@ const messagesTypeDefs = `
   }
   
   type PaginatedMessages {
-      messages: [Message]
+      paginatedItems: [Message]
       nextToken: String
   }
   
   type PaginatedContacts {
-      contacts: [Contact]
+      paginatedItems: [Contact]
       nextToken: String
   }
   
@@ -82,8 +82,7 @@ const messagesResolvers = {
     },
     lastMessage: async ({ id: contactId }, _, { id }) => {
       const res = await messagesDao.getMessages(id, contactId, { limit: 1 });
-      // console.log('res', res);
-      return res.messages[0];
+      return res.messages?.[0];
     },
   },
   Mutation: {

@@ -27,7 +27,7 @@ class Transcriber {
     });
     this.duration = 0;
     this.transcribing = false;
-    this.restarting = false;
+    this.restarting = true;
   }
 
   start () {
@@ -35,7 +35,7 @@ class Transcriber {
     this.timer = setInterval(() => {
       this.duration += 0.1;
 
-      if (this.duration - this.lastResultTime > 3000 && !this.restarting) {
+      if (this.duration - this.lastResultTime > 1 && !this.restarting) {
         // console.log('timeDifference > 3000');
         this.restarting = true;
         this.recognition.stop();
@@ -86,10 +86,12 @@ class Transcriber {
       this.lastInterimResult = interimTranscript;
       interimTranscript = capitalize(interimTranscript.trim());
       this.onInterimResult(interimTranscript);
+      this.restarting = false;
     }
     if (finalTranscript) {
       this.onFinalResult({ text: capitalize(finalTranscript.trim()), timestamp: this.finalResultTime });
       this.finalResultTime = this.duration;
+      this.restarting = true;
     }
     this.lastResultTime = this.duration;
   }

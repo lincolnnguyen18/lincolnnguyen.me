@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sharedSelector } from '../../../slices/sharedSlice';
+import { sharedActions, sharedSelector } from '../../../slices/sharedSlice';
 import { Navbar } from './Navbar';
 import { Link } from 'react-router-dom';
 import { getContacts, messagesActions, messagesSelector } from '../../../slices/messagesSlice';
@@ -8,6 +8,7 @@ import { formatUnixTimestamp } from '../../../shared/utils/stringUtils';
 import { Sidebar } from '../../../shared/components/Sidebar';
 import { Spinner } from '../../../shared/components/Spinner';
 import { colors } from '../../../shared/clients';
+import { ScrollBox } from '../../../components/ScrollBox';
 
 export function ContactsScreen () {
   React.useEffect(() => {
@@ -23,7 +24,12 @@ export function ContactsScreen () {
       navbarMode: 'default',
       navbarTextInputValue: '',
     }));
+    dispatch(sharedActions.setSlice({
+      scrollboxTop: '2.75rem',
+      scrollboxBottom: '0',
+    }));
     if (!contacts) {
+      // dispatch(messagesActions.setSlice({ contacts: [] }));
       dispatch(getContacts());
     }
   }, []);
@@ -54,8 +60,8 @@ export function ContactsScreen () {
     );
   } else if (contacts) {
     content = (
-      <div className="space-y-4 fixed overflow-y-scroll left-0 right-0 top-11 bottom-0">
-        <div className="flex flex-col space-y-3 w-full max-w-screen-sm py-2 mx-auto">
+      <ScrollBox>
+        <div className="flex flex-col gap-3 max-w-screen-sm mx-auto w-full py-2">
           {contacts.map((contact, index) => (
             <Link
               to={`/messages/contacts/${contact.id}`}
@@ -63,7 +69,7 @@ export function ContactsScreen () {
               onClick={() => onContactClick(contact)}
             >
               <div
-                className="flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 cursor-pointer rounded-xl mx-2"
+                className="flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 cursor-pointer sm:rounded-xl sm:mx-2"
                 key={index}
               >
                 <img
@@ -81,12 +87,12 @@ export function ContactsScreen () {
             </Link>
           ))}
         </div>
-      </div>
+      </ScrollBox>
     );
   }
 
   return loggedIn && (
-    <div className='max-w-screen-sm mx-auto relative'>
+    <div className='relative h-full w-full'>
       <Navbar />
       {content}
       <Sidebar items={[

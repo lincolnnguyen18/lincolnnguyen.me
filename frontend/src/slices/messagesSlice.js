@@ -17,7 +17,7 @@ const getContacts = createAsyncThunk('messages/getContacts', async () => {
       query Contact {
           messages {
               contacts {
-                  contacts {
+                  paginatedItems {
                       id
                       picture
                       email
@@ -51,7 +51,7 @@ const getContact = createAsyncThunk('messages/getContact', async ({ id }) => {
                   givenName
                   updatedAt
                   messages {
-                      messages {
+                      paginatedItems {
                           text
                           createdAt
                           direction
@@ -94,12 +94,13 @@ const messagesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getContacts.fulfilled, (state, action) => {
-        const { contacts } = action.payload.messages.contacts;
-        // console.log('contacts', contacts);
+        // console.log(action.payload);
+        const { paginatedItems } = action.payload.messages.contacts;
+        // console.log('contacts', paginatedItems);
 
         const duplicateContacts = [];
         for (let i = 0; i < 30; i++) {
-          duplicateContacts.push(...contacts);
+          duplicateContacts.push(...paginatedItems);
         }
         return { ...state, contacts: duplicateContacts };
 

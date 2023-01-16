@@ -33,7 +33,7 @@ export function Navbar () {
 
   if (navbarMode === 'default') {
     return (
-      <nav className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0 z-10">
+      <nav className='text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0 transform -translate-x-1/2 left-1/2 z-10 bg-red-custom'>
         <span
           className="icon-menu text-2xl ml-2 cursor-pointer"
           onClick={() => dispatch(sharedActions.openSidebar())}
@@ -54,7 +54,7 @@ export function Navbar () {
   } else if (navbarMode === 'add-contact') {
     return (
       <form
-        className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between fixed top-0 z-10"
+        className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between fixed top-0 transform -translate-x-1/2 left-1/2 z-10 bg-red-custom"
         onSubmit={onAddContact}
         ref={formRef}
       >

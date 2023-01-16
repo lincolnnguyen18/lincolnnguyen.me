@@ -7,7 +7,7 @@ export function Navbar () {
   const dispatch = useDispatch();
 
   return (
-    <nav className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center fixed top-0 z-10">
+    <nav className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center fixed top-0 transform -translate-x-1/2 left-1/2 z-10 bg-red-custom">
       <Link
         className="flex items-center space-x-2 cursor-pointer"
         onClick={() => dispatch(sharedActions.popHistory())}

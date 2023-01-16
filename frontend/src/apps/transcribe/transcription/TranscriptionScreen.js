@@ -66,7 +66,7 @@ export function TranscriptionScreen () {
 
   React.useEffect(() => {
     if (bottomBarMode === 'replay') {
-      if (screenWidth >= parseInt(screenSizes.sm)) {
+      if (screenWidth >= screenSizes.sm) {
         setScrollboxBottom(0);
         setScrollboxPaddingBottom('6rem');
       } else {
@@ -74,7 +74,7 @@ export function TranscriptionScreen () {
         setScrollboxPaddingBottom(0);
       }
     } else {
-      if (screenWidth >= parseInt(screenSizes.sm)) {
+      if (screenWidth >= screenSizes.sm) {
         setScrollboxBottom(0);
         setScrollboxPaddingBottom('2.75rem');
       } else {
@@ -145,11 +145,11 @@ export function TranscriptionScreen () {
               return (
                 <div
                   key={index}
-                  className={'flex flex-row gap-3 space-y-2 p-2 sm:rounded-lg result ' + [currentStyle, cursorStyle].join(' ')}
+                  className={'flex flex-row gap-3 space-y-2 p-2 sm:rounded-lg transition-all duration-100 result ' + [currentStyle, cursorStyle].join(' ')}
                   onClick={onClick}
                 >
                   <div
-                    className={'h-6 rounded-[0.4rem] flex items-center justify-center text-sm shrink-0 ' + currentTimestampStyle}
+                    className={'h-6 rounded-[0.4rem] flex items-center justify-center text-sm shrink-0 transition-all duration-100 ' + currentTimestampStyle}
                     style={{ width: getTimestampWidth(formattedTimestamp) }}
                   >
                     {formattedTimestamp}
@@ -180,7 +180,7 @@ export function TranscriptionScreen () {
           <div className="flex flex-col items-center space-y-4 mt-[40%]">
             <span className="icon-article text-6xl text-purple-custom" />
             <span className="text-center max-w-sm text-sm sm:text-base transition-text duration-100">
-              Press the button below to start transcribing.
+              Press the start button below to start transcribing.
             </span>
           </div>
         </div>

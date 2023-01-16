@@ -1,5 +1,4 @@
 import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
-import _ from 'lodash';
 
 const initialState = {
   // transcription screen
@@ -28,9 +27,6 @@ const transcribeSlice = createSlice({
   reducers: {
     setSlice: (state, action) => {
       return { ...state, ...action.payload };
-    },
-    updateSlice: (state, action) => {
-      return _.merge(state, action.payload);
     },
     clearStatus: (state, action) => {
       const statuses = { ...state.statuses };

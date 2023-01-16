@@ -76,8 +76,9 @@ class MessagesDao {
       contact.updatedAt = contactMetadatas[i].updatedAt;
       contact.createdAt = contactMetadatas[i].createdAt;
     });
+    // console.log('contacts', contacts);
     return {
-      contacts,
+      paginatedItems: contacts,
       lastKey: res.LastEvaluatedKey,
     };
   }
@@ -174,7 +175,7 @@ class MessagesDao {
     };
     const res = await dynamoDBClient.send(new QueryCommand(params));
     return {
-      messages: res.Items,
+      paginatedItems: res.Items,
       lastKey: res.LastEvaluatedKey,
     };
   }
