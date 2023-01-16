@@ -11,7 +11,7 @@ export function Navbar () {
         <span className="icon-back text-2xl ml-2" />
         <span>Back</span>
       </Link>
-      <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Untitled</span>
+      <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Unsaved</span>
       <span className="icon-more-horiz text-2xl cursor-pointer" />
     </nav>
   );

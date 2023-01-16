@@ -12,6 +12,7 @@ class Transcriber {
     this.onInterimResult = onInterimResult;
     this.lastInterimResult = '';
     this.lastResultTime = 0;
+    this.finalResultTime = 0;
     this.recognition.addEventListener('result', (e) => this.onResult(e));
     this.recognition.addEventListener('error', () => {
       // console.log('error', e);
@@ -87,7 +88,8 @@ class Transcriber {
       this.onInterimResult(interimTranscript);
     }
     if (finalTranscript) {
-      this.onFinalResult({ text: capitalize(finalTranscript.trim()), timestamp: this.duration });
+      this.onFinalResult({ text: capitalize(finalTranscript.trim()), timestamp: this.finalResultTime });
+      this.finalResultTime = this.duration;
     }
     this.lastResultTime = this.duration;
   }

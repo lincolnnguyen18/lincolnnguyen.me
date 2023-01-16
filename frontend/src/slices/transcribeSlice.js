@@ -5,6 +5,7 @@ const initialState = {
   // transcription screen
   // recording, replay
   bottomBarMode: 'recording',
+  bottomBarPosition: '0',
   duration: 0,
   currentTime: 0,
   player: null,
@@ -38,16 +39,19 @@ const transcribeSlice = createSlice({
       return { ...state, statuses };
     },
     openBottomBar: (state) => {
-      const bottomBar = { state: 'open', position: '0' };
-      return { ...state, bottomBar };
+      return { ...state, bottomBarPosition: '0' };
     },
     closeBottomBar: (state) => {
-      const bottomBar = { state: 'closed', position: '100' };
-      return { ...state, bottomBar };
+      return { ...state, bottomBarPosition: '-100%' };
     },
     addTranscriptionResult: (state, action) => {
       const transcriptionResults = [...state.transcriptionResults, action.payload];
       return { ...state, transcriptionResults };
+    },
+    updateCurrentTime: (state, action) => {
+      const currentTime = action.payload;
+      state.player.currentTime = currentTime;
+      return { ...state, currentTime };
     },
     resetSlice: () => initialState,
   },

@@ -5,12 +5,11 @@ import { formatFloatToTime } from '../../../shared/utils/stringUtils';
 
 export function BottomBar () {
   const dispatch = useDispatch();
-  const { bottomBarMode, duration, currentTime, player, playing, recording, recorder, transcriber } = useSelector(transcribeSelector);
+  const { bottomBarMode, bottomBarPosition, duration, currentTime, player, playing, recording, recorder, transcriber } = useSelector(transcribeSelector);
   const [recordingDuration, setRecordingDuration] = React.useState(0);
 
   function updateCurrentTime (e) {
-    dispatch(transcribeActions.setSlice({ currentTime: e.target.value }));
-    player.currentTime = e.target.value;
+    dispatch(transcribeActions.updateCurrentTime(e.target.value));
   }
 
   function playerPlay () {
@@ -70,8 +69,8 @@ export function BottomBar () {
   if (bottomBarMode === 'recording') {
     return (
       <div
-        className="bg-purple-custom fixed bottom-0 w-full max-w-screen-sm sm:rounded-t-lg text-white flex items-center h-11 px-3 justify-end transition-all duration-300"
-        style={{ bottom: '0' }}
+        className="bg-purple-custom fixed w-full max-w-screen-sm sm:rounded-t-lg text-white flex items-center h-11 px-3 justify-end"
+        style={{ bottom: bottomBarPosition, transition: 'all 0.3s ease-in-out, bottom 1s ease-in-out' }}
       >
         <div className="flex items-center gap-1 select-none cursor-pointer absolute transform -translate-x-1/2 left-1/2">
           <span className="icon-mic text-2xl" />
@@ -83,24 +82,25 @@ export function BottomBar () {
   } else {
     return (
       <div
-        className="bg-purple-custom fixed bottom-0 w-full max-w-screen-sm sm:rounded-t-lg text-white flex flex-col h-24 px-4 transition-all duration-300 space-y-2 justify-center"
-        style={{ bottom: '0' }}
-        // style={{ bottom: bottomBar.state === 'open' ? '0' : '-2.75rem' }}
+        className="bg-purple-custom bottom-0 fixed w-full max-w-screen-sm sm:rounded-t-lg text-white flex flex-col h-24 px-4 transition-all duration-300 space-y-2 justify-center"
       >
-        <div className="h-16 flex flex-col justify-between">
+        <div
+          className="h-16 sm:h-14 flex flex-col justify-between"
+          style={{ transition: 'height 0.3s ease-in-out' }}
+        >
           <input
             type="range"
             min="0"
-            className="appearance-none w-full h-1 bg-white rounded-full cursor-pointer white"
+            className="appearance-none w-full h-1 bg-white rounded-full white cursor-pointer"
             value={currentTime}
             onChange={updateCurrentTime}
             onInput={updateCurrentTime}
             max={duration}
             step={duration / 100}
           />
-          <div className="flex items-center gap-1 select-none justify-between cursor-pointer">
+          <div className="flex items-center gap-1 justify-between">
             <span className="text-sm">{formatFloatToTime(currentTime)}</span>
-            <div className="flex items-center gap-7 select-none transition-all duration-300 absolute transform -translate-x-1/2 left-1/2">
+            <div className="flex items-center gap-7 transition-all duration-300 absolute transform -translate-x-1/2 left-1/2">
               <span className="icon-skip-prev text-2xl cursor-pointer" />
               {playPauseButton}
               <span className="icon-skip-next text-2xl cursor-pointer" />

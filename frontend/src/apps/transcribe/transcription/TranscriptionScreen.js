@@ -15,7 +15,7 @@ export function TranscriptionScreen () {
   // const navigate = useNavigate();
   // const { id } = useParams();
   const { loggedIn, screenWidth } = useSelector(sharedSelector);
-  const { bottomBarMode, transcriptionResults, interimResult } = useSelector(transcribeSelector);
+  const { bottomBarMode, transcriptionResults, interimResult, currentTime } = useSelector(transcribeSelector);
 
   function onDurationChange (player) {
     const duration = player.duration;
@@ -81,11 +81,6 @@ export function TranscriptionScreen () {
   }, [bottomBarMode, screenWidth]);
 
   function getTimestampWidth (timestamp) {
-    // if x:xx, then 1.5rem
-    // if xx:xx, then 2.5rem
-    // if x:xx:xx, then 2.5rem
-    // if xx:xx:xx, then 3.5rem
-    // else fit to content
     if (timestamp.length === 4) {
       return '2.7rem';
     } else if (timestamp.length === 5) {
@@ -99,50 +94,87 @@ export function TranscriptionScreen () {
     }
   }
 
+  function isCurrentResult (timestamp, nextTimestamp) {
+    return bottomBarMode === 'replay' &&
+      currentTime >= timestamp &&
+      (currentTime < nextTimestamp || !nextTimestamp);
+  }
+
+  let content;
+  if (loggedIn) {
+    if (transcriptionResults.length > 0 || interimResult) {
+      content = (
+        <div
+          className="space-y-4 fixed overflow-y-scroll left-0 right-0 top-11"
+          style={{ bottom: scrollboxBottom, paddingBottom: scrollboxPaddingBottom }}
+        >
+          <div
+            className='flex flex-col top-11 w-full mx-auto max-w-screen-sm left-0 right-0 pt-2'
+            style={{ bottom: '2.75rem' }}
+          >
+            {transcriptionResults.map(({ text, timestamp }, index) => {
+              const formattedTimestamp = formatFloatToTime(timestamp);
+              const isCurrent = isCurrentResult(timestamp, transcriptionResults[index + 1]?.timestamp);
+
+              let currentStyle;
+              let currentTimestampStyle;
+              if (isCurrent) {
+                currentStyle = 'bg-purple-custom text-white';
+                currentTimestampStyle = 'bg-white text-purple-custom';
+              } else {
+                currentStyle = 'hover:bg-gray-100';
+                currentTimestampStyle = 'bg-purple-custom2 text-white';
+              }
+
+              return (
+                <div
+                  key={index}
+                  className={'flex flex-row gap-3 space-y-2 p-2 sm:rounded-lg result ' + currentStyle}
+                >
+                  <div
+                    className={'h-6 rounded-[0.4rem] flex items-center justify-center text-sm shrink-0 ' + currentTimestampStyle}
+                    style={{ width: getTimestampWidth(formattedTimestamp) }}
+                  >
+                    {formattedTimestamp}
+                  </div>
+                  {text}
+                </div>
+              );
+            })}
+            {interimResult && (
+              <div
+                className='flex flex-row gap-3 space-y-2 p-2 sm:rounded-lg'
+              >
+                <div
+                  className="bg-purple-custom2 text-white h-6 rounded-[0.4rem] flex items-center justify-center text-sm opacity-0 select-none shrink-0"
+                  style={{ width: getTimestampWidth('0:00') }}
+                >
+                  0:00
+                </div>
+                {interimResult}
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    } else {
+      content = (
+        <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col pt-16 space-y-4 px-4 max-w-screen-sm mx-auto">
+          <div className="flex flex-col items-center space-y-4 mt-[40%]">
+            <span className="icon-article text-6xl text-purple-custom" />
+            <span className="text-center max-w-sm text-sm sm:text-base">
+              Press the button below to start transcribing.
+            </span>
+          </div>
+        </div>
+      );
+    }
+  }
+
   return loggedIn && (
     <div className='max-w-screen-sm mx-auto relative'>
       <Navbar />
-      <div
-        className="space-y-4 fixed overflow-y-scroll left-0 right-0 top-11"
-        style={{ bottom: scrollboxBottom, paddingBottom: scrollboxPaddingBottom }}
-      >
-        <div
-          className='flex flex-col top-11 w-full mx-auto max-w-screen-sm transition-all duration-300 left-0 right-0 pt-2'
-          style={{ bottom: '2.75rem' }}
-        >
-          {transcriptionResults.map(({ text, timestamp }, index) => {
-            const formattedTimestamp = formatFloatToTime(timestamp);
-
-            return (
-              <div
-                key={index}
-                className='flex flex-row gap-3 space-y-2 px-4 py-2 hover:bg-gray-100 sm:rounded-lg'
-              >
-                <div
-                  className="bg-purple-custom2 text-white h-6 rounded-[0.4rem] flex items-center justify-center text-sm shrink-0"
-                  style={{ width: getTimestampWidth(formattedTimestamp) }}
-                >
-                  {formattedTimestamp}
-                </div>
-                {text}
-              </div>
-            );
-          })}
-          {interimResult && (
-            <div
-              className='flex flex-row gap-3 space-y-2 px-4 py-2 hover:bg-gray-100 sm:rounded-lg'
-            >
-              <div
-                className="bg-purple-custom2 text-white h-6 rounded-[0.4rem] flex items-center justify-center text-sm opacity-0 select-none shrink-0"
-                style={{ width: getTimestampWidth('0:00') }}
-              >
-                0:00
-              </div>
-              {interimResult}
-            </div>
-          )}
-        </div>
-      </div>
+      {content}
       <BottomBar />
       <Sidebar
         items={[
