@@ -62,7 +62,9 @@ const sharedSlice = createSlice({
       return { ...state, ...action.payload };
     },
     pushHistory: (state, action) => {
-      return { ...state, history: [...state.history, action.payload] };
+      // keep only last 10 items
+      const history = [...state.history, action.payload].slice(-10);
+      return { ...state, history };
     },
     popHistory: (state, action) => {
       const history = state.history.slice();
