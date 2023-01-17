@@ -38,7 +38,7 @@ export function BottomBar () {
   function recordingStop () {
     recorder.stop();
     transcriber.stop();
-    dispatch(transcribeActions.setSlice({ recording: false, bottomBarMode: 'replay' }));
+    dispatch(transcribeActions.setSlice({ recording: false, bottomBarMode: 'replay', recordingDone: true }));
   }
 
   React.useEffect(() => {

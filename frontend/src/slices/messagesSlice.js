@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { graphQLClient } from '../shared/clients';
 import { gql } from 'graphql-request';
+import { statusMatcherReducer } from '../shared/utils/stateUtils';
 
 const initialState = {
   // default, add-contact, search-contacts
@@ -111,21 +112,7 @@ const messagesSlice = createSlice({
         const { contact } = action.payload.messages;
         return { ...state, selectedContact: contact };
       })
-      .addMatcher(
-        (action) => isPending(action) || isFulfilled(action) || isRejected(action),
-        (state, action) => {
-          let status = 'pending';
-          if (isFulfilled(action)) {
-            status = 'fulfilled';
-          } else if (isRejected(action)) {
-            status = 'rejected';
-          }
-          const newStatuses = { ...state.statuses };
-          const actionPrefix = action.type.split('/').slice(0, -1).join('/');
-          newStatuses[actionPrefix] = status;
-          // console.log('statuses', newStatuses);
-          return { ...state, statuses: newStatuses };
-        });
+      .addMatcher(...statusMatcherReducer);
   },
 });
 

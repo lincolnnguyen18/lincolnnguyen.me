@@ -28,7 +28,7 @@ export function TranscriptionsScreen () {
   if (!transcriptions) {
     content = (
       <div className="w-full flex justify-center mt-16">
-        <Spinner color={colors.red.custom} />
+        <Spinner color={colors.purple.custom} />
       </div>
     );
   } else if (transcriptions?.length === 0) {

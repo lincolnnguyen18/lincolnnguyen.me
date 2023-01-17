@@ -20,7 +20,7 @@ export function TranscriptionScreen () {
   // const navigate = useNavigate();
   // const { id } = useParams();
   const { loggedIn, screenWidth } = useSelector(sharedSelector);
-  const { bottomBarMode, transcriptionResults, interimResult, currentTime, recording } = useSelector(transcribeSelector);
+  const { bottomBarMode, transcriptionResults, interimResult, currentTime, recording, recordingDone } = useSelector(transcribeSelector);
 
   function onDurationChange (player) {
     const duration = player.duration;
@@ -56,7 +56,7 @@ export function TranscriptionScreen () {
   }
 
   React.useEffect(() => {
-    dispatch(transcribeActions.resetSlice());
+    dispatch(transcribeActions.resetTranscriptionSlice());
     const recorder = new Recorder({ onDurationChange, onTimeUpdate, onEnded });
     const transcriber = new Transcriber({ onFinalResult, onInterimResult });
     dispatch(transcribeActions.setSlice({ player: recorder.player, recorder, transcriber }));
@@ -187,7 +187,7 @@ export function TranscriptionScreen () {
           </div>
         </ScrollBox>
       );
-    } else {
+    } else if (!recordingDone) {
       content = (
         <IconMessage
           iconStyle="icon-article text-purple-custom"

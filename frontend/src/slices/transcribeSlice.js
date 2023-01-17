@@ -1,7 +1,7 @@
-import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { statusMatcherReducer } from '../shared/utils/stateUtils';
 
-const initialState = {
-  // transcription screen
+const initialTranscriptionState = {
   // recording, replay
   bottomBarMode: 'recording',
   bottomBarPosition: '0',
@@ -16,14 +16,16 @@ const initialState = {
   transcriptionResults: [],
   interimResult: '',
   statuses: {},
+  recordingDone: false,
+};
 
-  // transcriptions screen
+const initialTranscriptionsState = {
   transcriptions: [],
 };
 
 const transcribeSlice = createSlice({
   name: 'transcribe',
-  initialState,
+  initialState: { ...initialTranscriptionState, ...initialTranscriptionsState },
   reducers: {
     setSlice: (state, action) => {
       return { ...state, ...action.payload };
@@ -48,25 +50,13 @@ const transcribeSlice = createSlice({
       state.player.currentTime = currentTime;
       return { ...state, currentTime };
     },
-    resetSlice: () => initialState,
+    resetTranscriptionSlice: (state) => {
+      return { ...state, ...initialTranscriptionState };
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(
-        (action) => isPending(action) || isFulfilled(action) || isRejected(action),
-        (state, action) => {
-          let status = 'pending';
-          if (isFulfilled(action)) {
-            status = 'fulfilled';
-          } else if (isRejected(action)) {
-            status = 'rejected';
-          }
-          const newStatuses = { ...state.statuses };
-          const actionPrefix = action.type.split('/').slice(0, -1).join('/');
-          newStatuses[actionPrefix] = status;
-          // console.log('statuses', newStatuses);
-          return { ...state, statuses: newStatuses };
-        });
+      .addMatcher(...statusMatcherReducer);
   },
 });
 

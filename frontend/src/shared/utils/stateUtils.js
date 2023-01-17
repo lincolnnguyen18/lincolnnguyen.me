@@ -1,3 +1,5 @@
+import { isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+
 const homeScreen = {
   path: '/',
   color: 'bg-green-custom',
@@ -47,6 +49,26 @@ function getNavColor (location, history) {
   }
 }
 
+function statusReducer (state, action) {
+  let status = 'pending';
+  if (isFulfilled(action)) {
+    status = 'fulfilled';
+  } else if (isRejected(action)) {
+    status = 'rejected';
+  }
+  const newStatuses = { ...state.statuses };
+  const actionPrefix = action.type.split('/').slice(0, -1).join('/');
+  newStatuses[actionPrefix] = status;
+  // console.log('statuses', newStatuses);
+  return { ...state, statuses: newStatuses };
+}
+
+function statusMatcher (action) {
+  return isPending(action) || isFulfilled(action) || isRejected(action);
+}
+
+const statusMatcherReducer = [statusMatcher, statusReducer];
+
 const actionStatus = {
   pending: 'pending',
   fulfilled: 'fulfilled',
@@ -62,4 +84,5 @@ export {
   getCurrentScreen,
   getNavColor,
   actionStatus,
+  statusMatcherReducer,
 };
