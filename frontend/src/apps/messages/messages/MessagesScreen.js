@@ -95,7 +95,7 @@ export function MessagesScreen () {
   }, [selectedContact]);
 
   return loggedIn && (
-    <div className='relative h-full w-full'>
+    <div className='relative w-full'>
       <Navbar />
       {selectedContact && (
         <div className="fixed top-11 w-full max-w-screen-sm p-2 border-b border-gray-200 flex justify-between items-center bg-white h-16 z-10 transform -translate-x-1/2 left-1/2">
