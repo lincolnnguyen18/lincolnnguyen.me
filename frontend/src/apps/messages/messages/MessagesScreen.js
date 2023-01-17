@@ -9,7 +9,6 @@ import { actionStatus } from '../../../shared/utils/stateUtils';
 import { ScrollBox } from '../../../components/ScrollBox';
 import _ from 'lodash';
 import { IconMessage } from '../../../components/IconMessage';
-import { Button } from '../../../components/Button';
 import { ScrollBoxContent } from '../../../components/ScrollBoxContent';
 
 export function MessagesScreen () {
@@ -25,7 +24,7 @@ export function MessagesScreen () {
 
   React.useEffect(() => {
     dispatch(sharedActions.setSlice({
-      scrollboxTop: '6.75rem',
+      scrollboxTop: '2.75rem',
       scrollboxBottom: '0',
     }));
   }, []);
@@ -96,15 +95,6 @@ export function MessagesScreen () {
   return loggedIn && (
     <div className='relative w-full'>
       <Navbar />
-      {selectedContact && (
-        <div className="fixed top-11 w-full max-w-screen-sm p-2 border-b border-gray-200 flex justify-between items-center bg-white h-16 z-10 transform -translate-x-1/2 left-1/2">
-          <div>
-            <p className="text-sm sm:text-base transition-text duration-100">{selectedContact.givenName} {selectedContact.familyName}</p>
-            <p className="text-gray-500 text-sm sm:text-base transition-text duration-100">{selectedContact.email}</p>
-          </div>
-          <Button twStyle="icon-more-horiz" />
-        </div>
-      )}
       {content}
       <Sidebar
         items={[
