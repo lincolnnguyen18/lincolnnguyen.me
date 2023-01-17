@@ -24,45 +24,45 @@ export function HomeScreen () {
     <div className='relative w-full'>
       <Navbar />
       <ScrollBox>
-        <div className="grid grid-cols-4 grid-flow-row gap-4 place-items-center w-full max-w-screen-sm py-2 mx-auto">
+        <div className="grid grid-cols-4 grid-flow-row gap-4 place-items-center w-full max-w-screen-sm p-2 mx-auto">
           <AppIcon text="Messages" bgColor="bg-red-custom" placeholderInitials="M" path="/messages/contacts" />
           <AppIcon text="Transcribe" bgColor="bg-purple-custom" placeholderInitials="T" path="/transcribe/transcriptions" />
           <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
-          <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
+          {/*<AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />*/}
         </div>
       </ScrollBox>
       <Sidebar items={[

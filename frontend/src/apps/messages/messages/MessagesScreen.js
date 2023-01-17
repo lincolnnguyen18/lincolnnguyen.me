@@ -9,6 +9,7 @@ import { actionStatus } from '../../../shared/utils/stateUtils';
 import { ScrollBox } from '../../../components/ScrollBox';
 import _ from 'lodash';
 import { IconMessage } from '../../../components/IconMessage';
+import { Button } from '../../../components/Button';
 
 export function MessagesScreen () {
   React.useEffect(() => {
@@ -44,7 +45,7 @@ export function MessagesScreen () {
   }, [selectedContact]);
 
   let content;
-  console.log(selectedContact);
+  // console.log(selectedContact);
   const messages = selectedContact?.messages?.paginatedItems;
   if (!messages) {
     content = null;
@@ -100,7 +101,7 @@ export function MessagesScreen () {
             <p className="text-sm sm:text-base transition-text duration-100">{selectedContact.givenName} {selectedContact.familyName}</p>
             <p className="text-gray-500 text-sm sm:text-base transition-text duration-100">{selectedContact.email}</p>
           </div>
-          <span className="icon-more-horiz text-2xl cursor-pointer" />
+          <Button twStyle="icon-more-horiz" />
         </div>
       )}
       {content}

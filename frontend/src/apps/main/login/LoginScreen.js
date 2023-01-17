@@ -3,6 +3,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSessionToken, sharedSelector } from '../../../slices/sharedSlice';
+import { TextButton } from '../../../components/TextButton';
 
 export function LoginScreen () {
   React.useEffect(() => {
@@ -38,10 +39,7 @@ export function LoginScreen () {
         onError={() => console.error('Login Failed')}
         useOneTap
       />
-      <span
-        className="font-semibold cursor-pointer"
-        onClick={onCancel}
-      >Cancel</span>
+      <TextButton onClick={onCancel}>Cancel</TextButton>
     </div>
   );
 }

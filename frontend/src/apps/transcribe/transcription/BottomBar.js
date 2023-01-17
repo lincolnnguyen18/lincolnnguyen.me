@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
 import { formatFloatToTime } from '../../../shared/utils/stringUtils';
+import { Button } from '../../../components/Button';
 
 export function BottomBar () {
   const dispatch = useDispatch();
@@ -20,13 +21,6 @@ export function BottomBar () {
   function playerPause () {
     player.pause();
     dispatch(transcribeActions.setSlice({ playing: false }));
-  }
-
-  let playPauseButton;
-  if (playing) {
-    playPauseButton = <span className="icon-pause-filled text-5xl cursor-pointer" onClick={playerPause} />;
-  } else {
-    playPauseButton = <span className="icon-play-filled text-5xl cursor-pointer" onClick={playerPlay} />;
   }
 
   function recordingStart () {
@@ -51,31 +45,16 @@ export function BottomBar () {
     }
   }, [recording, recordingDuration]);
 
-  let startStopRecordingButton;
-  if (recording) {
-    startStopRecordingButton = (
-      <span
-        onClick={recordingStop}
-      >Stop transcribing</span>
-    );
-  } else {
-    startStopRecordingButton = (
-      <span
-        onClick={recordingStart}
-      >Start transcribing</span>
-    );
-  }
-
   if (bottomBarMode === 'recording') {
     return (
       <div
         className="bg-purple-custom fixed w-full max-w-screen-sm sm:rounded-t-lg text-white flex items-center h-11 px-3 justify-end transform -translate-x-1/2 left-1/2"
         style={{ bottom: bottomBarPosition, transition: 'all 0.3s ease-in-out, bottom 1s ease-in-out' }}
       >
-        <div className="flex items-center gap-1 select-none cursor-pointer absolute transform -translate-x-1/2 left-1/2">
-          <span className="icon-mic text-2xl" />
-          {startStopRecordingButton}
-        </div>
+        <Button twStyle="flex items-center gap-1 absolute transform -translate-x-1/2 left-1/2" onClick={recording ? recordingStop : recordingStart}>
+          <span className={recording ? 'icon-mic-off' : 'icon-mic'} />
+          <span className="text-base">{recording ? 'Stop transcribing' : 'Start transcribing'}</span>
+        </Button>
         <span className="text-sm">{recordingDuration > 0 && formatFloatToTime(recordingDuration)}</span>
       </div>
     );
@@ -101,9 +80,9 @@ export function BottomBar () {
           <div className="flex items-center gap-1 justify-between">
             <span className="text-sm">{formatFloatToTime(currentTime)}</span>
             <div className="flex items-center gap-7 transition-all duration-300 absolute transform -translate-x-1/2 left-1/2">
-              <span className="icon-skip-prev text-2xl cursor-pointer" />
-              {playPauseButton}
-              <span className="icon-skip-next text-2xl cursor-pointer" />
+              <Button twStyle="icon-skip-prev" />
+              <Button twStyle={playing ? 'icon-pause-filled' : 'icon-play-filled'} onClick={playing ? playerPause : playerPlay} fontSize="text-5xl" />
+              <Button twStyle="icon-skip-next" />
             </div>
             <span className="text-sm">{formatFloatToTime(duration)}</span>
           </div>
