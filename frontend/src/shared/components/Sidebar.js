@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sharedActions, sharedSelector } from '../../slices/sharedSlice';
 import { getCurrentScreen, getNavColor } from '../utils/stateUtils';
+import { HoverActiveContainer } from '../../components/HoverActiveContainer';
 
 export function closeSidebar (dispatch) {
   dispatch(sharedActions.closeSidebar());
@@ -24,8 +25,8 @@ export function Sidebar ({ items }) {
   }
 
   const loggedInItem = loggedIn && (
-    <div
-      className='flex items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer select-none rounded-xl mx-2'
+    <HoverActiveContainer
+      twStyle="flex items-center p-2 gap-2 mx-2 rounded-lg"
       onClick={onAccountClick}
     >
       <img
@@ -38,12 +39,12 @@ export function Sidebar ({ items }) {
         <p className="text-xs sm:text-sm truncate transition-text duration-100">{userData.givenName} {userData.familyName}</p>
         <p className="text-xs sm:text-sm text-gray-500 truncate transition-text duration-100">{userData.email}</p>
       </div>
-    </div>
+    </HoverActiveContainer>
   );
 
   const loggedOutItem = (
     <div
-      className='flex items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer select-none rounded-xl mx-2'
+      className='flex items-center p-2 gap-2 hover:bg-gray-100 cursor-pointer select-none rounded-lg mx-2'
       onClick={onLoginClick}
     >
       <span className={'icon-login text-2xl'} />
@@ -59,20 +60,19 @@ export function Sidebar ({ items }) {
           onMouseDown={() => closeSidebar(dispatch)}
         />
       )}
-      <div className='bg-white fixed top-0 left-0 bottom-0 w-48 transition-transform duration-300 justify-between flex flex-col z-10 rounded-br-xl overflow-y-scroll' style={{ transform: `translateX(-${sidebar.position}%)` }}>
+      <div className='bg-white fixed top-0 left-0 bottom-0 w-48 transition-transform duration-300 justify-between flex flex-col z-10 rounded-br-lg overflow-y-scroll' style={{ transform: `translateX(-${sidebar.position}%)` }}>
         <div>
-          <span className={`${getNavColor(location, history)} flex items-center px-3 space-x-2 font-semibold text-white h-11 mb-2`}>{getCurrentScreen(history).label}</span>
+          <span className={`${getNavColor(location, history)} flex items-center px-3 gap-2 font-semibold text-white h-11 mb-2`}>{getCurrentScreen(history).label}</span>
           {items.map((item, index) => (
-            <Link to={item.path} key={index}>
-              <div
-                key={index}
-                className='flex items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer select-none rounded-xl mx-2'
-                onClick={() => closeSidebar(dispatch)}
-              >
-                <span className={`${item.icon} text-2xl`} />
-                <span>{item.label}</span>
-              </div>
-            </Link>
+            <HoverActiveContainer
+              key={index}
+              twStyle="flex items-center p-2 gap-2 mx-2 rounded-lg"
+              onClick={() => closeSidebar(dispatch)}
+              linkPath={item.path}
+            >
+              <span className={`${item.icon} text-2xl`} />
+              <span>{item.label}</span>
+            </HoverActiveContainer>
           ))}
         </div>
         <div className="fixed bottom-2 w-48">

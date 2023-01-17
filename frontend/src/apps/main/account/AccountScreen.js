@@ -5,6 +5,9 @@ import Cookies from 'js-cookie';
 import { sharedActions } from '../../../slices/sharedSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { HoverActiveContainer } from '../../../components/HoverActiveContainer';
+import { ScrollBox } from '../../../components/ScrollBox';
+import { ScrollBoxContent } from '../../../components/ScrollBoxContent';
 
 export function AccountScreen () {
   React.useEffect(() => {
@@ -13,6 +16,13 @@ export function AccountScreen () {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    dispatch(sharedActions.setSlice({
+      scrollboxTop: '2.75rem',
+      scrollboxBottom: '0',
+    }));
+  }, []);
 
   function onLogout () {
     const confirm = window.confirm('Are you sure you want to logout?');
@@ -24,15 +34,19 @@ export function AccountScreen () {
   }
 
   return (
-    <div className='max-w-screen-sm mx-auto relative pt-14'>
+    <div className='relative w-full'>
       <Navbar />
-      <div
-        className='flex items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer select-none rounded-xl mx-2'
-        onClick={onLogout}
-      >
-        <span className={'icon-logout text-2xl'} />
-        <span>Logout</span>
-      </div>
+      <ScrollBox>
+        <ScrollBoxContent>
+          <HoverActiveContainer
+            twStyle='flex items-center p-2 gap-2 mx-2'
+            onClick={onLogout}
+          >
+            <span className={'icon-logout text-2xl'} />
+            <span>Logout</span>
+          </HoverActiveContainer>
+        </ScrollBoxContent>
+      </ScrollBox>
       <Sidebar items={[
         { icon: 'icon-apps', label: 'Apps', path: '/' },
       ]} />

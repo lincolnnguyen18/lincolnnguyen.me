@@ -10,6 +10,7 @@ import { ScrollBox } from '../../../components/ScrollBox';
 import _ from 'lodash';
 import { IconMessage } from '../../../components/IconMessage';
 import { Button } from '../../../components/Button';
+import { ScrollBoxContent } from '../../../components/ScrollBoxContent';
 
 export function MessagesScreen () {
   React.useEffect(() => {
@@ -59,7 +60,7 @@ export function MessagesScreen () {
   } else {
     content = (
       <ScrollBox>
-        <div className="flex flex-col gap-3 w-full max-w-screen-sm mx-auto">
+        <ScrollBoxContent>
           {messages.map((message, index) => (
             <div
               key={index}
@@ -68,7 +69,7 @@ export function MessagesScreen () {
               {message}
             </div>
           ))}
-        </div>
+        </ScrollBoxContent>
       </ScrollBox>
     );
   }

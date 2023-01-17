@@ -10,6 +10,7 @@ import { Transcriber } from '../../../shared/utils/transcriber';
 import { formatFloatToTime } from '../../../shared/utils/stringUtils';
 import { ScrollBox } from '../../../components/ScrollBox';
 import { IconMessage } from '../../../components/IconMessage';
+import { ScrollBoxContent } from '../../../components/ScrollBoxContent';
 
 export function TranscriptionScreen () {
   React.useEffect(() => {
@@ -125,10 +126,7 @@ export function TranscriptionScreen () {
     if (transcriptionResults.length > 0 || interimResult) {
       content = (
         <ScrollBox>
-          <div
-            className='flex flex-col top-11 w-full mx-auto max-w-screen-sm left-0 right-0 py-2'
-            style={{ bottom: '2.75rem' }}
-          >
+          <ScrollBoxContent>
             {transcriptionResults.map(({ text, timestamp }, index) => {
               const formattedTimestamp = formatFloatToTime(timestamp);
               const isCurrent = isCurrentResult(timestamp, transcriptionResults[index + 1]?.timestamp);
@@ -140,7 +138,7 @@ export function TranscriptionScreen () {
                 currentTimestampStyle = 'bg-white text-purple-custom';
               } else {
                 if (bottomBarMode === 'replay') {
-                  currentStyle = 'hover:bg-gray-100';
+                  currentStyle = 'hover:bg-gray-hover active:bg-gray-active';
                 }
                 currentTimestampStyle = 'bg-purple-custom2 text-white';
               }
@@ -184,7 +182,7 @@ export function TranscriptionScreen () {
                 {interimResult}
               </div>
             )}
-          </div>
+          </ScrollBoxContent>
         </ScrollBox>
       );
     } else if (!recordingDone) {

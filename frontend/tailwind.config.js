@@ -17,6 +17,10 @@ module.exports = {
           custom: '#7165BB',
           custom2: '#958EC2',
         },
+        gray: {
+          hover: '#f3f4f6',
+          active: '#e5e7eb',
+        },
       },
     },
   },
