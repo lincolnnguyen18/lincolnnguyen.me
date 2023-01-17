@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { actionStatus } from '../../../shared/utils/stateUtils';
 import { ScrollBox } from '../../../components/ScrollBox';
 import _ from 'lodash';
+import { IconMessage } from '../../../components/IconMessage';
 
 export function MessagesScreen () {
   React.useEffect(() => {
@@ -49,14 +50,10 @@ export function MessagesScreen () {
     content = null;
   } else if (messages.length === 0) {
     content = (
-      <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col pt-16 space-y-4 px-4 max-w-screen-sm mx-auto">
-        <div className="flex flex-col items-center space-y-4 mt-[40%]">
-          <span className="icon-chat text-6xl text-red-custom" />
-          <span className="text-center max-w-sm text-sm sm:text-base transition-text duration-100">
-            You have no messages.
-          </span>
-        </div>
-      </div>
+      <IconMessage
+        iconStyle="icon-chat text-red-custom"
+        messageText="You have no messages."
+      />
     );
   } else {
     content = (

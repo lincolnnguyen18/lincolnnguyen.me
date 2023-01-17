@@ -6,7 +6,6 @@ import { screenSizes } from '../shared/clients';
 export function ScrollBox ({ children }) {
   const { screenWidth, scrollboxTop, scrollboxBottom } = useSelector(sharedSelector);
 
-  console.log(screenSizes);
   if (screenWidth >= screenSizes.xl) {
     return (
       <div

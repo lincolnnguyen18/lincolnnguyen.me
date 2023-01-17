@@ -9,6 +9,7 @@ import { BottomBar } from './BottomBar';
 import { Transcriber } from '../../../shared/utils/transcriber';
 import { formatFloatToTime } from '../../../shared/utils/stringUtils';
 import { ScrollBox } from '../../../components/ScrollBox';
+import { IconMessage } from '../../../components/IconMessage';
 
 export function TranscriptionScreen () {
   React.useEffect(() => {
@@ -19,7 +20,7 @@ export function TranscriptionScreen () {
   // const navigate = useNavigate();
   // const { id } = useParams();
   const { loggedIn, screenWidth } = useSelector(sharedSelector);
-  const { bottomBarMode, transcriptionResults, interimResult, currentTime } = useSelector(transcribeSelector);
+  const { bottomBarMode, transcriptionResults, interimResult, currentTime, recording } = useSelector(transcribeSelector);
 
   function onDurationChange (player) {
     const duration = player.duration;
@@ -109,6 +110,16 @@ export function TranscriptionScreen () {
       (currentTime < nextTimestamp || !nextTimestamp);
   }
 
+  function getIconMessageText () {
+    if (transcriptionResults.length === 0) {
+      if (!recording) {
+        return 'Press the start button below to start transcribing.';
+      } else {
+        return 'Please begin speaking.';
+      }
+    }
+  }
+
   let content;
   if (loggedIn) {
     if (transcriptionResults.length > 0 || interimResult) {
@@ -147,11 +158,11 @@ export function TranscriptionScreen () {
               return (
                 <div
                   key={index}
-                  className={'flex flex-row gap-3 space-y-2 p-2 sm:rounded-lg transition-all duration-100 result ' + [currentStyle, cursorStyle].join(' ')}
+                  className={'flex flex-row gap-3 space-y-2 p-2 sm:rounded-lg transition-all duration-75 result ' + [currentStyle, cursorStyle].join(' ')}
                   onClick={onClick}
                 >
                   <div
-                    className={'h-6 rounded-[0.4rem] flex items-center justify-center text-sm shrink-0 transition-all duration-100 ' + currentTimestampStyle}
+                    className={'h-6 rounded-[0.4rem] flex items-center justify-center text-sm shrink-0 transition-all duration-75 ' + currentTimestampStyle}
                     style={{ width: getTimestampWidth(formattedTimestamp) }}
                   >
                     {formattedTimestamp}
@@ -178,20 +189,16 @@ export function TranscriptionScreen () {
       );
     } else {
       content = (
-        <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col pt-16 space-y-4 px-4 max-w-screen-sm mx-auto">
-          <div className="flex flex-col items-center space-y-4 mt-[40%]">
-            <span className="icon-article text-6xl text-purple-custom" />
-            <span className="text-center max-w-sm text-sm sm:text-base transition-text duration-100">
-              Press the start button below to start transcribing.
-            </span>
-          </div>
-        </div>
+        <IconMessage
+          iconStyle="icon-article text-purple-custom"
+          messageText={getIconMessageText()}
+        />
       );
     }
   }
 
   return loggedIn && (
-    <div className='relative h-full w-full'>
+    <div className='relative w-full'>
       <Navbar />
       {content}
       <BottomBar />

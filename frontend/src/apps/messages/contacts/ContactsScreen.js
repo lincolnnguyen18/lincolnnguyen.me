@@ -9,6 +9,7 @@ import { Sidebar } from '../../../shared/components/Sidebar';
 import { Spinner } from '../../../shared/components/Spinner';
 import { colors } from '../../../shared/clients';
 import { ScrollBox } from '../../../components/ScrollBox';
+import { IconMessage } from '../../../components/IconMessage';
 
 export function ContactsScreen () {
   React.useEffect(() => {
@@ -49,14 +50,10 @@ export function ContactsScreen () {
     );
   } else if (contacts?.length === 0) {
     content = (
-      <div className="h-screen w-screen overflow-y-auto overflow-x-hidden flex flex-col pt-16 space-y-4 px-4 max-w-screen-sm mx-auto">
-        <div className="flex flex-col items-center space-y-4 mt-[40%]">
-          <span className="icon-contacts text-6xl text-red-custom" />
-          <span className="text-center max-w-sm text-sm sm:text-base transition-text duration-100">
-            You have no contacts. Add a contact by pressing the plus button at the top right.
-          </span>
-        </div>
-      </div>
+      <IconMessage
+        iconStyle="icon-contacts text-red-custom"
+        messageText="You have no contacts. Add a contact by pressing the plus button at the top right."
+      />
     );
   } else if (contacts) {
     content = (
@@ -92,7 +89,7 @@ export function ContactsScreen () {
   }
 
   return loggedIn && (
-    <div className='relative h-full w-full'>
+    <div className='relative w-full'>
       <Navbar />
       {content}
       <Sidebar items={[
