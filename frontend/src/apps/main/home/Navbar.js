@@ -1,16 +1,17 @@
 import React from 'react';
 import { sharedActions } from '../../../slices/sharedSlice';
 import { useDispatch } from 'react-redux';
+import { NavBarContainer } from '../../../components/NavBarContainer';
 export function Navbar () {
   const dispatch = useDispatch();
 
   return (
-    <nav className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0 z-10">
+    <NavBarContainer twStyle="bg-green-custom px-2">
       <span
-        className="icon-menu text-2xl ml-2 cursor-pointer"
+        className="icon-menu text-2xl cursor-pointer"
         onClick={() => dispatch(sharedActions.openSidebar())}
       />
       <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Apps</span>
-    </nav>
+    </NavBarContainer>
   );
 }

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { messagesSelector, messagesActions, addConnection } from '../../../slices/messagesSlice';
 import { sharedActions } from '../../../slices/sharedSlice';
 import { actionStatus } from '../../../shared/utils/stateUtils';
+import { NavBarContainer } from '../../../components/NavBarContainer';
 
 export function Navbar () {
   const dispatch = useDispatch();
@@ -33,9 +34,9 @@ export function Navbar () {
 
   if (navbarMode === 'default') {
     return (
-      <nav className='text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0 transform -translate-x-1/2 left-1/2 z-10 bg-red-custom'>
+      <NavBarContainer twStyle='bg-red-custom px-2 justify-between'>
         <span
-          className="icon-menu text-2xl ml-2 cursor-pointer"
+          className="icon-menu text-2xl cursor-pointer"
           onClick={() => dispatch(sharedActions.openSidebar())}
         />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Contacts</span>
@@ -49,7 +50,7 @@ export function Navbar () {
             onClick={() => setNavbarMode('add-contact')}
           />
         </div>
-      </nav>
+      </NavBarContainer>
     );
   } else if (navbarMode === 'add-contact') {
     return (
@@ -91,7 +92,7 @@ export function Navbar () {
     );
   } else if (navbarMode === 'search-contacts') {
     return (
-      <nav className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between fixed top-0 z-10">
+      <NavBarContainer twStyle='bg-red-custom justify-between'>
         <span
           className="icon-back text-2xl cursor-pointer px-2"
           onClick={() => setNavbarMode('default')}
@@ -118,7 +119,7 @@ export function Navbar () {
             </span>
           )}
         </label>
-      </nav>
+      </NavBarContainer>
     );
   }
 }

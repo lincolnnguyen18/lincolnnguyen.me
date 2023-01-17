@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { sharedActions } from '../../../slices/sharedSlice';
 import { useNavigate } from 'react-router-dom';
+import { NavBarContainer } from '../../../components/NavBarContainer';
 
 export function Navbar () {
   const dispatch = useDispatch();
@@ -12,9 +13,9 @@ export function Navbar () {
   }
 
   return (
-    <nav className="text-white max-w-screen-sm w-full mx-auto h-11 flex items-center justify-between px-2 fixed top-0 z-10">
+    <NavBarContainer twStyle="bg-purple-custom justify-between px-2">
       <span
-        className="icon-menu text-2xl ml-2 cursor-pointer"
+        className="icon-menu text-2xl cursor-pointer"
         onClick={() => dispatch(sharedActions.openSidebar())}
       />
       <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Transcriptions</span>
@@ -28,6 +29,6 @@ export function Navbar () {
           onClick={onAddTranscription}
         />
       </div>
-    </nav>
+    </NavBarContainer>
   );
 }

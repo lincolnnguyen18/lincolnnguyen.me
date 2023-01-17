@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import { SharedDao } from '../shared/sharedDao.js';
 import { dynamoDBClient } from '../shared/utils/sharedClients.js';
 import { PutCommand, QueryCommand, TransactWriteCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
-dotenv.config({ path: './.env' });
+dotenv.config({ path: './.env.development' });
 
 class MessagesDao {
   constructor (tableName) {
