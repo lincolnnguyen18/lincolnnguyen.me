@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sharedSelector } from '../../../slices/sharedSlice';
+import { sharedActions, sharedSelector } from '../../../slices/sharedSlice';
 import { Navbar } from './Navbar';
 import { Sidebar } from '../../../shared/components/Sidebar';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
 import { Recorder } from '../../../shared/utils/recorder';
 import { BottomBar } from './BottomBar';
 import { Transcriber } from '../../../shared/utils/transcriber';
-import { screenSizes } from '../../../shared/clients';
 import { formatFloatToTime } from '../../../shared/utils/stringUtils';
+import { ScrollBox } from '../../../components/ScrollBox';
 
 export function TranscriptionScreen () {
   React.useEffect(() => {
@@ -61,26 +61,31 @@ export function TranscriptionScreen () {
     dispatch(transcribeActions.setSlice({ player: recorder.player, recorder, transcriber }));
   }, []);
 
-  const [scrollboxBottom, setScrollboxBottom] = React.useState(0);
-  const [scrollboxPaddingBottom, setScrollboxPaddingBottom] = React.useState(0);
+  // React.useEffect(() => {
+  //   const transcriptionResultsLength = transcriptionResults?.length;
+  //   if (!transcriptionResultsLength || transcriptionResultsLength === 0) {
+  //     const transcriptionResults = [];
+  //     for (let i = 0; i < 100; i++) {
+  //       transcriptionResults.push({
+  //         timestamp: 0,
+  //         text: 'Hello world!',
+  //       });
+  //     }
+  //     dispatch(transcribeActions.setSlice({ transcriptionResults }));
+  //   }
+  // }, [transcriptionResults]);
 
   React.useEffect(() => {
     if (bottomBarMode === 'replay') {
-      if (screenWidth >= screenSizes.sm) {
-        setScrollboxBottom(0);
-        setScrollboxPaddingBottom('6rem');
-      } else {
-        setScrollboxBottom('6rem');
-        setScrollboxPaddingBottom(0);
-      }
+      dispatch(sharedActions.setSlice({
+        scrollboxTop: '2.75rem',
+        scrollboxBottom: '6rem',
+      }));
     } else {
-      if (screenWidth >= screenSizes.sm) {
-        setScrollboxBottom(0);
-        setScrollboxPaddingBottom('2.75rem');
-      } else {
-        setScrollboxBottom('2.75rem');
-        setScrollboxPaddingBottom(0);
-      }
+      dispatch(sharedActions.setSlice({
+        scrollboxTop: '2.75rem',
+        scrollboxBottom: '2.75rem',
+      }));
     }
   }, [bottomBarMode, screenWidth]);
 
@@ -108,12 +113,9 @@ export function TranscriptionScreen () {
   if (loggedIn) {
     if (transcriptionResults.length > 0 || interimResult) {
       content = (
-        <div
-          className="space-y-4 fixed overflow-y-scroll left-0 right-0 top-11"
-          style={{ bottom: scrollboxBottom, paddingBottom: scrollboxPaddingBottom }}
-        >
+        <ScrollBox>
           <div
-            className='flex flex-col top-11 w-full mx-auto max-w-screen-sm left-0 right-0 pt-2'
+            className='flex flex-col top-11 w-full mx-auto max-w-screen-sm left-0 right-0 py-2'
             style={{ bottom: '2.75rem' }}
           >
             {transcriptionResults.map(({ text, timestamp }, index) => {
@@ -172,7 +174,7 @@ export function TranscriptionScreen () {
               </div>
             )}
           </div>
-        </div>
+        </ScrollBox>
       );
     } else {
       content = (
@@ -189,7 +191,7 @@ export function TranscriptionScreen () {
   }
 
   return loggedIn && (
-    <div className='max-w-screen-sm mx-auto relative'>
+    <div className='relative h-full w-full'>
       <Navbar />
       {content}
       <BottomBar />

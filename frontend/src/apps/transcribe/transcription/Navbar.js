@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export function Navbar () {
   return (
-    <nav className="text-white max-w-screen-sm w-full mx-auto h-11 flex justify-between items-center fixed top-0 z-10 pr-2">
+    <nav className="text-white max-w-screen-sm w-full mx-auto h-11 flex justify-between items-center fixed top-0 z-10 pr-2 transform -translate-x-1/2 left-1/2 bg-purple-custom">
       <Link
         className="flex items-center space-x-2 cursor-pointer"
         to="/transcribe/transcriptions"
