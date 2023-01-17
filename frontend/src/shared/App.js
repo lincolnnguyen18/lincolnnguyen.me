@@ -18,7 +18,7 @@ import { TranscriptionScreen } from '../apps/transcribe/transcription/Transcript
 export function App () {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { loggedIn, sessionToken, history } = useSelector(sharedSelector);
+  const { loggedIn, sessionToken, history, sidebar } = useSelector(sharedSelector);
 
   React.useEffect(() => {
     if (sessionToken) {
@@ -64,10 +64,18 @@ export function App () {
   //   console.log('history', history);
   // }, [history]);
 
+  React.useEffect(() => {
+    if (sidebar.state === 'open') {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+  }, [sidebar.state]);
+
   return loggedIn !== null && (
     <>
       <div className={`${getNavColor(location, history)} h-11 w-screen fixed top-0`} />
-      <div className="absolute top-0 bottom-0 left-0 right-0 w-full">
+      <div className="top-0 bottom-0 left-0 right-0 w-full">
         <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/login" element={<LoginScreen />} />

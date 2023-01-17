@@ -9,7 +9,7 @@ export function ScrollBox ({ children }) {
   if (screenWidth >= screenSizes.xl) {
     return (
       <div
-        className='flex flex-col overflow-y-scroll w-full'
+        className='flex flex-col w-full'
       >
         <div style={{ height: scrollboxTop }} className="w-full flex flex-shrink-0"></div>
         {children}

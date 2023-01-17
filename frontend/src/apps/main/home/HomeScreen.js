@@ -24,7 +24,7 @@ export function HomeScreen () {
   const dummyIcons = [];
   for (let i = 0; i < 50; i++) {
     dummyIcons.push(
-      <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" />,
+      <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" key={i} />,
     );
   }
 
