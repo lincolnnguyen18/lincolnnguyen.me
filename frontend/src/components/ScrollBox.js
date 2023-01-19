@@ -18,11 +18,18 @@ export function ScrollBox ({ children }) {
     );
   } else {
     return (
+      // <div
+      //   className="fixed overflow-y-scroll left-0 right-0 top-0 bottom-0"
+      //   style={{ paddingTop: scrollboxTop, paddingBottom: scrollboxBottom }}
+      // >
+      //   {children}
+      // </div>
       <div
-        className="fixed overflow-y-scroll left-0 right-0"
-        style={{ top: scrollboxTop, bottom: scrollboxBottom }}
+        className='flex flex-col w-full'
       >
+        <div style={{ height: scrollboxTop }} className="w-full flex flex-shrink-0"></div>
         {children}
+        <div style={{ height: scrollboxBottom }} className="w-full flex flex-shrink-0"></div>
       </div>
     );
   }

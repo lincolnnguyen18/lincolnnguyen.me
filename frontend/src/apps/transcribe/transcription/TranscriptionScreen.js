@@ -58,24 +58,26 @@ export function TranscriptionScreen () {
 
   React.useEffect(() => {
     dispatch(transcribeActions.resetTranscriptionSlice());
-    const recorder = new Recorder({ onDurationChange, onTimeUpdate, onEnded });
-    const transcriber = new Transcriber({ onFinalResult, onInterimResult });
+    // const recorder = new Recorder({ onDurationChange, onTimeUpdate, onEnded });
+    // const transcriber = new Transcriber({ onFinalResult, onInterimResult });
+    const recorder = {};
+    const transcriber = {};
     dispatch(transcribeActions.setSlice({ player: recorder.player, recorder, transcriber }));
   }, []);
 
-  // React.useEffect(() => {
-  //   const transcriptionResultsLength = transcriptionResults?.length;
-  //   if (!transcriptionResultsLength || transcriptionResultsLength === 0) {
-  //     const transcriptionResults = [];
-  //     for (let i = 0; i < 100; i++) {
-  //       transcriptionResults.push({
-  //         timestamp: 0,
-  //         text: 'Hello world!',
-  //       });
-  //     }
-  //     dispatch(transcribeActions.setSlice({ transcriptionResults }));
-  //   }
-  // }, [transcriptionResults]);
+  React.useEffect(() => {
+    const transcriptionResultsLength = transcriptionResults?.length;
+    if (!transcriptionResultsLength || transcriptionResultsLength === 0) {
+      const transcriptionResults = [];
+      for (let i = 0; i < 100; i++) {
+        transcriptionResults.push({
+          timestamp: 0,
+          text: 'Hello world!',
+        });
+      }
+      dispatch(transcribeActions.setSlice({ transcriptionResults }));
+    }
+  }, [transcriptionResults]);
 
   React.useEffect(() => {
     if (bottomBarMode === 'replay') {
@@ -134,7 +136,7 @@ export function TranscriptionScreen () {
               let currentStyle;
               let currentTimestampStyle;
               if (isCurrent) {
-                currentStyle = 'bg-purple-custom text-white';
+                currentStyle = 'bg-purple-custom text-white bg-opacity-80';
                 currentTimestampStyle = 'bg-white text-purple-custom';
               } else {
                 if (bottomBarMode === 'replay') {

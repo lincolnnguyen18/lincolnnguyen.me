@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { sharedResolvers, sharedTypeDefs } from './apps/shared/sharedSchema.js';
 import { getIdFromSessionToken } from './apps/shared/utils/sharedUtils.js';
 import { messagesResolvers, messagesTypeDefs } from './apps/messages/messagesSchema.js';
-dotenv.config();
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 const server = new ApolloServer({
   typeDefs: [sharedTypeDefs, messagesTypeDefs],

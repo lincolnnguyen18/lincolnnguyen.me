@@ -48,7 +48,7 @@ export function BottomBar () {
   if (bottomBarMode === 'recording') {
     return (
       <div
-        className="bg-purple-custom fixed w-full max-w-screen-sm sm:rounded-t-lg text-white flex items-center h-11 px-3 justify-end transform -translate-x-1/2 left-1/2"
+        className="bg-purple-custom fixed w-full max-w-screen-sm sm:rounded-t-lg text-white flex items-center h-11 px-3 justify-end transform -translate-x-1/2 left-1/2 bg-opacity-80 backdrop-blur z-20"
         style={{ bottom: bottomBarPosition, transition: 'all 0.3s ease-in-out, bottom 1s ease-in-out' }}
       >
         <Button twStyle="flex items-center gap-1 absolute transform -translate-x-1/2 left-1/2" onClick={recording ? recordingStop : recordingStart}>
@@ -61,7 +61,7 @@ export function BottomBar () {
   } else {
     return (
       <div
-        className="bg-purple-custom bottom-0 fixed w-full max-w-screen-sm sm:rounded-t-lg text-white flex flex-col h-24 px-4 transition-all duration-300 space-y-2 justify-center transform -translate-x-1/2 left-1/2"
+        className="bg-purple-custom bottom-0 fixed w-full max-w-screen-sm sm:rounded-t-lg text-white flex flex-col h-24 px-4 transition-all duration-300 space-y-2 justify-center transform -translate-x-1/2 left-1/2 bg-opacity-80 backdrop-blur z-20"
       >
         <div
           className="h-16 sm:h-14 flex flex-col justify-between"

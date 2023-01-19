@@ -60,6 +60,9 @@ export function ContactsScreen () {
     content = (
       <ScrollBox>
         <ScrollBoxContent>
+          <Sidebar items={[
+            { icon: 'icon-apps', label: 'Apps', path: '/' },
+          ]} />
           {contacts.map((contact, index) => (
             <HoverActiveContainer
               twStyle="flex items-center gap-3 px-3 py-2 sm:mx-2"
@@ -89,9 +92,6 @@ export function ContactsScreen () {
     <div className='relative w-full'>
       <Navbar />
       {content}
-      <Sidebar items={[
-        { icon: 'icon-apps', label: 'Apps', path: '/' },
-      ]} />
     </div>
   );
 }

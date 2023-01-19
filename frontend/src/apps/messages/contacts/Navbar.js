@@ -37,7 +37,7 @@ export function Navbar () {
 
   if (navbarMode === 'default') {
     return (
-      <NavBarContainer twStyle='bg-red-custom px-3 justify-between'>
+      <NavBarContainer twStyle='px-3 justify-between'>
         <Button
           twStyle="icon-menu"
           onClick={() => dispatch(sharedActions.openSidebar())}

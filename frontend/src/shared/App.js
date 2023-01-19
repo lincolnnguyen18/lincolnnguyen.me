@@ -5,7 +5,6 @@ import { LoginScreen } from '../apps/main/login/LoginScreen';
 import { ContactsScreen } from '../apps/messages/contacts/ContactsScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserData, sharedActions, sharedSelector } from '../slices/sharedSlice';
-import Cookies from 'js-cookie';
 import { graphQLClient } from './clients';
 import { Protected } from '../components/Protected';
 import { Toast } from '../components/Toast';
@@ -14,6 +13,7 @@ import { MessagesScreen } from '../apps/messages/messages/MessagesScreen';
 import { getCurrentScreen, getNavColor, homeScreen, nonHomeScreens } from './utils/stateUtils';
 import { TranscriptionsScreen } from '../apps/transcribe/transcriptions/TranscriptionsScreen';
 import { TranscriptionScreen } from '../apps/transcribe/transcription/TranscriptionScreen';
+import { closeSidebar } from './components/Sidebar';
 
 export function App () {
   const dispatch = useDispatch();
@@ -24,7 +24,8 @@ export function App () {
     if (sessionToken) {
       dispatch(getUserData());
     } else {
-      const sessionToken = Cookies.get('sessionToken');
+      // const sessionToken = Cookies.get('sessionToken');
+      const sessionToken = 'eyJhbGciOiJIUzI1NiJ9.NDlhYzZjZTAtMDRmOS00MTI3LWI4OGItMjg4YTQyMjNhYjYy.Xk8X8Czmi3ndm4m7bfHdvzZ3cpe-q8y0MutGyk-sCS0';
       if (sessionToken) {
         dispatch(sharedActions.setSlice({ sessionToken }));
         graphQLClient.setHeader('authorization', `Bearer ${sessionToken}`);
@@ -53,6 +54,7 @@ export function App () {
   }, [location.pathname]);
 
   React.useEffect(() => {
+    document.body.classList.add('overflow-x-hidden');
     function handleResize () {
       dispatch(sharedActions.setSlice({ screenWidth: window.innerWidth }));
     }
@@ -72,9 +74,17 @@ export function App () {
     }
   }, [sidebar.state]);
 
+  const overlay = sidebar.state === 'open';
+
   return loggedIn !== null && (
     <>
-      <div className={`${getNavColor(location, history)} h-11 w-screen fixed top-0`} />
+      <div
+        className='left-0 right-0 h-screen fixed top-0 backdrop-blur z-20 cursor-pointer transition-[opacity] duration-400'
+        style={{ opacity: sidebar.state === 'open' ? 1 : 0, pointerEvents: sidebar.state === 'open' ? 'all' : 'none' }}
+        onMouseDown={() => closeSidebar(dispatch)}
+      />
+      <div className={`h-11 w-screen fixed top-0 backdrop-blur z-[2] bg-opacity-80 sm:rounded-b-3xl transition-[border-radius] duration-300 ${getNavColor(location, history)}`} />
+      <div className="fixed bottom-0 right-0 top-0 left-0 brightness-[0.85]" style={{ backgroundSize: 'cover', backgroundImage: 'url(/bg.jpg)' }} />
       <div className="top-0 bottom-0 left-0 right-0 w-full">
         <Routes>
           <Route path="/" element={<HomeScreen />} />

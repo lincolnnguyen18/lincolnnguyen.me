@@ -51,10 +51,19 @@ export function MessagesScreen () {
     content = null;
   } else if (messages.length === 0) {
     content = (
-      <IconMessage
-        iconStyle="icon-chat text-red-custom"
-        messageText="You have no messages."
-      />
+      <>
+        <IconMessage
+          iconStyle="icon-chat text-red-custom"
+          messageText="You have no messages."
+        />
+        <ScrollBoxContent>
+          <Sidebar
+            items={[
+              { icon: 'icon-apps', label: 'Apps', path: '/' },
+            ]}
+          />
+        </ScrollBoxContent>
+      </>
     );
   } else {
     content = (
@@ -96,11 +105,13 @@ export function MessagesScreen () {
     <div className='relative w-full'>
       <Navbar />
       {content}
-      <Sidebar
-        items={[
-          { icon: 'icon-apps', label: 'Apps', path: '/' },
-        ]}
-      />
+      <ScrollBoxContent>
+        <Sidebar
+          items={[
+            { icon: 'icon-apps', label: 'Apps', path: '/' },
+          ]}
+        />
+      </ScrollBoxContent>
     </div>
   );
 }

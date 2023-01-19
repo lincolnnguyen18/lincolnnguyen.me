@@ -24,7 +24,7 @@ export function HomeScreen () {
   const dummyIcons = [];
   for (let i = 0; i < 50; i++) {
     dummyIcons.push(
-      <AppIcon text="Resume" bgColor="bg-green-custom" placeholderInitials="R" path="/resume" key={i} />,
+      <AppIcon text="Resume" bgColor="green-custom" placeholderInitials="R" path="/resume" key={i} />,
     );
   }
 
@@ -32,17 +32,17 @@ export function HomeScreen () {
     <div className='relative w-full'>
       <Navbar />
       <ScrollBox>
-        <ScrollBoxContent>
+        <ScrollBoxContent whiteBackground={false}>
+          <Sidebar items={[
+            { icon: 'icon-apps', label: 'Apps', path: '/' },
+          ]} />
           <div className="grid grid-cols-4 grid-flow-row gap-4 place-items-center w-full px-2">
-            <AppIcon text="Messages" bgColor="bg-red-custom" placeholderInitials="M" path="/messages/contacts" />
-            <AppIcon text="Transcribe" bgColor="bg-purple-custom" placeholderInitials="T" path="/transcribe/transcriptions" />
+            <AppIcon text="Messages" bgColor="red-custom" placeholderInitials="M" path="/messages/contacts" />
+            <AppIcon text="Transcribe" bgColor="purple-custom" placeholderInitials="T" path="/transcribe/transcriptions" />
             {dummyIcons}
           </div>
         </ScrollBoxContent>
       </ScrollBox>
-      <Sidebar items={[
-        { icon: 'icon-apps', label: 'Apps', path: '/' },
-      ]} />
     </div>
   );
 }

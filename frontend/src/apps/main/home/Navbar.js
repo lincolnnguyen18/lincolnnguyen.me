@@ -7,7 +7,7 @@ export function Navbar () {
   const dispatch = useDispatch();
 
   return (
-    <NavBarContainer twStyle="bg-green-custom px-3">
+    <NavBarContainer twStyle="px-3">
       <Button twStyle="icon-menu" onClick={() => dispatch(sharedActions.openSidebar())} />
       <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Apps</span>
     </NavBarContainer>

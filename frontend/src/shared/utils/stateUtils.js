@@ -2,7 +2,7 @@ import { isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
 const homeScreen = {
   path: '/',
-  color: 'bg-green-custom',
+  color: '',
   label: 'Home',
 };
 

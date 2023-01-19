@@ -9,7 +9,7 @@ export function Navbar () {
   const { selectedContact } = useSelector(messagesSelector);
 
   return (
-    <NavBarContainer twStyle="bg-red-custom pl-0.5 pr-2 justify-between">
+    <NavBarContainer twStyle="pl-0.5 pr-2 justify-between">
       <BackButton linkPath="/messages/contacts" />
       <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">
         {selectedContact?.givenName} {selectedContact?.familyName}

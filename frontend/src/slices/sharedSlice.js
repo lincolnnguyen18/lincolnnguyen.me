@@ -13,8 +13,8 @@ const initialState = {
     message: 'Test',
   },
   sidebar: {
-    position: '100',
-    state: 'closed',
+    position: '0',
+    state: 'open',
   },
   navbar: {
     position: '0',
