@@ -15,10 +15,6 @@ function App () {
   const { bodyScroll, navMenu, backgroundPosition } = useSelector(commonSelector);
 
   React.useEffect(() => {
-    dispatch(commonActions.openNavMenu());
-  }, []);
-
-  React.useEffect(() => {
     if (bodyScroll) {
       document.body.style.overflow = 'auto';
     } else {
@@ -43,19 +39,26 @@ function App () {
         onMouseDown={() => dispatch(commonActions.closeNavMenu())}
       />
       <div
-        className="fixed top-0 z-[1] w-full max-w-screen-sm left-1/2 transform -translate-x-1/2 transition-[opacity] duration-200"
+        className="fixed top-0 bottom-0 z-[1] w-full left-1/2 transform -translate-x-1/2 transition-[opacity] duration-200 overflow-y-scroll pb-3"
         style={{ opacity: navMenu.open ? 1 : 0, pointerEvents: navMenu.open ? 'all' : 'none' }}
+        onClick={() => dispatch(commonActions.closeNavMenu())}
+        id="nav-menu"
       >
-        <Button twStyle="icon-close text-white h-11 ml-3" onClick={() => dispatch(commonActions.closeNavMenu())} />
-        <div className="flex flex-col gap-3">
-          <ContainerButton
-            twStyle="flex items-center p-2 gap-2 rounded-lg mx-2 bg-black bg-opacity-50 active:bg-black hover:bg-black hover:bg-opacity-60 active:bg-opacity-75 w-48"
-            linkPath="/"
-            onClick={() => setTimeout(() => dispatch(commonActions.closeNavMenu()), 15)}
-          >
-            <span className='icon-apps text-2xl text-white' />
-            <span className="text-white">Apps</span>
-          </ContainerButton>
+        <div className="max-w-screen-sm mx-auto flex flex-col items-start">
+          <Button twStyle="icon-close text-white h-11 ml-3" onClick={() => dispatch(commonActions.closeNavMenu())} />
+          <div className="flex flex-col gap-3">
+            {[...Array(1)].map((_, i) => (
+              <ContainerButton
+                twStyle="flex items-center p-2 gap-2 rounded-lg mx-2 bg-black bg-opacity-50 active:bg-black hover:bg-black hover:bg-opacity-60 active:bg-opacity-75 w-48"
+                linkPath="/"
+                onClick={() => setTimeout(() => dispatch(commonActions.closeNavMenu()), 15)}
+                key={i}
+              >
+                <span className='icon-apps text-2xl text-white' />
+                <span className="text-white">Apps</span>
+              </ContainerButton>
+            ))}
+          </div>
         </div>
       </div>
     </>

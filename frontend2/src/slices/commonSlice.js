@@ -28,6 +28,10 @@ const commonSlice = createSlice({
       state.bodyScroll = true;
     },
     openNavMenu: (state, action) => {
+      const navMenu = document.getElementById('nav-menu');
+      if (navMenu) {
+        navMenu.scrollTop = 0;
+      }
       state.navMenu = {
         open: true,
         items: action.payload,
