@@ -1,21 +1,19 @@
-const theme = {
-  colors: {
-    green: {
-      custom: '#85BB65',
-    },
-    red: {
-      custom: '#BB6565',
-      custom2: '#975252',
-    },
-    purple: {
-      custom: '#7165BB',
-      custom2: '#958EC2',
-    },
-    gray: {
-      hover: '#f3f4f6',
-      active: '#e5e7eb',
-    },
+const colors = {
+  green: {
+    custom: '#85BB65',
+  },
+  red: {
+    custom: '#BB6565',
+    custom2: '#975252',
+  },
+  purple: {
+    custom: '#7165BB',
+    custom2: '#958EC2',
+  },
+  gray: {
+    hover: '#f3f4f6',
+    active: '#e5e7eb',
   },
 };
 
-export { theme };
+export { colors };
