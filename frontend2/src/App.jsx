@@ -12,7 +12,7 @@ import { Button } from './components/Button.jsx';
 
 function App () {
   const dispatch = useDispatch();
-  const { bodyScroll, navMenu } = useSelector(commonSelector);
+  const { bodyScroll, navMenu, backgroundPosition } = useSelector(commonSelector);
 
   React.useEffect(() => {
     dispatch(commonActions.openNavMenu());
@@ -28,7 +28,7 @@ function App () {
 
   return (
     <>
-      <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85]" style={{ backgroundSize: 'cover', backgroundImage: 'url(/bg.jpg)' }} />
+      <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85]" style={{ backgroundSize: 'cover', backgroundImage: 'url(/bg.jpg)', backgroundPosition }} />
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/messages/contacts" element={<ContactsScreen />} />

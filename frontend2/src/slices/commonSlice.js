@@ -1,12 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import _ from 'lodash';
 
+const positions = ['center center', 'center top', 'center bottom'];
+
 const initialState = {
   bodyScroll: true,
   navMenu: {
     open: false,
     items: [],
   },
+  backgroundPosition: _.sample(positions),
   count: 0,
 };
 
