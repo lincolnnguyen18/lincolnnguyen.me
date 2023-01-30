@@ -4,6 +4,7 @@ import { colors } from '../../../theme.js';
 import { Button } from '../../components/Button.jsx';
 import { useDispatch } from 'react-redux';
 import { commonActions } from '../../slices/commonSlice.js';
+import { NavbarBlur } from '../../components/NavbarBlur.jsx';
 
 export function HomeScreen () {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ export function HomeScreen () {
 
   return (
     <>
-      <div className='h-11 transform -translate-x-1/2 left-1/2 w-full fixed backdrop-blur bg-opacity-80 sm:rounded-b-3xl transition-[border-radius] duration-300 z-[1]' />
+      <NavbarBlur />
       <div className="overflow-y-scroll fixed top-0 bottom-0 left-0 right-0 sm:relative sm:overflow-y-auto">
         <div className="max-w-screen-sm w-full mx-auto grid grid-cols-4 grid-flow-row gap-4 place-items-center w-full px-2 pt-12 pb-4">
           <AppIcon text="Messages" bgColor={colors.red.custom} placeholderInitials="M" path="/messages/contacts" />
