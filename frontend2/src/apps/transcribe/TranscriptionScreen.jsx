@@ -6,8 +6,16 @@ import { Navbar } from '../../components/Navbar.jsx';
 import { ContainerButton } from '../../components/ContainerButton.jsx';
 import { OverflowContainer } from '../../components/OverflowContainer.jsx';
 import { BackButton } from '../../components/BackButton.jsx';
+import { useDispatch } from 'react-redux';
+import { commonActions } from '../../slices/commonSlice.js';
 
 export function TranscriptionScreen () {
+  const dispatch = useDispatch();
+
+  function openMoreMenu () {
+    dispatch(commonActions.openNavMenu({ position: 'right' }));
+  }
+
   const currentStyle = 'hover:bg-gray-hover active:bg-gray-active cursor-pointer';
 
   function getTimestampWidth (timestamp) {
@@ -30,7 +38,7 @@ export function TranscriptionScreen () {
       <Navbar twStyle="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcriptions" />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Unsaved</span>
-        <Button twStyle="icon-more-horiz" />
+        <Button twStyle="icon-more-horiz" onClick={openMoreMenu} />
       </Navbar>
       <WhiteVignette />
       <OverflowContainer twStyle="pb-14">

@@ -3,6 +3,7 @@ import { commonActions, commonSelector } from '../slices/commonSlice.js';
 import { Button } from './Button.jsx';
 import { ContainerButton } from './ContainerButton.jsx';
 import { useDispatch, useSelector } from 'react-redux';
+import { twMerge } from 'tailwind-merge';
 
 export function NavbarMenu () {
   const dispatch = useDispatch();
@@ -21,9 +22,9 @@ export function NavbarMenu () {
         onClick={() => dispatch(commonActions.closeNavMenu())}
         id="nav-menu"
       >
-        <div className="max-w-screen-sm mx-auto flex flex-col items-start">
-          <Button twStyle="icon-close text-white h-11 ml-3" onClick={() => dispatch(commonActions.closeNavMenu())} />
-          <div className="flex flex-col gap-3">
+        <div className={twMerge('max-w-screen-sm mx-auto flex flex-col', navMenu.containerTwStyle)}>
+          <Button onClick={() => dispatch(commonActions.closeNavMenu())} twStyle={twMerge('icon-close text-white h-11', navMenu.buttonTwStyle)} />
+          <div className={twMerge('flex flex-col gap-3', navMenu.menuTwStyle)}>
             {[...Array(1)].map((_, i) => (
               <ContainerButton
                 twStyle="flex items-center p-2 gap-2 rounded-lg mx-2 bg-black bg-opacity-50 active:bg-black hover:bg-black hover:bg-opacity-60 active:bg-opacity-75 w-48"

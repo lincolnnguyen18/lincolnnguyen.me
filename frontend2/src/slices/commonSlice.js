@@ -8,6 +8,10 @@ const initialState = {
   navMenu: {
     open: false,
     items: [],
+    // items-start, ml-3, ml-1; items-end, mr-3 and mr-1
+    containerTwStyle: 'items-start',
+    buttonTwStyle: 'ml-3',
+    menuTwStyle: 'mr-1',
   },
   backgroundPosition: _.sample(positions),
   count: 0,
@@ -24,18 +28,22 @@ const commonSlice = createSlice({
       _.merge(state, action.payload);
     },
     closeNavMenu: (state) => {
-      state.navMenu = { open: false, items: [] };
+      _.merge(state.navMenu, { open: false, items: [] });
       state.bodyScroll = true;
     },
     openNavMenu: (state, action) => {
+      const { position = 'left', items = [] } = action.payload || {};
+
+      if (position === 'left') {
+        _.merge(state.navMenu, { containerTwStyle: 'items-start', buttonTwStyle: 'ml-3', menuTwStyle: 'ml-1' });
+      } else if (position === 'right') {
+        _.merge(state.navMenu, { containerTwStyle: 'items-end', buttonTwStyle: 'mr-3', menuTwStyle: 'mr-1' });
+      }
       const navMenu = document.getElementById('nav-menu');
       if (navMenu) {
         navMenu.scrollTop = 0;
       }
-      state.navMenu = {
-        open: true,
-        items: action.payload,
-      };
+      _.merge(state.navMenu, { open: true, items });
       state.bodyScroll = false;
     },
     increment: (state) => {
