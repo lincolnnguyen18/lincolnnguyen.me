@@ -1,8 +1,8 @@
 import React from 'react';
 
-export function MessagesScreen() {
+export function MessagesScreen () {
   return (
-  <>
+    <>
       <div>MessagesScreen</div>
     </>
   );
