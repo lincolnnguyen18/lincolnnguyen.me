@@ -37,9 +37,9 @@ export function ContactsScreen () {
                 alt="avatar"
                 referrerPolicy="no-referrer"
               />
-              <div className="flex flex-col w-full overflow-hidden items-start">
-                <span className="text-sm sm:text-base transition-text duration-100 truncate">Lincoln Nguyen</span>
-                <span className="text-sm sm:text-base text-gray-500 transition-text duration-100 truncate">Connection established</span>
+              <div className="flex flex-col w-full items-start text-left">
+                <span className="text-sm sm:text-base transition-text duration-100 overflow-hidden truncate w-full max-w-[500px]">Lincoln Nguyen</span>
+                <span className="text-sm sm:text-base text-gray-500 transition-text duration-100 overflow-hidden truncate w-full max-w-[500px]">Connection established</span>
               </div>
             </div>
             <span className="text-xs sm:text-sm text-gray-500 min-w-fit transition-text duration-100">Jan 8</span>
