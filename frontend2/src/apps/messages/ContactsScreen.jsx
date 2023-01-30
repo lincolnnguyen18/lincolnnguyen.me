@@ -1,13 +1,21 @@
 import React from 'react';
 import { Button } from '../../components/Button.jsx';
 import { ContainerButton } from '../../components/ContainerButton.jsx';
+import { commonActions } from '../../slices/commonSlice.js';
+import { useDispatch } from 'react-redux';
 
 export function ContactsScreen () {
+  const dispatch = useDispatch();
+
+  function openNavMenu () {
+    dispatch(commonActions.openNavMenu());
+  }
+
   return (
     <>
       <div className='h-11 transform -translate-x-1/2 left-1/2 w-full fixed backdrop-blur bg-opacity-80 sm:rounded-b-3xl transition-[border-radius] duration-300 z-[1] bg-red-custom' />
       <nav className='text-white max-w-screen-sm w-full h-11 flex items-center fixed top-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-between'>
-        <Button twStyle="icon-menu" />
+        <Button twStyle="icon-menu" onClick={openNavMenu} />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Contacts</span>
         <Button twStyle="icon-add" />
       </nav>
