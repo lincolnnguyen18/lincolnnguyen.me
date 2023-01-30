@@ -8,6 +8,22 @@ import { OverflowContainer } from '../../components/OverflowContainer.jsx';
 import { BackButton } from '../../components/BackButton.jsx';
 
 export function TranscriptionScreen () {
+  const currentStyle = 'hover:bg-gray-hover active:bg-gray-active cursor-pointer';
+
+  function getTimestampWidth (timestamp) {
+    if (timestamp.length === 4) {
+      return '2rem';
+    } else if (timestamp.length === 5) {
+      return '2.5rem';
+    } else if (timestamp.length === 7) {
+      return '3.5rem';
+    } else if (timestamp.length === 8) {
+      return '3.8rem';
+    } else {
+      return 'fit-content';
+    }
+  }
+
   return (
     <>
       <NavbarBlur twStyle="bg-purple-custom" />
@@ -18,26 +34,26 @@ export function TranscriptionScreen () {
       </Navbar>
       <WhiteVignette />
       <OverflowContainer twStyle="pb-14">
-        {[...Array(50)].map((_, i) => (
-          <ContainerButton
-            twStyle="flex items-center gap-3 px-3 py-2 w-full justify-between"
-            key={i}
-          >
-            <div className="flex gap-3">
-              <img
-                src="https://lh3.googleusercontent.com/a/AEdFTp6DLp-mXUsRqVYJA7Pi8fgAzH-AaluJ-1KjeBaU=s96-c"
-                className="w-11 h-11 rounded-full flex-shrink-0 bg-gray-300"
-                alt="avatar"
-                referrerPolicy="no-referrer"
-              />
-              <div className="flex flex-col w-full overflow-hidden items-start">
-                <span className="text-sm sm:text-base transition-text duration-100 truncate">Lincoln Nguyen</span>
-                <span className="text-sm sm:text-base text-gray-500 transition-text duration-100 truncate">Connection established</span>
+        {[...Array(50)].map((_, i) => {
+          const formattedTimestamp = '0:00';
+          const timestampWidth = getTimestampWidth(formattedTimestamp);
+
+          return (
+            <ContainerButton
+              twStyle="flex items-center gap-3 w-full justify-between"
+              key={i}
+            >
+              <div className={`flex flex-row gap-3 p-2 sm:rounded-lg ${currentStyle}`}>
+                <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
+                  <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
+                    {formattedTimestamp}
+                  </div>
+                </div>
+                <span className="text-sm sm:text-base text-left w-full">今日の底堅さが改めて10名となりましたアメリカの去年12月の雇用統計は景気の動向を敏感に反映する非農業部門の就業者数が前の日に比べ223000人増え市場の予想を上回</span>
               </div>
-            </div>
-            <span className="text-xs sm:text-sm text-gray-500 min-w-fit transition-text duration-100">Jan 8</span>
-          </ContainerButton>
-        ))}
+            </ContainerButton>
+          );
+        })}
       </OverflowContainer>
       <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-between bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-[border-radius] duration-300'>
         <Button twStyle="flex items-center gap-1 absolute transform -translate-x-1/2 left-1/2">
