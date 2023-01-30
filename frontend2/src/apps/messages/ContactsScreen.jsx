@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { OverflowContainer } from '../../components/OverflowContainer.jsx';
 import { WhiteVignette } from '../../components/WhiteVignette.jsx';
 import { NavbarBlur } from '../../components/NavbarBlur.jsx';
+import { Navbar } from '../../components/Navbar.jsx';
 
 export function ContactsScreen () {
   const dispatch = useDispatch();
@@ -17,11 +18,11 @@ export function ContactsScreen () {
   return (
     <>
       <NavbarBlur twStyle="bg-red-custom" />
-      <nav className='text-white max-w-screen-sm w-full h-11 flex items-center fixed top-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-between'>
+      <Navbar>
         <Button twStyle="icon-menu" onClick={openNavMenu} />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Contacts</span>
         <Button twStyle="icon-add" />
-      </nav>
+      </Navbar>
       <WhiteVignette />
       <OverflowContainer>
         {[...Array(50)].map((_, i) => (

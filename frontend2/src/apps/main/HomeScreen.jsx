@@ -5,6 +5,7 @@ import { Button } from '../../components/Button.jsx';
 import { useDispatch } from 'react-redux';
 import { commonActions } from '../../slices/commonSlice.js';
 import { NavbarBlur } from '../../components/NavbarBlur.jsx';
+import { Navbar } from '../../components/Navbar.jsx';
 
 export function HomeScreen () {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ export function HomeScreen () {
   const dummyIcons = [];
   for (let i = 0; i < 50; i++) {
     dummyIcons.push(
-      <AppIcon text="Placeholder" className="bg-gray-500 text-white" placeholderInitials="P" path="/placeholder" key={i} />,
+      <AppIcon text="Placeholder" className="bg-gray-600 text-white" placeholderInitials="P" path="/placeholder" key={i} />,
     );
   }
 
@@ -31,10 +32,10 @@ export function HomeScreen () {
           {dummyIcons}
         </div>
       </div>
-      <nav className='text-white max-w-screen-sm w-full h-11 flex items-center fixed top-0 transform -translate-x-1/2 left-1/2 px-3 z-[1]'>
+      <Navbar>
         <Button twStyle="icon-menu" onClick={openNavMenu} />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Apps</span>
-      </nav>
+      </Navbar>
     </>
   );
 }
