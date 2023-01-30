@@ -13,6 +13,10 @@ const initialState = {
     buttonTwStyle: 'ml-3',
     menuTwStyle: 'mr-1',
   },
+  windowValues: {
+    width: 0,
+    height: 0,
+  },
   backgroundPosition: _.sample(positions),
   count: 0,
 };

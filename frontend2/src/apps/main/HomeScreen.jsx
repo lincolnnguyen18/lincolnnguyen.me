@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { commonActions } from '../../slices/commonSlice.js';
 import { NavbarBlur } from '../../components/NavbarBlur.jsx';
 import { Navbar } from '../../components/Navbar.jsx';
+import { Grid } from './Grid.jsx';
 
 export function HomeScreen () {
   const dispatch = useDispatch();
@@ -24,14 +25,12 @@ export function HomeScreen () {
   return (
     <>
       <NavbarBlur />
-      <div className="overflow-y-scroll fixed top-0 bottom-0 left-0 right-0 sm:relative sm:overflow-y-auto">
-        <div className="max-w-screen-sm w-full mx-auto grid grid-cols-4 grid-flow-row gap-4 place-items-center w-full px-2 pt-12 pb-4">
-          <AppIcon text="Messages" bgColor={colors.red.custom} placeholderInitials="M" path="/messages/contacts" />
-          <AppIcon text="Transcribe" bgColor={colors.purple.custom} placeholderInitials="T" path="/transcribe/transcriptions" />
-          <AppIcon text="Resume" bgColor={colors.green.custom} placeholderInitials="R" path="/resume" />
-          {dummyIcons}
-        </div>
-      </div>
+      <Grid>
+        <AppIcon text="Messages" bgColor={colors.red.custom} placeholderInitials="M" path="/messages/contacts" />
+        <AppIcon text="Transcribe" bgColor={colors.purple.custom} placeholderInitials="T" path="/transcribe/transcriptions" />
+        <AppIcon text="Resume" bgColor={colors.green.custom} placeholderInitials="R" path="/resume" />
+        {dummyIcons}
+      </Grid>
       <Navbar>
         <Button twStyle="icon-menu" onClick={openNavMenu} />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Apps</span>

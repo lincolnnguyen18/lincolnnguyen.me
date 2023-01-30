@@ -5,11 +5,12 @@ import { ContactsScreen } from './apps/messages/ContactsScreen.jsx';
 import { TranscriptionsScreen } from './apps/transcribe/TranscriptionsScreen.jsx';
 import { TranscriptionScreen } from './apps/transcribe/TranscriptionScreen.jsx';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { commonSelector } from './slices/commonSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { commonActions, commonSelector } from './slices/commonSlice.js';
 import { NavbarMenu } from './components/NavbarMenu.jsx';
 
 function App () {
+  const dispatch = useDispatch();
   const location = useLocation();
   const { bodyScroll, backgroundPosition } = useSelector(commonSelector);
 
@@ -24,6 +25,16 @@ function App () {
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  React.useEffect(() => {
+    function handleResize () {
+      const windowValues = { width: window.innerWidth, height: window.innerHeight };
+      dispatch(commonActions.setSlice({ windowValues }));
+    }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <>
