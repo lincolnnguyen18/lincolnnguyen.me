@@ -15,22 +15,24 @@ export function TranscriptionScreen () {
   const dispatch = useDispatch();
   const { windowValues } = useSelector(commonSelector);
 
+  function handleFilterBySpeakerClick () {
+    dispatch(commonActions.hideNavMenuChildren());
+  }
+
   function openMoreMenu () {
     dispatch(commonActions.openNavMenu({
       position: 'right',
-      isMainMenu: true,
+      isMainMenu: false,
       children: (
         <div className="flex flex-col">
-          <NavbarGroupButton type="top">
+          <NavbarGroupButton type="top" onClick={handleFilterBySpeakerClick}>
             <span className='icon-save text-2xl text-white' />
             <span className="text-white">Save transcription</span>
           </NavbarGroupButton>
-          {Array(100).fill(0).map((_, i) => (
-            <NavbarGroupButton key={i}>
-              <span className='icon-save text-2xl text-white' />
-              <span className="text-white">Save transcription</span>
-            </NavbarGroupButton>
-          ))}
+          <NavbarGroupButton onClick={handleFilterBySpeakerClick}>
+            <span className='icon-two-users text-2xl text-white' />
+            <span className="text-white">Filter by speaker</span>
+          </NavbarGroupButton>
           <NavbarGroupButton type="bottom">
             <span className='icon-info text-2xl text-white' />
             <span className="text-white">Transcription info</span>

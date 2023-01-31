@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function NavbarGroupButton ({ children, type = 'middle' }) {
+export function NavbarGroupButton ({ children, type = 'middle', stopPropagation = true, onClick }) {
   // type = top, middle, bottom
   let twStyle;
   if (type === 'top') {
@@ -8,9 +8,17 @@ export function NavbarGroupButton ({ children, type = 'middle' }) {
   } else if (type === 'bottom') {
     twStyle = 'rounded-b-lg';
   }
+
+  function handleClick (e) {
+    if (stopPropagation) {
+      e.stopPropagation();
+      onClick && onClick();
+    }
+  }
+
   return (
     <>
-      <button className={`p-2 bg-black bg-opacity-50 ${twStyle} flex items-center gap-2 w-48 cursor-pointer hover:bg-opacity-60 active:bg-opacity-75 active:transition-all active:duration-200`}>
+      <button className={`p-2 bg-black bg-opacity-50 ${twStyle} flex items-center gap-2 w-48 cursor-pointer hover:bg-opacity-60 active:bg-opacity-75 active:transition-all active:duration-200`} onClick={handleClick}>
         {children}
       </button>
       {type !== 'bottom' && <div className="h-[1px] bg-black bg-opacity-40 w-48" />}

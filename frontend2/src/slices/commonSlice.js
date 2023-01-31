@@ -7,6 +7,7 @@ const initialState = {
   bodyScroll: true,
   navMenu: {
     open: false,
+    hideOnlyChildren: false,
     children: null,
     // items-start, ml-3, ml-1; items-end, mr-3 and mr-1
     containerTwStyle: 'items-start',
@@ -28,15 +29,15 @@ const commonSlice = createSlice({
     setSlice: (state, action) => {
       return { ...state, ...action.payload };
     },
-    mergeSlice: (state, action) => {
-      _.merge(state, action.payload);
-    },
     closeNavMenu: (state) => {
       _.merge(state.navMenu, { open: false, items: [] });
       state.bodyScroll = true;
     },
+    hideNavMenuChildren: (state) => {
+      _.merge(state.navMenu, { hideOnlyChildren: true });
+    },
     openNavMenu: (state, action) => {
-      const { position = 'left', children = null, isMainMenu = true } = action.payload || {};
+      const { position = 'left', children = null, isMainMenu = true, hideOnlyChildren = false } = action.payload || {};
 
       if (position === 'left') {
         _.merge(state.navMenu, { containerTwStyle: 'items-start', buttonTwStyle: 'ml-3', menuTwStyle: 'ml-1' });
@@ -47,7 +48,7 @@ const commonSlice = createSlice({
       if (navMenu) {
         navMenu.scrollTop = 0;
       }
-      _.merge(state.navMenu, { open: true, isMainMenu });
+      _.merge(state.navMenu, { open: true, isMainMenu, hideOnlyChildren });
       state.bodyScroll = false;
       state.navMenu.children = children;
     },
