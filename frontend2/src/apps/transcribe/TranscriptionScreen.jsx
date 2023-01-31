@@ -9,7 +9,7 @@ import { OverflowContainer } from '../../components/OverflowContainer.jsx';
 import { BackButton } from '../../components/BackButton.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from '../../slices/commonSlice.js';
-import { NavMenuButton } from '../../components/NavMenuButton.jsx';
+import { NavbarGroupButton } from '../../components/NavbarGroupButton.jsx';
 
 export function TranscriptionScreen () {
   const dispatch = useDispatch();
@@ -18,23 +18,29 @@ export function TranscriptionScreen () {
   function openMoreMenu () {
     dispatch(commonActions.openNavMenu({
       position: 'right',
-      isMainMenu: false,
+      isMainMenu: true,
       children: (
-        <>
-          <NavMenuButton>
+        <div className="flex flex-col">
+          <NavbarGroupButton type="top">
             <span className='icon-save text-2xl text-white' />
             <span className="text-white">Save transcription</span>
-          </NavMenuButton>
-          <NavMenuButton>
+          </NavbarGroupButton>
+          {Array(100).fill(0).map((_, i) => (
+            <NavbarGroupButton key={i}>
+              <span className='icon-save text-2xl text-white' />
+              <span className="text-white">Save transcription</span>
+            </NavbarGroupButton>
+          ))}
+          <NavbarGroupButton type="bottom">
             <span className='icon-info text-2xl text-white' />
             <span className="text-white">Transcription info</span>
-          </NavMenuButton>
-        </>
+          </NavbarGroupButton>
+        </div>
       ),
     }));
   }
 
-  const currentStyle = 'hover:bg-gray-hover active:bg-gray-active cursor-pointer';
+  const currentStyle = 'hover:bg-gray-hover active:bg-gray-active cursor-pointer active:transition-all active:duration-200';
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {

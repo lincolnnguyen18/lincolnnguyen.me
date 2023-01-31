@@ -40,7 +40,7 @@ export function NavbarMenu () {
       >
         <div className={twMerge('max-w-screen-sm mx-auto flex flex-col', navMenu.containerTwStyle)}>
           <Button onClick={() => dispatch(commonActions.closeNavMenu())} twStyle={twMerge('icon-close text-white h-11', navMenu.buttonTwStyle)} />
-          <div className={twMerge('flex flex-col gap-3', navMenu.menuTwStyle)}>
+          <div className={twMerge('flex flex-col gap-3 px-2', navMenu.menuTwStyle)}>
             {navMenu.isMainMenu ? <MainMenu>{navMenu.children}</MainMenu> : navMenu.children}
           </div>
         </div>
