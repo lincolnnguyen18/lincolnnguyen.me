@@ -1,9 +1,25 @@
 import React from 'react';
 import { commonActions, commonSelector } from '../slices/commonSlice.js';
 import { Button } from './Button.jsx';
-import { ContainerButton } from './ContainerButton.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
+import { NavMenuButton } from './NavMenuButton.jsx';
+
+function MainMenu ({ children }) {
+  return (
+    <>
+      <NavMenuButton linkPath="/">
+        <span className='icon-apps text-2xl text-white' />
+        <span className="text-white">Apps</span>
+      </NavMenuButton>
+      {children}
+      <NavMenuButton linkPath="/">
+        <span className='icon-login text-2xl text-white' />
+        <span className="text-white">Login</span>
+      </NavMenuButton>
+    </>
+  );
+}
 
 export function NavbarMenu () {
   const dispatch = useDispatch();
@@ -25,16 +41,7 @@ export function NavbarMenu () {
         <div className={twMerge('max-w-screen-sm mx-auto flex flex-col', navMenu.containerTwStyle)}>
           <Button onClick={() => dispatch(commonActions.closeNavMenu())} twStyle={twMerge('icon-close text-white h-11', navMenu.buttonTwStyle)} />
           <div className={twMerge('flex flex-col gap-3', navMenu.menuTwStyle)}>
-            {[...Array(1)].map((_, i) => (
-              <ContainerButton
-                twStyle="flex items-center p-2 gap-2 rounded-lg mx-2 bg-black bg-opacity-50 active:bg-black hover:bg-black hover:bg-opacity-60 active:bg-opacity-75 w-48"
-                linkPath="/"
-                key={i}
-              >
-                <span className='icon-apps text-2xl text-white' />
-                <span className="text-white">Apps</span>
-              </ContainerButton>
-            ))}
+            {navMenu.isMainMenu ? <MainMenu>{navMenu.children}</MainMenu> : navMenu.children}
           </div>
         </div>
       </div>

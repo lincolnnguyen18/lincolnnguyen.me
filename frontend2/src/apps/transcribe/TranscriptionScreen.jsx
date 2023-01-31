@@ -8,12 +8,28 @@ import { OverflowContainer } from '../../components/OverflowContainer.jsx';
 import { BackButton } from '../../components/BackButton.jsx';
 import { useDispatch } from 'react-redux';
 import { commonActions } from '../../slices/commonSlice.js';
+import { NavMenuButton } from '../../components/NavMenuButton.jsx';
 
 export function TranscriptionScreen () {
   const dispatch = useDispatch();
 
   function openMoreMenu () {
-    dispatch(commonActions.openNavMenu({ position: 'right' }));
+    dispatch(commonActions.openNavMenu({
+      position: 'right',
+      isMainMenu: false,
+      children: (
+        <>
+          <NavMenuButton>
+            <span className='icon-save text-2xl text-white' />
+            <span className="text-white">Save transcription</span>
+          </NavMenuButton>
+          <NavMenuButton>
+            <span className='icon-info text-2xl text-white' />
+            <span className="text-white">Transcription info</span>
+          </NavMenuButton>
+        </>
+      ),
+    }));
   }
 
   const currentStyle = 'hover:bg-gray-hover active:bg-gray-active cursor-pointer';

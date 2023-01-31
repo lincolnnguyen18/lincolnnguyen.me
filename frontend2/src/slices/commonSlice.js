@@ -7,7 +7,7 @@ const initialState = {
   bodyScroll: true,
   navMenu: {
     open: false,
-    items: [],
+    children: null,
     // items-start, ml-3, ml-1; items-end, mr-3 and mr-1
     containerTwStyle: 'items-start',
     buttonTwStyle: 'ml-3',
@@ -36,7 +36,7 @@ const commonSlice = createSlice({
       state.bodyScroll = true;
     },
     openNavMenu: (state, action) => {
-      const { position = 'left', items = [] } = action.payload || {};
+      const { position = 'left', children = null, isMainMenu = true } = action.payload || {};
 
       if (position === 'left') {
         _.merge(state.navMenu, { containerTwStyle: 'items-start', buttonTwStyle: 'ml-3', menuTwStyle: 'ml-1' });
@@ -47,8 +47,9 @@ const commonSlice = createSlice({
       if (navMenu) {
         navMenu.scrollTop = 0;
       }
-      _.merge(state.navMenu, { open: true, items });
+      _.merge(state.navMenu, { open: true, isMainMenu });
       state.bodyScroll = false;
+      state.navMenu.children = children;
     },
     increment: (state) => {
       state.count += 1;
