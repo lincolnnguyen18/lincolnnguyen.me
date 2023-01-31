@@ -22,6 +22,13 @@ export function HomeScreen () {
     dispatch(commonActions.openNavMenu());
   }
 
+  React.useEffect(() => {
+    document.body.style.overflowX = 'hidden';
+    return () => {
+      document.body.style.overflowX = 'auto';
+    };
+  }, []);
+
   return (
     <>
       <NavbarBlur />

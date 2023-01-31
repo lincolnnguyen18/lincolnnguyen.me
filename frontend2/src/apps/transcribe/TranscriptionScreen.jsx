@@ -1,4 +1,5 @@
 import React from 'react';
+import theme from 'tailwindcss/defaultTheme.js';
 import { NavbarBlur } from '../../components/NavbarBlur.jsx';
 import { Button } from '../../components/Button.jsx';
 import { WhiteVignette } from '../../components/WhiteVignette.jsx';
@@ -6,12 +7,13 @@ import { Navbar } from '../../components/Navbar.jsx';
 import { ContainerButton } from '../../components/ContainerButton.jsx';
 import { OverflowContainer } from '../../components/OverflowContainer.jsx';
 import { BackButton } from '../../components/BackButton.jsx';
-import { useDispatch } from 'react-redux';
-import { commonActions } from '../../slices/commonSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { commonActions, commonSelector } from '../../slices/commonSlice.js';
 import { NavMenuButton } from '../../components/NavMenuButton.jsx';
 
 export function TranscriptionScreen () {
   const dispatch = useDispatch();
+  const { windowValues } = useSelector(commonSelector);
 
   function openMoreMenu () {
     dispatch(commonActions.openNavMenu({
@@ -35,16 +37,26 @@ export function TranscriptionScreen () {
   const currentStyle = 'hover:bg-gray-hover active:bg-gray-active cursor-pointer';
 
   function getTimestampWidth (timestamp) {
-    if (timestamp.length === 4) {
-      return '2rem';
-    } else if (timestamp.length === 5) {
-      return '2.5rem';
-    } else if (timestamp.length === 7) {
-      return '3.5rem';
-    } else if (timestamp.length === 8) {
-      return '3.8rem';
+    if (windowValues.width > parseInt(theme.screens.sm)) {
+      if (timestamp.length === 4) {
+        return '2rem';
+      } else if (timestamp.length === 5) {
+        return '2.5rem';
+      } else if (timestamp.length === 7) {
+        return '3.3rem';
+      } else {
+        return '3.9rem';
+      }
     } else {
-      return 'fit-content';
+      if (timestamp.length === 4) {
+        return '1.7rem';
+      } else if (timestamp.length === 5) {
+        return '2.2rem';
+      } else if (timestamp.length === 7) {
+        return '2.9rem';
+      } else {
+        return '3.4rem';
+      }
     }
   }
 
@@ -59,7 +71,7 @@ export function TranscriptionScreen () {
       <WhiteVignette />
       <OverflowContainer twStyle="pb-14">
         {[...Array(50)].map((_, i) => {
-          const formattedTimestamp = '0:00';
+          const formattedTimestamp = '4:44';
           const timestampWidth = getTimestampWidth(formattedTimestamp);
 
           return (
