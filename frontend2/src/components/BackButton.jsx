@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export function BackButton ({ twStyle, linkPath, ...rest }) {
+export function BackButton ({ twStyle, linkPath, text = 'Back', ...rest }) {
   const content = (
     <button
       className={`flex items-center gap-1 cursor-pointer active:opacity-50 transition-opacity duration-75 ${twStyle}`}
@@ -9,7 +9,7 @@ export function BackButton ({ twStyle, linkPath, ...rest }) {
       {...rest}
     >
       <span className="icon-back text-2xl " />
-      <span>Back</span>
+      <span>{text}</span>
     </button>
   );
 

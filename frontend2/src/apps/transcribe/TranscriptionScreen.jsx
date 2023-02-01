@@ -72,8 +72,8 @@ export function TranscriptionScreen () {
     <>
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
-        <BackButton linkPath="/transcribe/transcriptions" />
-        <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Unsaved</span>
+        <BackButton linkPath="/transcribe/transcriptions" text="Transcriptions" />
+        <span className="font-semibold absolute left-1/2 transform -translate-x-1/2 overflow-hidden truncate w-full max-w-[150px] sm:max-w-[250px] transition-all duration-200 text-center">Unsaved</span>
         <Button twStyle="icon-more-horiz" onClick={openMoreMenu} />
       </Navbar>
       <WhiteVignette />
