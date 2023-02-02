@@ -5,6 +5,7 @@ const positions = ['center center', 'center top', 'center bottom'];
 
 const initialState = {
   bodyScroll: true,
+  scrollPosition: 0,
   navMenu: {
     open: false,
     hideOnlyChildren: false,

@@ -24,6 +24,7 @@ function App () {
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
+    dispatch(commonActions.closeNavMenu());
   }, [location.pathname]);
 
   React.useEffect(() => {
@@ -33,7 +34,18 @@ function App () {
     }
     window.addEventListener('resize', handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+
+    function handleScroll () {
+      const scrollPosition = window.scrollY;
+      dispatch(commonActions.setSlice({ scrollPosition }));
+    }
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (

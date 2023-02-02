@@ -10,13 +10,33 @@ import { BackButton } from '../../components/BackButton.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from '../../slices/commonSlice.js';
 import { NavbarGroupButton } from '../../components/NavbarGroupButton.jsx';
+import { wait } from '../../common/timeUtils.js';
 
 export function TranscriptionScreen () {
   const dispatch = useDispatch();
-  const { windowValues } = useSelector(commonSelector);
+  const { windowValues, scrollPosition } = useSelector(commonSelector);
 
-  function handleFilterBySpeakerClick () {
+  async function handleFilterBySpeakerClick () {
     dispatch(commonActions.hideNavMenuChildren());
+    await wait();
+    dispatch(commonActions.openNavMenu({
+      position: 'right',
+      isMainMenu: false,
+      children: (
+        <div className="flex flex-col">
+          <NavbarGroupButton twStyle="rounded-t-lg justify-between" onClick={handleFilterBySpeakerClick}>
+            <span className="text-white">Both speakers</span>
+          </NavbarGroupButton>
+          <NavbarGroupButton onClick={handleFilterBySpeakerClick} twStyle="justify-between">
+            <span className="text-white">Lincoln Nguyen</span>
+            <span className="icon-check text-2xl text-white" />
+          </NavbarGroupButton>
+          <NavbarGroupButton twStyle="rounded-b-lg justify-between">
+            <span className="text-white">Maimi Yoshikawa</span>
+          </NavbarGroupButton>
+        </div>
+      ),
+    }));
   }
 
   function openMoreMenu () {
@@ -25,15 +45,15 @@ export function TranscriptionScreen () {
       isMainMenu: false,
       children: (
         <div className="flex flex-col">
-          <NavbarGroupButton type="top" onClick={handleFilterBySpeakerClick}>
+          <NavbarGroupButton twStyle="rounded-t-lg" disabled={true}>
             <span className='icon-save text-2xl text-white' />
             <span className="text-white">Save transcription</span>
           </NavbarGroupButton>
-          <NavbarGroupButton onClick={handleFilterBySpeakerClick}>
+          <NavbarGroupButton onClick={handleFilterBySpeakerClick} stopPropagation={true}>
             <span className='icon-two-users text-2xl text-white' />
             <span className="text-white">Filter by speaker</span>
           </NavbarGroupButton>
-          <NavbarGroupButton type="bottom">
+          <NavbarGroupButton twStyle="rounded-b-lg" stopPropagation={true}>
             <span className='icon-info text-2xl text-white' />
             <span className="text-white">Transcription info</span>
           </NavbarGroupButton>
@@ -41,8 +61,6 @@ export function TranscriptionScreen () {
       ),
     }));
   }
-
-  const currentStyle = 'hover:bg-gray-hover active:bg-gray-active cursor-pointer active:transition-all active:duration-200';
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -68,39 +86,75 @@ export function TranscriptionScreen () {
     }
   }
 
+  function showSubNav () {
+    const titleDiv = document.getElementById('title-div');
+    if (!titleDiv) return false;
+    return scrollPosition > titleDiv.offsetTop + titleDiv.offsetHeight - 52;
+  }
+
+  function scrollToTop () {
+    window.scrollTo({
+      top: 0,
+    });
+    const container = document.getElementById('overflow-container');
+    container.scrollTo({
+      top: 0,
+    });
+  }
+
+  const testTitle = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu tincidunt nunc. Vivamus viverra feugiat libero, ornare mollis risus tempus id. Aliquam erat volutpat.';
+
   return (
     <>
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcriptions" text="Transcriptions" />
-        <span className="font-semibold absolute left-1/2 transform -translate-x-1/2 overflow-hidden truncate w-full max-w-[150px] sm:max-w-[250px] transition-all duration-200 text-center">Unsaved</span>
         <Button twStyle="icon-more-horiz" onClick={openMoreMenu} />
       </Navbar>
       <WhiteVignette />
-      <OverflowContainer twStyle="pb-14">
-        {[...Array(50)].map((_, i) => {
-          const formattedTimestamp = '4:44';
-          const timestampWidth = getTimestampWidth(formattedTimestamp);
+      <OverflowContainer twStyle="pb-14 sm:gap-0">
+        <div className="top-11" id="title-div">
+          <div className="flex flex-col gap-0.5">
+            <h1 className="sm:text-xl text-lg font-semibold mx-2">{testTitle}</h1>
+            <p className="mx-2 sm:text-base text-sm text-gray-subtext">Created Mon 4:02 AM · Updated 4:02 AM</p>
+          </div>
+          <div className="h-[2px] bg-gray-divider sm:my-2.5 my-2 mx-2 sm:mx-1" />
+        </div>
+        <div className="flex flex-col sm:gap-1">
+          {[...Array(50)].map((_, i) => {
+            const formattedTimestamp = '4:44';
+            const timestampWidth = getTimestampWidth(formattedTimestamp);
 
-          return (
-            <ContainerButton
-              twStyle="flex items-center gap-3 w-full justify-between"
-              key={i}
-            >
-              <div className={`flex flex-row gap-3 p-2 sm:rounded-lg ${currentStyle}`}>
-                <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
-                  <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
-                    {formattedTimestamp}
+            return (
+              <ContainerButton
+                twStyle="flex items-center gap-3 w-full justify-between"
+                key={i}
+              >
+                <div className="flex flex-row gap-3 p-2 sm:rounded-lg hover:bg-gray-hover active:bg-gray-active cursor-pointer active:transition-all active:duration-200">
+                  <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
+                    <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
+                      {formattedTimestamp}
+                    </div>
                   </div>
+                  <span className="text-sm sm:text-base text-left w-full">今日の底堅さが改めて10名となりましたアメリカの去年12月の雇用統計は景気の動向を敏感に反映する非農業部門の就業者数が前の日に比べ223000人増え市場の予想を上回</span>
                 </div>
-                <span className="text-sm sm:text-base text-left w-full">今日の底堅さが改めて10名となりましたアメリカの去年12月の雇用統計は景気の動向を敏感に反映する非農業部門の就業者数が前の日に比べ223000人増え市場の予想を上回</span>
-              </div>
-            </ContainerButton>
-          );
-        })}
+              </ContainerButton>
+            );
+          })}
+        </div>
       </OverflowContainer>
+      <div
+        className="fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"
+        style={{ opacity: showSubNav() ? 1 : 0, pointerEvents: showSubNav() ? 'all' : 'none' }}
+        onClick={scrollToTop}
+      >
+        <div className="flex flex-col gap-0.5 my-2">
+          <h1 className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{testTitle}</h1>
+        </div>
+        <div className="h-[2px] bg-gray-divider" />
+      </div>
       <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-between bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-[border-radius] duration-300'>
-        <Button twStyle="flex items-center gap-1 absolute transform -translate-x-1/2 left-1/2">
+        <Button twStyle="flex items-center gap-1 absolute transform -translate-x-1/2 left-1/2 select-auto">
           <span className='icon-mic' />
           <span className="text-base">Start transcribing</span>
         </Button>
