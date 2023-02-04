@@ -25,17 +25,22 @@ export function NavbarMenu () {
   const dispatch = useDispatch();
   const { navMenu } = useSelector(commonSelector);
 
+  function onBackdropClick () {
+    if (!navMenu.easyClose) return;
+    dispatch(commonActions.closeNavMenu());
+  }
+
   return (
     <>
       <div
-        className='left-0 right-0 h-screen fixed top-0 backdrop-blur transition-[opacity] duration-400 z-[1] transition-[opacity] duration-200'
-        style={{ opacity: navMenu.open ? 1 : 0, pointerEvents: navMenu.open ? 'all' : 'none' }}
-        onMouseDown={() => dispatch(commonActions.closeNavMenu())}
+        className='left-0 right-0 h-screen fixed top-0 backdrop-blur transition-[opacity] duration-400 z-[1] transition-all duration-200'
+        style={{ opacity: navMenu.open ? 1 : 0, pointerEvents: navMenu.open ? 'all' : 'none', backgroundColor: !navMenu.easyClose && 'rgba(0,0,0,0.55)' }}
+        onClick={onBackdropClick}
       />
       <div
         className="fixed top-0 bottom-0 z-[1] w-full left-1/2 transform -translate-x-1/2 transition-[opacity] duration-200 overflow-y-auto pb-3"
         style={{ opacity: navMenu.open ? 1 : 0, pointerEvents: navMenu.open ? 'all' : 'none' }}
-        onClick={() => dispatch(commonActions.closeNavMenu())}
+        onClick={onBackdropClick}
         id="nav-menu"
       >
         <div className={twMerge('max-w-screen-sm mx-auto flex flex-col', navMenu.containerTwStyle)}>

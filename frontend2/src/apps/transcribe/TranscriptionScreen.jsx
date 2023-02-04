@@ -147,7 +147,7 @@ export function TranscriptionScreen () {
         onClick={scrollToTop}
       >
         <div className="flex flex-col gap-0.5 my-2">
-          <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{testTitle}</span>
+          <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{testTitle !== 'Click to edit title' ? testTitle : 'Untitled'}</span>
           <span className="sm:text-base text-gray-subtext text-sm mx-2 overflow-hidden truncate">{getCurrentPart()}</span>
         </div>
         <div className="h-[2px] bg-gray-divider" />
