@@ -48,10 +48,12 @@ export function TranscriptionScreen () {
   function scrollToTop () {
     window.scrollTo({
       top: 0,
+      behavior: 'smooth',
     });
     const container = document.getElementById('overflow-container');
     container.scrollTo({
       top: 0,
+      behavior: 'smooth',
     });
   }
 
