@@ -57,7 +57,7 @@ export function TranscriptionScreen () {
     });
   }
 
-  const testTitle = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu tincidunt nunc. Vivamus viverra feugiat libero, ornare mollis risus tempus id. Aliquam erat volutpat.';
+  const [testTitle, setTestTitle] = React.useState('Click to edit title');
   const testParts = ['Part 1 · Recorded on January 1, 2022 at 7:00 AM', 'Part 2 · Recorded on January 1, 2022 at 7:00 AM'];
 
   function getCurrentPart () {
@@ -86,7 +86,7 @@ export function TranscriptionScreen () {
       <OverflowContainer twStyle="pb-14 sm:gap-0">
         <div className="top-11" id="title-div">
           <div className="flex flex-col gap-0.5 mx-2">
-            <span className="sm:text-xl text-lg font-semibold">{testTitle}</span>
+            <span className="sm:text-xl text-lg font-semibold" contentEditable="true" onBlur={e => setTestTitle(e.target.innerText)}>{testTitle}</span>
             <span className="sm:text-base text-sm text-gray-subtext">Created Mon 4:02 AM · Updated 4:02 AM</span>
           </div>
           <Divider twStyle="mx-2 sm:mx-1" />
