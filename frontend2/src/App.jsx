@@ -8,6 +8,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from './slices/commonSlice.js';
 import { NavbarMenu } from './components/NavbarMenu.jsx';
+import { TestScreen } from './apps/main/TestScreen.jsx';
 
 function App () {
   const dispatch = useDispatch();
@@ -28,6 +29,10 @@ function App () {
   }, [location.pathname]);
 
   React.useEffect(() => {
+    if (navigator.userAgent.indexOf('Android') !== -1) {
+      document.body.style.overscrollBehaviorY = 'none';
+    }
+
     function handleResize () {
       const windowValues = { width: window.innerWidth, height: window.innerHeight };
       dispatch(commonActions.setSlice({ windowValues }));
@@ -50,9 +55,10 @@ function App () {
 
   return (
     <>
-      <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85]" style={{ backgroundSize: 'cover', backgroundImage: 'url(/bg.jpg)', backgroundPosition }} />
+      {location.pathname !== '/testing' && <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85]" style={{ backgroundSize: 'cover', backgroundImage: 'url(/bg.jpg)', backgroundPosition }} />}
       <Routes>
         <Route path="/" element={<HomeScreen />} />
+        <Route path="/testing" element={<TestScreen />} />
         <Route path="/messages/contacts" element={<ContactsScreen />} />
         <Route path="/messages/contacts/:id" element={<ContactsScreen />} />
         <Route path="/transcribe/transcriptions" element={<TranscriptionsScreen />} />

@@ -56,6 +56,22 @@ export function TranscriptionScreen () {
   }
 
   const testTitle = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu tincidunt nunc. Vivamus viverra feugiat libero, ornare mollis risus tempus id. Aliquam erat volutpat.';
+  const testParts = ['Part 1 · Recorded on January 1, 2022 at 7:00 AM', 'Part 2 · Recorded on January 1, 2022 at 7:00 AM'];
+
+  function getCurrentPart () {
+    const parts = document.querySelectorAll('.part');
+    let index = -1;
+    if (!parts) return;
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+      if (scrollPosition < part.offsetTop - 52) {
+        index = Math.max(1, i);
+        break;
+      }
+    }
+    if (index === -1) index = parts.length;
+    return testParts[index - 1];
+  }
 
   return (
     <>
@@ -67,14 +83,41 @@ export function TranscriptionScreen () {
       <WhiteVignette />
       <OverflowContainer twStyle="pb-14 sm:gap-0">
         <div className="top-11" id="title-div">
-          <div className="flex flex-col gap-0.5">
-            <span className="sm:text-xl text-lg font-semibold mx-2">{testTitle}</span>
-            <span className="mx-2 sm:text-base text-sm text-gray-subtext">Created Mon 4:02 AM · Updated 4:02 AM</span>
+          <div className="flex flex-col gap-0.5 mx-2">
+            <span className="sm:text-xl text-lg font-semibold">{testTitle}</span>
+            <span className="sm:text-base text-sm text-gray-subtext">Created Mon 4:02 AM · Updated 4:02 AM</span>
           </div>
           <Divider twStyle="mx-2 sm:mx-1" />
         </div>
         <div className="flex flex-col sm:gap-1">
-          {[...Array(50)].map((_, i) => {
+          <div className="mx-2 font-semibold part sm:text-base text-sm">
+            <span>Part 1 · Recorded on January 1, 2022 at 7:00 AM</span>
+          </div>
+          {[...Array(10)].map((_, i) => {
+            const formattedTimestamp = '4:44';
+            const timestampWidth = getTimestampWidth(formattedTimestamp);
+
+            return (
+              <ContainerButton
+                twStyle="flex items-center gap-3 w-full justify-between"
+                key={i}
+              >
+                <div className="flex flex-row gap-3 p-2 sm:rounded-lg hover:bg-gray-hover active:bg-gray-active cursor-pointer active:transition-all active:duration-200">
+                  <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
+                    <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
+                      {formattedTimestamp}
+                    </div>
+                  </div>
+                  <span className="text-sm sm:text-base text-left w-full">今日の底堅さが改めて10名となりましたアメリカの去年12月の雇用統計は景気の動向を敏感に反映する非農業部門の就業者数が前の日に比べ223000人増え市場の予想を上回</span>
+                </div>
+              </ContainerButton>
+            );
+          })}
+          <Divider twStyle="mx-2 sm:mx-1" />
+          <div className="mx-2 font-semibold part sm:text-base text-sm">
+            <span>Part 2 · Recorded on January 1, 2022 at 7:00 AM</span>
+          </div>
+          {[...Array(20)].map((_, i) => {
             const formattedTimestamp = '4:44';
             const timestampWidth = getTimestampWidth(formattedTimestamp);
 
@@ -103,6 +146,7 @@ export function TranscriptionScreen () {
       >
         <div className="flex flex-col gap-0.5 my-2">
           <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{testTitle}</span>
+          <span className="sm:text-base text-gray-subtext text-sm mx-2 overflow-hidden truncate">{getCurrentPart()}</span>
         </div>
         <div className="h-[2px] bg-gray-divider" />
       </div>

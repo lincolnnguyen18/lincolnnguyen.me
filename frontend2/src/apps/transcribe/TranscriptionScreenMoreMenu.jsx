@@ -35,6 +35,7 @@ export function TranscriptionScreenMoreMenu () {
     }));
   }
 
+  // eslint-disable-next-line no-unused-vars
   async function handleFilterBySpeakerClick () {
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
@@ -74,11 +75,11 @@ export function TranscriptionScreenMoreMenu () {
             <span className="text-white">Change language</span>
           </NavbarGroupButton>
           <NavbarGroupDivider />
-          <NavbarGroupButton onClick={handleFilterBySpeakerClick} stopPropagation={true}>
-            <span className='icon-two-users text-2xl text-white' />
-            <span className="text-white">Filter by speaker</span>
-          </NavbarGroupButton>
-          <NavbarGroupDivider />
+          {/*<NavbarGroupButton onClick={handleFilterBySpeakerClick} stopPropagation={true}>*/}
+          {/*  <span className='icon-two-users text-2xl text-white' />*/}
+          {/*  <span className="text-white">Filter by speaker</span>*/}
+          {/*</NavbarGroupButton>*/}
+          {/*<NavbarGroupDivider />*/}
           <NavbarGroupButton twStyle="rounded-b-lg" stopPropagation={true}>
             <span className='icon-info text-2xl text-white' />
             <span className="text-white">Transcription info</span>

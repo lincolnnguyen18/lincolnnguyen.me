@@ -38,7 +38,7 @@ export function TranscriptionsScreen () {
           <>
             <div key={i} className="flex flex-col gap-1.5 px-4 sm:px-1">
               <TextLink to="/transcribe/transcriptions/1" twStyle="sm:text-lg font-semibold text-purple-custom w-fit">{testTitle}</TextLink>
-              <span className="sm:text-base text-sm text-justify">{testPreview}</span>
+              <span className="sm:text-base text-sm">{testPreview}</span>
               <span className="text-gray-subtext text-xs sm:text-sm">{testTimestamp}</span>
             </div>
             <Divider twStyle="sm:h-[2px] sm:mx-0 mx-3.5 h-[2px] last:hidden" />
