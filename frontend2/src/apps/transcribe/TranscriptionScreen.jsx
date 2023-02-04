@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from '../../slices/commonSlice.js';
 import { NavbarGroupButton } from '../../components/NavbarGroupButton.jsx';
 import { wait } from '../../common/timeUtils.js';
+import { Divider } from '../../components/Divider.jsx';
 
 export function TranscriptionScreen () {
   const dispatch = useDispatch();
@@ -115,10 +116,10 @@ export function TranscriptionScreen () {
       <OverflowContainer twStyle="pb-14 sm:gap-0">
         <div className="top-11" id="title-div">
           <div className="flex flex-col gap-0.5">
-            <h1 className="sm:text-xl text-lg font-semibold mx-2">{testTitle}</h1>
-            <p className="mx-2 sm:text-base text-sm text-gray-subtext">Created Mon 4:02 AM · Updated 4:02 AM</p>
+            <span className="sm:text-xl text-lg font-semibold mx-2">{testTitle}</span>
+            <span className="mx-2 sm:text-base text-sm text-gray-subtext">Created Mon 4:02 AM · Updated 4:02 AM</span>
           </div>
-          <div className="h-[2px] bg-gray-divider sm:my-2.5 my-2 mx-2 sm:mx-1" />
+          <Divider twStyle="mx-2 sm:mx-1" />
         </div>
         <div className="flex flex-col sm:gap-1">
           {[...Array(50)].map((_, i) => {
@@ -149,7 +150,7 @@ export function TranscriptionScreen () {
         onClick={scrollToTop}
       >
         <div className="flex flex-col gap-0.5 my-2">
-          <h1 className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{testTitle}</h1>
+          <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{testTitle}</span>
         </div>
         <div className="h-[2px] bg-gray-divider" />
       </div>
