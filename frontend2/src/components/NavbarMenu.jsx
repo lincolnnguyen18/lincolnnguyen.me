@@ -33,7 +33,7 @@ export function NavbarMenu () {
         onMouseDown={() => dispatch(commonActions.closeNavMenu())}
       />
       <div
-        className="fixed top-0 bottom-0 z-[1] w-full left-1/2 transform -translate-x-1/2 transition-[opacity] duration-200 overflow-y-scroll pb-3"
+        className="fixed top-0 bottom-0 z-[1] w-full left-1/2 transform -translate-x-1/2 transition-[opacity] duration-200 overflow-y-auto pb-3"
         style={{ opacity: navMenu.open ? 1 : 0, pointerEvents: navMenu.open ? 'all' : 'none' }}
         onClick={() => dispatch(commonActions.closeNavMenu())}
         id="nav-menu"
