@@ -47,7 +47,7 @@ export function TranscriptionScreenMoreMenu () {
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
 
-    const testTitle = 'This is a super long title so you should really go to the beach and relax';
+    const testTitle = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur maximus vestibulum scelerisque. Nullam pharetra felis nulla, ut finibus purus sodales at. Donec sit amet interdum libero, lobortis consectetur orci. Maecenas ac molestie libero. Mauris nibh velit, dapibus quis magna a, blandit accumsan turpis. Proin ullamcorper, augue a ullamcorper lacinia, eros dolor euismod turpis, eu vulputate enim ligula at nisi.';
     const testDuration = '6:15:47';
     const testCreated = '4:02 AM 4/20/2021';
     const testUpdated = '4:02 AM 4/20/2021';
@@ -82,29 +82,28 @@ export function TranscriptionScreenMoreMenu () {
     }));
   }
 
-  // eslint-disable-next-line no-unused-vars
-  async function handleFilterBySpeaker () {
-    dispatch(commonActions.hideNavMenuChildren());
-    await wait();
-    const options = ['Both speakers', 'Lincoln Nguyen', 'Maimi Yoshikawa'];
-    dispatch(commonActions.openNavMenu({
-      position: 'right',
-      isMainMenu: false,
-      children: (
-        <div className="flex flex-col">
-          {options.map((option, index) => (
-            <React.Fragment key={index}>
-              <NavbarGroupButton twStyle="justify-between">
-                <span className="text-white">{option}</span>
-                {index === 0 && <span className="icon-check text-2xl text-white" />}
-              </NavbarGroupButton>
-              {index !== options.length - 1 && <NavbarGroupDivider />}
-            </React.Fragment>
-          ))}
-        </div>
-      ),
-    }));
-  }
+  // async function handleFilterBySpeaker () {
+  //   dispatch(commonActions.hideNavMenuChildren());
+  //   await wait();
+  //   const options = ['Both speakers', 'Lincoln Nguyen', 'Maimi Yoshikawa'];
+  //   dispatch(commonActions.openNavMenu({
+  //     position: 'right',
+  //     isMainMenu: false,
+  //     children: (
+  //       <div className="flex flex-col">
+  //         {options.map((option, index) => (
+  //           <React.Fragment key={index}>
+  //             <NavbarGroupButton twStyle="justify-between">
+  //               <span className="text-white">{option}</span>
+  //               {index === 0 && <span className="icon-check text-2xl text-white" />}
+  //             </NavbarGroupButton>
+  //             {index !== options.length - 1 && <NavbarGroupDivider />}
+  //           </React.Fragment>
+  //         ))}
+  //       </div>
+  //     ),
+  //   }));
+  // }
 
   const [turningOnEditMode, setTurningOnEditMode] = React.useState(false);
 
@@ -145,7 +144,7 @@ export function TranscriptionScreenMoreMenu () {
           <NavbarGroupDivider />
           <NavbarGroupButton stopPropagation={true} onClick={turnOnEditMode}>
             <span className="icon-edit text-2xl text-white" />
-            <span className="text-white">Edit parts</span>
+            <span className="text-white">Edit</span>
           </NavbarGroupButton>
           <NavbarGroupDivider />
           {/*<NavbarGroupButton onClick={handleFilterBySpeaker} stopPropagation={true}>*/}
