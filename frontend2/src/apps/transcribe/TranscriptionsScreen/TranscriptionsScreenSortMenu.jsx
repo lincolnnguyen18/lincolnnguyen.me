@@ -1,9 +1,9 @@
-import { commonActions } from '../../slices/commonSlice.js';
-import { NavbarGroupButton } from '../../components/NavbarGroupButton.jsx';
-import { NavbarGroupDivider } from '../../components/NavbarGroupDivider.jsx';
+import { commonActions } from '../../../slices/commonSlice.js';
+import { NavbarGroupButton } from '../../../components/NavbarGroupButton.jsx';
+import { NavbarGroupDivider } from '../../../components/NavbarGroupDivider.jsx';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Button } from '../../components/Button.jsx';
+import { Button } from '../../../components/Button.jsx';
 
 export function TranscriptionsScreenSortMenu () {
   const dispatch = useDispatch();

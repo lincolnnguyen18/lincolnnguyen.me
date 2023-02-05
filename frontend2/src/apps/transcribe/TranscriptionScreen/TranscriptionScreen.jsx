@@ -1,19 +1,20 @@
 import React from 'react';
 import theme from 'tailwindcss/defaultTheme.js';
-import { NavbarBlur } from '../../components/NavbarBlur.jsx';
-import { Button } from '../../components/Button.jsx';
-import { WhiteVignette } from '../../components/WhiteVignette.jsx';
-import { Navbar } from '../../components/Navbar.jsx';
-import { ContainerButton } from '../../components/ContainerButton.jsx';
-import { OverflowContainer } from '../../components/OverflowContainer.jsx';
-import { BackButton } from '../../components/BackButton.jsx';
+import { NavbarBlur } from '../../../components/NavbarBlur.jsx';
+import { Button } from '../../../components/Button.jsx';
+import { WhiteVignette } from '../../../components/WhiteVignette.jsx';
+import { Navbar } from '../../../components/Navbar.jsx';
+import { ContainerButton } from '../../../components/ContainerButton.jsx';
+import { OverflowContainer } from '../../../components/OverflowContainer.jsx';
+import { BackButton } from '../../../components/BackButton.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { commonActions, commonSelector } from '../../slices/commonSlice.js';
-import { Divider } from '../../components/Divider.jsx';
+import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
+import { Divider } from '../../../components/Divider.jsx';
 import { TranscriptionScreenMoreMenu } from './TranscriptionScreenMoreMenu.jsx';
-import { transcribeActions, transcribeSelector } from '../../slices/transcribeSlice.js';
+import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { twMerge } from 'tailwind-merge';
-import { Radio } from '../../components/Radio.jsx';
+import { Radio } from '../../../components/Radio.jsx';
+import { BottomBar } from './BottomBar.jsx';
 
 export function TranscriptionScreen () {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ export function TranscriptionScreen () {
 
   // eslint-disable-next-line no-unused-vars
   const [testTitle, setTestTitle] = React.useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed felis lacinia, malesuada metus eget, convallis diam. In vitae pulvinar est. Fusce ex lorem, euismod vitae consequat eu, rutrum quis est. Nunc vel tempor leo, et maximus mauris. Etiam tincidunt justo vestibulum imperdiet consectetur. Aenean ultricies dolor sit amet dolor aliquam, eget rutrum dolor ornare.');
-  const testParts = ['Part 1 · Recorded on January 1, 2022 at 7:00 AM', 'Part 2 · Recorded on January 1, 2022 at 7:00 AM'];
+  const testParts = ['Recorded on January 1, 2022 at 7:00 AM', 'Recorded on January 2, 2022 at 7:00 AM'];
 
   function getCurrentPart () {
     const parts = document.querySelectorAll('.part');
@@ -102,7 +103,7 @@ export function TranscriptionScreen () {
         </div>
         <div className="flex flex-col sm:gap-1">
           <Radio twStyle="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'}>
-            <span>Part 1 · Recorded on January 1, 2022 at 7:00 AM</span>
+            <span>{testParts[0]}</span>
           </Radio>
           {[...Array(maxPartResults())].map((_, i) => {
             const formattedTimestamp = '4:44';
@@ -126,7 +127,7 @@ export function TranscriptionScreen () {
           })}
           <Divider twStyle="mx-2 sm:mx-1" />
           <Radio twStyle="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'}>
-            <span>Part 2 · Recorded on January 1, 2022 at 7:00 AM</span>
+            <span>{testParts[1]}</span>
           </Radio>
           {[...Array(maxPartResults(20))].map((_, i) => {
             const formattedTimestamp = '4:44';
@@ -161,12 +162,7 @@ export function TranscriptionScreen () {
         </div>
         <div className="h-[2px] bg-gray-divider" />
       </div>}
-      <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-between bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-[border-radius] duration-300'>
-        <Button twStyle="flex items-center gap-1 absolute transform -translate-x-1/2 left-1/2 select-auto">
-          <span className='icon-mic' />
-          <span className="text-base">Start transcribing</span>
-        </Button>
-      </div>
+      <BottomBar />
     </>
   );
 }

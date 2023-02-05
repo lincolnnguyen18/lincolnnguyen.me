@@ -1,13 +1,13 @@
 import React from 'react';
-import { Button } from '../../components/Button.jsx';
+import { Button } from '../../../components/Button.jsx';
 import { useDispatch } from 'react-redux';
-import { commonActions } from '../../slices/commonSlice.js';
-import { OverflowContainer } from '../../components/OverflowContainer.jsx';
-import { WhiteVignette } from '../../components/WhiteVignette.jsx';
-import { NavbarBlur } from '../../components/NavbarBlur.jsx';
-import { Navbar } from '../../components/Navbar.jsx';
-import { TextLink } from '../../components/TextLink.jsx';
-import { Divider } from '../../components/Divider.jsx';
+import { commonActions } from '../../../slices/commonSlice.js';
+import { OverflowContainer } from '../../../components/OverflowContainer.jsx';
+import { WhiteVignette } from '../../../components/WhiteVignette.jsx';
+import { NavbarBlur } from '../../../components/NavbarBlur.jsx';
+import { Navbar } from '../../../components/Navbar.jsx';
+import { TextLink } from '../../../components/TextLink.jsx';
+import { Divider } from '../../../components/Divider.jsx';
 import { TranscriptionsScreenSortMenu } from './TranscriptionsScreenSortMenu.jsx';
 
 export function TranscriptionsScreen () {
