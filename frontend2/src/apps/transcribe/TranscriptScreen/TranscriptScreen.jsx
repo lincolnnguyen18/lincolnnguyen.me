@@ -55,7 +55,7 @@ export function TranscriptScreen () {
     return scrollPosition > titleDiv.offsetTop + titleDiv.offsetHeight - 52;
   }
 
-  const [testTitle, setTestTitle] = React.useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed felis lacinia, malesuada metus eget, convallis diam. In vitae pulvinar est. Fusce ex lorem, euismod vitae consequat eu, rutrum quis est. Nunc vel tempor leo, et maximus mauris. Etiam tincidunt justo vestibulum imperdiet consectetur. Aenean ultricies dolor sit amet dolor aliquam, eget rutrum dolor ornare.');
+  const [testTitle, setTestTitle] = React.useState('January 1, 2022 at 7:00 AM');
   const testParts = ['Recorded on January 1, 2022 at 7:00 AM', 'Recorded on January 2, 2022 at 7:00 AM'];
 
   function getCurrentPart () {
@@ -207,7 +207,7 @@ export function TranscriptScreen () {
       >
         <div className="flex flex-col gap-0.5 my-2">
           <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{testTitle !== 'Click to edit title' ? testTitle : 'Untitled'}</span>
-          <span className="sm:text-base text-gray-subtext text-sm mx-2 overflow-hidden truncate">{getCurrentPart()}</span>
+          <span className="sm:text-sm text-xs text-gray-subtext text-sm mx-2 overflow-hidden truncate">{getCurrentPart()}</span>
         </div>
         <div className="h-[2px] bg-gray-divider" />
       </div>}

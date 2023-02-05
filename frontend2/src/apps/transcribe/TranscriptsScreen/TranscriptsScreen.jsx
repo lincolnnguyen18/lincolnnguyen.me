@@ -17,7 +17,7 @@ export function TranscriptsScreen () {
     dispatch(commonActions.openNavMenu());
   }
 
-  const testTitle = 'Untitled';
+  const testTitle = 'January 1, 2022 at 7:00 AM';
   const testPreview = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu tincidunt nunc. Vivamus viverra feugiat libero, ornare mollis risus tempus id. Aliquam erat volutpat. Etiam quis erat risus. Maecenas pellentesque in quam eu lobortis. Pellentesque vulputate egestas arcu, eu ultrices augue ultricies eu. Cras dolor urna, imperdiet eu ante non, maximus suscipit leo. In convallis mi at libero vestibulum hendrerit. Aliquam erat volutpat. Vestibulum lacinia ex sapien, quis feugiat quam aliquet quis. Sed porta, velit vel fringilla tristique, mi risus aliquam odio, et pretium nibh risus sit amet erat. Proin in massa massa. Sed at scelerisque lorem, nec sagittis elit. Etiam auctor erat ut sollicitudin condimentum.';
   const testTimestamp = 'Created Mon 4:02 AM · Updated 4:02 AM';
   const testTags = ['journal', 'lecture'];
