@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
 export function Button ({ twStyle, linkPath, onClick, disabled = false, ...rest }) {
-  function handleClick () {
-    if (!disabled) {
+  function handleClick (e) {
+    if (!disabled && !linkPath) {
+      e.stopPropagation();
       onClick && onClick();
     }
   }

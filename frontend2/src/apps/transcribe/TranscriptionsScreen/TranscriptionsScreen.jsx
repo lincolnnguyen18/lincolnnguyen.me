@@ -28,8 +28,9 @@ export function TranscriptionsScreen () {
       <Navbar>
         <Button twStyle="icon-menu" onClick={openNavMenu} />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Transcriptions</span>
-        <div className="flex gap-4">
+        <div className="flex gap-3">
           <Button twStyle="icon-add" linkPath="/transcribe/transcriptions/new" />
+          <Button twStyle="icon-search" />
           <TranscriptionsScreenSortMenu />
         </div>
       </Navbar>

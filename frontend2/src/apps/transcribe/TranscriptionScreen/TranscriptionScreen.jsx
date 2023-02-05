@@ -162,7 +162,6 @@ export function TranscriptionScreen () {
       {mode === 'default' && <div
         className="fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"
         style={{ opacity: showSubNav() ? 1 : 0, pointerEvents: showSubNav() ? 'all' : 'none' }}
-        onClick={() => dispatch(commonActions.scrollToTop())}
       >
         <div className="flex flex-col gap-0.5 my-2">
           <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{testTitle !== 'Click to edit title' ? testTitle : 'Untitled'}</span>
