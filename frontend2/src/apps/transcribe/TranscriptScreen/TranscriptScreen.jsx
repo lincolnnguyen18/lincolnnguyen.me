@@ -160,9 +160,10 @@ export function TranscriptScreen () {
             return (
               <ContainerButton
                 twStyle="flex items-center gap-3 w-full justify-between"
+                disabled={mode === 'edit'}
                 key={i}
               >
-                <div className="flex flex-row gap-3 p-2 sm:rounded-lg hover:bg-gray-hover active:bg-gray-active active:transition-all active:duration-200">
+                <div className="flex flex-row gap-3 p-2">
                   <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
                     <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
                       {formattedTimestamp}
@@ -184,9 +185,10 @@ export function TranscriptScreen () {
             return (
               <ContainerButton
                 twStyle="flex items-center gap-3 w-full justify-between"
+                disabled={mode === 'edit'}
                 key={i}
               >
-                <div className="flex flex-row gap-3 p-2 sm:rounded-lg hover:bg-gray-hover active:bg-gray-active active:transition-all active:duration-200">
+                <div className="flex flex-row gap-3 p-2">
                   <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
                     <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
                       {formattedTimestamp}
