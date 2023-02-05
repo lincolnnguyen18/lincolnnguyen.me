@@ -34,7 +34,7 @@ export function ContactsScreen () {
               <div className="flex gap-3">
                 <img
                   src="https://lh3.googleusercontent.com/a/AEdFTp6DLp-mXUsRqVYJA7Pi8fgAzH-AaluJ-1KjeBaU=s96-c"
-                  className="w-11 h-11 rounded-full flex-shrink-0 bg-gray-subtext"
+                  className="w-11 h-11 rounded-full flex-shrink-0 bg-gray-subtext select-none"
                   alt="avatar"
                   referrerPolicy="no-referrer"
                 />

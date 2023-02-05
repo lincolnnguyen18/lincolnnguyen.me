@@ -7,13 +7,18 @@ import { Navbar } from '../../components/Navbar.jsx';
 import { ContainerButton } from '../../components/ContainerButton.jsx';
 import { OverflowContainer } from '../../components/OverflowContainer.jsx';
 import { BackButton } from '../../components/BackButton.jsx';
-import { useSelector } from 'react-redux';
-import { commonSelector } from '../../slices/commonSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { commonActions, commonSelector } from '../../slices/commonSlice.js';
 import { Divider } from '../../components/Divider.jsx';
 import { TranscriptionScreenMoreMenu } from './TranscriptionScreenMoreMenu.jsx';
+import { transcribeActions, transcribeSelector } from '../../slices/transcribeSlice.js';
+import { twMerge } from 'tailwind-merge';
+import { Radio } from '../../components/Radio.jsx';
 
 export function TranscriptionScreen () {
+  const dispatch = useDispatch();
   const { windowValues, scrollPosition } = useSelector(commonSelector);
+  const { mode } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -45,19 +50,8 @@ export function TranscriptionScreen () {
     return scrollPosition > titleDiv.offsetTop + titleDiv.offsetHeight - 52;
   }
 
-  function scrollToTop () {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-    const container = document.getElementById('overflow-container');
-    container.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }
-
-  const [testTitle, setTestTitle] = React.useState('Click to edit title');
+  // eslint-disable-next-line no-unused-vars
+  const [testTitle, setTestTitle] = React.useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed felis lacinia, malesuada metus eget, convallis diam. In vitae pulvinar est. Fusce ex lorem, euismod vitae consequat eu, rutrum quis est. Nunc vel tempor leo, et maximus mauris. Etiam tincidunt justo vestibulum imperdiet consectetur. Aenean ultricies dolor sit amet dolor aliquam, eget rutrum dolor ornare.');
   const testParts = ['Part 1 · Recorded on January 1, 2022 at 7:00 AM', 'Part 2 · Recorded on January 1, 2022 at 7:00 AM'];
 
   function getCurrentPart () {
@@ -75,27 +69,42 @@ export function TranscriptionScreen () {
     return testParts[index - 1];
   }
 
+  function maxPartResults (num = 10) {
+    if (mode === 'edit') {
+      return 1;
+    } else if (mode === 'default') {
+      return num;
+    }
+  }
+
+  function handleDone () {
+    dispatch(transcribeActions.setSlice({ mode: 'default' }));
+  }
+
   return (
     <>
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcriptions" text="Transcriptions" />
-        <TranscriptionScreenMoreMenu />
+        {mode === 'default' ? <TranscriptionScreenMoreMenu /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
       <WhiteVignette />
       <OverflowContainer twStyle="pb-14 sm:gap-0">
         <div className="top-11" id="title-div">
           <div className="flex flex-col gap-0.5 mx-2">
-            <span className="sm:text-xl text-lg font-semibold" contentEditable="true" onBlur={e => setTestTitle(e.target.innerText)}>{testTitle}</span>
+            <div className="flex gap-2 items-center">
+              <span className={twMerge('sm:text-xl text-lg font-semibold', mode === 'edit' && 'overflow-hidden truncate')}>{testTitle}</span>
+              {mode === 'edit' && <Button><span className="icon-edit text-2xl cursor-pointer" /></Button>}
+            </div>
             <span className="sm:text-base text-sm text-gray-subtext">Created Mon 4:02 AM · Updated 4:02 AM</span>
           </div>
           <Divider twStyle="mx-2 sm:mx-1" />
         </div>
         <div className="flex flex-col sm:gap-1">
-          <div className="mx-2 font-semibold part sm:text-base text-sm">
+          <Radio twStyle="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'}>
             <span>Part 1 · Recorded on January 1, 2022 at 7:00 AM</span>
-          </div>
-          {[...Array(10)].map((_, i) => {
+          </Radio>
+          {[...Array(maxPartResults())].map((_, i) => {
             const formattedTimestamp = '4:44';
             const timestampWidth = getTimestampWidth(formattedTimestamp);
 
@@ -104,7 +113,7 @@ export function TranscriptionScreen () {
                 twStyle="flex items-center gap-3 w-full justify-between"
                 key={i}
               >
-                <div className="flex flex-row gap-3 p-2 sm:rounded-lg hover:bg-gray-hover active:bg-gray-active cursor-pointer active:transition-all active:duration-200">
+                <div className="flex flex-row gap-3 p-2 sm:rounded-lg hover:bg-gray-hover active:bg-gray-active active:transition-all active:duration-200">
                   <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
                     <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
                       {formattedTimestamp}
@@ -116,10 +125,10 @@ export function TranscriptionScreen () {
             );
           })}
           <Divider twStyle="mx-2 sm:mx-1" />
-          <div className="mx-2 font-semibold part sm:text-base text-sm">
+          <Radio twStyle="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'}>
             <span>Part 2 · Recorded on January 1, 2022 at 7:00 AM</span>
-          </div>
-          {[...Array(20)].map((_, i) => {
+          </Radio>
+          {[...Array(maxPartResults(20))].map((_, i) => {
             const formattedTimestamp = '4:44';
             const timestampWidth = getTimestampWidth(formattedTimestamp);
 
@@ -128,7 +137,7 @@ export function TranscriptionScreen () {
                 twStyle="flex items-center gap-3 w-full justify-between"
                 key={i}
               >
-                <div className="flex flex-row gap-3 p-2 sm:rounded-lg hover:bg-gray-hover active:bg-gray-active cursor-pointer active:transition-all active:duration-200">
+                <div className="flex flex-row gap-3 p-2 sm:rounded-lg hover:bg-gray-hover active:bg-gray-active active:transition-all active:duration-200">
                   <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
                     <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
                       {formattedTimestamp}
@@ -141,17 +150,17 @@ export function TranscriptionScreen () {
           })}
         </div>
       </OverflowContainer>
-      <div
+      {mode === 'default' && <div
         className="fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"
         style={{ opacity: showSubNav() ? 1 : 0, pointerEvents: showSubNav() ? 'all' : 'none' }}
-        onClick={scrollToTop}
+        onClick={() => dispatch(commonActions.scrollToTop())}
       >
         <div className="flex flex-col gap-0.5 my-2">
           <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{testTitle !== 'Click to edit title' ? testTitle : 'Untitled'}</span>
           <span className="sm:text-base text-gray-subtext text-sm mx-2 overflow-hidden truncate">{getCurrentPart()}</span>
         </div>
         <div className="h-[2px] bg-gray-divider" />
-      </div>
+      </div>}
       <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-between bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-[border-radius] duration-300'>
         <Button twStyle="flex items-center gap-1 absolute transform -translate-x-1/2 left-1/2 select-auto">
           <span className='icon-mic' />

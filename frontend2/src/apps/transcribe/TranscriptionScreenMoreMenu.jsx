@@ -1,14 +1,20 @@
-import { commonActions } from '../../slices/commonSlice.js';
+import { commonActions, commonSelector } from '../../slices/commonSlice.js';
 import { wait } from '../../common/timeUtils.js';
 import { NavbarGroupButton } from '../../components/NavbarGroupButton.jsx';
 import { NavbarGroupDivider } from '../../components/NavbarGroupDivider.jsx';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../components/Button.jsx';
 import { NavMenuButton } from '../../components/NavMenuButton.jsx';
+import { transcribeActions } from '../../slices/transcribeSlice.js';
 
 export function TranscriptionScreenMoreMenu () {
   const dispatch = useDispatch();
+  const { scrollPosition } = useSelector(commonSelector);
+
+  function closeMenu () {
+    dispatch(commonActions.closeNavMenu());
+  }
 
   async function handleChangeLanguage () {
     dispatch(commonActions.hideNavMenuChildren());
@@ -39,10 +45,6 @@ export function TranscriptionScreenMoreMenu () {
   async function handleOpenInfo () {
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
-
-    function closeMenu () {
-      dispatch(commonActions.closeNavMenu());
-    }
 
     const testTitle = 'This is a super long title so you should really go to the beach and relax';
     const testDuration = '6:15:47';
@@ -103,6 +105,27 @@ export function TranscriptionScreenMoreMenu () {
     }));
   }
 
+  const [turningOnEditMode, setTurningOnEditMode] = React.useState(false);
+
+  function turnOnEditMode () {
+    closeMenu();
+    if (scrollPosition === 0) {
+      dispatch(transcribeActions.setSlice({ mode: 'edit' }));
+    } else {
+      dispatch(commonActions.scrollToTop());
+      setTurningOnEditMode(true);
+    }
+  }
+
+  React.useEffect(() => {
+    if (scrollPosition === 0 && turningOnEditMode) {
+      setTimeout(() => {
+        dispatch(transcribeActions.setSlice({ mode: 'edit' }));
+        setTurningOnEditMode(false);
+      }, 50);
+    }
+  }, [scrollPosition]);
+
   function openMoreMenu () {
     dispatch(commonActions.openNavMenu({
       position: 'right',
@@ -117,6 +140,11 @@ export function TranscriptionScreenMoreMenu () {
           <NavbarGroupButton stopPropagation={true} onClick={handleChangeLanguage}>
             <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">JA</span>
             <span className="text-white">Change language</span>
+          </NavbarGroupButton>
+          <NavbarGroupDivider />
+          <NavbarGroupButton stopPropagation={true} onClick={turnOnEditMode}>
+            <span className="icon-edit text-2xl text-white" />
+            <span className="text-white">Edit parts</span>
           </NavbarGroupButton>
           <NavbarGroupDivider />
           {/*<NavbarGroupButton onClick={handleFilterBySpeaker} stopPropagation={true}>*/}

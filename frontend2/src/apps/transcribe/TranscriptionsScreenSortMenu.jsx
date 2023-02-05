@@ -1,5 +1,4 @@
 import { commonActions } from '../../slices/commonSlice.js';
-import { wait } from '../../common/timeUtils.js';
 import { NavbarGroupButton } from '../../components/NavbarGroupButton.jsx';
 import { NavbarGroupDivider } from '../../components/NavbarGroupDivider.jsx';
 import React from 'react';
@@ -10,8 +9,6 @@ export function TranscriptionsScreenSortMenu () {
   const dispatch = useDispatch();
 
   async function handleOpenMenu () {
-    dispatch(commonActions.hideNavMenuChildren());
-    await wait();
     const options = ['Created at', 'Updated at'];
     dispatch(commonActions.openNavMenu({
       position: 'right',

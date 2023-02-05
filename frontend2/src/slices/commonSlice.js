@@ -23,7 +23,6 @@ const initialState = {
     height: 0,
   },
   backgroundPosition: _.sample(positions),
-  count: 0,
 };
 
 const commonSlice = createSlice({
@@ -59,11 +58,16 @@ const commonSlice = createSlice({
       state.bodyScroll = false;
       state.navMenu.children = children;
     },
-    increment: (state) => {
-      state.count += 1;
-    },
-    decrement: (state) => {
-      state.count -= 1;
+    scrollToTop: () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+      const container = document.getElementById('overflow-container');
+      container.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
     },
   },
 });
