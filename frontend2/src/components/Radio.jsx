@@ -7,7 +7,7 @@ export function Radio ({ children, active = false, twStyle }) {
 
   return (
     <div className={twMerge('flex items-center gap-2', active && 'select-none cursor-pointer', twStyle)} onClick={() => setSelected(!selected)}>
-      {active && <Button>
+      {active && <Button stopPropagation={false}>
         <span className={twMerge('text-2xl cursor-pointer', selected ? 'icon-radio-checked-filled' : 'icon-radio-unchecked')} />
       </Button>}
       {children}
