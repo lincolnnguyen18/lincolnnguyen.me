@@ -52,7 +52,7 @@ export function TranscriptionScreen () {
   }
 
   // eslint-disable-next-line no-unused-vars
-  const [testTitle, setTestTitle] = React.useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed felis lacinia, malesuada metus eget, convallis diam. In vitae pulvinar est. Fusce ex lorem, euismod vitae consequat eu, rutrum quis est. Nunc vel tempor leo, et maximus mauris. Etiam tincidunt justo vestibulum imperdiet consectetur. Aenean ultricies dolor sit amet dolor aliquam, eget rutrum dolor ornare.');
+  const testTitle = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed felis lacinia, malesuada metus eget, convallis diam. In vitae pulvinar est. Fusce ex lorem, euismod vitae consequat eu, rutrum quis est. Nunc vel tempor leo, et maximus mauris. Etiam tincidunt justo vestibulum imperdiet consectetur. Aenean ultricies dolor sit amet dolor aliquam, eget rutrum dolor ornare.';
   const testParts = ['Recorded on January 1, 2022 at 7:00 AM', 'Recorded on January 2, 2022 at 7:00 AM'];
 
   function getCurrentPart () {
@@ -81,6 +81,14 @@ export function TranscriptionScreen () {
   function handleDone () {
     dispatch(transcribeActions.setSlice({ mode: 'default' }));
   }
+
+  React.useEffect(() => {
+    dispatch(commonActions.setSlice({ scrollPosition: 0 }));
+    handleDone();
+    return () => {
+      handleDone();
+    };
+  }, []);
 
   return (
     <>
