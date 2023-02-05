@@ -59,7 +59,7 @@ export function TranscriptionScreenMoreMenu () {
       easyClose: false,
       children: (
         <div className="flex flex-col w-full text-white items-center pl-1">
-          <div className="bg-black bg-opacity-50 rounded-lg w-full max-w-lg flex flex-col mt-2 mb-6 p-2 sm:p-3">
+          <div className="bg-black bg-opacity-50 rounded-lg w-full max-w-lg flex flex-col mt-3 mb-6 p-2 sm:p-3">
             <span className="font-semibold sm:text-lg text-base mb-2">{testTitle}</span>
             <div className="flex justify-between w-full">
               <div className="flex flex-col">

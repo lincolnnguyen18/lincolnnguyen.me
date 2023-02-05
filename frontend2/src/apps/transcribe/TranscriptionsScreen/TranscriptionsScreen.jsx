@@ -8,7 +8,7 @@ import { NavbarBlur } from '../../../components/NavbarBlur.jsx';
 import { Navbar } from '../../../components/Navbar.jsx';
 import { TextLink } from '../../../components/TextLink.jsx';
 import { Divider } from '../../../components/Divider.jsx';
-import { TranscriptionsScreenSortMenu } from './TranscriptionsScreenSortMenu.jsx';
+import { TranscriptionsScreenMoreMenu } from './TranscriptionsScreenMoreMenu.jsx';
 
 export function TranscriptionsScreen () {
   const dispatch = useDispatch();
@@ -29,9 +29,7 @@ export function TranscriptionsScreen () {
         <Button twStyle="icon-menu" onClick={openNavMenu} />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Transcriptions</span>
         <div className="flex gap-3">
-          <Button twStyle="icon-add" linkPath="/transcribe/transcriptions/new" />
-          <Button twStyle="icon-search" />
-          <TranscriptionsScreenSortMenu />
+          <TranscriptionsScreenMoreMenu />
         </div>
       </Navbar>
       <WhiteVignette />
