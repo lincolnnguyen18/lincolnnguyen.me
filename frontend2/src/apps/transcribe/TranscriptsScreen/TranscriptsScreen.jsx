@@ -8,9 +8,9 @@ import { NavbarBlur } from '../../../components/NavbarBlur.jsx';
 import { Navbar } from '../../../components/Navbar.jsx';
 import { TextLink } from '../../../components/TextLink.jsx';
 import { Divider } from '../../../components/Divider.jsx';
-import { TranscriptionsScreenMoreMenu } from './TranscriptionsScreenMoreMenu.jsx';
+import { MoreMenu } from './MoreMenu.jsx';
 
-export function TranscriptionsScreen () {
+export function TranscriptsScreen () {
   const dispatch = useDispatch();
 
   function openNavMenu () {
@@ -27,21 +27,21 @@ export function TranscriptionsScreen () {
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar>
         <Button twStyle="icon-menu" onClick={openNavMenu} />
-        <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Transcriptions</span>
+        <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Transcripts</span>
         <div className="flex gap-3">
-          <TranscriptionsScreenMoreMenu />
+          <MoreMenu />
         </div>
       </Navbar>
       <WhiteVignette />
       <OverflowContainer>
         {/*<IconMessage*/}
         {/*  iconStyle="icon-article text-purple-custom"*/}
-        {/*  messageText="You have no transcriptions. Add a transcription by pressing the plus button at the top right."*/}
+        {/*  messageText="You have no transcripts. Add a transcript by pressing the plus button at the top right."*/}
         {/*/>*/}
         {[...Array(30)].map((_, i) => (
           <React.Fragment key={i}>
             <div className="flex flex-col gap-1.5 px-4 sm:px-1">
-              <TextLink to="/transcribe/transcriptions/1" twStyle="sm:text-lg text-purple-custom w-fit">{testTitle}</TextLink>
+              <TextLink to="/transcribe/transcripts/1" twStyle="sm:text-lg text-purple-custom w-fit">{testTitle}</TextLink>
               <span className="sm:text-base text-sm">{testPreview}</span>
               <div className="flex flex-wrap gap-1.5">
                 {testTags.map((tag, i) => (

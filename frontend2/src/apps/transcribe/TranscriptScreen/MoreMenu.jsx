@@ -8,7 +8,7 @@ import { Button } from '../../../components/Button.jsx';
 import { NavMenuButton } from '../../../components/NavMenuButton.jsx';
 import { transcribeActions } from '../../../slices/transcribeSlice.js';
 
-export function TranscriptionScreenMoreMenu () {
+export function MoreMenu () {
   const dispatch = useDispatch();
   const { scrollPosition } = useSelector(commonSelector);
 
@@ -134,7 +134,7 @@ export function TranscriptionScreenMoreMenu () {
         <div className="flex flex-col">
           <NavbarGroupButton twStyle="rounded-t-lg" disabled={true}>
             <span className='icon-save text-2xl text-white' />
-            <span className="text-white">Save transcription</span>
+            <span className="text-white">Save transcript</span>
           </NavbarGroupButton>
           <NavbarGroupDivider />
           <NavbarGroupButton stopPropagation={true} onClick={handleChangeLanguage}>
@@ -154,7 +154,7 @@ export function TranscriptionScreenMoreMenu () {
           {/*<NavbarGroupDivider />*/}
           <NavbarGroupButton twStyle="rounded-b-lg" stopPropagation={true} onClick={handleOpenInfo}>
             <span className='icon-info text-2xl text-white' />
-            <span className="text-white">Transcription info</span>
+            <span className="text-white">Transcript info</span>
           </NavbarGroupButton>
         </div>
       ),

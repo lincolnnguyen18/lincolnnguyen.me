@@ -5,9 +5,9 @@ import { NavbarGroupDivider } from '../../../components/NavbarGroupDivider.jsx';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '../../../components/Button.jsx';
-import { Textfield } from '../../../components/Textfield.jsx';
+import { TextField } from '../../../components/TextField.jsx';
 
-export function TranscriptionsScreenMoreMenu () {
+export function MoreMenu () {
   const dispatch = useDispatch();
 
   function closeMenu () {
@@ -30,11 +30,11 @@ export function TranscriptionsScreenMoreMenu () {
       easyClose: false,
       children: (
         <form className="flex flex-col w-full text-white items-center pl-1" onSubmit={onSearch}>
-          <Textfield twStyle="mt-3 mb-6" placeholder="Search" autoFocus={true} />
+          <TextField twStyle="mt-3 mb-6" placeholder="Search" autoFocus={true} />
           <div className="flex">
-            <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" type="horiz">Close</NavbarGroupButton>
-            <NavbarGroupDivider type="horiz" />
-            <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" type="horiz">Search</NavbarGroupButton>
+            <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarGroupButton>
+            <NavbarGroupDivider dir="horiz" />
+            <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Search</NavbarGroupButton>
           </div>
         </form>
       ),
@@ -70,7 +70,7 @@ export function TranscriptionsScreenMoreMenu () {
       isMainMenu: false,
       children: (
         <div className="flex flex-col">
-          <NavbarGroupButton linkPath="/transcribe/transcriptions/new">
+          <NavbarGroupButton linkPath="/transcribe/transcripts/new">
             <span className='icon-add text-2xl text-white' />
             <span className="text-white">Start new</span>
           </NavbarGroupButton>

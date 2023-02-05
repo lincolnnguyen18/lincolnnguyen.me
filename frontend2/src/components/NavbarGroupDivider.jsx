@@ -1,7 +1,7 @@
 import React from 'react';
 
-export function NavbarGroupDivider ({ type = 'vert', ...rest }) {
-  if (type === 'vert') {
+export function NavbarGroupDivider ({ dir = 'vert', ...rest }) {
+  if (dir === 'vert') {
     return (
       <div className="h-[1px] bg-black bg-opacity-30" {...rest} />
     );

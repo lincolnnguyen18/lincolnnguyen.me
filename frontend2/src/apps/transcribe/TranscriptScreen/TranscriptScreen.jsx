@@ -10,13 +10,17 @@ import { BackButton } from '../../../components/BackButton.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
 import { Divider } from '../../../components/Divider.jsx';
-import { TranscriptionScreenMoreMenu } from './TranscriptionScreenMoreMenu.jsx';
+import { MoreMenu } from './MoreMenu.jsx';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { twMerge } from 'tailwind-merge';
 import { Radio } from '../../../components/Radio.jsx';
 import { BottomBar } from './BottomBar.jsx';
+import { wait } from '../../../common/timeUtils.js';
+import { TextField } from '../../../components/TextField.jsx';
+import { NavbarGroupButton } from '../../../components/NavbarGroupButton.jsx';
+import { NavbarGroupDivider } from '../../../components/NavbarGroupDivider.jsx';
 
-export function TranscriptionScreen () {
+export function TranscriptScreen () {
   const dispatch = useDispatch();
   const { windowValues, scrollPosition } = useSelector(commonSelector);
   const { mode } = useSelector(transcribeSelector);
@@ -51,8 +55,7 @@ export function TranscriptionScreen () {
     return scrollPosition > titleDiv.offsetTop + titleDiv.offsetHeight - 52;
   }
 
-  // eslint-disable-next-line no-unused-vars
-  const testTitle = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed felis lacinia, malesuada metus eget, convallis diam. In vitae pulvinar est. Fusce ex lorem, euismod vitae consequat eu, rutrum quis est. Nunc vel tempor leo, et maximus mauris. Etiam tincidunt justo vestibulum imperdiet consectetur. Aenean ultricies dolor sit amet dolor aliquam, eget rutrum dolor ornare.';
+  const [testTitle, setTestTitle] = React.useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed felis lacinia, malesuada metus eget, convallis diam. In vitae pulvinar est. Fusce ex lorem, euismod vitae consequat eu, rutrum quis est. Nunc vel tempor leo, et maximus mauris. Etiam tincidunt justo vestibulum imperdiet consectetur. Aenean ultricies dolor sit amet dolor aliquam, eget rutrum dolor ornare.');
   const testParts = ['Recorded on January 1, 2022 at 7:00 AM', 'Recorded on January 2, 2022 at 7:00 AM'];
 
   function getCurrentPart () {
@@ -90,12 +93,49 @@ export function TranscriptionScreen () {
     };
   }, []);
 
+  function closeMenu () {
+    dispatch(commonActions.closeNavMenu());
+  }
+
+  async function handleEditTitle () {
+    dispatch(commonActions.hideNavMenuChildren());
+    await wait();
+
+    function onEdit (e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const title = formData.get('title');
+      setTestTitle(title);
+      closeMenu();
+    }
+
+    dispatch(commonActions.openNavMenu({
+      position: 'right',
+      isMainMenu: false,
+      centerContent: true,
+      easyClose: false,
+      children: (
+        <form className="flex flex-col w-full text-white items-center pl-1" onSubmit={onEdit}>
+          <div className="flex flex-col w-full mt-3 mb-6 gap-2">
+            <span className="font-semibold">Set Transcript Name</span>
+            <TextField placeholder="Transcript name" autoFocus={true} defaultValue={testTitle} name="title" />
+          </div>
+          <div className="flex">
+            <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarGroupButton>
+            <NavbarGroupDivider dir="horiz" />
+            <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarGroupButton>
+          </div>
+        </form>
+      ),
+    }));
+  }
+
   return (
     <>
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
-        <BackButton linkPath="/transcribe/transcriptions" text="Transcriptions" />
-        {mode === 'default' ? <TranscriptionScreenMoreMenu /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
+        <BackButton linkPath="/transcribe/transcripts" text="Transcripts" />
+        {mode === 'default' ? <MoreMenu /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
       <WhiteVignette />
       <OverflowContainer twStyle="pb-14 sm:gap-0">
@@ -103,7 +143,7 @@ export function TranscriptionScreen () {
           <div className="flex flex-col gap-0.5 mx-2">
             <div className="flex gap-2 items-center">
               <span className={twMerge('sm:text-xl text-lg font-semibold', mode === 'edit' && 'overflow-hidden truncate')}>{testTitle}</span>
-              {mode === 'edit' && <Button><span className="icon-edit text-2xl cursor-pointer" /></Button>}
+              {mode === 'edit' && <Button onClick={handleEditTitle}><span className="icon-edit text-2xl cursor-pointer" /></Button>}
             </div>
             <span className="sm:text-base text-sm text-gray-subtext">Created Mon 4:02 AM · Updated 4:02 AM</span>
           </div>

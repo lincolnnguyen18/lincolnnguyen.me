@@ -2,8 +2,8 @@ import './App.css';
 import { HomeScreen } from './apps/main/HomeScreen.jsx';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { ContactsScreen } from './apps/messages/ContactsScreen.jsx';
-import { TranscriptionsScreen } from './apps/transcribe/TranscriptionsScreen/TranscriptionsScreen.jsx';
-import { TranscriptionScreen } from './apps/transcribe/TranscriptionScreen/TranscriptionScreen.jsx';
+import { TranscriptsScreen } from './apps/transcribe/TranscriptsScreen/TranscriptsScreen.jsx';
+import { TranscriptScreen } from './apps/transcribe/TranscriptScreen/TranscriptScreen.jsx';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from './slices/commonSlice.js';
@@ -61,8 +61,8 @@ function App () {
         <Route path="/testing" element={<TestScreen />} />
         <Route path="/messages/contacts" element={<ContactsScreen />} />
         <Route path="/messages/contacts/:id" element={<ContactsScreen />} />
-        <Route path="/transcribe/transcriptions" element={<TranscriptionsScreen />} />
-        <Route path="/transcribe/transcriptions/:id" element={<TranscriptionScreen />} />
+        <Route path="/transcribe/transcripts" element={<TranscriptsScreen />} />
+        <Route path="/transcribe/transcripts/:id" element={<TranscriptScreen />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <NavbarMenu />
