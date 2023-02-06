@@ -38,7 +38,7 @@ export function NavbarMenu () {
         onClick={onBackdropClick}
       />
       <div
-        className="fixed top-0 bottom-0 z-[1] w-full left-1/2 transform -translate-x-1/2 transition-[opacity] duration-200 overflow-y-auto pb-3"
+        className="fixed top-0 bottom-0 z-[1] w-full left-1/2 transform -translate-x-1/2 transition-[opacity] duration-200 overflow-y-auto pb-3 overscroll-contain"
         style={{ opacity: navMenu.open ? 1 : 0, pointerEvents: navMenu.open ? 'all' : 'none' }}
         onClick={onBackdropClick}
         id="nav-menu"

@@ -13,15 +13,7 @@ import { TestScreen } from './apps/main/TestScreen.jsx';
 function App () {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { bodyScroll, backgroundPosition } = useSelector(commonSelector);
-
-  React.useEffect(() => {
-    if (bodyScroll) {
-      document.body.style.overflow = 'auto';
-    } else {
-      document.body.style.overflow = 'hidden';
-    }
-  }, [bodyScroll]);
+  const { backgroundPosition } = useSelector(commonSelector);
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
