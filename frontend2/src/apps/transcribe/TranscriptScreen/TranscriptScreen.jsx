@@ -19,11 +19,13 @@ import { wait } from '../../../common/timeUtils.js';
 import { TextField } from '../../../components/TextField.jsx';
 import { NavbarGroupButton } from '../../../components/NavbarGroupButton.jsx';
 import { NavbarGroupDivider } from '../../../components/NavbarGroupDivider.jsx';
+import { IconMessage } from '../../../components/IconMessage.jsx';
+import { formatFloatToTime, formatUnixTimestamp2 } from '../../../common/stringUtils.js';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
   const { windowValues, scrollPosition } = useSelector(commonSelector);
-  const { mode } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -55,29 +57,27 @@ export function TranscriptScreen () {
     return scrollPosition > titleDiv.offsetTop + titleDiv.offsetHeight - 52;
   }
 
-  const [testTitle, setTestTitle] = React.useState('January 1, 2022 at 7:00 AM');
-  const testParts = ['Recorded on January 1, 2022 at 7:00 AM', 'Recorded on January 2, 2022 at 7:00 AM'];
-
   function getCurrentPart () {
-    const parts = document.querySelectorAll('.part');
+    const partElements = document.querySelectorAll('.part');
     let index = -1;
-    if (!parts) return;
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i];
+    if (!partElements) return;
+    for (let i = 0; i < partElements.length; i++) {
+      const part = partElements[i];
       if (scrollPosition < part.offsetTop - 52) {
         index = Math.max(1, i);
         break;
       }
     }
-    if (index === -1) index = parts.length;
-    return testParts[index - 1];
+    if (index === -1) index = partElements.length;
+    const partId = partElements[index - 1].dataset.partId;
+    return parts[partId];
   }
 
-  function maxPartResults (num = 10) {
+  function maxPartResults (results) {
     if (mode === 'edit') {
-      return 1;
-    } else if (mode === 'default') {
-      return num;
+      return [results[0]];
+    } else {
+      return results;
     }
   }
 
@@ -105,7 +105,7 @@ export function TranscriptScreen () {
       e.preventDefault();
       const formData = new FormData(e.target);
       const title = formData.get('title');
-      setTestTitle(title);
+      dispatch(transcribeActions.setSlice({ title }));
       closeMenu();
     }
 
@@ -118,7 +118,7 @@ export function TranscriptScreen () {
         <form className="flex flex-col w-full text-white items-center pl-1" onSubmit={onEdit}>
           <div className="flex flex-col w-full mt-3 mb-6 gap-2">
             <span className="font-semibold">Set Transcript Name</span>
-            <TextField placeholder="Transcript name" autoFocus={true} defaultValue={testTitle} name="title" />
+            <TextField placeholder="Transcript name" autoFocus={true} defaultValue={title} name="title" />
           </div>
           <div className="flex">
             <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarGroupButton>
@@ -130,84 +130,89 @@ export function TranscriptScreen () {
     }));
   }
 
+  let content;
+
+  if (Object.keys(parts).length === 0) {
+    content = (
+      <IconMessage
+        iconStyle="icon-article text-purple-custom"
+        messageText="Please press the start button below to start recording a new transcript."
+      />
+    );
+  } else {
+    content = (
+      <>
+        <div className="top-11" id="title-div">
+          <div className="flex flex-col gap-0.5 mx-2">
+            <div className="flex gap-2 items-center">
+              <span className={twMerge('sm:text-xl text-lg font-semibold', mode === 'edit' && 'overflow-hidden truncate')}>{title}</span>
+              {mode === 'edit' && <Button onClick={handleEditTitle}><span className="icon-edit text-2xl cursor-pointer" /></Button>}
+            </div>
+            <span className="sm:text-base text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>
+          </div>
+          <Divider twStyle="mx-2 sm:mx-1" />
+        </div>
+        <div className="flex flex-col sm:gap-1">
+          {
+            partsOrder.map((partId, i) => {
+              const part = parts[partId];
+
+              return (
+                <React.Fragment key={i}>
+                  <Radio twStyle="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'} data-part-id={partId}>
+                    <span>Recorded on {formatUnixTimestamp2(part.createdAt)}</span>
+                  </Radio>
+                  {maxPartResults(part.results).map((result, j) => {
+                    const formattedTimestamp = formatFloatToTime(part.offset + result.timestamp);
+                    const timestampWidth = getTimestampWidth(formattedTimestamp);
+
+                    return (
+                      <React.Fragment key={j}>
+                        <ContainerButton
+                          twStyle="flex items-center gap-3 w-full justify-between"
+                          disabled={mode === 'edit'}
+                          key={i}
+                        >
+                          <div className="flex flex-row gap-3 p-2">
+                            <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
+                              <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
+                                {formattedTimestamp}
+                              </div>
+                            </div>
+                            <span className="text-sm sm:text-base text-left w-full">{result.text}</span>
+                          </div>
+                        </ContainerButton>
+                        {j === part.results.length - 1 && i !== partsOrder.length - 1 && <Divider twStyle="mx-2 sm:mx-1" />}
+                      </React.Fragment>
+                    );
+                  })}
+                </React.Fragment>
+              );
+            })
+          }
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcripts" text="Transcripts" />
-        {mode === 'default' ? <MoreMenu /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
+        {mode !== 'edit' ? <MoreMenu /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
       <WhiteVignette />
       <OverflowContainer twStyle="pb-14 sm:gap-0">
-        <div className="top-11" id="title-div">
-          <div className="flex flex-col gap-0.5 mx-2">
-            <div className="flex gap-2 items-center">
-              <span className={twMerge('sm:text-xl text-lg font-semibold', mode === 'edit' && 'overflow-hidden truncate')}>{testTitle}</span>
-              {mode === 'edit' && <Button onClick={handleEditTitle}><span className="icon-edit text-2xl cursor-pointer" /></Button>}
-            </div>
-            <span className="sm:text-base text-sm text-gray-subtext">Created Mon 4:02 AM · Updated 4:02 AM</span>
-          </div>
-          <Divider twStyle="mx-2 sm:mx-1" />
-        </div>
-        <div className="flex flex-col sm:gap-1">
-          <Radio twStyle="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'}>
-            <span>{testParts[0]}</span>
-          </Radio>
-          {[...Array(maxPartResults())].map((_, i) => {
-            const formattedTimestamp = '4:44';
-            const timestampWidth = getTimestampWidth(formattedTimestamp);
-
-            return (
-              <ContainerButton
-                twStyle="flex items-center gap-3 w-full justify-between"
-                disabled={mode === 'edit'}
-                key={i}
-              >
-                <div className="flex flex-row gap-3 p-2">
-                  <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
-                    <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
-                      {formattedTimestamp}
-                    </div>
-                  </div>
-                  <span className="text-sm sm:text-base text-left w-full">今日の底堅さが改めて10名となりましたアメリカの去年12月の雇用統計は景気の動向を敏感に反映する非農業部門の就業者数が前の日に比べ223000人増え市場の予想を上回</span>
-                </div>
-              </ContainerButton>
-            );
-          })}
-          <Divider twStyle="mx-2 sm:mx-1" />
-          <Radio twStyle="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'}>
-            <span>{testParts[1]}</span>
-          </Radio>
-          {[...Array(maxPartResults(20))].map((_, i) => {
-            const formattedTimestamp = '4:44';
-            const timestampWidth = getTimestampWidth(formattedTimestamp);
-
-            return (
-              <ContainerButton
-                twStyle="flex items-center gap-3 w-full justify-between"
-                disabled={mode === 'edit'}
-                key={i}
-              >
-                <div className="flex flex-row gap-3 p-2">
-                  <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
-                    <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
-                      {formattedTimestamp}
-                    </div>
-                  </div>
-                  <span className="text-sm sm:text-base text-left w-full">今日の底堅さが改めて10名となりましたアメリカの去年12月の雇用統計は景気の動向を敏感に反映する非農業部門の就業者数が前の日に比べ223000人増え市場の予想を上回</span>
-                </div>
-              </ContainerButton>
-            );
-          })}
-        </div>
+        {content}
       </OverflowContainer>
       {mode === 'default' && <div
         className="fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"
         style={{ opacity: showSubNav() ? 1 : 0, pointerEvents: showSubNav() ? 'all' : 'none' }}
       >
         <div className="flex flex-col gap-0.5 my-2">
-          <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{testTitle !== 'Click to edit title' ? testTitle : 'Untitled'}</span>
-          <span className="sm:text-sm text-xs text-gray-subtext text-sm mx-2 overflow-hidden truncate">{getCurrentPart()}</span>
+          <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{title}</span>
+          <span className="sm:text-sm text-xs text-gray-subtext text-sm mx-2 overflow-hidden truncate">Recorded on {formatUnixTimestamp2(getCurrentPart()?.createdAt)}</span>
         </div>
         <div className="h-[2px] bg-gray-divider" />
       </div>}

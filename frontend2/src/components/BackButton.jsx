@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 
 export function BackButton ({ twStyle, linkPath, text = 'Back', onClick, stopPropagation = true, ...rest }) {
   function handleClick (e) {
+    if (stopPropagation && (e.metaKey || e.ctrlKey)) {
+      e.stopPropagation();
+    }
     if (!linkPath) {
-      if (stopPropagation) e.stopPropagation();
       onClick && onClick();
     }
   }

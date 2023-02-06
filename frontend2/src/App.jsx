@@ -13,12 +13,20 @@ import { TestScreen } from './apps/main/TestScreen.jsx';
 function App () {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { backgroundPosition } = useSelector(commonSelector);
+  const { backgroundPosition, navMenu } = useSelector(commonSelector);
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(commonActions.closeNavMenu());
   }, [location.pathname]);
+
+  React.useEffect(() => {
+    if (!navMenu.open) {
+      setTimeout(() => {
+        dispatch(commonActions.clearNavMenuChildren());
+      }, 210);
+    }
+  }, [navMenu.open]);
 
   React.useEffect(() => {
     if (navigator.userAgent.indexOf('Android') !== -1) {

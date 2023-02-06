@@ -4,7 +4,6 @@ import _ from 'lodash';
 const positions = ['center center', 'center top', 'center bottom'];
 
 const initialState = {
-  bodyScroll: true,
   scrollPosition: 0,
   navMenu: {
     open: false,
@@ -34,10 +33,12 @@ const commonSlice = createSlice({
     },
     closeNavMenu: (state) => {
       _.merge(state.navMenu, { open: false, items: [], easyClose: true });
-      state.bodyScroll = true;
     },
     hideNavMenuChildren: (state) => {
       _.merge(state.navMenu, { hideOnlyChildren: true });
+    },
+    clearNavMenuChildren: (state) => {
+      _.merge(state.navMenu, { children: null });
     },
     openNavMenu: (state, action) => {
       const { position = 'left', children = null, isMainMenu = true, hideOnlyChildren = false, centerContent = false, easyClose = true } = action.payload || {};
@@ -55,7 +56,6 @@ const commonSlice = createSlice({
         navMenu.scrollTop = 0;
       }
       _.merge(state.navMenu, { open: true, isMainMenu, hideOnlyChildren, centerContent, easyClose });
-      state.bodyScroll = false;
       state.navMenu.children = children;
     },
     scrollToTop: () => {

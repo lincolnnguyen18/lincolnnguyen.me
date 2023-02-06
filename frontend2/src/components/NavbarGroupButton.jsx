@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export function NavbarGroupButton ({ children, twStyle, linkPath, outerTwStyle, stopPropagation = false, onClick, disabled = false, dir = 'vert', ...rest }) {
   function handleClick (e) {
-    if (stopPropagation) {
+    if (stopPropagation || disabled) {
       e.stopPropagation();
     }
     if (!disabled) {

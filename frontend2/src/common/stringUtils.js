@@ -20,6 +20,12 @@ function formatUnixTimestamp (unix) {
   }
 }
 
+function formatUnixTimestamp2 (unix) {
+  // e.g. "January 1, 2022 at 7:00 AM"
+  const date = new Date(unix);
+  return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
+}
+
 function formatFloatToTime (float) {
   // if < 1 hr, return x:xx
   // if >= 1 hr, return x:xx:xx
@@ -33,4 +39,4 @@ function formatFloatToTime (float) {
   }
 }
 
-export { formatUnixTimestamp, formatFloatToTime };
+export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestamp2 };

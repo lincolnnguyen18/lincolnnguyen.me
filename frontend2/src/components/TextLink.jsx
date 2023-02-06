@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 
 export function TextLink ({ children, twStyle, ...props }) {
   return (
-    <Link {...props} className={twMerge('underline hover:brightness-125 active:brightness-150 font-semibold', twStyle)}>
+    <Link {...props} className={twMerge('underline active:brightness-150 font-semibold transition-all duration-100', twStyle)}>
       {children}
     </Link>
   );

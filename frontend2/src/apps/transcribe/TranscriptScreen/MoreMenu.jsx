@@ -6,10 +6,12 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../components/Button.jsx';
 import { NavMenuButton } from '../../../components/NavMenuButton.jsx';
-import { transcribeActions } from '../../../slices/transcribeSlice.js';
+import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
+import { TextField } from '../../../components/TextField.jsx';
 
 export function MoreMenu () {
   const dispatch = useDispatch();
+  const { mode, title, isNew } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   function closeMenu () {
@@ -126,13 +128,48 @@ export function MoreMenu () {
     }
   }, [scrollPosition]);
 
+  async function handleSave () {
+    dispatch(commonActions.hideNavMenuChildren());
+    await wait();
+
+    function onEdit (e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const title = formData.get('title');
+      dispatch(transcribeActions.setSlice({ title, isNew: false }));
+      closeMenu();
+    }
+
+    dispatch(commonActions.openNavMenu({
+      position: 'right',
+      isMainMenu: false,
+      centerContent: true,
+      easyClose: false,
+      children: (
+        <form className="flex flex-col w-full text-white items-center pl-1" onSubmit={onEdit}>
+          <div className="flex flex-col w-full mt-3 mb-6 gap-2">
+            <span className="font-semibold">Set Transcript Name</span>
+            <TextField placeholder="Transcript name" autoFocus={true} defaultValue={title} name="title" />
+          </div>
+          <div className="flex">
+            <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarGroupButton>
+            <NavbarGroupDivider dir="horiz" />
+            <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarGroupButton>
+          </div>
+        </form>
+      ),
+    }));
+  }
+
   function openMoreMenu () {
+    const isNotDefaultMode = mode !== 'default';
+
     dispatch(commonActions.openNavMenu({
       position: 'right',
       isMainMenu: false,
       children: (
         <div className="flex flex-col">
-          <NavbarGroupButton twStyle="rounded-t-lg" disabled={true}>
+          <NavbarGroupButton twStyle="rounded-t-lg" disabled={isNotDefaultMode || !isNew} stopPropagation={true} onClick={handleSave}>
             <span className='icon-save text-2xl text-white' />
             <span className="text-white">Save transcript</span>
           </NavbarGroupButton>
@@ -142,7 +179,7 @@ export function MoreMenu () {
             <span className="text-white">Change language</span>
           </NavbarGroupButton>
           <NavbarGroupDivider />
-          <NavbarGroupButton stopPropagation={true} onClick={turnOnEditMode}>
+          <NavbarGroupButton stopPropagation={true} onClick={turnOnEditMode} disabled={isNotDefaultMode}>
             <span className="icon-edit text-2xl text-white" />
             <span className="text-white">Edit</span>
           </NavbarGroupButton>
@@ -152,7 +189,7 @@ export function MoreMenu () {
           {/*  <span className="text-white">Filter by speaker</span>*/}
           {/*</NavbarGroupButton>*/}
           {/*<NavbarGroupDivider />*/}
-          <NavbarGroupButton twStyle="rounded-b-lg" stopPropagation={true} onClick={handleOpenInfo}>
+          <NavbarGroupButton twStyle="rounded-b-lg" stopPropagation={true} onClick={handleOpenInfo} disabled={isNotDefaultMode}>
             <span className='icon-info text-2xl text-white' />
             <span className="text-white">Transcript info</span>
           </NavbarGroupButton>
