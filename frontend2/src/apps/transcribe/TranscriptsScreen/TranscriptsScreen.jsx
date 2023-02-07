@@ -50,7 +50,7 @@ export function TranscriptsScreen () {
               </div>
               <span className="text-gray-subtext text-xs">{testTimestamp}</span>
             </div>
-            <Divider twStyle="sm:h-[2px] sm:mx-0 mx-3.5 h-[2px] last:hidden" />
+            <Divider twStyle="sm:mx-0 mx-3.5 last:hidden" />
           </React.Fragment>
         ))}
       </OverflowContainer>

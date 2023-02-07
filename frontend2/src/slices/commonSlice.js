@@ -12,7 +12,6 @@ const initialState = {
     // left: items-start, ml-3, ml-1
     // right: items-end, mr-3 and mr-1
     containerTwStyle: 'items-start',
-    buttonTwStyle: 'ml-3',
     menuTwStyle: 'mr-1',
     centerContent: false,
     easyClose: true,
@@ -22,6 +21,8 @@ const initialState = {
     height: 0,
   },
   backgroundPosition: _.sample(positions),
+  loggedIn: false,
+  showLogin: null,
 };
 
 const commonSlice = createSlice({
@@ -32,6 +33,7 @@ const commonSlice = createSlice({
       return { ...state, ...action.payload };
     },
     closeNavMenu: (state) => {
+      if (!state.loggedIn) state.showLogin = null;
       _.merge(state.navMenu, { open: false, items: [], easyClose: true });
     },
     hideNavMenuChildren: (state) => {
@@ -44,12 +46,12 @@ const commonSlice = createSlice({
       const { position = 'left', children = null, isMainMenu = true, hideOnlyChildren = false, centerContent = false, easyClose = true } = action.payload || {};
 
       if (position === 'left') {
-        _.merge(state.navMenu, { containerTwStyle: 'items-start', buttonTwStyle: 'ml-3', menuTwStyle: 'ml-1' });
+        _.merge(state.navMenu, { containerTwStyle: 'items-start', menuTwStyle: '' });
       } else if (position === 'right') {
-        _.merge(state.navMenu, { containerTwStyle: 'items-end', buttonTwStyle: 'mr-3', menuTwStyle: 'mr-1' });
+        _.merge(state.navMenu, { containerTwStyle: 'items-end', menuTwStyle: '' });
       }
       if (centerContent) {
-        _.merge(state.navMenu, { menuTwStyle: 'mr-1 w-full' });
+        _.merge(state.navMenu, { menuTwStyle: 'w-full' });
       }
       const navMenu = document.getElementById('nav-menu');
       if (navMenu) {
@@ -64,6 +66,7 @@ const commonSlice = createSlice({
         behavior: 'smooth',
       });
       const container = document.getElementById('overflow-container');
+      if (!container) return;
       container.scrollTo({
         top: 0,
         behavior: 'smooth',

@@ -17,8 +17,8 @@ import { Radio } from '../../../components/Radio.jsx';
 import { BottomBar } from './BottomBar.jsx';
 import { wait } from '../../../common/timeUtils.js';
 import { TextField } from '../../../components/TextField.jsx';
-import { NavbarGroupButton } from '../../../components/NavbarGroupButton.jsx';
-import { NavbarGroupDivider } from '../../../components/NavbarGroupDivider.jsx';
+import { NavbarButton } from '../../../components/NavbarButton.jsx';
+import { GroupDivider } from '../../../components/GroupDivider.jsx';
 import { IconMessage } from '../../../components/IconMessage.jsx';
 import { formatFloatToTime, formatUnixTimestamp2 } from '../../../common/stringUtils.js';
 
@@ -69,7 +69,7 @@ export function TranscriptScreen () {
       }
     }
     if (index === -1) index = partElements.length;
-    const partId = partElements[index - 1].dataset.partId;
+    const partId = partElements[index - 1]?.dataset.partId;
     return parts[partId];
   }
 
@@ -121,9 +121,9 @@ export function TranscriptScreen () {
             <TextField placeholder="Transcript name" autoFocus={true} defaultValue={title} name="title" />
           </div>
           <div className="flex">
-            <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarGroupButton>
-            <NavbarGroupDivider dir="horiz" />
-            <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarGroupButton>
+            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
+            <GroupDivider dir="horiz w-36" />
+            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarButton>
           </div>
         </form>
       ),
@@ -214,7 +214,7 @@ export function TranscriptScreen () {
           <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{title}</span>
           <span className="sm:text-sm text-xs text-gray-subtext text-sm mx-2 overflow-hidden truncate">Recorded on {formatUnixTimestamp2(getCurrentPart()?.createdAt)}</span>
         </div>
-        <div className="h-[2px] bg-gray-divider" />
+        <Divider twStyle="sm:my-0 my-0" />
       </div>}
       <BottomBar />
     </>

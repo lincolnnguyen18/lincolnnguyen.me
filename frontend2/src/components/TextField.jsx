@@ -1,8 +1,8 @@
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
-export function TextField ({ twStyle, ...rest }) {
+export function TextField ({ twStyle, dir = 'single', ...rest }) {
   return (
-    <input className={twMerge('text-white bg-black bg-opacity-50 h-11 px-3 rounded-lg w-full placeholder:text-gray-300', twStyle)} {...rest} />
+    <input className={twMerge('text-white bg-black bg-opacity-50 h-11 px-3 w-full placeholder:text-gray-300', dir === 'single' && 'rounded-lg', dir === 'vert' && 'first:rounded-t-lg last:rounded-b-lg', twStyle)} {...rest} />
   );
 }

@@ -1,11 +1,10 @@
 import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
 import { wait } from '../../../common/timeUtils.js';
-import { NavbarGroupButton } from '../../../components/NavbarGroupButton.jsx';
-import { NavbarGroupDivider } from '../../../components/NavbarGroupDivider.jsx';
+import { NavbarButton } from '../../../components/NavbarButton.jsx';
+import { GroupDivider } from '../../../components/GroupDivider.jsx';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../components/Button.jsx';
-import { NavMenuButton } from '../../../components/NavMenuButton.jsx';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { TextField } from '../../../components/TextField.jsx';
 
@@ -31,12 +30,12 @@ export function MoreMenu () {
         <div className="flex flex-col">
           {langEntries.map(([code, language], index) => (
             <React.Fragment key={index}>
-              <NavbarGroupButton twStyle="justify-between first:rounded-t-lg last:rounded-b-lg" onClick={() => console.log(code)} outerTwStyle="w-64">
+              <NavbarButton twStyle="justify-between first:rounded-t-lg last:rounded-b-lg" onClick={() => console.log(code)} outerTwStyle="w-64">
                 <span className="text-white">{language}</span>
                 {index === 0 && <span className="icon-check text-2xl text-white" />}
-              </NavbarGroupButton>
+              </NavbarButton>
               {index !== langEntries.length - 1 && (
-                <NavbarGroupDivider />
+                <GroupDivider />
               )}
             </React.Fragment>
           ))}
@@ -78,7 +77,7 @@ export function MoreMenu () {
               </div>
             </div>
           </div>
-          <NavMenuButton onClick={closeMenu} twStyle="justify-center">Close</NavMenuButton>
+          <NavbarButton onClick={closeMenu} dir="single" twStyle="justify-center">Close</NavbarButton>
         </div>
       ),
     }));
@@ -152,9 +151,9 @@ export function MoreMenu () {
             <TextField placeholder="Transcript name" autoFocus={true} defaultValue={title} name="title" />
           </div>
           <div className="flex">
-            <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarGroupButton>
-            <NavbarGroupDivider dir="horiz" />
-            <NavbarGroupButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarGroupButton>
+            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
+            <GroupDivider dir="horiz" />
+            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarButton>
           </div>
         </form>
       ),
@@ -169,30 +168,30 @@ export function MoreMenu () {
       isMainMenu: false,
       children: (
         <div className="flex flex-col">
-          <NavbarGroupButton twStyle="rounded-t-lg" disabled={isNotDefaultMode || !isNew} stopPropagation={true} onClick={handleSave}>
+          <NavbarButton twStyle="rounded-t-lg" disabled={isNotDefaultMode || !isNew} stopPropagation={true} onClick={handleSave}>
             <span className='icon-save text-2xl text-white' />
             <span className="text-white">Save transcript</span>
-          </NavbarGroupButton>
-          <NavbarGroupDivider />
-          <NavbarGroupButton stopPropagation={true} onClick={handleChangeLanguage}>
+          </NavbarButton>
+          <GroupDivider />
+          <NavbarButton stopPropagation={true} onClick={handleChangeLanguage}>
             <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">JA</span>
             <span className="text-white">Change language</span>
-          </NavbarGroupButton>
-          <NavbarGroupDivider />
-          <NavbarGroupButton stopPropagation={true} onClick={turnOnEditMode} disabled={isNotDefaultMode}>
+          </NavbarButton>
+          <GroupDivider />
+          <NavbarButton stopPropagation={true} onClick={turnOnEditMode} disabled={isNotDefaultMode}>
             <span className="icon-edit text-2xl text-white" />
             <span className="text-white">Edit</span>
-          </NavbarGroupButton>
-          <NavbarGroupDivider />
+          </NavbarButton>
+          <GroupDivider />
           {/*<NavbarGroupButton onClick={handleFilterBySpeaker} stopPropagation={true}>*/}
           {/*  <span className='icon-two-users text-2xl text-white' />*/}
           {/*  <span className="text-white">Filter by speaker</span>*/}
           {/*</NavbarGroupButton>*/}
           {/*<NavbarGroupDivider />*/}
-          <NavbarGroupButton twStyle="rounded-b-lg" stopPropagation={true} onClick={handleOpenInfo} disabled={isNotDefaultMode}>
+          <NavbarButton twStyle="rounded-b-lg" stopPropagation={true} onClick={handleOpenInfo} disabled={isNotDefaultMode}>
             <span className='icon-info text-2xl text-white' />
             <span className="text-white">Transcript info</span>
-          </NavbarGroupButton>
+          </NavbarButton>
         </div>
       ),
     }));

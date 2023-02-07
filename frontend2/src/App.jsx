@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from './slices/commonSlice.js';
 import { NavbarMenu } from './components/NavbarMenu.jsx';
 import { TestScreen } from './apps/main/TestScreen.jsx';
+import { Protected } from './components/Protected.jsx';
 
 function App () {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ function App () {
     if (!navMenu.open) {
       setTimeout(() => {
         dispatch(commonActions.clearNavMenuChildren());
-      }, 210);
+      }, 100);
     }
   }, [navMenu.open]);
 
@@ -59,10 +60,10 @@ function App () {
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/testing" element={<TestScreen />} />
-        <Route path="/messages/contacts" element={<ContactsScreen />} />
-        <Route path="/messages/contacts/:id" element={<ContactsScreen />} />
-        <Route path="/transcribe/transcripts" element={<TranscriptsScreen />} />
-        <Route path="/transcribe/transcripts/:id" element={<TranscriptScreen />} />
+        <Route path="/messages/contacts" element={<Protected><ContactsScreen /></Protected>} />
+        <Route path="/messages/contacts/:id" element={<Protected><ContactsScreen /></Protected>} />
+        <Route path="/transcribe/transcripts" element={<Protected><TranscriptsScreen /></Protected>} />
+        <Route path="/transcribe/transcripts/:id" element={<Protected><TranscriptScreen /></Protected>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <NavbarMenu />

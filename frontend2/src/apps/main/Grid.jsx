@@ -9,7 +9,7 @@ export function Grid ({ children }) {
 
   if (windowValues.width > parseInt(theme.screens.sm)) {
     return (
-      <OverflowContainer>
+      <OverflowContainer twStyle="p-0">
         <div className="max-w-screen-sm w-full mx-auto grid grid-cols-4 grid-flow-row gap-4 place-items-center w-full px-2 pt-12 pb-4">
           {children}
         </div>
