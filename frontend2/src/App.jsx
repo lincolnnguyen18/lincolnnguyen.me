@@ -18,7 +18,9 @@ function App () {
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
-    dispatch(commonActions.closeNavMenu());
+    if (navMenu.open) {
+      dispatch(commonActions.closeNavMenu());
+    }
   }, [location.pathname]);
 
   React.useEffect(() => {
