@@ -59,7 +59,7 @@ export function MoreMenu () {
       centerContent: true,
       easyClose: false,
       children: (
-        <div className="flex flex-col w-full text-white items-center pl-1">
+        <div className="flex flex-col w-full text-white items-center">
           <div className="bg-black bg-opacity-50 rounded-lg w-full max-w-lg flex flex-col mt-3 mb-6 p-2 sm:p-3">
             <span className="font-semibold sm:text-lg text-base mb-2">{testTitle}</span>
             <div className="flex justify-between w-full">
@@ -145,7 +145,7 @@ export function MoreMenu () {
       centerContent: true,
       easyClose: false,
       children: (
-        <form className="flex flex-col w-full text-white items-center pl-1" onSubmit={onEdit}>
+        <form className="flex flex-col w-full text-white items-center" onSubmit={onEdit}>
           <div className="flex flex-col w-full mt-3 mb-6 gap-2">
             <span className="font-semibold">Set Transcript Name</span>
             <TextField placeholder="Transcript name" autoFocus={true} defaultValue={title} name="title" />

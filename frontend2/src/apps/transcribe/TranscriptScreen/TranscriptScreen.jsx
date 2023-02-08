@@ -88,6 +88,47 @@ export function TranscriptScreen () {
   React.useEffect(() => {
     dispatch(commonActions.setSlice({ scrollPosition: 0 }));
     handleDone();
+
+    const recordButton = document.getElementById('record');
+    const stopButton = document.getElementById('stop');
+    let recorder;
+
+    function startRecording () {
+      recordButton.disabled = true;
+      stopButton.disabled = false;
+
+      recorder.start();
+    }
+
+    function stopRecording () {
+      recordButton.disabled = false;
+      stopButton.disabled = true;
+
+      // Stopping the recorder will eventually trigger the `dataavailable` event and we can complete the recording process
+      recorder.stop();
+    }
+
+    function onRecordingReady (e) {
+      const audio = document.getElementById('audio');
+      // e.data contains a blob representing the recording
+      audio.src = URL.createObjectURL(e.data);
+      audio.play();
+    }
+
+    navigator.mediaDevices.getUserMedia({
+      audio: true,
+    })
+      .then(function (stream) {
+        recordButton.disabled = false;
+        recordButton.addEventListener('click', startRecording);
+        stopButton.addEventListener('click', stopRecording);
+        recorder = new window.MediaRecorder(stream);
+
+        // listen to dataavailable, which gets triggered whenever we have
+        // an audio blob available
+        recorder.addEventListener('dataavailable', onRecordingReady);
+      });
+
     return () => {
       handleDone();
     };
@@ -115,7 +156,7 @@ export function TranscriptScreen () {
       centerContent: true,
       easyClose: false,
       children: (
-        <form className="flex flex-col w-full text-white items-center pl-1" onSubmit={onEdit}>
+        <form className="flex flex-col w-full text-white items-center" onSubmit={onEdit}>
           <div className="flex flex-col w-full mt-3 mb-6 gap-2">
             <span className="font-semibold">Set Transcript Name</span>
             <TextField placeholder="Transcript name" autoFocus={true} defaultValue={title} name="title" />
@@ -151,6 +192,11 @@ export function TranscriptScreen () {
             <span className="sm:text-base text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>
           </div>
           <Divider twStyle="mx-2 sm:mx-1" />
+        </div>
+        <div className="flex gap-3">
+          <Button twStyle="bg-black bg-opacity-50 p-1 text-base text-white rounded-lg" id="record">Record audio</Button>
+          <Button twStyle="bg-black bg-opacity-50 p-1 text-base text-white rounded-lg" id="stop">Stop</Button>
+          <audio id="audio" controls></audio>
         </div>
         <div className="flex flex-col sm:gap-1">
           {
