@@ -195,6 +195,15 @@ export function TranscriptScreen () {
     );
   }
 
+  const [overflowStyle, setOverflowStyle] = React.useState('');
+  React.useEffect(() => {
+    if (mode === 'default' && partsOrder.length > 0) {
+      setOverflowStyle('mb-[6rem]');
+    } else {
+      setOverflowStyle('');
+    }
+  }, [mode, partsOrder]);
+
   return (
     <>
       <NavbarBlur twStyle="bg-purple-custom" />
@@ -203,7 +212,7 @@ export function TranscriptScreen () {
         {mode !== 'edit' ? <MoreMenu /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
       <WhiteVignette />
-      <OverflowContainer twStyle="pb-14 sm:gap-0">
+      <OverflowContainer twStyle={overflowStyle}>
         {content}
       </OverflowContainer>
       {mode === 'default' && <div

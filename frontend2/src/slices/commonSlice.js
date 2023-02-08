@@ -21,7 +21,7 @@ const initialState = {
     height: 0,
   },
   backgroundPosition: _.sample(positions),
-  loggedIn: false,
+  loggedIn: true,
   showLogin: null,
 };
 

@@ -168,9 +168,16 @@ export function MoreMenu () {
       isMainMenu: false,
       children: (
         <div className="flex flex-col">
-          <NavbarButton twStyle="rounded-t-lg" disabled={isNotDefaultMode || !isNew} stopPropagation={true} onClick={handleSave}>
-            <span className='icon-save text-2xl text-white' />
-            <span className="text-white">Save transcript</span>
+          {isNew && <>
+            <NavbarButton twStyle="rounded-t-lg" disabled={isNotDefaultMode} stopPropagation={true} onClick={handleSave}>
+              <span className='icon-save text-2xl text-white' />
+              <span className="text-white">Save transcript</span>
+            </NavbarButton>
+            <GroupDivider />
+          </>}
+          <NavbarButton twStyle="rounded-t-lg" disabled={isNotDefaultMode} stopPropagation={true} onClick={handleSave}>
+            <span className='icon-mic text-2xl text-white' />
+            <span className="text-white">Record</span>
           </NavbarButton>
           <GroupDivider />
           <NavbarButton stopPropagation={true} onClick={handleChangeLanguage}>

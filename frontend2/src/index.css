@@ -3,3 +3,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input[type=range].white::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    background-color: white;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+}
