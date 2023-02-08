@@ -1,14 +1,13 @@
-// vite dev --host 0.0.0.0
-
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import './index.css';
+import { createRoot } from 'react-dom/client';
+import { App } from './App';
 import { Provider } from 'react-redux';
-import { store } from './common/store.js';
+import { store } from './common/store';
 import { BrowserRouter } from 'react-router-dom';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const container = document.getElementById('app');
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>

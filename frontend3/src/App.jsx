@@ -1,17 +1,16 @@
-import './App.css';
-import { HomeScreen } from './apps/main/HomeScreen.jsx';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { ContactsScreen } from './apps/messages/ContactsScreen.jsx';
-import { TranscriptsScreen } from './apps/transcribe/TranscriptsScreen/TranscriptsScreen.jsx';
-import { TranscriptScreen } from './apps/transcribe/TranscriptScreen/TranscriptScreen.jsx';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { commonActions, commonSelector } from './slices/commonSlice.js';
-import { NavbarMenu } from './components/NavbarMenu.jsx';
-import { TestScreen } from './apps/main/TestScreen.jsx';
-import { Protected } from './components/Protected.jsx';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { commonActions, commonSelector } from './slices/commonSlice';
+import { HomeScreen } from './apps/main/HomeScreen';
+import { TestScreen } from './apps/main/TestScreen';
+import { ContactsScreen } from './apps/messages/ContactsScreen';
+import { TranscriptsScreen } from './apps/transcribe/TranscriptsScreen/TranscriptsScreen';
+import { TranscriptScreen } from './apps/transcribe/TranscriptScreen/TranscriptScreen';
+import { Protected } from './components/Protected';
+import { NavbarMenu } from './components/NavbarMenu';
 
-function App () {
+export function App () {
   const dispatch = useDispatch();
   const location = useLocation();
   const { backgroundPosition, navMenu } = useSelector(commonSelector);
@@ -72,5 +71,3 @@ function App () {
     </>
   );
 }
-
-export default App;
