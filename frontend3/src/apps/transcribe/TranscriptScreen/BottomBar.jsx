@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { formatFloatToTime } from '../../../common/stringUtils.js';
 import { twMerge } from 'tailwind-merge';
+import { recorderSelector } from '../../../slices/recorderSlice';
 
 export function BottomBar () {
   const dispatch = useDispatch();
   const { mode, partsOrder } = useSelector(transcribeSelector);
+  const { startRecording, stopRecording } = useSelector(recorderSelector);
 
   const testCurrentTime = 20;
   const testMaxTime = 123;
@@ -17,6 +19,7 @@ export function BottomBar () {
     if (partsOrder.length === 0) {
       function handleStart () {
         dispatch(transcribeActions.setSlice({ mode: 'record' }));
+        startRecording();
       }
 
       return (
@@ -62,6 +65,7 @@ export function BottomBar () {
   } else if (mode === 'record') {
     function handleStop () {
       dispatch(transcribeActions.setSlice({ mode: 'default' }));
+      stopRecording();
     }
 
     return (

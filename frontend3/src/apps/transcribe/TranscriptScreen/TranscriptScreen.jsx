@@ -21,6 +21,7 @@ import { NavbarButton } from '../../../components/NavbarButton.jsx';
 import { GroupDivider } from '../../../components/GroupDivider.jsx';
 import { IconMessage } from '../../../components/IconMessage.jsx';
 import { formatFloatToTime, formatUnixTimestamp2 } from '../../../common/stringUtils.js';
+import { Recorder } from '../../../components/Recorder';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
@@ -85,87 +86,15 @@ export function TranscriptScreen () {
     dispatch(transcribeActions.setSlice({ mode: 'default' }));
   }
 
-  const [newPartDuration, setNewPartDuration] = React.useState(0);
-  const [newPartCreatedAt, setNewPartCreatedAt] = React.useState(Date.now());
-  const [newPartTitle, setNewPartTitle] = React.useState('');
-  const [newPartResults, setNewPartResults] = React.useState([]);
-  let interval;
+  // const [newPartDuration, setNewPartDuration] = React.useState(0);
+  // const [newPartCreatedAt, setNewPartCreatedAt] = React.useState(Date.now());
+  // const [newPartTitle, setNewPartTitle] = React.useState('');
+  // const [newPartResults, setNewPartResults] = React.useState([]);
+  // let interval;
 
   React.useEffect(() => {
     dispatch(commonActions.setSlice({ scrollPosition: 0 }));
     handleDone();
-
-    const recordButton = document.getElementById('record');
-    const stopButton = document.getElementById('stop');
-    let recorder;
-    // eslint-disable-next-line new-cap
-    const recognition = new window.webkitSpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.lang = 'en-US';
-
-    let interimTranscript = '';
-    let finalTranscript = '';
-    recognition.addEventListener('result', function (e) {
-      interimTranscript = '';
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        if (e.results[i].isFinal) {
-          finalTranscript += e.results[i][0].transcript;
-          console.log('finalTranscript', finalTranscript);
-        } else {
-          interimTranscript += e.results[i][0].transcript;
-          console.log('interimTranscript', interimTranscript);
-        }
-      }
-      // setNewPartResults(maxPartResults([interimTranscript, finalTranscript]));
-    });
-
-    function startRecording () {
-      recordButton.disabled = true;
-      stopButton.disabled = false;
-
-      recorder.start();
-      recognition.start();
-
-      interval = setInterval(() => {
-        setNewPartDuration(newPartDuration + 0.1);
-      }, 100);
-    }
-
-    function stopRecording () {
-      recordButton.disabled = false;
-      stopButton.disabled = true;
-
-      // Stopping the recorder will eventually trigger the `dataavailable` event and we can complete the recording process
-      recorder.stop();
-      recognition.stop();
-
-      clearInterval(interval);
-    }
-
-    function onRecordingReady (e) {
-      const audio = document.getElementById('audio');
-      // e.data contains a blob representing the recording
-      audio.src = URL.createObjectURL(e.data);
-      audio.addEventListener('loadeddata', function () {
-        audio.play();
-      });
-    }
-
-    navigator.mediaDevices.getUserMedia({
-      audio: true,
-    })
-      .then(function (stream) {
-        recordButton.disabled = false;
-        recordButton.addEventListener('click', startRecording);
-        stopButton.addEventListener('click', stopRecording);
-        recorder = new window.MediaRecorder(stream);
-
-        // listen to dataavailable, which gets triggered whenever we have
-        // an audio blob available
-        recorder.addEventListener('dataavailable', onRecordingReady);
-      });
-
     return () => {
       handleDone();
     };
@@ -291,11 +220,7 @@ export function TranscriptScreen () {
       </Navbar>
       <WhiteVignette />
       <OverflowContainer twStyle={overflowStyle}>
-        <div className="flex gap-3">
-          <Button twStyle="bg-black bg-opacity-50 p-1 text-base text-white rounded-lg" id="record">Record audio</Button>
-          <Button twStyle="bg-black bg-opacity-50 p-1 text-base text-white rounded-lg" id="stop">Stop</Button>
-          <audio id="audio" controls></audio>
-        </div>
+        <Recorder />
         {content}
       </OverflowContainer>
       {mode === 'default' && <div

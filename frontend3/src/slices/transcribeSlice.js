@@ -48,13 +48,13 @@ const initialState = {
   isNew: true,
 };
 
-// update each part in parts with an offset value
-// offset is the sum of the durations of all parts before it
-initialState.partsOrder.forEach((partId, i) => {
-  initialState.parts[partId].offset = initialState.partsOrder
-    .slice(0, i)
-    .reduce((acc, id) => acc + initialState.parts[id].duration, 0);
-});
+// // update each part in parts with an offset value
+// // offset is the sum of the durations of all parts before it
+// initialState.partsOrder.forEach((partId, i) => {
+//   initialState.parts[partId].offset = initialState.partsOrder
+//     .slice(0, i)
+//     .reduce((acc, id) => acc + initialState.parts[id].duration, 0);
+// });
 
 const transcribeSlice = createSlice({
   name: 'transcribe',

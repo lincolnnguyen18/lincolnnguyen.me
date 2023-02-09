@@ -41,7 +41,9 @@ export function TranscriptsScreen () {
         {[...Array(30)].map((_, i) => (
           <React.Fragment key={i}>
             <div className="flex flex-col gap-1.5 px-4 sm:px-1">
-              <TextLink to="/transcribe/transcripts/1" twStyle="sm:text-lg text-purple-custom w-fit">{testTitle}</TextLink>
+              <div className="w-full">
+                <TextLink to="/transcribe/transcripts/1" twStyle="sm:text-lg text-purple-custom w-fit">{testTitle}</TextLink>
+              </div>
               <span className="sm:text-base text-sm">{testPreview}</span>
               <div className="flex flex-wrap gap-1.5">
                 {testTags.map((tag, i) => (
