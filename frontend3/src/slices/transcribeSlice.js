@@ -13,33 +13,35 @@ const initialState = {
   // }])),
   // partsOrder: Array(5).fill(0).map((_, i) => i),
   // results: [{ timestamp: 0, text: 'Hello' }, { timestamp: 35, text: 'World' }],
-  parts: {
-    0: {
-      createdAt: 1675670582,
-      duration: 35,
-      results: Array(35).fill(0).map((_, i) => ({
-        timestamp: i,
-        text: `Hello ${i}`,
-      })),
-    },
-    1: {
-      createdAt: 2885672582,
-      duration: 30,
-      results: Array(30).fill(0).map((_, i) => ({
-        timestamp: i,
-        text: `Hello ${i}`,
-      })),
-    },
-    2: {
-      createdAt: 3885672582,
-      duration: 30,
-      results: Array(30).fill(0).map((_, i) => ({
-        timestamp: i,
-        text: `Hello ${i}`,
-      })),
-    },
-  },
-  partsOrder: [0, 1, 2],
+  // parts: {
+  //   0: {
+  //     createdAt: 1675670582,
+  //     duration: 35,
+  //     results: Array(35).fill(0).map((_, i) => ({
+  //       timestamp: i,
+  //       text: `Hello ${i}`,
+  //     })),
+  //   },
+  //   1: {
+  //     createdAt: 2885672582,
+  //     duration: 30,
+  //     results: Array(30).fill(0).map((_, i) => ({
+  //       timestamp: i,
+  //       text: `Hello ${i}`,
+  //     })),
+  //   },
+  //   2: {
+  //     createdAt: 3885672582,
+  //     duration: 30,
+  //     results: Array(30).fill(0).map((_, i) => ({
+  //       timestamp: i,
+  //       text: `Hello ${i}`,
+  //     })),
+  //   },
+  // },
+  // partsOrder: [0, 1, 2],
+  parts: {},
+  partsOrder: [],
   createdAt: 1675670582,
   updatedAt: 1675670582,
   title: 'Untitled Transcript',

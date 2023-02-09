@@ -85,6 +85,12 @@ export function TranscriptScreen () {
     dispatch(transcribeActions.setSlice({ mode: 'default' }));
   }
 
+  const [newPartDuration, setNewPartDuration] = React.useState(0);
+  const [newPartCreatedAt, setNewPartCreatedAt] = React.useState(Date.now());
+  const [newPartTitle, setNewPartTitle] = React.useState('');
+  const [newPartResults, setNewPartResults] = React.useState([]);
+  let interval;
+
   React.useEffect(() => {
     dispatch(commonActions.setSlice({ scrollPosition: 0 }));
     handleDone();
@@ -92,12 +98,38 @@ export function TranscriptScreen () {
     const recordButton = document.getElementById('record');
     const stopButton = document.getElementById('stop');
     let recorder;
+    // eslint-disable-next-line new-cap
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    let interimTranscript = '';
+    let finalTranscript = '';
+    recognition.addEventListener('result', function (e) {
+      interimTranscript = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        if (e.results[i].isFinal) {
+          finalTranscript += e.results[i][0].transcript;
+          console.log('finalTranscript', finalTranscript);
+        } else {
+          interimTranscript += e.results[i][0].transcript;
+          console.log('interimTranscript', interimTranscript);
+        }
+      }
+      // setNewPartResults(maxPartResults([interimTranscript, finalTranscript]));
+    });
 
     function startRecording () {
       recordButton.disabled = true;
       stopButton.disabled = false;
 
       recorder.start();
+      recognition.start();
+
+      interval = setInterval(() => {
+        setNewPartDuration(newPartDuration + 0.1);
+      }, 100);
     }
 
     function stopRecording () {
@@ -106,13 +138,18 @@ export function TranscriptScreen () {
 
       // Stopping the recorder will eventually trigger the `dataavailable` event and we can complete the recording process
       recorder.stop();
+      recognition.stop();
+
+      clearInterval(interval);
     }
 
     function onRecordingReady (e) {
       const audio = document.getElementById('audio');
       // e.data contains a blob representing the recording
       audio.src = URL.createObjectURL(e.data);
-      audio.play();
+      audio.addEventListener('loadeddata', function () {
+        audio.play();
+      });
     }
 
     navigator.mediaDevices.getUserMedia({
@@ -193,11 +230,6 @@ export function TranscriptScreen () {
           </div>
           <Divider twStyle="mx-2 sm:mx-1" />
         </div>
-        <div className="flex gap-3">
-          <Button twStyle="bg-black bg-opacity-50 p-1 text-base text-white rounded-lg" id="record">Record audio</Button>
-          <Button twStyle="bg-black bg-opacity-50 p-1 text-base text-white rounded-lg" id="stop">Stop</Button>
-          <audio id="audio" controls></audio>
-        </div>
         <div className="flex flex-col sm:gap-1">
           {
             partsOrder.map((partId, i) => {
@@ -259,6 +291,11 @@ export function TranscriptScreen () {
       </Navbar>
       <WhiteVignette />
       <OverflowContainer twStyle={overflowStyle}>
+        <div className="flex gap-3">
+          <Button twStyle="bg-black bg-opacity-50 p-1 text-base text-white rounded-lg" id="record">Record audio</Button>
+          <Button twStyle="bg-black bg-opacity-50 p-1 text-base text-white rounded-lg" id="stop">Stop</Button>
+          <audio id="audio" controls></audio>
+        </div>
         {content}
       </OverflowContainer>
       {mode === 'default' && <div
