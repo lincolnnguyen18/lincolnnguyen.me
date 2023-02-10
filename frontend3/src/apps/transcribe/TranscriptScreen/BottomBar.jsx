@@ -8,12 +8,13 @@ import { commonSelector } from '../../../slices/commonSlice';
 
 export function BottomBar () {
   const dispatch = useDispatch();
-  const { mode, partsOrder, parts, startRecording, stopRecording, lastPart } = useSelector(transcribeSelector);
+  const { mode, partsOrder, parts, startRecording, stopRecording, lastPart, currentTime, maxTime } = useSelector(transcribeSelector);
   const { transcriptionSupported } = useSelector(commonSelector);
-
-  const testCurrentTime = 20;
-  const testMaxTime = 123;
   const playing = false;
+
+  function updateCurrentTime (e) {
+    dispatch(transcribeActions.setSlice({ currentTime: e.target.value }));
+  }
 
   if (mode === 'default') {
     if (partsOrder.length === 0) {
@@ -42,20 +43,20 @@ export function BottomBar () {
               type="range"
               min="0"
               className="appearance-none w-full h-1 bg-white rounded-full white cursor-pointer"
-              value={testCurrentTime}
-              // onChange={updateCurrentTime}
-              // onInput={updateCurrentTime}
-              max={Math.round(testMaxTime)}
+              value={currentTime}
+              onChange={updateCurrentTime}
+              onInput={updateCurrentTime}
+              max={Math.round(maxTime)}
               step={1}
             />
             <div className="flex items-center gap-1 justify-between">
-              <span className="text-sm">{formatFloatToTime(testCurrentTime)}</span>
+              <span className="text-sm">{formatFloatToTime(currentTime)}</span>
               <div className="flex items-center gap-7 transition-all duration-300 absolute transform -translate-x-1/2 left-1/2">
                 <Button twStyle="icon-skip-prev" />
                 <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} />
                 <Button twStyle="icon-skip-next" />
               </div>
-              <span className="text-sm">{formatFloatToTime(testMaxTime)}</span>
+              <span className="text-sm">{formatFloatToTime(maxTime)}</span>
             </div>
           </div>
         </div>

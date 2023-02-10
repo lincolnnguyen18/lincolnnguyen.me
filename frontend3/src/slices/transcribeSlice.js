@@ -54,6 +54,8 @@ const initialState = {
   interimTimestamp: null,
   startRecording: null,
   stopRecording: null,
+  currentTime: 0,
+  maxTime: 0,
 };
 
 // // update each part in parts with an offset value
@@ -89,6 +91,9 @@ const transcribeSlice = createSlice({
     incrementDuration: (state, action) => {
       const partId = state.partsOrder[state.partsOrder.length - 1];
       state.parts[partId].duration += action.payload;
+
+      const offset = state.parts[partId]?.offset || 0;
+      state.maxTime = offset + state.parts[partId].duration;
     },
     setInterimTimestamp: (state) => {
       const partId = state.partsOrder[state.partsOrder.length - 1];
