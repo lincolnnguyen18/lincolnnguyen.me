@@ -56,6 +56,7 @@ const initialState = {
   stopRecording: null,
   currentTime: 0,
   maxTime: 0,
+  playing: false,
 };
 
 // // update each part in parts with an offset value

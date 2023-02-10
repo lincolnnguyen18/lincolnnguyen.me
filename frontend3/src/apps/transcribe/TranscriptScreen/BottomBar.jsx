@@ -8,9 +8,8 @@ import { commonSelector } from '../../../slices/commonSlice';
 
 export function BottomBar () {
   const dispatch = useDispatch();
-  const { mode, partsOrder, parts, startRecording, stopRecording, lastPart, currentTime, maxTime } = useSelector(transcribeSelector);
+  const { mode, partsOrder, parts, startRecording, stopRecording, lastPart, currentTime, maxTime, playAudio, pauseAudio, playing } = useSelector(transcribeSelector);
   const { transcriptionSupported } = useSelector(commonSelector);
-  const playing = false;
 
   function updateCurrentTime (e) {
     dispatch(transcribeActions.setSlice({ currentTime: e.target.value }));
@@ -53,10 +52,10 @@ export function BottomBar () {
               <span className="text-sm">{formatFloatToTime(currentTime)}</span>
               <div className="flex items-center gap-7 transition-all duration-300 absolute transform -translate-x-1/2 left-1/2">
                 <Button twStyle="icon-skip-prev" />
-                <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} />
+                <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} onClick={playing ? pauseAudio : playAudio} />
                 <Button twStyle="icon-skip-next" />
               </div>
-              <span className="text-sm">{formatFloatToTime(maxTime)}</span>
+              <span className="text-sm">{formatFloatToTime(Math.round(maxTime))}</span>
             </div>
           </div>
         </div>

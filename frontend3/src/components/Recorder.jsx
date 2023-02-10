@@ -14,6 +14,14 @@ export function Recorder () {
     recognition.interimResults = true;
     recognition.lang = 'en-US';
 
+    const audio = document.getElementById('audio');
+    audio.addEventListener('timeupdate', () => {
+      dispatch(transcribeActions.setSlice({ currentTime: audio.currentTime }));
+    });
+    audio.addEventListener('ended', () => {
+      dispatch(transcribeActions.setSlice({ playing: false }));
+    });
+
     recognition.addEventListener('result', function (e) {
       let interimResult = '';
       let finalResult = '';
@@ -54,13 +62,30 @@ export function Recorder () {
       clearInterval(interval);
     }
 
-    dispatch(transcribeActions.setSlice({ startRecording, stopRecording }));
+    function playAudio () {
+      dispatch(transcribeActions.setSlice({ playing: true }));
+      audio.play();
+    }
+
+    function pauseAudio () {
+      dispatch(transcribeActions.setSlice({ playing: false }));
+      audio.pause();
+    }
+
+    function setAudioCurrentTime (time) {
+      audio.currentTime = time;
+    }
+
+    dispatch(transcribeActions.setSlice({ startRecording, stopRecording, playAudio, pauseAudio, setAudioCurrentTime }));
 
     function onRecordingReady (e) {
       const audioUrl = URL.createObjectURL(e.data);
-      const audio = document.getElementById('audio');
-      audio.src = audioUrl;
       dispatch(transcribeActions.setLatestPart({ audioUrl }));
+      // const audio = document.getElementById('audio');
+      audio.src = audioUrl;
+      // audio.addEventListener('timeupdate', () => {
+      //   dispatch(transcribeActions.setSlice({ currentTime: audio.currentTime }));
+      // });
     }
 
     navigator.mediaDevices.getUserMedia({
