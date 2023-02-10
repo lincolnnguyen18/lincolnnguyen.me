@@ -8,13 +8,8 @@ import { commonSelector } from '../../../slices/commonSlice';
 
 export function BottomBar () {
   const dispatch = useDispatch();
-  const { mode, partsOrder, parts, startRecording, stopRecording } = useSelector(transcribeSelector);
+  const { mode, partsOrder, parts, startRecording, stopRecording, lastPart } = useSelector(transcribeSelector);
   const { transcriptionSupported } = useSelector(commonSelector);
-
-  function lastPart () {
-    const partId = partsOrder[partsOrder.length - 1];
-    return parts[partId];
-  }
 
   const testCurrentTime = 20;
   const testMaxTime = 123;
@@ -23,7 +18,6 @@ export function BottomBar () {
   if (mode === 'default') {
     if (partsOrder.length === 0) {
       function handleStart () {
-        dispatch(transcribeActions.setSlice({ mode: 'record' }));
         startRecording();
       }
 
@@ -75,7 +69,7 @@ export function BottomBar () {
 
     return (
       <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-all duration-300'>
-        <span className="sm:text-sm text-xs">{formatFloatToTime(lastPart()?.duration || 0)}</span>
+        <span className="sm:text-sm text-xs">{formatFloatToTime(parts[lastPart]?.offset + parts[lastPart]?.duration || 0)}</span>
         <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto absolute left-1/2 transform -translate-x-1/2" onClick={handleStop}>
           <span className='icon-mic' />
           <span className="sm:text-base text-sm">Stop transcribing</span>

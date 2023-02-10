@@ -10,7 +10,7 @@ import { TextField } from '../../../components/TextField.jsx';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
-  const { mode, title, unsaved } = useSelector(transcribeSelector);
+  const { mode, title, unsaved, startRecording } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   function closeMenu () {
@@ -175,7 +175,7 @@ export function MoreMenu ({ disabled }) {
             </NavbarButton>
             <GroupDivider />
           </>}
-          <NavbarButton twStyle="rounded-t-lg" disabled={isNotDefaultMode} stopPropagation={true} onClick={handleSave}>
+          <NavbarButton twStyle="rounded-t-lg" disabled={isNotDefaultMode} stopPropagation={true} onClick={() => startRecording()}>
             <span className='icon-mic text-2xl text-white' />
             <span className="text-white">Record</span>
           </NavbarButton>

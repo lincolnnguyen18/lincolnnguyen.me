@@ -44,6 +44,7 @@ const initialState = {
   // partsOrder: [0, 1, 2],
   parts: {},
   partsOrder: [],
+  lastPart: null,
   createdAt: null,
   updatedAt: null,
   title: 'Untitled Transcript',
@@ -83,6 +84,7 @@ const transcribeSlice = createSlice({
       };
       state.partsOrder.push(partId);
       state.unsaved = true;
+      state.lastPart = partId;
     },
     incrementDuration: (state, action) => {
       const partId = state.partsOrder[state.partsOrder.length - 1];

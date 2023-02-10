@@ -34,11 +34,14 @@ export function Recorder () {
       }
     });
 
-    function startRecording () {
+    function startRecording (resuming = false) {
       recorder.start();
       recognition.start();
       dispatch(transcribeActions.addPart());
-      dispatch(transcribeActions.setSlice({ createdAt: Date.now(), updatedAt: Date.now() }));
+      if (!resuming) {
+        dispatch(transcribeActions.setSlice({ createdAt: Date.now() }));
+      }
+      dispatch(transcribeActions.setSlice({ updatedAt: Date.now(), mode: 'record' }));
 
       interval = setInterval(() => {
         dispatch(transcribeActions.incrementDuration(0.1));
