@@ -1,6 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { recorderActions, recorderSelector } from '../slices/recorderSlice';
+import { useDispatch } from 'react-redux';
+import { recorderActions } from '../slices/recorderSlice';
 
 export function Recorder () {
   // const { audioUrl } = useSelector(recorderSelector);

@@ -5,11 +5,13 @@ import { transcribeActions, transcribeSelector } from '../../../slices/transcrib
 import { formatFloatToTime } from '../../../common/stringUtils.js';
 import { twMerge } from 'tailwind-merge';
 import { recorderSelector } from '../../../slices/recorderSlice';
+import { commonSelector } from '../../../slices/commonSlice';
 
 export function BottomBar () {
   const dispatch = useDispatch();
   const { mode, partsOrder } = useSelector(transcribeSelector);
   const { startRecording, stopRecording } = useSelector(recorderSelector);
+  const { transcriptionSupported } = useSelector(commonSelector);
 
   const testCurrentTime = 20;
   const testMaxTime = 123;
@@ -24,7 +26,7 @@ export function BottomBar () {
 
       return (
         <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-center bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-[border-radius] duration-300 transition-all duration-300'>
-          <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={handleStart}>
+          <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={handleStart} disabled={!transcriptionSupported}>
             <span className='icon-mic' />
             <span className="sm:text-base text-sm">Start transcribing</span>
           </Button>

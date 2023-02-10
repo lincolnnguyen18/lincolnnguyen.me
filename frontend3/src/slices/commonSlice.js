@@ -26,7 +26,8 @@ const initialState = {
   browser: null,
   // {"name":"chrome","version":"109.0.0","os":"Mac OS","type":"browser"}
   // name = chrome, ios, edge-chromium, safari
-  // os = iOS, Android OS, Mac OS, Windows 10
+  // os = iOS, Android OS, Mac OS, Windows 10, Linux
+  transcriptionSupported: null,
 };
 
 const commonSlice = createSlice({

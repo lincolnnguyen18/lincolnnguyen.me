@@ -8,7 +8,7 @@ import { Button } from '../../../components/Button.jsx';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { TextField } from '../../../components/TextField.jsx';
 
-export function MoreMenu () {
+export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
   const { mode, title, isNew } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
@@ -205,6 +205,6 @@ export function MoreMenu () {
   }
 
   return (
-    <Button twStyle="icon-more-horiz" onClick={openMoreMenu} />
+    <Button twStyle="icon-more-horiz" onClick={openMoreMenu} disabled={disabled} />
   );
 }

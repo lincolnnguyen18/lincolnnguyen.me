@@ -25,7 +25,7 @@ import { Recorder } from '../../../components/Recorder';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
-  const { windowValues, scrollPosition } = useSelector(commonSelector);
+  const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
   const { mode, parts, partsOrder, title, updatedAt } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
@@ -140,10 +140,14 @@ export function TranscriptScreen () {
   let content;
 
   if (Object.keys(parts).length === 0) {
+    let messageText = 'Please press the start button below to start recording a new transcript.';
+    if (!transcriptionSupported) {
+      messageText = 'Please use Google Chrome on a non-mobile computer to transcribe.';
+    }
     content = (
       <IconMessage
         iconStyle="icon-article text-purple-custom"
-        messageText="Please press the start button below to start recording a new transcript."
+        messageText={messageText}
       />
     );
   } else {
@@ -216,11 +220,11 @@ export function TranscriptScreen () {
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcripts" text="Transcripts" />
-        {mode !== 'edit' ? <MoreMenu /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
+        {mode !== 'edit' ? <MoreMenu disabled={!transcriptionSupported} /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
       <WhiteVignette />
       <OverflowContainer twStyle={overflowStyle}>
-        <Recorder />
+        {transcriptionSupported && <Recorder />}
         {content}
       </OverflowContainer>
       {mode === 'default' && <div

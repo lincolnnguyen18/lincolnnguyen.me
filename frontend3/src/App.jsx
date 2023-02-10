@@ -60,6 +60,12 @@ export function App () {
     if (browser?.os.startsWith('Android')) {
       document.body.style.overscrollBehaviorY = 'none';
     }
+
+    if (browser?.name === 'chrome' && (browser?.os.startsWith('Mac') || browser?.os.startsWith('Windows') || browser?.os.startsWith('Linux'))) {
+      dispatch(commonActions.setSlice({ transcriptionSupported: true }));
+    } else {
+      dispatch(commonActions.setSlice({ transcriptionSupported: false }));
+    }
   }, [browser]);
 
   React.useEffect(() => {
