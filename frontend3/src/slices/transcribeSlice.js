@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { uuid } from '../common/stringUtils';
+import _ from 'lodash';
 
 const initialState = {
   // default, record, edit
@@ -42,10 +44,15 @@ const initialState = {
   // partsOrder: [0, 1, 2],
   parts: {},
   partsOrder: [],
-  createdAt: 1675670582,
-  updatedAt: 1675670582,
+  createdAt: null,
+  updatedAt: null,
   title: 'Untitled Transcript',
+  unsaved: true,
   isNew: true,
+  interimResult: '',
+  interimTimestamp: null,
+  startRecording: null,
+  stopRecording: null,
 };
 
 // // update each part in parts with an offset value
@@ -62,6 +69,39 @@ const transcribeSlice = createSlice({
   reducers: {
     setSlice: (state, action) => {
       return { ...state, ...action.payload };
+    },
+    addPart: (state) => {
+      const partId = uuid();
+      state.parts[partId] = {
+        createdAt: Date.now(),
+        duration: 0,
+        results: [],
+        offset: state.partsOrder.reduce(
+          (acc, id) => acc + state.parts[id].duration,
+          0,
+        ),
+      };
+      state.partsOrder.push(partId);
+      state.unsaved = true;
+    },
+    incrementDuration: (state, action) => {
+      const partId = state.partsOrder[state.partsOrder.length - 1];
+      state.parts[partId].duration += action.payload;
+    },
+    setInterimTimestamp: (state) => {
+      const partId = state.partsOrder[state.partsOrder.length - 1];
+      state.interimTimestamp = state.parts[partId].duration;
+    },
+    setLatestPart: (state, action) => {
+      const partId = state.partsOrder[state.partsOrder.length - 1];
+      _.merge(state.parts[partId], action.payload);
+    },
+    addResult: (state, action) => {
+      const partId = state.partsOrder[state.partsOrder.length - 1];
+      state.parts[partId].results.push({
+        timestamp: state.interimTimestamp,
+        text: action.payload,
+      });
     },
   },
 });

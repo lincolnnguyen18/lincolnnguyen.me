@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 function formatUnixTimestamp (unix) {
   // if same day; 4:02 AM
   // if same week; Mon 4:02 AM
@@ -39,4 +41,8 @@ function formatFloatToTime (float) {
   }
 }
 
-export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestamp2 };
+function uuid () {
+  return uuidv4();
+}
+
+export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestamp2, uuid };

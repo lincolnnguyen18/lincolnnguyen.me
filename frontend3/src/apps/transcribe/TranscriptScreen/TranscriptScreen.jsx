@@ -26,7 +26,7 @@ import { Recorder } from '../../../components/Recorder';
 export function TranscriptScreen () {
   const dispatch = useDispatch();
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, isNew, interimResult } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -104,6 +104,11 @@ export function TranscriptScreen () {
     dispatch(commonActions.closeNavMenu());
   }
 
+  function lastPart () {
+    const partId = partsOrder[partsOrder.length - 1];
+    return parts[partId];
+  }
+
   async function handleEditTitle () {
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
@@ -159,7 +164,8 @@ export function TranscriptScreen () {
               <span className={twMerge('sm:text-xl text-lg font-semibold', mode === 'edit' && 'overflow-hidden truncate')}>{title}</span>
               {mode === 'edit' && <Button onClick={handleEditTitle}><span className="icon-edit text-2xl cursor-pointer" /></Button>}
             </div>
-            <span className="sm:text-base text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>
+            {isNew && <span className="sm:text-base text-sm text-gray-subtext">Created on {formatUnixTimestamp2(createdAt)}</span>}
+            {!isNew && <span className="sm:text-base text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>}
           </div>
           <Divider twStyle="mx-2 sm:mx-1" />
         </div>
@@ -197,6 +203,19 @@ export function TranscriptScreen () {
                       </React.Fragment>
                     );
                   })}
+                  <ContainerButton
+                    twStyle="flex items-center gap-3 w-full justify-between"
+                    disabled={mode === 'edit'}
+                  >
+                    <div className="flex flex-row gap-3 p-2">
+                      <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1">
+                        <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate opacity-0 select-none' style={{ width: getTimestampWidth(formatFloatToTime(lastPart()?.duration || 0)) }}>
+                          {formatFloatToTime(lastPart()?.duration || 0)}
+                        </div>
+                      </div>
+                      <span className="text-sm sm:text-base text-left w-full">{interimResult}</span>
+                    </div>
+                  </ContainerButton>
                 </React.Fragment>
               );
             })

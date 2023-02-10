@@ -10,7 +10,7 @@ import { TextField } from '../../../components/TextField.jsx';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
-  const { mode, title, isNew } = useSelector(transcribeSelector);
+  const { mode, title, unsaved } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   function closeMenu () {
@@ -135,7 +135,7 @@ export function MoreMenu ({ disabled }) {
       e.preventDefault();
       const formData = new FormData(e.target);
       const title = formData.get('title');
-      dispatch(transcribeActions.setSlice({ title, isNew: false }));
+      dispatch(transcribeActions.setSlice({ title, unsaved: false }));
       closeMenu();
     }
 
@@ -168,7 +168,7 @@ export function MoreMenu ({ disabled }) {
       isMainMenu: false,
       children: (
         <div className="flex flex-col">
-          {isNew && <>
+          {unsaved && <>
             <NavbarButton twStyle="rounded-t-lg" disabled={isNotDefaultMode} stopPropagation={true} onClick={handleSave}>
               <span className='icon-save text-2xl text-white' />
               <span className="text-white">Save transcript</span>
