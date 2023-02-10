@@ -14,7 +14,7 @@ import { detect } from 'detect-browser';
 export function App () {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { backgroundPosition, navMenu, browser } = useSelector(commonSelector);
+  const { backgroundPosition, navMenu, browser, windowValues } = useSelector(commonSelector);
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -57,10 +57,16 @@ export function App () {
   }, []);
 
   React.useEffect(() => {
-    if (browser?.os === 'Android OS') {
+    if (browser?.os.startsWith('Android')) {
       document.body.style.overscrollBehaviorY = 'none';
     }
   }, [browser]);
+
+  React.useEffect(() => {
+    if (browser?.os.startsWith('Windows')) {
+      document.body.style.overflowY = 'scroll';
+    }
+  }, [windowValues.width]);
 
   return (
     <>
