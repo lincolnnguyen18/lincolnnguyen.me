@@ -26,7 +26,7 @@ import { Recorder } from '../../../components/Recorder';
 export function TranscriptScreen () {
   const dispatch = useDispatch();
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, isNew, interimResult } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, isNew, interimResult, interimTimestamp } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -102,11 +102,6 @@ export function TranscriptScreen () {
 
   function closeMenu () {
     dispatch(commonActions.closeNavMenu());
-  }
-
-  function lastPart () {
-    const partId = partsOrder[partsOrder.length - 1];
-    return parts[partId];
   }
 
   async function handleEditTitle () {
@@ -203,19 +198,19 @@ export function TranscriptScreen () {
                       </React.Fragment>
                     );
                   })}
-                  <ContainerButton
+                  {interimResult.trim() && <ContainerButton
                     twStyle="flex items-center gap-3 w-full justify-between"
                     disabled={mode === 'edit'}
                   >
                     <div className="flex flex-row gap-3 p-2">
-                      <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1">
-                        <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate opacity-0 select-none' style={{ width: getTimestampWidth(formatFloatToTime(lastPart()?.duration || 0)) }}>
-                          {formatFloatToTime(lastPart()?.duration || 0)}
+                      <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
+                        <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none' style={{ width: getTimestampWidth(formatFloatToTime(interimTimestamp || 0)) }}>
+                          {formatFloatToTime(interimTimestamp || 0)}
                         </div>
                       </div>
                       <span className="text-sm sm:text-base text-left w-full">{interimResult}</span>
                     </div>
-                  </ContainerButton>
+                  </ContainerButton>}
                 </React.Fragment>
               );
             })
