@@ -9,11 +9,12 @@ import { TranscriptsScreen } from './apps/transcribe/TranscriptsScreen/Transcrip
 import { TranscriptScreen } from './apps/transcribe/TranscriptScreen/TranscriptScreen';
 import { Protected } from './components/Protected';
 import { NavbarMenu } from './components/NavbarMenu';
+import { detect } from 'detect-browser';
 
 export function App () {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { backgroundPosition, navMenu } = useSelector(commonSelector);
+  const { backgroundPosition, navMenu, browser } = useSelector(commonSelector);
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -31,9 +32,9 @@ export function App () {
   }, [navMenu.open]);
 
   React.useEffect(() => {
-    if (navigator.userAgent.indexOf('Android') !== -1) {
-      document.body.style.overscrollBehaviorY = 'none';
-    }
+    const browser = detect();
+    // window.alert(JSON.stringify(browser));
+    dispatch(commonActions.setSlice({ browser }));
 
     function handleResize () {
       const windowValues = { width: window.innerWidth, height: window.innerHeight };
@@ -54,6 +55,12 @@ export function App () {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  React.useEffect(() => {
+    if (browser?.os === 'Android OS') {
+      document.body.style.overscrollBehaviorY = 'none';
+    }
+  }, [browser]);
 
   return (
     <>

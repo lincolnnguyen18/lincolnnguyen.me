@@ -23,6 +23,10 @@ const initialState = {
   backgroundPosition: _.sample(positions),
   loggedIn: true,
   showLogin: null,
+  browser: null,
+  // {"name":"chrome","version":"109.0.0","os":"Mac OS","type":"browser"}
+  // name = chrome, ios
+  // os = iOS, Android OS, Mac OS
 };
 
 const commonSlice = createSlice({
