@@ -74,6 +74,7 @@ export function Recorder () {
 
     function setAudioCurrentTime (time) {
       audio.currentTime = time;
+      dispatch(transcribeActions.setSlice({ currentTime: time }));
     }
 
     dispatch(transcribeActions.setSlice({ startRecording, stopRecording, playAudio, pauseAudio, setAudioCurrentTime }));
@@ -81,11 +82,7 @@ export function Recorder () {
     function onRecordingReady (e) {
       const audioUrl = URL.createObjectURL(e.data);
       dispatch(transcribeActions.setLatestPart({ audioUrl }));
-      // const audio = document.getElementById('audio');
       audio.src = audioUrl;
-      // audio.addEventListener('timeupdate', () => {
-      //   dispatch(transcribeActions.setSlice({ currentTime: audio.currentTime }));
-      // });
     }
 
     navigator.mediaDevices.getUserMedia({

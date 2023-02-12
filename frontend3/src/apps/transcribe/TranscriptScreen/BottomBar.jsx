@@ -8,11 +8,11 @@ import { commonSelector } from '../../../slices/commonSlice';
 
 export function BottomBar () {
   const dispatch = useDispatch();
-  const { mode, partsOrder, parts, startRecording, stopRecording, lastPart, currentTime, maxTime, playAudio, pauseAudio, playing } = useSelector(transcribeSelector);
+  const { mode, partsOrder, parts, startRecording, stopRecording, lastPart, currentTime, maxTime, playAudio, pauseAudio, playing, setAudioCurrentTime } = useSelector(transcribeSelector);
   const { transcriptionSupported } = useSelector(commonSelector);
 
   function updateCurrentTime (e) {
-    dispatch(transcribeActions.setSlice({ currentTime: e.target.value }));
+    setAudioCurrentTime(e.target.value);
   }
 
   if (mode === 'default') {
