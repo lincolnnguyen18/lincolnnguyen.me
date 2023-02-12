@@ -26,7 +26,7 @@ import { Recorder } from '../../../components/Recorder';
 export function TranscriptScreen () {
   const dispatch = useDispatch();
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, isNew, interimResult, interimTimestamp, lastPart } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, isNew, interimResult, interimTimestamp } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -175,7 +175,7 @@ export function TranscriptScreen () {
                     <span>Recorded on {formatUnixTimestamp2(part.createdAt)}</span>
                   </Radio>
                   {maxPartResults(part.results).map((result, j) => {
-                    const formattedTimestamp = formatFloatToTime(part.offset + result.timestamp);
+                    const formattedTimestamp = formatFloatToTime(result.timestamp);
                     const timestampWidth = getTimestampWidth(formattedTimestamp);
 
                     return (
@@ -208,8 +208,8 @@ export function TranscriptScreen () {
           >
             <div className="flex flex-row gap-3 p-2">
               <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
-                <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none' style={{ width: getTimestampWidth(formatFloatToTime((interimTimestamp + parts[lastPart]?.offset) || 0)) }}>
-                  {formatFloatToTime((interimTimestamp + parts[lastPart]?.offset) || 0)}
+                <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none' style={{ width: getTimestampWidth(formatFloatToTime((interimTimestamp) || 0)) }}>
+                  {formatFloatToTime((interimTimestamp) || 0)}
                 </div>
               </div>
               <span className="text-sm sm:text-base text-left w-full">{interimResult}</span>

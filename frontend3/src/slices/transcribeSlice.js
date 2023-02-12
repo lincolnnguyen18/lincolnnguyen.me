@@ -59,14 +59,6 @@ const initialState = {
   playing: false,
 };
 
-// // update each part in parts with an offset value
-// // offset is the sum of the durations of all parts before it
-// initialState.partsOrder.forEach((partId, i) => {
-//   initialState.parts[partId].offset = initialState.partsOrder
-//     .slice(0, i)
-//     .reduce((acc, id) => acc + initialState.parts[id].duration, 0);
-// });
-
 const transcribeSlice = createSlice({
   name: 'transcribe',
   initialState,
@@ -80,10 +72,6 @@ const transcribeSlice = createSlice({
         createdAt: Date.now(),
         duration: 0,
         results: [],
-        offset: state.partsOrder.reduce(
-          (acc, id) => acc + state.parts[id].duration,
-          0,
-        ),
       };
       state.partsOrder.push(partId);
       state.unsaved = true;
@@ -93,8 +81,7 @@ const transcribeSlice = createSlice({
       const partId = state.partsOrder[state.partsOrder.length - 1];
       state.parts[partId].duration += action.payload;
 
-      const offset = state.parts[partId]?.offset || 0;
-      state.maxTime = offset + state.parts[partId].duration;
+      state.maxTime = state.parts[partId].duration;
     },
     setInterimTimestamp: (state) => {
       const partId = state.partsOrder[state.partsOrder.length - 1];
