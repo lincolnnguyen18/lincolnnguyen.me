@@ -177,7 +177,7 @@ export function MoreMenu ({ disabled }) {
           </>}
           <NavbarButton twStyle="rounded-t-lg" disabled={isNotDefaultMode} onClick={() => startRecording()}>
             <span className='icon-mic text-2xl text-white' />
-            <span className="text-white">Record</span>
+            <span className="text-white">Transcribe</span>
           </NavbarButton>
           <GroupDivider />
           <NavbarButton stopPropagation={true} onClick={handleChangeLanguage}>

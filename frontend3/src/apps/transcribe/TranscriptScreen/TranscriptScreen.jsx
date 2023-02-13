@@ -139,6 +139,10 @@ export function TranscriptScreen () {
 
   let content;
 
+  function onResultClick (partId, timestamp) {
+    console.log('onResultClick', partId, timestamp);
+  }
+
   if (Object.keys(parts).length === 0) {
     let messageText = 'Please press the start button below to start recording a new transcript.';
     if (!transcriptionSupported) {
@@ -182,7 +186,8 @@ export function TranscriptScreen () {
                       <React.Fragment key={j}>
                         <ContainerButton
                           twStyle="flex items-center gap-3 w-full justify-between"
-                          disabled={mode === 'edit'}
+                          disabled={mode === 'edit' || mode === 'record'}
+                          onClick={() => onResultClick(partId, result.timestamp)}
                           key={i}
                         >
                           <div className="flex flex-row gap-3 p-2">
@@ -202,9 +207,8 @@ export function TranscriptScreen () {
               );
             })
           }
-          {interimResult.trim() && <ContainerButton
-            twStyle="flex items-center gap-3 w-full justify-between"
-            disabled={mode === 'edit'}
+          {interimResult.trim() && <div
+            className="flex items-center gap-3 w-full justify-between cursor-default"
           >
             <div className="flex flex-row gap-3 p-2">
               <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
@@ -214,7 +218,7 @@ export function TranscriptScreen () {
               </div>
               <span className="text-sm sm:text-base text-left w-full">{interimResult}</span>
             </div>
-          </ContainerButton>}
+          </div>}
         </div>
       </>
     );
