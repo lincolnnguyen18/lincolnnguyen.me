@@ -10,7 +10,7 @@ import { TextField } from '../../../components/TextField.jsx';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
-  const { mode, title, unsaved, startRecording } = useSelector(transcribeSelector);
+  const { mode, title, unsaved, recorder } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   function closeMenu () {
@@ -133,7 +133,7 @@ export function MoreMenu ({ disabled }) {
 
     function onEdit (e) {
       e.preventDefault();
-      const formData = new FormData(e.target);
+      const formData = new window.FormData(e.target);
       const title = formData.get('title');
       dispatch(transcribeActions.setSlice({ title, unsaved: false }));
       closeMenu();
@@ -163,6 +163,15 @@ export function MoreMenu ({ disabled }) {
   function openMoreMenu () {
     const isNotDefaultMode = mode !== 'default';
 
+    function handleStart () {
+      dispatch(transcribeActions.addPart());
+      recorder.start();
+      dispatch(transcribeActions.setSlice({ updatedAt: Date.now(), mode: 'record' }));
+      window.interval = setInterval(() => {
+        dispatch(transcribeActions.incrementDuration(0.1));
+      }, 100);
+    }
+
     dispatch(commonActions.openNavMenu({
       position: 'right',
       isMainMenu: false,
@@ -175,7 +184,7 @@ export function MoreMenu ({ disabled }) {
             </NavbarButton>
             <GroupDivider />
           </>}
-          <NavbarButton twStyle="rounded-t-lg" disabled={isNotDefaultMode} onClick={() => startRecording()}>
+          <NavbarButton twStyle="rounded-t-lg" disabled={isNotDefaultMode} onClick={handleStart}>
             <span className='icon-mic text-2xl text-white' />
             <span className="text-white">Transcribe</span>
           </NavbarButton>

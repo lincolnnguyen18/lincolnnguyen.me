@@ -8,7 +8,7 @@ import { commonSelector } from '../../../slices/commonSlice';
 
 export function BottomBar () {
   const dispatch = useDispatch();
-  const { mode, partsOrder, parts, startRecording, stopRecording, lastPart, currentTime, maxTime, playAudio, pauseAudio, playing, setAudioCurrentTime } = useSelector(transcribeSelector);
+  const { mode, partsOrder, parts, recorder, lastPart, currentTime, maxTime, playAudio, pauseAudio, playing, setAudioCurrentTime } = useSelector(transcribeSelector);
   const { transcriptionSupported } = useSelector(commonSelector);
 
   function updateCurrentTime (e) {
@@ -18,7 +18,12 @@ export function BottomBar () {
   if (mode === 'default') {
     if (partsOrder.length === 0) {
       function handleStart () {
-        startRecording();
+        dispatch(transcribeActions.addPart());
+        recorder.start();
+        dispatch(transcribeActions.setSlice({ updatedAt: Date.now(), createdAt: Date.now(), mode: 'record' }));
+        window.interval = setInterval(() => {
+          dispatch(transcribeActions.incrementDuration(0.1));
+        }, 100);
       }
 
       return (
@@ -64,7 +69,8 @@ export function BottomBar () {
   } else if (mode === 'record') {
     function handleStop () {
       dispatch(transcribeActions.setSlice({ mode: 'default' }));
-      stopRecording();
+      recorder.stop();
+      clearInterval(window.interval);
     }
 
     return (

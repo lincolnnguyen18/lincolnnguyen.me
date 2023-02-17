@@ -25,4 +25,9 @@ module.exports = {
     'spaced-comment': 'off',
     'no-new': 'off',
   },
+  overrides: [
+    {
+      files: ['src/**/*.js', 'src/**/*.jsx'],
+    },
+  ],
 };

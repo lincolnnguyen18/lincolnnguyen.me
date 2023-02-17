@@ -21,7 +21,7 @@ import { NavbarButton } from '../../../components/NavbarButton.jsx';
 import { GroupDivider } from '../../../components/GroupDivider.jsx';
 import { IconMessage } from '../../../components/IconMessage.jsx';
 import { formatFloatToTime, formatUnixTimestamp2 } from '../../../common/stringUtils.js';
-import { Recorder } from '../../../components/Recorder';
+import { Recorder } from '../../../common/recorder';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
@@ -76,7 +76,7 @@ export function TranscriptScreen () {
 
   function maxPartResults (results) {
     if (mode === 'edit') {
-      return [results[0]];
+      return results.length ? [results[0]] : [];
     } else {
       return results;
     }
@@ -86,14 +86,16 @@ export function TranscriptScreen () {
     dispatch(transcribeActions.setSlice({ mode: 'default' }));
   }
 
-  // const [newPartDuration, setNewPartDuration] = React.useState(0);
-  // const [newPartCreatedAt, setNewPartCreatedAt] = React.useState(Date.now());
-  // const [newPartTitle, setNewPartTitle] = React.useState('');
-  // const [newPartResults, setNewPartResults] = React.useState([]);
-  // let interval;
+  function onRecordingReady (audioUrl) {
+    dispatch(transcribeActions.setLatestPart({ audioUrl }));
+  }
 
   React.useEffect(() => {
     dispatch(commonActions.setSlice({ scrollPosition: 0 }));
+
+    const recorder = new Recorder({ onRecordingReady });
+    dispatch(transcribeActions.setSlice({ recorder }));
+
     handleDone();
     return () => {
       handleDone();
@@ -110,7 +112,7 @@ export function TranscriptScreen () {
 
     function onEdit (e) {
       e.preventDefault();
-      const formData = new FormData(e.target);
+      const formData = new window.FormData(e.target);
       const title = formData.get('title');
       dispatch(transcribeActions.setSlice({ title }));
       closeMenu();
@@ -242,7 +244,6 @@ export function TranscriptScreen () {
       </Navbar>
       <WhiteVignette />
       <OverflowContainer twStyle={overflowStyle}>
-        {transcriptionSupported && <Recorder />}
         {content}
       </OverflowContainer>
       {mode === 'default' && <div
