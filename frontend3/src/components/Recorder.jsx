@@ -95,6 +95,6 @@ export function Recorder () {
   }, []);
 
   return (
-    <audio id="audio" controls hidden={true}></audio>
+    <audio id="audio" controls hidden={true} autoPlay={false}></audio>
   );
 }

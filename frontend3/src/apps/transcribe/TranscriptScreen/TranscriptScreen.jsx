@@ -26,8 +26,9 @@ import { Transcriber } from '../../../common/Transcriber';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
+  const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, isNew, interimResult, interimTimestamp } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, isNew, interimResult, finalResultTime, playing } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -89,16 +90,16 @@ export function TranscriptScreen () {
 
   function onRecordingReady (audioUrl) {
     dispatch(transcribeActions.setLatestPart({ audioUrl }));
+    const audio = document.getElementById('audio');
+    audio.src = audioUrl;
   }
 
   function onInterim (interim) {
-    dispatch(transcribeActions.setInterimTimestamp());
     dispatch(transcribeActions.setSlice({ interimResult: interim }));
   }
 
   function onFinal (final) {
-    dispatch(transcribeActions.addResult(final));
-    dispatch(transcribeActions.setSlice({ interimResult: '' }));
+    dispatch(transcribeActions.onFinal(final));
   }
 
   React.useEffect(() => {
@@ -109,10 +110,35 @@ export function TranscriptScreen () {
     dispatch(transcribeActions.setSlice({ recorder, transcriber }));
 
     handleDone();
+
+    const audio = document.getElementById('audio');
+    function onEnded () {
+      dispatch(transcribeActions.setSlice({ playing: false }));
+    }
+    audio.addEventListener('ended', onEnded);
+
+    function onTimeUpdate () {
+      dispatch(transcribeActions.setSlice({ currentTime: audio.currentTime }));
+    }
+    audio.addEventListener('timeupdate', onTimeUpdate);
+
     return () => {
       handleDone();
     };
   }, []);
+
+  React.useEffect(() => {
+    const audio = document.getElementById('audio');
+    function onLoadedMetadata () {
+      if (playing) {
+        audio.play();
+      }
+    }
+    audio.addEventListener('loadedmetadata', onLoadedMetadata);
+    return () => {
+      audio.removeEventListener('loadedmetadata', onLoadedMetadata);
+    };
+  }, [playing]);
 
   function closeMenu () {
     dispatch(commonActions.closeNavMenu());
@@ -154,7 +180,12 @@ export function TranscriptScreen () {
   let content;
 
   function onResultClick (partId, timestamp) {
-    console.log('onResultClick', partId, timestamp);
+    const src = parts[partId].audioUrl;
+    audio.autoplay = false;
+    if (audio.src !== src) audio.src = src;
+    // console.log('onResultClick', parts[partId], timestamp);
+    audio.currentTime = timestamp;
+    dispatch(transcribeActions.setSlice({ currentTime: timestamp, maxTime: parts[partId].duration }));
   }
 
   if (Object.keys(parts).length === 0) {
@@ -226,8 +257,8 @@ export function TranscriptScreen () {
           >
             <div className="flex flex-row gap-3 p-2">
               <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
-                <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none flex justify-center' style={{ width: getTimestampWidth(formatFloatToTime((interimTimestamp))) }}>
-                  {formatFloatToTime((interimTimestamp))}
+                <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none flex justify-center' style={{ width: getTimestampWidth(formatFloatToTime((finalResultTime))) }}>
+                  {formatFloatToTime((finalResultTime))}
                 </div>
               </div>
               <span className="text-sm sm:text-base text-left w-full">{interimResult}</span>
@@ -249,6 +280,7 @@ export function TranscriptScreen () {
 
   return (
     <>
+      <audio hidden={true} id="audio" />
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcripts" text="Transcripts" />

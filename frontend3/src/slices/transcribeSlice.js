@@ -44,7 +44,7 @@ const initialState = {
   // partsOrder: [0, 1, 2],
   parts: {},
   partsOrder: [],
-  lastPart: null,
+  currentPart: null,
   createdAt: null,
   updatedAt: null,
   title: 'Untitled Transcript',
@@ -73,9 +73,9 @@ const transcribeSlice = createSlice({
         results: [],
       };
       state.partsOrder.push(partId);
-      state.interimTimestamp = 0;
+      state.finalResultTime = 0;
       state.unsaved = true;
-      state.lastPart = partId;
+      state.currentPart = partId;
     },
     incrementDuration: (state, action) => {
       const partId = state.partsOrder[state.partsOrder.length - 1];
@@ -83,21 +83,18 @@ const transcribeSlice = createSlice({
 
       state.maxTime = state.parts[partId].duration;
     },
-    setInterimTimestamp: (state) => {
-      if (state.interimResult !== '') return;
-      const partId = state.partsOrder[state.partsOrder.length - 1];
-      state.interimTimestamp = state.parts[partId].duration;
-    },
     setLatestPart: (state, action) => {
       const partId = state.partsOrder[state.partsOrder.length - 1];
       _.merge(state.parts[partId], action.payload);
     },
-    addResult: (state, action) => {
+    onFinal: (state, action) => {
       const partId = state.partsOrder[state.partsOrder.length - 1];
       state.parts[partId].results.push({
-        timestamp: state.interimTimestamp,
+        timestamp: state.finalResultTime,
         text: action.payload,
       });
+      state.finalResultTime = state.parts[partId].duration;
+      state.interimResult = '';
     },
   },
 });

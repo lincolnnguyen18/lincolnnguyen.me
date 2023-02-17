@@ -10,7 +10,7 @@ import { TextField } from '../../../components/TextField.jsx';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
-  const { mode, title, unsaved, recorder, transcriber } = useSelector(transcribeSelector);
+  const { mode, title, unsaved, recorder, transcriber, playing } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   function closeMenu () {
@@ -215,6 +215,6 @@ export function MoreMenu ({ disabled }) {
   }
 
   return (
-    <Button twStyle="icon-more-horiz" onClick={openMoreMenu} disabled={disabled} />
+    <Button twStyle="icon-more-horiz" onClick={openMoreMenu} disabled={disabled || playing} />
   );
 }

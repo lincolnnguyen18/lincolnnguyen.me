@@ -8,11 +8,30 @@ import { commonSelector } from '../../../slices/commonSlice';
 
 export function BottomBar () {
   const dispatch = useDispatch();
-  const { mode, partsOrder, parts, recorder, transcriber, lastPart, currentTime, maxTime, playAudio, pauseAudio, playing, setAudioCurrentTime } = useSelector(transcribeSelector);
+  const audio = document.getElementById('audio');
+  const { mode, partsOrder, parts, recorder, transcriber, currentPart, currentTime, maxTime, playing } = useSelector(transcribeSelector);
   const { transcriptionSupported } = useSelector(commonSelector);
 
   function updateCurrentTime (e) {
-    setAudioCurrentTime(e.target.value);
+    dispatch(transcribeActions.setSlice({ currentTime: e.target.value }));
+    audio.currentTime = e.target.value;
+  }
+
+  function handlePlay () {
+    dispatch(transcribeActions.setSlice({ playing: true }));
+    audio.play();
+  }
+
+  function handlePause () {
+    audio.pause();
+    dispatch(transcribeActions.setSlice({ playing: false }));
+  }
+
+  function handleStop () {
+    dispatch(transcribeActions.setSlice({ mode: 'default' }));
+    recorder.stop();
+    transcriber.stop();
+    clearInterval(window.interval);
   }
 
   if (mode === 'default') {
@@ -58,7 +77,7 @@ export function BottomBar () {
               <span className="text-sm">{formatFloatToTime(currentTime)}</span>
               <div className="flex items-center gap-7 transition-all duration-300 absolute transform -translate-x-1/2 left-1/2">
                 <Button twStyle="icon-skip-prev" />
-                <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} onClick={playing ? pauseAudio : playAudio} />
+                <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} onClick={playing ? handlePause : handlePlay} />
                 <Button twStyle="icon-skip-next" />
               </div>
               <span className="text-sm">{formatFloatToTime(Math.round(maxTime))}</span>
@@ -68,16 +87,9 @@ export function BottomBar () {
       );
     }
   } else if (mode === 'record') {
-    function handleStop () {
-      dispatch(transcribeActions.setSlice({ mode: 'default' }));
-      recorder.stop();
-      transcriber.stop();
-      clearInterval(window.interval);
-    }
-
     return (
       <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-all duration-300'>
-        <span className="sm:text-sm text-xs">{formatFloatToTime(parts[lastPart]?.duration || 0)}</span>
+        <span className="sm:text-sm text-xs">{formatFloatToTime(parts[currentPart]?.duration || 0)}</span>
         <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto absolute left-1/2 transform -translate-x-1/2" onClick={handleStop}>
           <span className='icon-mic' />
           <span className="sm:text-base text-sm">Stop transcribing</span>
