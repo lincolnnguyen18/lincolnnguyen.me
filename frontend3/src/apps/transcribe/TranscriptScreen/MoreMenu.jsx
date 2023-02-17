@@ -10,7 +10,7 @@ import { TextField } from '../../../components/TextField.jsx';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
-  const { mode, title, unsaved, recorder } = useSelector(transcribeSelector);
+  const { mode, title, unsaved, recorder, transcriber } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   function closeMenu () {
@@ -166,6 +166,7 @@ export function MoreMenu ({ disabled }) {
     function handleStart () {
       dispatch(transcribeActions.addPart());
       recorder.start();
+      transcriber.start();
       dispatch(transcribeActions.setSlice({ updatedAt: Date.now(), mode: 'record' }));
       window.interval = setInterval(() => {
         dispatch(transcribeActions.incrementDuration(0.1));

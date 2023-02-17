@@ -22,6 +22,7 @@ import { GroupDivider } from '../../../components/GroupDivider.jsx';
 import { IconMessage } from '../../../components/IconMessage.jsx';
 import { formatFloatToTime, formatUnixTimestamp2 } from '../../../common/stringUtils.js';
 import { Recorder } from '../../../common/recorder';
+import { Transcriber } from '../../../common/Transcriber';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
@@ -90,11 +91,20 @@ export function TranscriptScreen () {
     dispatch(transcribeActions.setLatestPart({ audioUrl }));
   }
 
+  function onInterim (interim) {
+    console.log('interim', interim);
+  }
+
+  function onFinal (final) {
+    console.log('final', final);
+  }
+
   React.useEffect(() => {
     dispatch(commonActions.setSlice({ scrollPosition: 0 }));
 
     const recorder = new Recorder({ onRecordingReady });
-    dispatch(transcribeActions.setSlice({ recorder }));
+    const transcriber = new Transcriber({ onInterim, onFinal });
+    dispatch(transcribeActions.setSlice({ recorder, transcriber }));
 
     handleDone();
     return () => {
