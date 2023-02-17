@@ -92,11 +92,13 @@ export function TranscriptScreen () {
   }
 
   function onInterim (interim) {
-    console.log('interim', interim);
+    dispatch(transcribeActions.setInterimTimestamp());
+    dispatch(transcribeActions.setSlice({ interimResult: interim }));
   }
 
   function onFinal (final) {
-    console.log('final', final);
+    dispatch(transcribeActions.addResult(final));
+    dispatch(transcribeActions.setSlice({ interimResult: '' }));
   }
 
   React.useEffect(() => {
@@ -224,8 +226,8 @@ export function TranscriptScreen () {
           >
             <div className="flex flex-row gap-3 p-2">
               <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
-                <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none' style={{ width: getTimestampWidth(formatFloatToTime((interimTimestamp) || 0)) }}>
-                  {formatFloatToTime((interimTimestamp) || 0)}
+                <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none flex justify-center' style={{ width: getTimestampWidth(formatFloatToTime((interimTimestamp))) }}>
+                  {formatFloatToTime((interimTimestamp))}
                 </div>
               </div>
               <span className="text-sm sm:text-base text-left w-full">{interimResult}</span>

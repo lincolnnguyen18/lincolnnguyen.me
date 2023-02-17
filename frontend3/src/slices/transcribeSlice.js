@@ -73,6 +73,7 @@ const transcribeSlice = createSlice({
         results: [],
       };
       state.partsOrder.push(partId);
+      state.interimTimestamp = 0;
       state.unsaved = true;
       state.lastPart = partId;
     },
@@ -83,6 +84,7 @@ const transcribeSlice = createSlice({
       state.maxTime = state.parts[partId].duration;
     },
     setInterimTimestamp: (state) => {
+      if (state.interimResult !== '') return;
       const partId = state.partsOrder[state.partsOrder.length - 1];
       state.interimTimestamp = state.parts[partId].duration;
     },
