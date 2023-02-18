@@ -10,7 +10,7 @@ import { TextField } from '../../../components/TextField.jsx';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
-  const { mode, title, unsaved, recorder, transcriber, playing } = useSelector(transcribeSelector);
+  const { mode, title, recorder, transcriber, playing, language: currentLanguage, partsOrder } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   function closeMenu () {
@@ -23,6 +23,11 @@ export function MoreMenu ({ disabled }) {
     const langs = { 'af-ZA': 'Afrikaans', 'id-ID': 'Bahasa Indonesia', 'ms-MY': 'Bahasa Melayu', 'ca-ES': 'Català', 'cs-CZ': 'Čeština', 'de-De': 'Deutsch', 'en-AU': 'English (Australia)', 'en-CA': 'English (Canada)', 'en-IN': 'English (India)', 'en-NZ': 'English (New Zealand)', 'en-ZA': 'English (South Africa)', 'en-GB': 'English (United Kingdom)', 'en-US': 'English (United States)', 'es-AR': 'Español (Argentina)', 'es-BO': 'Español (Bolivia)', 'es-CL': 'Español (Chile)', 'es-CO': 'Español (Colombia)', 'es-CR': 'Español (Costa Rica)', 'es-EC': 'Español (Ecuador)', 'es-SV': 'Español (El Salvador)', 'es-ES': 'Español (España)', 'es-US': 'Español (Estados Unidos)', 'es-GT': 'Español (Guatemala)', 'es-HN': 'Español (Honduras)', 'es-MX': 'Español (México)', 'es-NI': 'Español (Nicaragua)', 'es-PA': 'Español (Panamá)', 'es-PY': 'Español (Paraguay)', 'es-PE': 'Español (Perú)', 'es-PR': 'Español (Puerto Rico)', 'es-DO': 'Español (República Dominicana)', 'es-UY': 'Español (Uruguay)', 'es-VE': 'Español (Venezuela)', 'eu-ES': 'Euskara', 'fr-FR': 'Français', 'gl-ES': 'Galego', 'hr-HR': 'Hrvatski', 'zu-ZA': 'IsiZulu', 'is-IS': 'Íslenska', 'it-IT': 'Italiano (Italia)', 'it-CH': 'Italiano (Svizzera)', 'hu-HU': 'Magyar', 'nl-NL': 'Nederlands', 'nb-NO': 'Norsk bokmål', 'pl-PL': 'Polski', 'pt-BR': 'Português (Brasil)', 'pt-PT': 'Português (Portugal)', 'ro-RO': 'Română', 'sk-SK': 'Slovenčina', 'fi-FI': 'Suomi', 'sv-SE': 'Svenska', 'tr-TR': 'Türkçe', 'bg-BG': 'български', 'ru-RU': 'Pусский', 'sr-RS': 'Српски', 'ko-KR': '한국어', 'cmn-Hans-CN': '中文 普通话 (中国大陆)', 'cmn-Hans-HK': '中文 普通话 (香港)', 'cmn-Hant-TW': '中文 中文 (台灣)', 'yue-Hant-HK': '中文 粵語 (香港)', 'ja-JP': '日本語', la: 'Lingua latīna' };
     const langEntries = Object.entries(langs);
 
+    function onLanguageClick (language) {
+      dispatch(transcribeActions.setSlice({ language }));
+      transcriber.setLanguage(language);
+    }
+
     dispatch(commonActions.openNavMenu({
       position: 'right',
       isMainMenu: false,
@@ -30,9 +35,9 @@ export function MoreMenu ({ disabled }) {
         <div className="flex flex-col">
           {langEntries.map(([code, language], index) => (
             <React.Fragment key={index}>
-              <NavbarButton twStyle="justify-between first:rounded-t-lg last:rounded-b-lg" onClick={() => console.log(code)} outerTwStyle="w-64">
+              <NavbarButton twStyle="justify-between first:rounded-t-lg last:rounded-b-lg" onClick={() => onLanguageClick(code)} outerTwStyle="w-64">
                 <span className="text-white">{language}</span>
-                {index === 0 && <span className="icon-check text-2xl text-white" />}
+                {currentLanguage === code && <span className="icon-check text-2xl text-white" />}
               </NavbarButton>
               {index !== langEntries.length - 1 && (
                 <GroupDivider />
@@ -135,7 +140,7 @@ export function MoreMenu ({ disabled }) {
       e.preventDefault();
       const formData = new window.FormData(e.target);
       const title = formData.get('title');
-      dispatch(transcribeActions.setSlice({ title, unsaved: false }));
+      dispatch(transcribeActions.setSlice({ title }));
       closeMenu();
     }
 
@@ -161,13 +166,12 @@ export function MoreMenu ({ disabled }) {
   }
 
   function openMoreMenu () {
-    const isNotDefaultMode = mode !== 'default';
-
     function handleStart () {
       dispatch(transcribeActions.addPart());
       recorder.start();
       transcriber.start();
-      dispatch(transcribeActions.setSlice({ updatedAt: Date.now(), mode: 'record' }));
+      dispatch(transcribeActions.setSlice({ mode: 'record' }));
+      dispatch(transcribeActions.updateMetadata());
       window.interval = setInterval(() => {
         dispatch(transcribeActions.incrementDuration(0.1));
       }, 100);
@@ -178,24 +182,24 @@ export function MoreMenu ({ disabled }) {
       isMainMenu: false,
       children: (
         <div className="flex flex-col">
-          {unsaved && <>
-            <NavbarButton twStyle="rounded-t-lg" disabled={isNotDefaultMode} stopPropagation={true} onClick={handleSave}>
+          {partsOrder.length > 0 && <>
+            <NavbarButton twStyle="rounded-t-lg" stopPropagation={true} onClick={handleSave}>
               <span className='icon-save text-2xl text-white' />
               <span className="text-white">Save transcript</span>
             </NavbarButton>
             <GroupDivider />
           </>}
-          <NavbarButton twStyle="rounded-t-lg" disabled={isNotDefaultMode} onClick={handleStart}>
+          <NavbarButton twStyle="rounded-t-lg" onClick={handleStart}>
             <span className='icon-mic text-2xl text-white' />
             <span className="text-white">Transcribe</span>
           </NavbarButton>
           <GroupDivider />
           <NavbarButton stopPropagation={true} onClick={handleChangeLanguage}>
-            <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">JA</span>
+            <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{currentLanguage.split('-')[1].toUpperCase()}</span>
             <span className="text-white">Change language</span>
           </NavbarButton>
           <GroupDivider />
-          <NavbarButton stopPropagation={true} onClick={turnOnEditMode} disabled={isNotDefaultMode}>
+          <NavbarButton stopPropagation={true} onClick={turnOnEditMode} disabled={partsOrder.length === 0}>
             <span className="icon-edit text-2xl text-white" />
             <span className="text-white">Edit</span>
           </NavbarButton>
@@ -205,7 +209,7 @@ export function MoreMenu ({ disabled }) {
           {/*  <span className="text-white">Filter by speaker</span>*/}
           {/*</NavbarGroupButton>*/}
           {/*<NavbarGroupDivider />*/}
-          <NavbarButton twStyle="rounded-b-lg" stopPropagation={true} onClick={handleOpenInfo} disabled={isNotDefaultMode}>
+          <NavbarButton twStyle="rounded-b-lg" stopPropagation={true} onClick={handleOpenInfo}>
             <span className='icon-info text-2xl text-white' />
             <span className="text-white">Transcript info</span>
           </NavbarButton>
@@ -215,6 +219,6 @@ export function MoreMenu ({ disabled }) {
   }
 
   return (
-    <Button twStyle="icon-more-horiz" onClick={openMoreMenu} disabled={disabled || playing} />
+    <Button twStyle="icon-more-horiz" onClick={openMoreMenu} disabled={disabled || playing || mode !== 'default'} />
   );
 }

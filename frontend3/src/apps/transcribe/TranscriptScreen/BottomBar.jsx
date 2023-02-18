@@ -9,7 +9,7 @@ import { commonSelector } from '../../../slices/commonSlice';
 export function BottomBar () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
-  const { mode, partsOrder, parts, recorder, transcriber, currentPart, currentTime, maxTime, playing } = useSelector(transcribeSelector);
+  const { mode, partsOrder, parts, recorder, transcriber, currentPartId, currentTime, maxTime, playing } = useSelector(transcribeSelector);
   const { transcriptionSupported } = useSelector(commonSelector);
 
   function updateCurrentTime (e) {
@@ -40,7 +40,7 @@ export function BottomBar () {
         dispatch(transcribeActions.addPart());
         recorder.start();
         transcriber.start();
-        dispatch(transcribeActions.setSlice({ updatedAt: Date.now(), createdAt: Date.now(), mode: 'record' }));
+        dispatch(transcribeActions.setSlice({ createdAt: Date.now(), mode: 'record' }));
         window.interval = setInterval(() => {
           dispatch(transcribeActions.incrementDuration(0.1));
         }, 100);
@@ -89,7 +89,7 @@ export function BottomBar () {
   } else if (mode === 'record') {
     return (
       <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-all duration-300'>
-        <span className="sm:text-sm text-xs">{formatFloatToTime(parts[currentPart]?.duration || 0)}</span>
+        <span className="sm:text-sm text-xs">{formatFloatToTime(parts[currentPartId]?.duration || 0)}</span>
         <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto absolute left-1/2 transform -translate-x-1/2" onClick={handleStop}>
           <span className='icon-mic' />
           <span className="sm:text-base text-sm">Stop transcribing</span>
@@ -105,14 +105,14 @@ export function BottomBar () {
             <span className='icon-delete'/>
             <span className="sm:text-base text-sm max-w-[50px] sm:max-w-none overflow-hidden truncate">Delete</span>
           </Button>
-          <Button twStyle="flex items-center gap-1 select-auto">
-            <span className='icon-up'/>
-            <span className="sm:text-base text-sm max-w-[50px] sm:max-w-none overflow-hidden truncate">Move</span>
-          </Button>
-          <Button twStyle="flex items-center gap-1 select-auto">
-            <span className='icon-down'/>
-            <span className="sm:text-base text-sm max-w-[50px] sm:max-w-none overflow-hidden truncate">Move</span>
-          </Button>
+          {/*<Button twStyle="flex items-center gap-1 select-auto">*/}
+          {/*  <span className='icon-up'/>*/}
+          {/*  <span className="sm:text-base text-sm max-w-[50px] sm:max-w-none overflow-hidden truncate">Move</span>*/}
+          {/*</Button>*/}
+          {/*<Button twStyle="flex items-center gap-1 select-auto">*/}
+          {/*  <span className='icon-down'/>*/}
+          {/*  <span className="sm:text-base text-sm max-w-[50px] sm:max-w-none overflow-hidden truncate">Move</span>*/}
+          {/*</Button>*/}
         </div>
       </div>
     );

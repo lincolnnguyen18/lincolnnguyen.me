@@ -44,18 +44,17 @@ const initialState = {
   // partsOrder: [0, 1, 2],
   parts: {},
   partsOrder: [],
-  currentPart: null,
+  currentPartId: null,
   createdAt: null,
   updatedAt: null,
   title: 'Untitled Transcript',
-  unsaved: true,
-  isNew: true,
   interimResult: '',
   interimTimestamp: null,
   recorder: null,
   currentTime: 0,
   maxTime: 0,
   playing: false,
+  language: 'en-US',
 };
 
 const transcribeSlice = createSlice({
@@ -74,8 +73,7 @@ const transcribeSlice = createSlice({
       };
       state.partsOrder.push(partId);
       state.finalResultTime = 0;
-      state.unsaved = true;
-      state.currentPart = partId;
+      state.currentPartId = partId;
     },
     incrementDuration: (state, action) => {
       const partId = state.partsOrder[state.partsOrder.length - 1];
@@ -95,6 +93,13 @@ const transcribeSlice = createSlice({
       });
       state.finalResultTime = state.parts[partId].duration;
       state.interimResult = '';
+    },
+    updateMetadata: (state) => {
+      if (!state.createdAt) {
+        state.createdAt = Date.now();
+      } else {
+        state.updatedAt = Date.now();
+      }
     },
   },
 });

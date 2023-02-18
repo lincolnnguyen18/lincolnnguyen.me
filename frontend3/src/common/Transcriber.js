@@ -34,4 +34,8 @@ export class Transcriber {
   stop () {
     this.recognition.stop();
   }
+
+  setLanguage (lang) {
+    this.recognition.lang = lang;
+  }
 }

@@ -28,7 +28,7 @@ export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, isNew, interimResult, finalResultTime, playing } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -208,8 +208,8 @@ export function TranscriptScreen () {
               <span className={twMerge('sm:text-xl text-lg font-semibold', mode === 'edit' && 'overflow-hidden truncate')}>{title}</span>
               {mode === 'edit' && <Button onClick={handleEditTitle}><span className="icon-edit text-2xl cursor-pointer" /></Button>}
             </div>
-            {isNew && <span className="sm:text-base text-sm text-gray-subtext">Created on {formatUnixTimestamp2(createdAt)}</span>}
-            {!isNew && <span className="sm:text-base text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>}
+            {!updatedAt && createdAt && <span className="sm:text-base text-sm text-gray-subtext">Created on {formatUnixTimestamp2(createdAt)}</span>}
+            {updatedAt && <span className="sm:text-base text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>}
           </div>
           <Divider twStyle="mx-2 sm:mx-1" />
         </div>
