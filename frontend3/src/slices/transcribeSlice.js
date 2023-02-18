@@ -54,7 +54,7 @@ const initialState = {
   currentTime: 0,
   maxTime: 0,
   playing: false,
-  language: 'en-US',
+  language: 'ja-JP',
 };
 
 const transcribeSlice = createSlice({

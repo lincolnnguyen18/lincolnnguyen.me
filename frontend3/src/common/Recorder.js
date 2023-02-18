@@ -14,7 +14,11 @@ export class Recorder {
   }
 
   start () {
-    this.mediaRecorder.start();
+    try {
+      this.mediaRecorder.start();
+    } catch (e) {
+      window.alert('There was an error in starting the recording. Please try refreshing the page or using a different computer.');
+    }
   }
 
   stop () {

@@ -6,11 +6,10 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../components/Button.jsx';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
-import { TextField } from '../../../components/TextField.jsx';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
-  const { mode, title, recorder, transcriber, playing, language: currentLanguage, partsOrder } = useSelector(transcribeSelector);
+  const { mode, recorder, transcriber, playing, language: currentLanguage, partsOrder, createdAt } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   function closeMenu () {
@@ -132,39 +131,6 @@ export function MoreMenu ({ disabled }) {
     }
   }, [scrollPosition]);
 
-  async function handleSave () {
-    dispatch(commonActions.hideNavMenuChildren());
-    await wait();
-
-    function onEdit (e) {
-      e.preventDefault();
-      const formData = new window.FormData(e.target);
-      const title = formData.get('title');
-      dispatch(transcribeActions.setSlice({ title }));
-      closeMenu();
-    }
-
-    dispatch(commonActions.openNavMenu({
-      position: 'right',
-      isMainMenu: false,
-      centerContent: true,
-      easyClose: false,
-      children: (
-        <form className="flex flex-col w-full text-white items-center" onSubmit={onEdit}>
-          <div className="flex flex-col w-full mt-3 mb-6 gap-2">
-            <span className="font-semibold">Set Transcript Name</span>
-            <TextField placeholder="Transcript name" autoFocus={true} defaultValue={title} name="title" />
-          </div>
-          <div className="flex">
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
-            <GroupDivider dir="horiz" />
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarButton>
-          </div>
-        </form>
-      ),
-    }));
-  }
-
   function openMoreMenu () {
     function handleStart () {
       dispatch(transcribeActions.addPart());
@@ -182,14 +148,14 @@ export function MoreMenu ({ disabled }) {
       isMainMenu: false,
       children: (
         <div className="flex flex-col">
-          {partsOrder.length > 0 && <>
-            <NavbarButton twStyle="rounded-t-lg" stopPropagation={true} onClick={handleSave}>
-              <span className='icon-save text-2xl text-white' />
-              <span className="text-white">Save transcript</span>
-            </NavbarButton>
-            <GroupDivider />
-          </>}
-          <NavbarButton twStyle="rounded-t-lg" onClick={handleStart}>
+          {/*{partsOrder.length > 0 && <>*/}
+          {/*  <NavbarButton twStyle="rounded-t-lg" stopPropagation={true} onClick={handleSave}>*/}
+          {/*    <span className='icon-save text-2xl text-white' />*/}
+          {/*    <span className="text-white">Save transcript</span>*/}
+          {/*  </NavbarButton>*/}
+          {/*  <GroupDivider />*/}
+          {/*</>}*/}
+          <NavbarButton onClick={handleStart}>
             <span className='icon-mic text-2xl text-white' />
             <span className="text-white">Transcribe</span>
           </NavbarButton>
@@ -203,16 +169,20 @@ export function MoreMenu ({ disabled }) {
             <span className="icon-edit text-2xl text-white" />
             <span className="text-white">Edit</span>
           </NavbarButton>
-          <GroupDivider />
           {/*<NavbarGroupButton onClick={handleFilterBySpeaker} stopPropagation={true}>*/}
           {/*  <span className='icon-two-users text-2xl text-white' />*/}
           {/*  <span className="text-white">Filter by speaker</span>*/}
           {/*</NavbarGroupButton>*/}
           {/*<NavbarGroupDivider />*/}
-          <NavbarButton twStyle="rounded-b-lg" stopPropagation={true} onClick={handleOpenInfo}>
-            <span className='icon-info text-2xl text-white' />
-            <span className="text-white">Transcript info</span>
-          </NavbarButton>
+          {createdAt && (
+            <>
+              <GroupDivider />
+              <NavbarButton stopPropagation={true} onClick={handleOpenInfo}>
+                <span className='icon-info text-2xl text-white' />
+                <span className="text-white">Transcript info</span>
+              </NavbarButton>
+            </>
+          )}
         </div>
       ),
     }));

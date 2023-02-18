@@ -28,7 +28,7 @@ export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing, language } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -106,7 +106,7 @@ export function TranscriptScreen () {
     dispatch(commonActions.setSlice({ scrollPosition: 0 }));
 
     const recorder = new Recorder({ onRecordingReady });
-    const transcriber = new Transcriber({ onInterim, onFinal });
+    const transcriber = new Transcriber({ onInterim, onFinal, lang: language });
     dispatch(transcribeActions.setSlice({ recorder, transcriber }));
 
     handleDone();
@@ -139,6 +139,22 @@ export function TranscriptScreen () {
       audio.removeEventListener('loadedmetadata', onLoadedMetadata);
     };
   }, [playing]);
+
+  React.useEffect(() => {
+    function onEnd () {
+      if (mode === 'record') {
+        try {
+          window.recognition.start();
+        } catch (e) {}
+      }
+    }
+    window.recognition.addEventListener('end', onEnd);
+    window.recognition.addEventListener('error', onEnd);
+    return () => {
+      window.recognition.removeEventListener('end', onEnd);
+      window.recognition.removeEventListener('error', onEnd);
+    };
+  }, [mode]);
 
   function closeMenu () {
     dispatch(commonActions.closeNavMenu());

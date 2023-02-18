@@ -3,10 +3,10 @@ export class Transcriber {
     this.onInterim = onInterim;
     this.onFinal = onFinal;
     // eslint-disable-next-line new-cap
-    this.recognition = new window.webkitSpeechRecognition();
-    this.recognition.continuous = true;
-    this.recognition.interimResults = true;
-    this.recognition.lang = lang;
+    window.recognition = new window.webkitSpeechRecognition();
+    window.recognition.continuous = true;
+    window.recognition.interimResults = true;
+    window.recognition.lang = lang;
 
     function onResult (e) {
       let interim = '';
@@ -24,18 +24,18 @@ export class Transcriber {
       }
     }
 
-    this.recognition.addEventListener('result', onResult);
+    window.recognition.addEventListener('result', onResult);
   }
 
   start () {
-    this.recognition.start();
+    window.recognition.start();
   }
 
   stop () {
-    this.recognition.stop();
+    window.recognition.stop();
   }
 
   setLanguage (lang) {
-    this.recognition.lang = lang;
+    window.recognition.lang = lang;
   }
 }

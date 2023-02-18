@@ -15,7 +15,6 @@ class Transcriber {
     this.finalResultTime = 0;
     this.recognition.addEventListener('result', (e) => this.onResult(e));
     this.recognition.addEventListener('error', () => {
-      // console.log('error', e);
       try {
         this.recognition.start();
       } catch {}
