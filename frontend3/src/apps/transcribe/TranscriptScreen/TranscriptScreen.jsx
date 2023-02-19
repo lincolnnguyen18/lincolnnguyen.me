@@ -28,7 +28,7 @@ export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing, language } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing, language, currentTime, currentPartId } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -203,7 +203,12 @@ export function TranscriptScreen () {
     if (audio.src !== src) audio.src = src;
     // console.log('onResultClick', parts[partId], timestamp);
     audio.currentTime = timestamp;
-    dispatch(transcribeActions.setSlice({ currentTime: timestamp, maxTime: parts[partId].duration }));
+    dispatch(transcribeActions.setSlice({ currentTime: timestamp, maxTime: parts[partId].duration, currentPartId: partId }));
+  }
+
+  function isCurrentlyPlaying (timestamp, nextTimestamp) {
+    const time = currentTime + 0.001;
+    return time >= timestamp && time < nextTimestamp;
   }
 
   const randomNumbers = React.useMemo(() => {
@@ -258,16 +263,24 @@ export function TranscriptScreen () {
                     const formattedTimestamp = formatFloatToTime(result.timestamp);
                     const timestampWidth = getTimestampWidth(formattedTimestamp);
 
+                    let nextTimestamp, isPlaying;
+                    if (currentPartId === partId) {
+                      nextTimestamp = part.results[j + 1] ? part.results[j + 1].timestamp : part.duration;
+                      isPlaying = isCurrentlyPlaying(result.timestamp, nextTimestamp);
+                    } else {
+                      isPlaying = false;
+                    }
+
                     return (
                       <React.Fragment key={j}>
                         <ContainerButton
-                          twStyle="flex items-center gap-3 w-full justify-between"
+                          twStyle={twMerge('flex items-center gap-3 w-full justify-between', isPlaying && mode === 'default' && 'bg-purple-custom2 hover:bg-purple-custom2 text-white')}
                           disabled={mode === 'edit' || mode === 'record'}
                           onClick={() => onResultClick(partId, result.timestamp)}
                           key={i}
                         >
                           <div className="flex flex-row gap-3 p-2">
-                            <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
+                            <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-purple-custom2">
                               <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
                                 {formattedTimestamp}
                               </div>

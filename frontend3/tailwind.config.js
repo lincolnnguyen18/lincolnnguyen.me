@@ -16,7 +16,7 @@ module.exports = {
         },
         purple: {
           custom: '#7165BB',
-          custom2: '#958EC2',
+          custom2: '#8278c4',
         },
         gray: {
           hover: '#f3f4f6',
