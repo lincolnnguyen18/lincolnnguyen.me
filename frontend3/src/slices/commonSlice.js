@@ -28,6 +28,7 @@ const initialState = {
   // name = chrome, ios, edge-chromium, safari
   // os = iOS, Android OS, Mac OS, Windows 10, Linux
   transcriptionSupported: null,
+  autoScrollOn: true,
 };
 
 const commonSlice = createSlice({
@@ -77,7 +78,8 @@ const commonSlice = createSlice({
         behavior: 'smooth',
       });
     },
-    scrollToBottom: () => {
+    scrollToBottom: (state) => {
+      if (!state.autoScrollOn) return;
       window.scrollTo({
         top: document.body.scrollHeight,
         behavior: 'smooth',

@@ -23,6 +23,7 @@ import { IconMessage } from '../../../components/IconMessage.jsx';
 import { formatFloatToTime, formatUnixTimestamp2 } from '../../../common/stringUtils.js';
 import { Recorder } from '../../../common/recorder';
 import { Transcriber } from '../../../common/Transcriber';
+import { SyncScrollButton } from './SyncScrollButton';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
@@ -356,6 +357,7 @@ export function TranscriptScreen () {
         <Divider twStyle="sm:my-0 my-0" />
       </div>}
       <BottomBar />
+      <SyncScrollButton />
     </>
   );
 }
