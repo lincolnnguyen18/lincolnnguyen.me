@@ -219,6 +219,16 @@ export function TranscriptScreen () {
     return numbers;
   }, []);
 
+  React.useEffect(() => {
+    if (!playing) return;
+    const interval = setInterval(() => {
+      dispatch(commonActions.scrollElementIntoView('active-line'));
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [playing]);
+
   if (Object.keys(parts).length === 0) {
     let messageText = 'Please press the start button below to start recording a new transcript.';
     if (!transcriptionSupported) {
@@ -274,10 +284,11 @@ export function TranscriptScreen () {
                     return (
                       <React.Fragment key={j}>
                         <ContainerButton
-                          twStyle={twMerge('flex items-center gap-3 w-full justify-between', isPlaying && mode === 'default' && 'bg-purple-custom2 hover:bg-purple-custom2 text-white')}
+                          twStyle={twMerge('flex items-center gap-3 w-full justify-between', isPlaying && mode === 'default' && 'bg-purple-custom2 hover:bg-purple-custom2 text-white', mode === 'record' && 'cursor-text')}
                           disabled={mode === 'edit' || mode === 'record'}
                           onClick={() => onResultClick(partId, result.timestamp)}
                           key={i}
+                          id={isPlaying ? 'active-line' : undefined}
                         >
                           <div className="flex flex-row gap-3 p-2">
                             <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-purple-custom2">
@@ -297,7 +308,7 @@ export function TranscriptScreen () {
             })
           }
           {interimResult.trim() && <div
-            className="flex items-center gap-3 w-full justify-between cursor-default"
+            className="flex items-center gap-3 w-full justify-between cursor-text"
           >
             <div className="flex flex-row gap-3 p-2">
               <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">

@@ -89,6 +89,12 @@ const commonSlice = createSlice({
         behavior: 'smooth',
       });
     },
+    scrollElementIntoView: (state, action) => {
+      const element = document.getElementById(action.payload);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    },
   },
 });
 
