@@ -132,7 +132,7 @@ export function MoreMenu ({ disabled }) {
   }, [scrollPosition]);
 
   function openMoreMenu () {
-    function handleStart () {
+    async function handleStart () {
       dispatch(transcribeActions.addPart());
       recorder.start();
       transcriber.start();
@@ -141,6 +141,8 @@ export function MoreMenu ({ disabled }) {
       window.interval = setInterval(() => {
         dispatch(transcribeActions.incrementDuration(0.1));
       }, 100);
+      await wait(50);
+      dispatch(commonActions.scrollToBottom());
     }
 
     dispatch(commonActions.openNavMenu({

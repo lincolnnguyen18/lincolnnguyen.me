@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { formatFloatToTime } from '../../../common/stringUtils.js';
 import { twMerge } from 'tailwind-merge';
-import { commonSelector } from '../../../slices/commonSlice';
+import { commonActions, commonSelector } from '../../../slices/commonSlice';
+import { wait } from '../../../common/timeUtils';
 
 export function BottomBar () {
   const dispatch = useDispatch();
@@ -27,11 +28,13 @@ export function BottomBar () {
     dispatch(transcribeActions.setSlice({ playing: false }));
   }
 
-  function handleStop () {
+  async function handleStop () {
     dispatch(transcribeActions.setSlice({ mode: 'default' }));
     recorder.stop();
     transcriber.stop();
     clearInterval(window.interval);
+    await wait(50);
+    dispatch(commonActions.scrollToBottom());
   }
 
   function handleRestart () {
@@ -40,7 +43,7 @@ export function BottomBar () {
 
   if (mode === 'default') {
     if (partsOrder.length === 0) {
-      function handleStart () {
+      async function handleStart () {
         dispatch(transcribeActions.addPart());
         recorder.start();
         transcriber.start();
@@ -48,6 +51,8 @@ export function BottomBar () {
         window.interval = setInterval(() => {
           dispatch(transcribeActions.incrementDuration(0.1));
         }, 100);
+        await wait(50);
+        dispatch(commonActions.scrollToBottom());
       }
 
       return (

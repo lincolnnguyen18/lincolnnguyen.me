@@ -96,10 +96,12 @@ export function TranscriptScreen () {
 
   function onInterim (interim) {
     dispatch(transcribeActions.setSlice({ interimResult: interim }));
+    dispatch(commonActions.scrollToBottom());
   }
 
   function onFinal (final) {
     dispatch(transcribeActions.onFinal(final));
+    dispatch(commonActions.scrollToBottom());
   }
 
   React.useEffect(() => {
@@ -204,6 +206,14 @@ export function TranscriptScreen () {
     dispatch(transcribeActions.setSlice({ currentTime: timestamp, maxTime: parts[partId].duration }));
   }
 
+  const randomNumbers = React.useMemo(() => {
+    const numbers = [];
+    for (let i = 0; i < 100; i++) {
+      numbers.push(Math.random());
+    }
+    return numbers;
+  }, []);
+
   if (Object.keys(parts).length === 0) {
     let messageText = 'Please press the start button below to start recording a new transcript.';
     if (!transcriptionSupported) {
@@ -230,6 +240,11 @@ export function TranscriptScreen () {
           <Divider twStyle="mx-2 sm:mx-1" />
         </div>
         <div className="flex flex-col sm:gap-1">
+          {
+            randomNumbers.map((num, i) => (
+              <span key={i}>{num}</span>
+            ))
+          }
           {
             partsOrder.map((partId, i) => {
               const part = parts[partId];

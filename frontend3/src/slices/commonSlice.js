@@ -77,6 +77,18 @@ const commonSlice = createSlice({
         behavior: 'smooth',
       });
     },
+    scrollToBottom: () => {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth',
+      });
+      const container = document.getElementById('overflow-container');
+      if (!container) return;
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: 'smooth',
+      });
+    },
   },
 });
 
