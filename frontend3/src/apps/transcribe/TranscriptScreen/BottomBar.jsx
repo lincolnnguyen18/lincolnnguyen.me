@@ -85,9 +85,9 @@ export function BottomBar () {
             <div className="flex items-center gap-1 justify-between">
               <span className="text-sm">{formatFloatToTime(currentTime)}</span>
               <div className="flex items-center gap-7 transition-all duration-300 absolute transform -translate-x-1/2 left-1/2">
-                <Button twStyle="icon-skip-prev" />
+                <Button twStyle="icon-back-5" />
                 <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} onClick={playing ? handlePause : handlePlay} />
-                <Button twStyle="icon-skip-next" />
+                <Button twStyle="icon-forward-5" />
               </div>
               <span className="text-sm">{formatFloatToTime(Math.round(maxTime))}</span>
             </div>

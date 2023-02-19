@@ -9,7 +9,7 @@ import { transcribeActions, transcribeSelector } from '../../../slices/transcrib
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
-  const { mode, recorder, transcriber, playing, language: currentLanguage, partsOrder, createdAt } = useSelector(transcribeSelector);
+  const { mode, recorder, transcriber, playing, language: currentLanguage, partsOrder, createdAt, playbackSpeed } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   function closeMenu () {
@@ -64,24 +64,88 @@ export function MoreMenu ({ disabled }) {
       easyClose: false,
       children: (
         <div className="flex flex-col w-full text-white items-center">
-          <div className="bg-black bg-opacity-50 rounded-lg w-full max-w-lg flex flex-col mt-3 mb-6 p-2 sm:p-3">
-            <span className="font-semibold sm:text-lg text-base mb-2">{testTitle}</span>
-            <div className="flex justify-between w-full">
-              <div className="flex flex-col">
-                <span className="font-semibold sm:text-base text-sm">Duration</span>
-                <span className="sm:text-base text-sm">{testDuration}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-semibold sm:text-base text-sm">Created</span>
-                <span className="sm:text-base text-sm">{testCreated}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-semibold sm:text-base text-sm">Updated</span>
-                <span className="sm:text-base text-sm">{testUpdated}</span>
+          <div className="w-full max-w-lg">
+            <span className="font-semibold sm:text-lg text-base">Transcript Info</span>
+            <div className="bg-black bg-opacity-50 rounded-lg w-full flex flex-col mb-6 mt-2 p-2 sm:p-3">
+              <span className="font-semibold sm:text-lg text-base mb-2">{testTitle}</span>
+              <div className="flex justify-between w-full">
+                <div className="flex flex-col">
+                  <span className="font-semibold sm:text-base text-sm">Duration</span>
+                  <span className="sm:text-base text-sm">{testDuration}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-semibold sm:text-base text-sm">Created</span>
+                  <span className="sm:text-base text-sm">{testCreated}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-semibold sm:text-base text-sm">Updated</span>
+                  <span className="sm:text-base text-sm">{testUpdated}</span>
+                </div>
               </div>
             </div>
+            <div className="w-full justify-center flex">
+              <NavbarButton onClick={closeMenu} dir="single" twStyle="justify-center">Close</NavbarButton>
+            </div>
           </div>
-          <NavbarButton onClick={closeMenu} dir="single" twStyle="justify-center">Close</NavbarButton>
+        </div>
+      ),
+    }));
+  }
+
+  const [defaultPlaybackSpeed, setDefaultPlaybackSpeed] = React.useState(playbackSpeed);
+
+  async function handleChangeSpeed () {
+    dispatch(commonActions.hideNavMenuChildren());
+    await wait();
+
+    const maxSpeed = 3;
+    const minSpeed = 0.0625;
+
+    function updatePlaybackSpeed (e) {
+      let rounded = Math.round(e.target.value * 100) / 100;
+      rounded = Math.max(minSpeed, Math.min(maxSpeed, rounded));
+      setDefaultPlaybackSpeed(rounded);
+      dispatch(transcribeActions.setPlaybackSpeed(rounded));
+      const label = document.getElementById('playbackspeed-label');
+      label.innerText = `${rounded}x`;
+    }
+
+    dispatch(commonActions.openNavMenu({
+      position: 'right',
+      isMainMenu: false,
+      centerContent: true,
+      easyClose: false,
+      children: (
+        <div className="flex flex-col w-full text-white items-center">
+          <div className="w-full max-w-lg">
+            <span className="font-semibold sm:text-lg text-base">Change playback speed</span>
+            <div className="bg-black bg-opacity-50 rounded-lg w-full flex-col mb-6 mt-2 p-2 sm:p-3">
+              <div className="flex justify-between w-full">
+                <div className="flex flex-col">
+                  <span className="sm:text-base text-sm">Slower</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="sm:text-base text-sm" id="playbackspeed-label">{defaultPlaybackSpeed}x</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="sm:text-base text-sm">Faster</span>
+                </div>
+              </div>
+              <input
+                type="range"
+                min={minSpeed}
+                className="appearance-none w-full h-1 bg-white rounded-full white cursor-pointer"
+                defaultValue={defaultPlaybackSpeed}
+                onChange={updatePlaybackSpeed}
+                onInput={updatePlaybackSpeed}
+                max={maxSpeed}
+                step={(maxSpeed - minSpeed) / 100}
+              />
+            </div>
+            <div className="w-full justify-center flex">
+              <NavbarButton onClick={closeMenu} dir="single" twStyle="justify-center">Close</NavbarButton>
+            </div>
+          </div>
         </div>
       ),
     }));
@@ -164,7 +228,12 @@ export function MoreMenu ({ disabled }) {
           <GroupDivider />
           <NavbarButton stopPropagation={true} onClick={handleChangeLanguage}>
             <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{currentLanguage.split('-')[1].toUpperCase()}</span>
-            <span className="text-white">Change language</span>
+            <span className="text-white">Language</span>
+          </NavbarButton>
+          <GroupDivider />
+          <NavbarButton stopPropagation={true} onClick={handleChangeSpeed}>
+            <span className='icon-speed text-2xl text-white' />
+            <span className="text-white">Playback speed</span>
           </NavbarButton>
           <GroupDivider />
           <NavbarButton stopPropagation={true} onClick={turnOnEditMode} disabled={partsOrder.length === 0}>

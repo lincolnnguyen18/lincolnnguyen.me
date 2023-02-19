@@ -55,6 +55,7 @@ const initialState = {
   maxTime: 0,
   playing: false,
   language: 'ja-JP',
+  playbackSpeed: 1,
 };
 
 const transcribeSlice = createSlice({
@@ -99,6 +100,13 @@ const transcribeSlice = createSlice({
         state.createdAt = Date.now();
       } else {
         state.updatedAt = Date.now();
+      }
+    },
+    setPlaybackSpeed: (state, action) => {
+      state.playbackSpeed = action.payload;
+      const audio = document.querySelector('audio');
+      if (audio) {
+        audio.playbackRate = action.payload;
       }
     },
   },
