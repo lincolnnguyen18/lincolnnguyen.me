@@ -18,6 +18,16 @@ export function BottomBar () {
     audio.currentTime = e.target.value;
   }
 
+  function seekForward () {
+    dispatch(transcribeActions.setSlice({ currentTime: currentTime + 5 }));
+    audio.currentTime = currentTime + 5;
+  }
+
+  function seekBackward () {
+    dispatch(transcribeActions.setSlice({ currentTime: currentTime - 5 }));
+    audio.currentTime = currentTime - 5;
+  }
+
   function handlePlay () {
     dispatch(transcribeActions.setSlice({ playing: true }));
     audio.play();
@@ -85,9 +95,9 @@ export function BottomBar () {
             <div className="flex items-center gap-1 justify-between">
               <span className="text-sm">{formatFloatToTime(currentTime)}</span>
               <div className="flex items-center gap-7 transition-all duration-300 absolute transform -translate-x-1/2 left-1/2">
-                <Button twStyle="icon-back-5" />
+                <Button twStyle="icon-back-5" onClick={seekBackward} />
                 <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} onClick={playing ? handlePause : handlePlay} />
-                <Button twStyle="icon-forward-5" />
+                <Button twStyle="icon-forward-5" onClick={seekForward} />
               </div>
               <span className="text-sm">{formatFloatToTime(Math.round(maxTime))}</span>
             </div>
