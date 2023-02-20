@@ -22,6 +22,7 @@ const initialState = {
   //     results: Array(35).fill(0).map((_, i) => ({
   //       timestamp: i,
   //       text: `Hello ${i}`,
+  //       translation: `Konnichiwa ${i}`,
   //     })),
   //   },
   //   1: {
@@ -54,7 +55,7 @@ const initialState = {
   currentTime: 0,
   maxTime: 0,
   playing: false,
-  language: 'ja-JP',
+  transcribeLanguage: 'ja-JP',
   playbackSpeed: 1,
 };
 

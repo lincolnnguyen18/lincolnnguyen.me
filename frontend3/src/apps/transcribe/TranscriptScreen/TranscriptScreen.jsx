@@ -29,7 +29,7 @@ export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing, language, currentTime, currentPartId } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing, transcribeLanguage, currentTime, currentPartId } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -109,7 +109,7 @@ export function TranscriptScreen () {
     dispatch(commonActions.setSlice({ scrollPosition: 0 }));
 
     const recorder = new Recorder({ onRecordingReady });
-    const transcriber = new Transcriber({ onInterim, onFinal, lang: language });
+    const transcriber = new Transcriber({ onInterim, onFinal, lang: transcribeLanguage });
     dispatch(transcribeActions.setSlice({ recorder, transcriber }));
 
     handleDone();
@@ -212,13 +212,13 @@ export function TranscriptScreen () {
     return time >= timestamp && time < nextTimestamp;
   }
 
-  const randomNumbers = React.useMemo(() => {
-    const numbers = [];
-    for (let i = 0; i < 100; i++) {
-      numbers.push(Math.random());
-    }
-    return numbers;
-  }, []);
+  // const randomNumbers = React.useMemo(() => {
+  //   const numbers = [];
+  //   for (let i = 0; i < 100; i++) {
+  //     numbers.push(Math.random());
+  //   }
+  //   return numbers;
+  // }, []);
 
   React.useEffect(() => {
     if (!playing) return;
@@ -256,11 +256,11 @@ export function TranscriptScreen () {
           <Divider twStyle="mx-2 sm:mx-1" />
         </div>
         <div className="flex flex-col sm:gap-1">
-          {
-            randomNumbers.map((num, i) => (
-              <span key={i}>{num}</span>
-            ))
-          }
+          {/*{*/}
+          {/*  randomNumbers.map((num, i) => (*/}
+          {/*    <span key={i}>{num}</span>*/}
+          {/*  ))*/}
+          {/*}*/}
           {
             partsOrder.map((partId, i) => {
               const part = parts[partId];
