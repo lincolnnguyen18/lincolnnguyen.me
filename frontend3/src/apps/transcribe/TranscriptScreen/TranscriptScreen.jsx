@@ -24,12 +24,13 @@ import { formatFloatToTime, formatUnixTimestamp2 } from '../../../common/stringU
 import { Recorder } from '../../../common/recorder';
 import { Transcriber } from '../../../common/Transcriber';
 import { SyncScrollButton } from './SyncScrollButton';
+import { Translator } from '../../../common/Translator';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts, translator } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -110,7 +111,8 @@ export function TranscriptScreen () {
 
     const recorder = new Recorder({ onRecordingReady });
     const transcriber = new Transcriber({ onInterim, onFinal, lang: transcribeLanguage });
-    dispatch(transcribeActions.setSlice({ recorder, transcriber }));
+    const translator = new Translator({ targetLang: transcribeLanguage });
+    dispatch(transcribeActions.setSlice({ recorder, transcriber, translator }));
 
     handleDone();
 

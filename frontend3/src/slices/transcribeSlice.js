@@ -56,6 +56,7 @@ const initialState = {
   maxTime: 0,
   playing: false,
   transcribeLanguage: 'ja-JP',
+  translateLanguage: 'en',
   playbackSpeed: 1,
   selectedParts: [],
 };
@@ -90,6 +91,7 @@ const transcribeSlice = createSlice({
     },
     onFinal: (state, action) => {
       const partId = state.partsOrder[state.partsOrder.length - 1];
+      state.translator?.translate(action.payload);
       state.parts[partId].results.push({
         timestamp: state.finalResultTime,
         text: action.payload,
