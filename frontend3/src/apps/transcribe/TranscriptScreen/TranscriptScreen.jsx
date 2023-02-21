@@ -29,7 +29,7 @@ export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing, transcribeLanguage, currentTime, currentPartId } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -86,7 +86,7 @@ export function TranscriptScreen () {
   }
 
   function handleDone () {
-    dispatch(transcribeActions.setSlice({ mode: 'default' }));
+    dispatch(transcribeActions.setSlice({ mode: 'default', selectedParts: [] }));
   }
 
   function onRecordingReady (audioUrl) {
@@ -202,9 +202,12 @@ export function TranscriptScreen () {
     const src = parts[partId].audioUrl;
     audio.autoplay = false;
     if (audio.src !== src) audio.src = src;
-    // console.log('onResultClick', parts[partId], timestamp);
     audio.currentTime = timestamp;
     dispatch(transcribeActions.setSlice({ currentTime: timestamp, maxTime: parts[partId].duration, currentPartId: partId }));
+  }
+
+  function onRadioClick (partId) {
+    dispatch(transcribeActions.toggleSelectedPart(partId));
   }
 
   function isCurrentlyPlaying (timestamp, nextTimestamp) {
@@ -267,7 +270,7 @@ export function TranscriptScreen () {
 
               return (
                 <React.Fragment key={i}>
-                  <Radio twStyle="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'} data-part-id={partId}>
+                  <Radio twStyle="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'} data-part-id={partId} onClick={() => onRadioClick(partId)} selected={selectedParts.includes(partId)}>
                     <span>Recorded on {formatUnixTimestamp2(part.createdAt)}</span>
                   </Radio>
                   {maxPartResults(part.results).map((result, j) => {
@@ -300,7 +303,8 @@ export function TranscriptScreen () {
                             <span className="text-sm sm:text-base text-left w-full">{result.text}</span>
                           </div>
                         </ContainerButton>
-                        {j === part.results.length - 1 && i !== partsOrder.length - 1 && <Divider twStyle="mx-2 sm:mx-1" />}
+                        {mode === 'edit' && i !== partsOrder.length - 1 && <Divider twStyle="mx-2 sm:mx-1" />}
+                        {mode !== 'edit' && j === part.results.length - 1 && i !== partsOrder.length - 1 && <Divider twStyle="mx-2 sm:mx-1" />}
                       </React.Fragment>
                     );
                   })}

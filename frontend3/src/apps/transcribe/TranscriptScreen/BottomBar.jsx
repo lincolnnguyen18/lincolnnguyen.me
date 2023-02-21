@@ -10,7 +10,7 @@ import { wait } from '../../../common/timeUtils';
 export function BottomBar () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
-  const { mode, partsOrder, parts, recorder, transcriber, currentPartId, currentTime, maxTime, playing } = useSelector(transcribeSelector);
+  const { mode, partsOrder, parts, recorder, transcriber, currentPartId, currentTime, maxTime, playing, selectedParts } = useSelector(transcribeSelector);
   const { transcriptionSupported } = useSelector(commonSelector);
 
   function updateCurrentTime (e) {
@@ -39,7 +39,7 @@ export function BottomBar () {
   }
 
   async function handleStop () {
-    dispatch(transcribeActions.setSlice({ mode: 'default' }));
+    dispatch(transcribeActions.setSlice({ mode: 'default', interimResult: '' }));
     recorder.stop();
     transcriber.stop();
     clearInterval(window.interval);
@@ -49,6 +49,10 @@ export function BottomBar () {
 
   function handleRestart () {
     transcriber.stop();
+  }
+
+  function handleDelete () {
+    dispatch(transcribeActions.deleteSelectedParts());
   }
 
   if (mode === 'default') {
@@ -121,9 +125,9 @@ export function BottomBar () {
   } else if (mode === 'edit') {
     return (
       <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-between bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-all duration-300 gap-4'>
-        <span className="max-w-[110px] sm:max-w-[210px] overflow-hidden truncate sm:text-base text-sm">2 selected</span>
+        <span className="max-w-[110px] sm:max-w-[210px] overflow-hidden truncate sm:text-base text-sm">{selectedParts.length} selected</span>
         <div className="flex sm:gap-7 gap-3">
-          <Button twStyle="flex items-center gap-1 select-auto" disabled={true}>
+          <Button twStyle="flex items-center gap-1 select-auto" disabled={selectedParts.length === 0} onClick={handleDelete}>
             <span className='icon-delete'/>
             <span className="sm:text-base text-sm max-w-[50px] sm:max-w-none overflow-hidden truncate">Delete</span>
           </Button>

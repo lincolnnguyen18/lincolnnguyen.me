@@ -25,6 +25,8 @@
     "process": "^0.11.10"
   },
   "scripts": {
-    "start": "parcel src/index.html"
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html --public-url ./",
+    "serve": "http-server dist -p 8080"
   }
 }

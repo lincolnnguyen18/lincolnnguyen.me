@@ -57,6 +57,7 @@ const initialState = {
   playing: false,
   transcribeLanguage: 'ja-JP',
   playbackSpeed: 1,
+  selectedParts: [],
 };
 
 const transcribeSlice = createSlice({
@@ -109,6 +110,20 @@ const transcribeSlice = createSlice({
       if (audio) {
         audio.playbackRate = action.payload;
       }
+    },
+    toggleSelectedPart: (state, action) => {
+      const partId = action.payload;
+      state.selectedParts = _.xor(state.selectedParts, [partId]);
+    },
+    deleteSelectedParts: (state) => {
+      if (state.selectedParts.includes(state.currentPartId)) {
+        state.currentPartId = null;
+        state.currentTime = 0;
+        state.maxTime = 0;
+      }
+      state.partsOrder = state.partsOrder.filter((partId) => !state.selectedParts.includes(partId));
+      state.selectedParts.forEach((partId) => delete state.parts[partId]);
+      state.selectedParts = [];
     },
   },
 });
