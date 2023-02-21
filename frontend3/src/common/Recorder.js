@@ -15,8 +15,9 @@ export class Recorder {
 
   start () {
     try {
-      this.mediaRecorder.start();
+      setTimeout(() => this.mediaRecorder.start(), 100);
     } catch (e) {
+      console.log(e);
       window.alert('There was an error in starting the recording. Please try refreshing the page or using a different computer.');
     }
   }
