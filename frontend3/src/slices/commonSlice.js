@@ -15,6 +15,7 @@ const initialState = {
     menuTwStyle: 'mr-1',
     centerContent: false,
     easyClose: true,
+    hideCloseButton: false,
   },
   windowValues: {
     width: 0,
@@ -49,7 +50,7 @@ const commonSlice = createSlice({
       _.merge(state.navMenu, { children: null });
     },
     openNavMenu: (state, action) => {
-      const { position = 'left', children = null, isMainMenu = true, hideOnlyChildren = false, centerContent = false, easyClose = true } = action.payload || {};
+      const { position = 'left', children = null, isMainMenu = true, hideOnlyChildren = false, centerContent = false, easyClose = true, hideCloseButton = false } = action.payload || {};
 
       if (position === 'left') {
         _.merge(state.navMenu, { containerTwStyle: 'items-start', menuTwStyle: '' });
@@ -63,7 +64,7 @@ const commonSlice = createSlice({
       if (navMenu) {
         navMenu.scrollTop = 0;
       }
-      _.merge(state.navMenu, { open: true, isMainMenu, hideOnlyChildren, centerContent, easyClose });
+      _.merge(state.navMenu, { open: true, isMainMenu, hideOnlyChildren, centerContent, easyClose, hideCloseButton });
       state.navMenu.children = children;
     },
     scrollToTop: () => {

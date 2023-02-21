@@ -63,7 +63,7 @@ export function NavbarMenu () {
         id="nav-menu"
       >
         <div className={twMerge('max-w-screen-sm mx-auto flex flex-col', navMenu.containerTwStyle)}>
-          <Button onClick={() => dispatch(commonActions.closeNavMenu())} twStyle={twMerge('icon-close text-white h-11 mx-3')} />
+          <Button onClick={() => dispatch(commonActions.closeNavMenu())} twStyle={twMerge('icon-close text-white h-11 mx-3', navMenu.hideCloseButton && 'opacity-0 pointer-events-none')} />
           <div className={twMerge('flex flex-col gap-3 px-3 transition-[opacity] duration-200', navMenu.menuTwStyle)} style={{ opacity: navMenu.hideOnlyChildren ? 0 : 1, pointerEvents: navMenu.hideOnlyChildren || !navMenu.open ? 'none' : 'all' }}>
             {navMenu.isMainMenu ? <MainMenu>{navMenu.children}</MainMenu> : navMenu.children}
           </div>

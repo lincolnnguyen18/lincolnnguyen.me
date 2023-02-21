@@ -6,6 +6,8 @@ import { formatFloatToTime } from '../../../common/stringUtils.js';
 import { twMerge } from 'tailwind-merge';
 import { commonActions, commonSelector } from '../../../slices/commonSlice';
 import { wait } from '../../../common/timeUtils';
+import { NavbarButton } from '../../../components/NavbarButton';
+import { GroupDivider } from '../../../components/GroupDivider';
 
 export function BottomBar () {
   const dispatch = useDispatch();
@@ -47,12 +49,53 @@ export function BottomBar () {
     dispatch(commonActions.scrollToBottom());
   }
 
-  function handleRestart () {
-    transcriber.stop();
+  // function handleRestart () {
+  //   transcriber.stop();
+  // }
+
+  function closeMenu () {
+    dispatch(commonActions.closeNavMenu());
   }
 
-  function handleDelete () {
-    dispatch(transcribeActions.deleteSelectedParts());
+  async function handleDelete () {
+    dispatch(commonActions.hideNavMenuChildren());
+    await wait();
+
+    function onDelete () {
+      dispatch(transcribeActions.deleteSelectedParts());
+      closeMenu();
+    }
+
+    function deleteMessage (numParts) {
+      if (numParts === 1) {
+        return 'Are you sure you want to delete this part?';
+      } else {
+        return `Are you sure you want to delete these ${numParts} parts?`;
+      }
+    }
+
+    dispatch(commonActions.openNavMenu({
+      position: 'right',
+      isMainMenu: false,
+      centerContent: true,
+      easyClose: false,
+      hideCloseButton: true,
+      children: (
+        <div className="flex flex-col w-full text-white items-center">
+          <div className="w-full max-w-md">
+            <span className="font-semibold sm:text-lg text-base">Please Confirm</span>
+            <div className="bg-black bg-opacity-50 rounded-lg w-full flex-col mb-6 mt-2 py-2 px-3">
+              <span className="">{deleteMessage(selectedParts.length)}</span>
+            </div>
+          </div>
+          <div className="flex">
+            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
+            <GroupDivider dir="horiz w-36" />
+            <NavbarButton onClick={onDelete} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Confirm</NavbarButton>
+          </div>
+        </div>
+      ),
+    }));
   }
 
   if (mode === 'default') {
@@ -113,9 +156,9 @@ export function BottomBar () {
     return (
       <div className='text-white max-w-screen-sm w-full h-11 flex items-center justify-between fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-all duration-300'>
         <span className="sm:text-sm text-xs">{formatFloatToTime(parts[currentPartId]?.duration || 0)}</span>
-        <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={handleRestart}>
-          <span className='icon-refresh' />
-        </Button>
+        {/*<Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={handleRestart}>*/}
+        {/*  <span className='icon-refresh' />*/}
+        {/*</Button>*/}
         <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto absolute left-1/2 transform -translate-x-1/2" onClick={handleStop}>
           <span className='icon-mic' />
           <span className="sm:text-base text-sm">Stop transcribing</span>
