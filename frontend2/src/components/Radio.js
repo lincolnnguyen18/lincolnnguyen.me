@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from './Button.jsx';
+import { Button } from './Button';
 import { twMerge } from 'tailwind-merge';
 
 export function Radio ({ children, active = false, selected = false, twStyle, ...rest }) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { commonSelector } from '../../slices/commonSlice.js';
-import { OverflowContainer } from '../../components/OverflowContainer.jsx';
+import { OverflowContainer } from '../../components/OverflowContainer';
 
 export function Grid ({ children }) {
   const { browser } = useSelector(commonSelector);

@@ -1,17 +1,17 @@
 import React from 'react';
-import { AppIcon } from './AppIcon.jsx';
-import { Button } from '../../components/Button.jsx';
+import { AppIcon } from './AppIcon';
+import { Button } from '../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from '../../slices/commonSlice.js';
-import { NavbarBlur } from '../../components/NavbarBlur.jsx';
-import { Navbar } from '../../components/Navbar.jsx';
-import { Grid } from './Grid.jsx';
+import { NavbarBlur } from '../../components/NavbarBlur';
+import { Navbar } from '../../components/Navbar';
+import { Grid } from './Grid';
 import { wait } from '../../common/timeUtils.js';
-import { TextField } from '../../components/TextField.jsx';
-import { NavbarButton } from '../../components/NavbarButton.jsx';
-import { GroupDivider } from '../../components/GroupDivider.jsx';
+import { TextField } from '../../components/TextField';
+import { NavbarButton } from '../../components/NavbarButton';
+import { GroupDivider } from '../../components/GroupDivider';
 import { useNavigate } from 'react-router-dom';
-import { TextLink } from '../../components/TextLink.jsx';
+import { TextLink } from '../../components/TextLink';
 
 export function HomeScreen () {
   const dispatch = useDispatch();

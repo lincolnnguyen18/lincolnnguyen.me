@@ -1,9 +1,9 @@
 import React from 'react';
 import { commonActions, commonSelector } from '../slices/commonSlice.js';
-import { Button } from './Button.jsx';
+import { Button } from './Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { NavbarButton } from './NavbarButton.jsx';
+import { NavbarButton } from './NavbarButton';
 import { useLocation } from 'react-router-dom';
 
 function MainMenu ({ children }) {

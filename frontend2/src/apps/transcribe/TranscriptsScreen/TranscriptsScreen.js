@@ -1,14 +1,14 @@
 import React from 'react';
-import { Button } from '../../../components/Button.jsx';
+import { Button } from '../../../components/Button';
 import { useDispatch } from 'react-redux';
 import { commonActions } from '../../../slices/commonSlice.js';
-import { OverflowContainer } from '../../../components/OverflowContainer.jsx';
-import { WhiteVignette } from '../../../components/WhiteVignette.jsx';
-import { NavbarBlur } from '../../../components/NavbarBlur.jsx';
-import { Navbar } from '../../../components/Navbar.jsx';
-import { TextLink } from '../../../components/TextLink.jsx';
-import { Divider } from '../../../components/Divider.jsx';
-import { MoreMenu } from './MoreMenu.jsx';
+import { OverflowContainer } from '../../../components/OverflowContainer';
+import { WhiteVignette } from '../../../components/WhiteVignette';
+import { NavbarBlur } from '../../../components/NavbarBlur';
+import { Navbar } from '../../../components/Navbar';
+import { TextLink } from '../../../components/TextLink';
+import { Divider } from '../../../components/Divider';
+import { MoreMenu } from './MoreMenu';
 
 export function TranscriptsScreen () {
   const dispatch = useDispatch();

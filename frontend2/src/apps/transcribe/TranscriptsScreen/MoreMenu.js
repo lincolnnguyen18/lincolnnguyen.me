@@ -1,11 +1,11 @@
 import { commonActions } from '../../../slices/commonSlice.js';
 import { wait } from '../../../common/timeUtils.js';
-import { NavbarButton } from '../../../components/NavbarButton.jsx';
-import { GroupDivider } from '../../../components/GroupDivider.jsx';
+import { NavbarButton } from '../../../components/NavbarButton';
+import { GroupDivider } from '../../../components/GroupDivider';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Button } from '../../../components/Button.jsx';
-import { TextField } from '../../../components/TextField.jsx';
+import { Button } from '../../../components/Button';
+import { TextField } from '../../../components/TextField';
 
 export function MoreMenu () {
   const dispatch = useDispatch();

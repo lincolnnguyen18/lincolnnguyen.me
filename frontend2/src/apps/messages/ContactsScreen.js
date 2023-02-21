@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button } from '../../components/Button.jsx';
-import { ContainerButton } from '../../components/ContainerButton.jsx';
+import { Button } from '../../components/Button';
+import { ContainerButton } from '../../components/ContainerButton';
 import { commonActions } from '../../slices/commonSlice.js';
 import { useDispatch } from 'react-redux';
-import { OverflowContainer } from '../../components/OverflowContainer.jsx';
-import { WhiteVignette } from '../../components/WhiteVignette.jsx';
-import { NavbarBlur } from '../../components/NavbarBlur.jsx';
-import { Navbar } from '../../components/Navbar.jsx';
+import { OverflowContainer } from '../../components/OverflowContainer';
+import { WhiteVignette } from '../../components/WhiteVignette';
+import { NavbarBlur } from '../../components/NavbarBlur';
+import { Navbar } from '../../components/Navbar';
 
 export function ContactsScreen () {
   const dispatch = useDispatch();

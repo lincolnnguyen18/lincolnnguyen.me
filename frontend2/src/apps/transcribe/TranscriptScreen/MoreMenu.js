@@ -1,10 +1,10 @@
 import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
 import { wait } from '../../../common/timeUtils.js';
-import { NavbarButton } from '../../../components/NavbarButton.jsx';
-import { GroupDivider } from '../../../components/GroupDivider.jsx';
+import { NavbarButton } from '../../../components/NavbarButton';
+import { GroupDivider } from '../../../components/GroupDivider';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '../../../components/Button.jsx';
+import { Button } from '../../../components/Button';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { GroupInput } from '../../../components/GroupInput';
 import { Dropdown } from '../../../components/Dropdown';

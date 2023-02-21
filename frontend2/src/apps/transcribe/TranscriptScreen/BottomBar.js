@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../../../components/Button.jsx';
+import { Button } from '../../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { formatFloatToTime } from '../../../common/stringUtils.js';
