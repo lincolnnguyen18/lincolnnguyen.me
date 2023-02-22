@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
 import { Divider } from '../../../components/Divider';
 import { MoreMenu } from './MoreMenu';
-import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
+import { transcribeActions, transcribeSelector, translateFinalResult } from '../../../slices/transcribeSlice.js';
 import { twMerge } from 'tailwind-merge';
 import { Radio } from '../../../components/Radio';
 import { BottomBar } from './BottomBar';
@@ -102,7 +102,7 @@ export function TranscriptScreen () {
   }
 
   function onFinal (final) {
-    dispatch(transcribeActions.onFinal(final));
+    dispatch(translateFinalResult(final));
     dispatch(commonActions.scrollToBottom());
   }
 
@@ -302,7 +302,10 @@ export function TranscriptScreen () {
                                 {formattedTimestamp}
                               </div>
                             </div>
-                            <span className="text-sm sm:text-base text-left w-full">{result.text}</span>
+                            <div className="flex flex-col">
+                              <span className="text-sm sm:text-base text-left w-full">{result.text}</span>
+                              <span className="text-sm sm:text-base text-left w-full">{result.translation}</span>
+                            </div>
                           </div>
                         </ContainerButton>
                         {mode === 'edit' && i !== partsOrder.length - 1 && <Divider twStyle="mx-2 sm:mx-1" />}

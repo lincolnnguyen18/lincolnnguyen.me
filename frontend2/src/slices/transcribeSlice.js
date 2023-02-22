@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { uuid } from '../common/stringUtils';
 import _ from 'lodash';
+import { commonActions } from './commonSlice';
 
 const initialState = {
   // default, record, edit
@@ -61,6 +62,26 @@ const initialState = {
   selectedParts: [],
 };
 
+const translateFinalResult = createAsyncThunk(
+  'transcribe/translateFinalResult',
+  async (text, { getState, dispatch }) => {
+    const { translator, currentPartId: partId, parts } = getState().transcribe;
+    const resultIndex = parts[partId].results.length;
+    text = text.trim();
+    dispatch(transcribeActions.onFinal(text));
+    let translation = await translator.translate(text);
+    translation = translation.trim();
+    dispatch(transcribeActions.addTranslationToFinalResult({
+      translation,
+      partId,
+      resultIndex,
+    }));
+    setTimeout(() => {
+      dispatch(commonActions.scrollToBottom());
+    }, 100);
+  },
+);
+
 const transcribeSlice = createSlice({
   name: 'transcribe',
   initialState,
@@ -90,14 +111,18 @@ const transcribeSlice = createSlice({
       _.merge(state.parts[partId], action.payload);
     },
     onFinal: (state, action) => {
+      const text = action.payload;
       const partId = state.partsOrder[state.partsOrder.length - 1];
-      state.translator?.translate(action.payload);
       state.parts[partId].results.push({
         timestamp: state.finalResultTime,
-        text: action.payload,
+        text,
       });
       state.finalResultTime = state.parts[partId].duration;
       state.interimResult = '';
+    },
+    addTranslationToFinalResult: (state, action) => {
+      const { translation, partId, resultIndex } = action.payload;
+      state.parts[partId].results[resultIndex].translation = translation;
     },
     updateMetadata: (state) => {
       if (!state.createdAt) {
@@ -135,3 +160,4 @@ const transcribeReducer = transcribeSlice.reducer;
 const transcribeSelector = (state) => state.transcribe;
 
 export { transcribeActions, transcribeReducer, transcribeSelector };
+export { translateFinalResult };
