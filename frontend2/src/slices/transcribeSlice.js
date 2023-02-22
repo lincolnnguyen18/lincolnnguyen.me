@@ -2,6 +2,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { uuid } from '../common/stringUtils';
 import _ from 'lodash';
 import { commonActions } from './commonSlice';
+import { wait } from '../common/timeUtils';
+import { TextField } from '../components/TextField';
+import { NavbarButton } from '../components/NavbarButton';
+import { GroupDivider } from '../components/GroupDivider';
 
 const initialState = {
   // default, record, edit
@@ -79,6 +83,40 @@ const translateFinalResult = createAsyncThunk(
     setTimeout(() => {
       dispatch(commonActions.scrollToBottom());
     }, 100);
+  },
+);
+
+const openTranscriptsSearch = createAsyncThunk(
+  'transcribe/openTranscriptsSearch',
+  async (text, { dispatch }) => {
+    dispatch(commonActions.hideNavMenuChildren());
+    await wait();
+
+    function closeMenu () {
+      dispatch(commonActions.closeNavMenu());
+    }
+
+    function onSearch (e) {
+      e.preventDefault();
+      closeMenu();
+    }
+
+    dispatch(commonActions.openNavMenu({
+      position: 'right',
+      isMainMenu: false,
+      centerContent: true,
+      easyClose: false,
+      children: (
+        <form className="flex flex-col w-full text-white items-center" onSubmit={onSearch}>
+          <TextField twStyle="mt-3 mb-6" placeholder="Search" autoFocus={true} />
+          <div className="flex">
+            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
+            <GroupDivider dir="horiz" />
+            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Search</NavbarButton>
+          </div>
+        </form>
+      ),
+    }));
   },
 );
 
@@ -160,4 +198,4 @@ const transcribeReducer = transcribeSlice.reducer;
 const transcribeSelector = (state) => state.transcribe;
 
 export { transcribeActions, transcribeReducer, transcribeSelector };
-export { translateFinalResult };
+export { translateFinalResult, openTranscriptsSearch };

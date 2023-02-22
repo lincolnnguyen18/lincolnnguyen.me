@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../../../components/Button';
-import { useDispatch } from 'react-redux';
-import { commonActions } from '../../../slices/commonSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
 import { OverflowContainer } from '../../../components/OverflowContainer';
 import { WhiteVignette } from '../../../components/WhiteVignette';
 import { NavbarBlur } from '../../../components/NavbarBlur';
@@ -9,9 +9,11 @@ import { Navbar } from '../../../components/Navbar';
 import { TextLink } from '../../../components/TextLink';
 import { Divider } from '../../../components/Divider';
 import { MoreMenu } from './MoreMenu';
+import { openTranscriptsSearch } from '../../../slices/transcribeSlice';
 
 export function TranscriptsScreen () {
   const dispatch = useDispatch();
+  const { scrollPosition } = useSelector(commonSelector);
 
   function openNavMenu () {
     dispatch(commonActions.openNavMenu());
@@ -21,6 +23,12 @@ export function TranscriptsScreen () {
   const testPreview = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu tincidunt nunc. Vivamus viverra feugiat libero, ornare mollis risus tempus id. Aliquam erat volutpat. Etiam quis erat risus. Maecenas pellentesque in quam eu lobortis. Pellentesque vulputate egestas arcu, eu ultrices augue ultricies eu. Cras dolor urna, imperdiet eu ante non, maximus suscipit leo. In convallis mi at libero vestibulum hendrerit. Aliquam erat volutpat. Vestibulum lacinia ex sapien, quis feugiat quam aliquet quis. Sed porta, velit vel fringilla tristique, mi risus aliquam odio, et pretium nibh risus sit amet erat. Proin in massa massa. Sed at scelerisque lorem, nec sagittis elit. Etiam auctor erat ut sollicitudin condimentum.';
   const testTimestamp = 'Created Mon 4:02 AM · Updated 4:02 AM';
   const testTags = ['journal', 'lecture'];
+
+  function showSubNav () {
+    const titleDiv = document.getElementById('title-div');
+    if (!titleDiv) return false;
+    return scrollPosition > titleDiv.offsetTop + titleDiv.offsetHeight - 52;
+  }
 
   return (
     <>
@@ -38,6 +46,20 @@ export function TranscriptsScreen () {
         {/*  iconStyle="icon-article text-purple-custom"*/}
         {/*  messageText="You have no transcripts. Add a transcript by pressing the plus button at the top right."*/}
         {/*/>*/}
+        <div className="top-11 cursor-pointer" id="title-div" onClick={() => dispatch(openTranscriptsSearch())}>
+          <div className="flex-col w-full">
+            <div className="flex mx-1 gap-2 items-center">
+              <span className="sm:text-base text-sm font-semibold flex-shrink-0">Showing search results for:</span>
+              <span className="sm:text-base text-sm overflow-hidden truncate">#cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere nunc ut ex accumsan pharetra. Morbi sagittis vel felis sit amet porttitor. Quisque ornare eros leo, vitae gravida enim efficitur vitae. Ut convallis tempor justo quis accumsan. Vestibulum at augue ex. Integer ut malesuada leo. Ut ultricies faucibus purus, quis egestas metus auctor et. Nulla rutrum orci tellus, ac semper nisl ornare quis.</span>
+              <span className="icon-edit text-lg" />
+            </div>
+            <div className="flex mx-1 gap-2 items-center">
+              <span className="sm:text-base text-sm font-semibold flex-shrink-0">Sorted by:</span>
+              <span className="sm:text-base text-sm overflow-hidden truncate">Created at</span>
+            </div>
+          </div>
+          <Divider twStyle="mx-2 sm:mx-1" />
+        </div>
         {[...Array(30)].map((_, i) => (
           <React.Fragment key={i}>
             <div className="flex flex-col gap-1.5 px-4 sm:px-1">
@@ -56,6 +78,18 @@ export function TranscriptsScreen () {
           </React.Fragment>
         ))}
       </OverflowContainer>
+      <div
+        className="cursor-pointer fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"
+        onClick={() => dispatch(openTranscriptsSearch())}
+        style={{ opacity: showSubNav() ? 1 : 0, pointerEvents: showSubNav() ? 'all' : 'none' }}
+      >
+        <div className="flex m-2 gap-2 items-center">
+          <span className="sm:text-base text-sm font-semibold flex-shrink-0">Showing search results for:</span>
+          <span className="sm:text-base text-sm overflow-hidden truncate">#cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere nunc ut ex accumsan pharetra. Morbi sagittis vel felis sit amet porttitor. Quisque ornare eros leo, vitae gravida enim efficitur vitae. Ut convallis tempor justo quis accumsan. Vestibulum at augue ex. Integer ut malesuada leo. Ut ultricies faucibus purus, quis egestas metus auctor et. Nulla rutrum orci tellus, ac semper nisl ornare quis.</span>
+          <span className="icon-edit text-lg" />
+        </div>
+        <Divider twStyle="sm:my-0 my-0" />
+      </div>
     </>
   );
 }

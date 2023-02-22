@@ -5,41 +5,10 @@ import { GroupDivider } from '../../../components/GroupDivider';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '../../../components/Button';
-import { TextField } from '../../../components/TextField';
+import { openTranscriptsSearch } from '../../../slices/transcribeSlice';
 
 export function MoreMenu () {
   const dispatch = useDispatch();
-
-  function closeMenu () {
-    dispatch(commonActions.closeNavMenu());
-  }
-
-  async function handleSearch () {
-    dispatch(commonActions.hideNavMenuChildren());
-    await wait();
-
-    function onSearch (e) {
-      e.preventDefault();
-      closeMenu();
-    }
-
-    dispatch(commonActions.openNavMenu({
-      position: 'right',
-      isMainMenu: false,
-      centerContent: true,
-      easyClose: false,
-      children: (
-        <form className="flex flex-col w-full text-white items-center" onSubmit={onSearch}>
-          <TextField twStyle="mt-3 mb-6" placeholder="Search" autoFocus={true} />
-          <div className="flex">
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
-            <GroupDivider dir="horiz" />
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Search</NavbarButton>
-          </div>
-        </form>
-      ),
-    }));
-  }
 
   async function handleSort () {
     dispatch(commonActions.hideNavMenuChildren());
@@ -75,7 +44,7 @@ export function MoreMenu () {
             <span className="text-white">Start new</span>
           </NavbarButton>
           <GroupDivider />
-          <NavbarButton twStyle="rounded-t-lg" stopPropagation={true} onClick={handleSearch}>
+          <NavbarButton twStyle="rounded-t-lg" stopPropagation={true} onClick={() => dispatch(openTranscriptsSearch())}>
             <span className='icon-search text-2xl text-white' />
             <span className="text-white">Search</span>
           </NavbarButton>
