@@ -30,7 +30,7 @@ export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts, translator } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts } = useSelector(transcribeSelector);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {

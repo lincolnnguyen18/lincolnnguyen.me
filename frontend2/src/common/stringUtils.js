@@ -45,4 +45,54 @@ function uuid () {
   return uuidv4();
 }
 
-export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestamp2, uuid };
+function splitText (text) {
+  let chunks = [];
+  let chunk = '';
+  let stopChars = ['\n', '「', '"', '»', '«', '」', '。', '.', ',', ' ', '!', '?', '？', '！', '，', '、', '；', ';', '：', ':', '…', '—'];
+  for (let i = 0; i < text.length; i++) {
+    chunk += text[i];
+    if (((chunk.length > 600 && (stopChars.includes(text[i]))) || i === (text.length - 1))) {
+      chunks.push(chunk);
+      chunk = '';
+    } else if (chunk.length > 700) {
+      // find index of first stopChar in reverse
+      for (let j = i; j > i; j--) {
+        if (stopChars.includes(text[j])) {
+          chunks.push(chunk.substring(i, j));
+          chunk = '';
+          break;
+        }
+      }
+      for (let j = i; j > i; j--) {
+        if (text[j] === ' ') {
+          chunks.push(chunk.substring(i, j));
+          chunk = '';
+          break;
+        }
+      }
+      chunks.push(chunk);
+      chunk = '';
+    }
+  }
+  return chunks;
+}
+
+async function translate (text, tl = 'en') {
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${tl}&dt=t&q=${encodeURIComponent(text)}`;
+  const res = await fetch(url);
+  const json = await res.json();
+  let srcLang = json[2];
+  let pieces = json[0];
+  let translated = [];
+  for (let i = 0; i < pieces.length; i++) {
+    translated.push(pieces[i][0]);
+  }
+  translated = translated.join('');
+  return { translated, srcLang };
+}
+
+function removeEmptyLines (text) {
+  return text.split('\n').filter(line => line.trim().length > 0).join('\n');
+}
+
+export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestamp2, uuid, splitText, translate, removeEmptyLines };

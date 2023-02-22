@@ -34,11 +34,11 @@ export class Transcriber {
     window.recognition.start();
     const timeoutAfter = 3;
     this.interval = setInterval(() => {
-      console.log('Time since last result: ', window.timeSinceLastResult);
+      // console.log('Time since last result: ', window.timeSinceLastResult);
       if (window.timeSinceLastResult > timeoutAfter) {
         window.recognition.stop();
         window.timeSinceLastResult = 0;
-        console.log('Restarted due to timeout');
+        // console.log('Restarted due to timeout');
       } else {
         window.timeSinceLastResult += 1;
       }
