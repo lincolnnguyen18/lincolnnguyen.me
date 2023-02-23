@@ -67,10 +67,11 @@ const commonSlice = createSlice({
       _.merge(state.navMenu, { open: true, isMainMenu, hideOnlyChildren, centerContent, easyClose, hideCloseButton });
       state.navMenu.children = children;
     },
-    scrollToTop: () => {
+    scrollToTop: (_, action) => {
+      const { useSmoothScroll = true } = action.payload;
       window.scrollTo({
         top: 0,
-        behavior: 'smooth',
+        behavior: useSmoothScroll ? 'smooth' : 'auto',
       });
       const container = document.getElementById('overflow-container');
       if (!container) return;

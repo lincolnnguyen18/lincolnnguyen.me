@@ -9,10 +9,23 @@ import { Navbar } from '../../../components/Navbar';
 import { TextLink } from '../../../components/TextLink';
 import { Divider } from '../../../components/Divider';
 import { MoreMenu } from './MoreMenu';
+import { useLocation } from 'react-router-dom';
+import { sortMap, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
 
 export function TranscriptsScreen () {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { scrollPosition } = useSelector(commonSelector);
+  const { searching, keywords, sort } = useSelector(transcribeSelector);
+
+  React.useEffect(() => {
+    dispatch(commonActions.scrollToTop({ useSmoothScroll: false }));
+    const params = new URLSearchParams(location.search);
+    const keywords = params.get('keywords');
+    const sort = params.get('sort');
+    const searching = keywords || sort;
+    dispatch(transcribeActions.setSlice({ keywords, sort, searching }));
+  }, [location]);
 
   function openNavMenu () {
     dispatch(commonActions.openNavMenu());
@@ -24,6 +37,7 @@ export function TranscriptsScreen () {
   const testTags = ['journal', 'lecture'];
 
   function showSubNav () {
+    if (!searching) return false;
     const titleDiv = document.getElementById('title-div');
     if (!titleDiv) return false;
     return scrollPosition > titleDiv.offsetTop + titleDiv.offsetHeight - 52;
@@ -34,7 +48,7 @@ export function TranscriptsScreen () {
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar>
         <Button twStyle="icon-menu" onClick={openNavMenu} />
-        <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Transcripts</span>
+        <TextLink to="/transcribe/transcripts" twStyle="absolute left-1/2 transform -translate-x-1/2 no-underline">Transcripts</TextLink>
         <div className="flex gap-3">
           <MoreMenu />
         </div>
@@ -45,18 +59,20 @@ export function TranscriptsScreen () {
         {/*  iconStyle="icon-article text-purple-custom"*/}
         {/*  messageText="You have no transcripts. Add a transcript by pressing the plus button at the top right."*/}
         {/*/>*/}
-        <div className="top-11" id="title-div">
+        {searching && <div className="top-11" id="title-div">
           <div className="sm:px-1 px-4 flex flex-col gap-0.5 w-full">
             <span className="sm:text-xl text-lg font-semibold">Showing search results for</span>
-            <div className="flex gap-2 items-center">
-              <span className="text-sm overflow-hidden truncate text-gray-subtext"><b>Keywords: </b>#cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere nunc ut ex accumsan pharetra. Morbi sagittis vel felis sit amet porttitor. Quisque ornare eros leo, vitae gravida enim efficitur vitae. Ut convallis tempor justo quis accumsan. Vestibulum at augue ex. Integer ut malesuada leo. Ut ultricies faucibus purus, quis egestas metus auctor et. Nulla rutrum orci tellus, ac semper nisl ornare quis.</span>
+            <div className="flex gap-2 items-center text-gray-subtext text-sm">
+              <span className="font-bold w-[75px] flex-shrink-0">Keywords: </span>
+              <span className="overflow-hidden truncate">"{keywords}"</span>
             </div>
-            <div className="flex gap-2 items-center">
-              <span className="text-sm flex-shrink-0 text-gray-subtext"><b>Sorted by: </b>Created At</span>
+            <div className="flex gap-2 items-center text-gray-subtext text-sm">
+              <span className="font-bold w-[75px] flex-shrink-0">Sorted by: </span>
+              <span className="overflow-hidden truncate">{sortMap[sort]}</span>
             </div>
           </div>
           <Divider twStyle="mx-2 sm:mx-1" />
-        </div>
+        </div>}
         {[...Array(30)].map((_, i) => (
           <React.Fragment key={i}>
             <div className="flex flex-col gap-1.5 px-4 sm:px-1">
@@ -66,7 +82,7 @@ export function TranscriptsScreen () {
               <span className="sm:text-base text-sm">{testPreview}</span>
               <div className="flex flex-wrap gap-1.5">
                 {testTags.map((tag, i) => (
-                  <TextLink to="#" key={i} twStyle="text-purple-custom text-sm">#{tag}</TextLink>
+                  <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} twStyle="text-purple-custom text-sm">#{tag}</TextLink>
                 ))}
               </div>
               <span className="text-gray-subtext text-xs">{testTimestamp}</span>
@@ -81,7 +97,7 @@ export function TranscriptsScreen () {
       >
         <div className="flex m-2 gap-2 items-center">
           <span className="sm:text-base text-sm font-semibold flex-shrink-0">Keywords:</span>
-          <span className="sm:text-base text-sm overflow-hidden truncate">#cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere nunc ut ex accumsan pharetra. Morbi sagittis vel felis sit amet porttitor. Quisque ornare eros leo, vitae gravida enim efficitur vitae. Ut convallis tempor justo quis accumsan. Vestibulum at augue ex. Integer ut malesuada leo. Ut ultricies faucibus purus, quis egestas metus auctor et. Nulla rutrum orci tellus, ac semper nisl ornare quis.</span>
+          <span className="sm:text-base text-sm overflow-hidden truncate">"{keywords}"</span>
         </div>
         <Divider twStyle="sm:my-0 my-0" />
       </div>

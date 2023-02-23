@@ -263,7 +263,7 @@ export function TranscriptScreen () {
             {updatedAt && <span className="text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>}
             <div className="flex flex-wrap gap-1.5">
               {testTags.map((tag, i) => (
-                <TextLink to="#" key={i} twStyle="text-purple-custom text-sm">#{tag}</TextLink>
+                <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} twStyle="text-purple-custom text-sm">#{tag}</TextLink>
               ))}
             </div>
           </div>

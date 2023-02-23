@@ -69,8 +69,12 @@ const initialState = {
   translateLanguage: 'en',
   playbackSpeed: 1,
   selectedParts: [],
-  sortTranscriptsBy: 'Updated at',
+  sort: null,
+  keywords: null,
+  searching: false,
 };
+
+export const sortMap = { updated_at: 'Updated at', created_at: 'Created at' };
 
 const translateFinalResult = createAsyncThunk(
   'transcribe/translateFinalResult',
@@ -94,8 +98,8 @@ const translateFinalResult = createAsyncThunk(
 
 const openTranscriptsSearch = createAsyncThunk(
   'transcribe/openTranscriptsSearch',
-  async (text, { dispatch, getState }) => {
-    const { sortTranscriptsBy } = getState().transcribe;
+  async (navigate, { dispatch, getState }) => {
+    const { sort, keywords } = getState().transcribe;
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
 
@@ -105,12 +109,9 @@ const openTranscriptsSearch = createAsyncThunk(
 
     function onSearch (e) {
       e.preventDefault();
+      const { keywords, sort } = e.target;
+      navigate(`/transcribe/transcripts?keywords=${encodeURIComponent(keywords.value)}&sort=${sort.value}`);
       closeMenu();
-    }
-
-    function onSortSelectChange (e) {
-      console.log(e.target.value);
-      dispatch(transcribeActions.setSlice({ sortTranscriptsBy: e.target.value }));
     }
 
     dispatch(commonActions.openNavMenu({
@@ -119,22 +120,22 @@ const openTranscriptsSearch = createAsyncThunk(
       centerContent: true,
       easyClose: false,
       children: (
-        <FormScreen onSubmit={onSearch}>
+        <FormScreen isForm={true} onSubmit={onSearch}>
           <Group title="Keywords">
-            <TextField placeholder="Enter keywords here" autoFocus={true} />
-            <span className="text-xs sm:text-sm text-gray-subtext2 mt-2">For example, enter "#cse-416 final exam" to search for transcripts with the tag "cse-416" and the keyword "final exam" anywhere in its title or content.</span>
+            <TextField placeholder="Enter keywords here" autoFocus={true} defaultValue={keywords} name="keywords" />
+            <span className="text-xs sm:text-sm text-gray-subtext2 mt-2">For example, enter "#cse-416 final exam" to search for transcripts with the tag "cse-416" and the keyword "final exam" anywhere in their title or content.</span>
           </Group>
           <GroupInput twStyle="rounded-lg mt-6">
             <span>Sorted by</span>
-            <Dropdown onChange={onSortSelectChange} defaultValue={sortTranscriptsBy}>
-              <option value="Updated at">Updated at</option>
-              <option value="Created at">Created at</option>
+            <Dropdown defaultValue={sort} name="sort">
+              <option value="updated_at">Updated at</option>
+              <option value="created_at">Created at</option>
             </Dropdown>
           </GroupInput>
           <FormScreenBottom>
             <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
             <GroupDivider dir="horiz" />
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Search</NavbarButton>
+            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Search</NavbarButton>
           </FormScreenBottom>
         </FormScreen>
       ),

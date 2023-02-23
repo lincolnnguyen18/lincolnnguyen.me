@@ -2,9 +2,11 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '../../../components/Button';
 import { openTranscriptsSearch } from '../../../slices/transcribeSlice';
+import { useNavigate } from 'react-router-dom';
 
 export function MoreMenu () {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // function openMoreMenu () {
   //   dispatch(commonActions.openNavMenu({
@@ -29,7 +31,7 @@ export function MoreMenu () {
   return (
     // <Button twStyle="icon-more-horiz" onClick={openMoreMenu} />
     <>
-      <Button twStyle="icon-search" onClick={() => dispatch(openTranscriptsSearch())} />
+      <Button twStyle="icon-search" onClick={() => dispatch(openTranscriptsSearch(navigate))} />
       <Button twStyle="icon-add" linkPath="/transcribe/transcripts/new" />
     </>
   );
