@@ -183,7 +183,7 @@ const transcribeSlice = createSlice({
     onInterim: (state, action) => {
       const text = action.payload;
       if (state.interimResult === '') {
-        state.newResultTime = Math.max(state.parts[state.currentPartId]?.duration - 1.3, 0);
+        state.newResultTime = Math.max(state.parts[state.currentPartId]?.duration - 2, 0);
       }
       state.interimResult = text;
     },
@@ -203,6 +203,12 @@ const transcribeSlice = createSlice({
       const audio = document.querySelector('audio');
       if (audio) {
         audio.playbackRate = action.payload;
+      }
+    },
+    updateAudioPlaybackSpeed: (state) => {
+      const audio = document.querySelector('audio');
+      if (audio) {
+        audio.playbackRate = state.playbackSpeed;
       }
     },
     toggleSelectedPart: (state, action) => {

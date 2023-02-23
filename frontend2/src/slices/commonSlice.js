@@ -68,7 +68,7 @@ const commonSlice = createSlice({
       state.navMenu.children = children;
     },
     scrollToTop: (_, action) => {
-      const { useSmoothScroll = true } = action.payload;
+      const { useSmoothScroll = true } = action.payload || {};
       window.scrollTo({
         top: 0,
         behavior: useSmoothScroll ? 'smooth' : 'auto',

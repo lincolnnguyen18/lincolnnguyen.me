@@ -34,7 +34,7 @@ export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts, translateLanguage } = useSelector(transcribeSelector);
   const testTags = ['journal', 'lecture'];
 
   function getTimestampWidth (timestamp) {
@@ -116,7 +116,7 @@ export function TranscriptScreen () {
 
     const recorder = new Recorder({ onRecordingReady });
     const transcriber = new Transcriber({ onInterim, onFinal, lang: transcribeLanguage });
-    const translator = new Translator({ targetLang: transcribeLanguage });
+    const translator = new Translator({ targetLang: translateLanguage });
     dispatch(transcribeActions.setSlice({ recorder, transcriber, translator }));
 
     handleDone();
@@ -140,6 +140,7 @@ export function TranscriptScreen () {
   React.useEffect(() => {
     const audio = document.getElementById('audio');
     function onLoadedMetadata () {
+      dispatch(transcribeActions.updateAudioPlaybackSpeed());
       if (playing) {
         audio.play();
       }

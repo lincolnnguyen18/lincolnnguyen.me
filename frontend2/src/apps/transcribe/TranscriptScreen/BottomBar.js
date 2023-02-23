@@ -51,6 +51,7 @@ export function BottomBar () {
 
   function handleRestart () {
     transcriber.stop();
+    window.lastInterim = '';
   }
 
   function closeMenu () {
