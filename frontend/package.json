@@ -1,29 +1,24 @@
 {
-  "name": "lincolnnguyen.me",
+  "name": "frontend2",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@react-oauth/google": "^0.5.1",
-    "@reduxjs/toolkit": "^1.9.1",
+    "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/dom-speech-recognition": "^0.0.1",
-    "graphql-request": "^5.1.0",
-    "js-cookie": "^3.0.1",
-    "konva": "^8.3.14",
+    "detect-browser": "^5.3.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-konva": "^18.2.3",
     "react-redux": "^8.0.5",
-    "react-router-dom": "^6.6.1",
+    "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
-    "tailwind-merge": "^1.8.1",
-    "web-vitals": "^2.1.4"
+    "tailwind-merge": "^1.10.0",
+    "uuid": "^9.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -32,7 +27,44 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "semi": [
+        "error",
+        "always"
+      ],
+      "comma-dangle": [
+        "error",
+        "always-multiline"
+      ],
+      "indent": [
+        "error",
+        2
+      ],
+      "space-before-function-paren": [
+        "error",
+        "always"
+      ],
+      "space-before-blocks": [
+        "error",
+        "always"
+      ],
+      "react/prop-types": "off",
+      "spaced-comment": "off",
+      "no-new": "off",
+      "eol-last": "error",
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_"
+        }
+      ],
+      "react-hooks/exhaustive-deps": "off"
+    }
   },
   "browserslist": {
     "production": [
@@ -47,14 +79,6 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.13",
-    "eslint": "^8.30.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.6.0",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-react": "^7.31.11",
-    "postcss": "^8.4.20",
-    "tailwindcss": "^3.2.4"
+    "tailwindcss": "^3.2.7"
   }
 }

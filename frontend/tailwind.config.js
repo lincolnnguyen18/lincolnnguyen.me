@@ -1,7 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './src/**/*.{js,jsx,ts,tsx}',
+    './src/index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
@@ -15,11 +16,17 @@ module.exports = {
         },
         purple: {
           custom: '#7165BB',
-          custom2: '#958EC2',
+          custom2: '#8278c4',
         },
         gray: {
           hover: '#f3f4f6',
           active: '#e5e7eb',
+          // gray-500
+          subtext: '#6c727f',
+          subtext2: '#e0e0e0',
+          input: '#c2c2c2',
+          // gray-200
+          divider: '#e5e7eb',
         },
       },
     },

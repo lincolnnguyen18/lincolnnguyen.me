@@ -1,1 +1,0 @@
-/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend/tailwind.config.js
