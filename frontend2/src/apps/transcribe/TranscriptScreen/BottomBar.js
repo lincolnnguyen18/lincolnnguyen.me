@@ -49,9 +49,9 @@ export function BottomBar () {
     dispatch(commonActions.scrollToBottom());
   }
 
-  // function handleRestart () {
-  //   transcriber.stop();
-  // }
+  function handleRestart () {
+    transcriber.stop();
+  }
 
   function closeMenu () {
     dispatch(commonActions.closeNavMenu());
@@ -156,9 +156,9 @@ export function BottomBar () {
     return (
       <div className='text-white max-w-screen-sm w-full h-11 flex items-center justify-between fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-all duration-300'>
         <span className="sm:text-sm text-xs">{formatFloatToTime(parts[currentPartId]?.duration || 0)}</span>
-        {/*<Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={handleRestart}>*/}
-        {/*  <span className='icon-refresh' />*/}
-        {/*</Button>*/}
+        <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={handleRestart}>
+          <span className='icon-refresh' />
+        </Button>
         <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto absolute left-1/2 transform -translate-x-1/2" onClick={handleStop}>
           <span className='icon-mic' />
           <span className="sm:text-base text-sm">Stop transcribing</span>

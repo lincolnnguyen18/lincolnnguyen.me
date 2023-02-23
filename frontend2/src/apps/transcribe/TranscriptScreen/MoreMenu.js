@@ -8,6 +8,10 @@ import { Button } from '../../../components/Button';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { GroupInput } from '../../../components/GroupInput';
 import { Dropdown } from '../../../components/Dropdown';
+import { Group } from '../../../components/Group';
+import { FormScreen } from '../../../components/FormScreen';
+import { Blackbox } from '../../../components/BlackBox';
+import { FormScreenBottom } from '../../../components/FormScreenBottom';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
@@ -33,10 +37,9 @@ export function MoreMenu ({ disabled }) {
       centerContent: true,
       easyClose: false,
       children: (
-        <div className="flex flex-col w-full text-white items-center">
-          <div className="w-full max-w-lg">
-            <span className="font-semibold sm:text-lg text-base">Transcript info</span>
-            <div className="bg-black bg-opacity-50 rounded-lg w-full flex flex-col mb-6 mt-2 p-3">
+        <FormScreen>
+          <Group title="Transcript Info">
+            <Blackbox>
               <span className="font-semibold sm:text-lg text-base mb-2">{testTitle}</span>
               <div className="flex justify-between w-full">
                 <div className="flex flex-col">
@@ -52,12 +55,12 @@ export function MoreMenu ({ disabled }) {
                   <span className="sm:text-base text-sm">{testUpdated}</span>
                 </div>
               </div>
-            </div>
-            <div className="w-full justify-center flex mt-8">
-              <NavbarButton onClick={closeMenu} dir="single" twStyle="justify-center">Close</NavbarButton>
-            </div>
-          </div>
-        </div>
+            </Blackbox>
+          </Group>
+          <FormScreenBottom>
+            <NavbarButton onClick={closeMenu} dir="single" twStyle="justify-center">Close</NavbarButton>
+          </FormScreenBottom>
+        </FormScreen>
       ),
     }));
   }
@@ -104,10 +107,9 @@ export function MoreMenu ({ disabled }) {
       centerContent: true,
       easyClose: false,
       children: (
-        <div className="flex flex-col w-full text-white items-center">
-          <div className="w-full max-w-lg">
-            <span className="font-semibold sm:text-lg text-base">Change playback speed</span>
-            <div className="bg-black bg-opacity-50 rounded-lg w-full flex-col mb-6 mt-2 p-3">
+        <FormScreen>
+          <Group title="Change Playback Speed">
+            <Blackbox twStyle="gap-4 py-4">
               <div className="flex justify-between w-full">
                 <span>Slower</span>
                 <span id="playbackspeed-label">{defaultPlaybackSpeed}x</span>
@@ -123,35 +125,34 @@ export function MoreMenu ({ disabled }) {
                 max={maxSpeed}
                 step={(maxSpeed - minSpeed) / 100}
               />
-            </div>
-            <span className="font-semibold sm:text-lg text-base">Language</span>
-            <div className="w-full flex-col mb-6 mt-2">
-              <GroupInput>
-                <span>Transcribe in</span>
-                <div className="flex items-center">
-                  <Dropdown onChange={onTranscribeSelectChange} defaultValue={transcribeLanguage}>
-                    {transcribeLangEntries.map(([code, name], i) => (
-                      <option key={i} value={code}>{name}</option>
-                    ))}
-                  </Dropdown>
-                </div>
-              </GroupInput>
-              <GroupDivider />
-              <GroupInput>
-                <span>Translate to</span>
-                <Dropdown onChange={onTranslateSelectChange} defaultValue={translateLanguage}>
-                  <option value="">None</option>
-                  {translateLangEntries.map(([code, name], i) => (
+            </Blackbox>
+          </Group>
+          <Group title="Language">
+            <GroupInput>
+              <span>Transcribe in</span>
+              <div className="flex items-center">
+                <Dropdown onChange={onTranscribeSelectChange} defaultValue={transcribeLanguage}>
+                  {transcribeLangEntries.map(([code, name], i) => (
                     <option key={i} value={code}>{name}</option>
                   ))}
                 </Dropdown>
-              </GroupInput>
-            </div>
-            <div className="w-full justify-center flex mt-8">
-              <NavbarButton onClick={closeMenu} dir="single" twStyle="justify-center">Close</NavbarButton>
-            </div>
-          </div>
-        </div>
+              </div>
+            </GroupInput>
+            <GroupDivider />
+            <GroupInput>
+              <span>Translate to</span>
+              <Dropdown onChange={onTranslateSelectChange} defaultValue={translateLanguage}>
+                <option value="">None</option>
+                {translateLangEntries.map(([code, name], i) => (
+                  <option key={i} value={code}>{name}</option>
+                ))}
+              </Dropdown>
+            </GroupInput>
+          </Group>
+          <FormScreenBottom>
+            <NavbarButton onClick={closeMenu} dir="single" twStyle="justify-center">Close</NavbarButton>
+          </FormScreenBottom>
+        </FormScreen>
       ),
     }));
   }

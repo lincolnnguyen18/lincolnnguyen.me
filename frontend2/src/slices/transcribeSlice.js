@@ -6,6 +6,12 @@ import { wait } from '../common/timeUtils';
 import { TextField } from '../components/TextField';
 import { NavbarButton } from '../components/NavbarButton';
 import { GroupDivider } from '../components/GroupDivider';
+import React from 'react';
+import { Dropdown } from '../components/Dropdown';
+import { GroupInput } from '../components/GroupInput';
+import { FormScreen } from '../components/FormScreen';
+import { FormScreenBottom } from '../components/FormScreenBottom';
+import { Group } from '../components/Group';
 
 const initialState = {
   // default, record, edit
@@ -55,7 +61,6 @@ const initialState = {
   updatedAt: null,
   title: 'Untitled Transcript',
   interimResult: '',
-  interimTimestamp: null,
   recorder: null,
   currentTime: 0,
   maxTime: 0,
@@ -64,6 +69,7 @@ const initialState = {
   translateLanguage: 'en',
   playbackSpeed: 1,
   selectedParts: [],
+  sortTranscriptsBy: 'Updated at',
 };
 
 const translateFinalResult = createAsyncThunk(
@@ -88,7 +94,8 @@ const translateFinalResult = createAsyncThunk(
 
 const openTranscriptsSearch = createAsyncThunk(
   'transcribe/openTranscriptsSearch',
-  async (text, { dispatch }) => {
+  async (text, { dispatch, getState }) => {
+    const { sortTranscriptsBy } = getState().transcribe;
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
 
@@ -101,20 +108,35 @@ const openTranscriptsSearch = createAsyncThunk(
       closeMenu();
     }
 
+    function onSortSelectChange (e) {
+      console.log(e.target.value);
+      dispatch(transcribeActions.setSlice({ sortTranscriptsBy: e.target.value }));
+    }
+
     dispatch(commonActions.openNavMenu({
       position: 'right',
       isMainMenu: false,
       centerContent: true,
       easyClose: false,
       children: (
-        <form className="flex flex-col w-full text-white items-center" onSubmit={onSearch}>
-          <TextField twStyle="mt-3 mb-6" placeholder="Search" autoFocus={true} />
-          <div className="flex">
+        <FormScreen onSubmit={onSearch}>
+          <Group title="Keywords">
+            <TextField placeholder="Enter keywords here" autoFocus={true} />
+            <span className="text-xs sm:text-sm text-gray-subtext2 mt-2">For example, enter "#cse-416 final exam" to search for transcripts with the tag "cse-416" and the keyword "final exam" anywhere in its title or content.</span>
+          </Group>
+          <GroupInput twStyle="rounded-lg mt-6">
+            <span>Sorted by</span>
+            <Dropdown onChange={onSortSelectChange} defaultValue={sortTranscriptsBy}>
+              <option value="Updated at">Updated at</option>
+              <option value="Created at">Created at</option>
+            </Dropdown>
+          </GroupInput>
+          <FormScreenBottom>
             <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
             <GroupDivider dir="horiz" />
             <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Search</NavbarButton>
-          </div>
-        </form>
+          </FormScreenBottom>
+        </FormScreen>
       ),
     }));
   },
@@ -135,7 +157,7 @@ const transcribeSlice = createSlice({
         results: [],
       };
       state.partsOrder.push(partId);
-      state.finalResultTime = 0;
+      state.newResultTime = 0;
       state.currentPartId = partId;
     },
     incrementDuration: (state, action) => {
@@ -152,11 +174,17 @@ const transcribeSlice = createSlice({
       const text = action.payload;
       const partId = state.partsOrder[state.partsOrder.length - 1];
       state.parts[partId].results.push({
-        timestamp: state.finalResultTime,
+        timestamp: state.newResultTime,
         text,
       });
-      state.finalResultTime = state.parts[partId].duration;
       state.interimResult = '';
+    },
+    onInterim: (state, action) => {
+      const text = action.payload;
+      if (state.interimResult === '') {
+        state.newResultTime = Math.max(state.parts[state.currentPartId]?.duration - 1.3, 0);
+      }
+      state.interimResult = text;
     },
     addTranslationToFinalResult: (state, action) => {
       const { translation, partId, resultIndex } = action.payload;

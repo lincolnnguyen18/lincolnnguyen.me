@@ -9,7 +9,6 @@ import { Navbar } from '../../../components/Navbar';
 import { TextLink } from '../../../components/TextLink';
 import { Divider } from '../../../components/Divider';
 import { MoreMenu } from './MoreMenu';
-import { openTranscriptsSearch } from '../../../slices/transcribeSlice';
 
 export function TranscriptsScreen () {
   const dispatch = useDispatch();
@@ -46,16 +45,14 @@ export function TranscriptsScreen () {
         {/*  iconStyle="icon-article text-purple-custom"*/}
         {/*  messageText="You have no transcripts. Add a transcript by pressing the plus button at the top right."*/}
         {/*/>*/}
-        <div className="top-11 cursor-pointer" id="title-div" onClick={() => dispatch(openTranscriptsSearch())}>
-          <div className="flex-col w-full">
-            <div className="flex mx-1 gap-2 items-center">
-              <span className="sm:text-base text-sm font-semibold flex-shrink-0">Showing search results for:</span>
-              <span className="sm:text-base text-sm overflow-hidden truncate">#cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere nunc ut ex accumsan pharetra. Morbi sagittis vel felis sit amet porttitor. Quisque ornare eros leo, vitae gravida enim efficitur vitae. Ut convallis tempor justo quis accumsan. Vestibulum at augue ex. Integer ut malesuada leo. Ut ultricies faucibus purus, quis egestas metus auctor et. Nulla rutrum orci tellus, ac semper nisl ornare quis.</span>
-              <span className="icon-edit text-lg" />
+        <div className="top-11" id="title-div">
+          <div className="sm:px-1 px-4 flex flex-col gap-0.5 w-full">
+            <span className="sm:text-xl text-lg font-semibold">Showing search results for</span>
+            <div className="flex gap-2 items-center">
+              <span className="text-sm overflow-hidden truncate text-gray-subtext"><b>Keywords: </b>#cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere nunc ut ex accumsan pharetra. Morbi sagittis vel felis sit amet porttitor. Quisque ornare eros leo, vitae gravida enim efficitur vitae. Ut convallis tempor justo quis accumsan. Vestibulum at augue ex. Integer ut malesuada leo. Ut ultricies faucibus purus, quis egestas metus auctor et. Nulla rutrum orci tellus, ac semper nisl ornare quis.</span>
             </div>
-            <div className="flex mx-1 gap-2 items-center">
-              <span className="sm:text-base text-sm font-semibold flex-shrink-0">Sorted by:</span>
-              <span className="sm:text-base text-sm overflow-hidden truncate">Created at</span>
+            <div className="flex gap-2 items-center">
+              <span className="text-sm flex-shrink-0 text-gray-subtext"><b>Sorted by: </b>Created At</span>
             </div>
           </div>
           <Divider twStyle="mx-2 sm:mx-1" />
@@ -79,14 +76,12 @@ export function TranscriptsScreen () {
         ))}
       </OverflowContainer>
       <div
-        className="cursor-pointer fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"
-        onClick={() => dispatch(openTranscriptsSearch())}
+        className="fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"
         style={{ opacity: showSubNav() ? 1 : 0, pointerEvents: showSubNav() ? 'all' : 'none' }}
       >
         <div className="flex m-2 gap-2 items-center">
-          <span className="sm:text-base text-sm font-semibold flex-shrink-0">Showing search results for:</span>
+          <span className="sm:text-base text-sm font-semibold flex-shrink-0">Keywords:</span>
           <span className="sm:text-base text-sm overflow-hidden truncate">#cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 #cse-416 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere nunc ut ex accumsan pharetra. Morbi sagittis vel felis sit amet porttitor. Quisque ornare eros leo, vitae gravida enim efficitur vitae. Ut convallis tempor justo quis accumsan. Vestibulum at augue ex. Integer ut malesuada leo. Ut ultricies faucibus purus, quis egestas metus auctor et. Nulla rutrum orci tellus, ac semper nisl ornare quis.</span>
-          <span className="icon-edit text-lg" />
         </div>
         <Divider twStyle="sm:my-0 my-0" />
       </div>

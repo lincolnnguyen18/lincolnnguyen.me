@@ -25,12 +25,17 @@ import { Recorder } from '../../../common/Recorder';
 import { Transcriber } from '../../../common/Transcriber';
 import { SyncScrollButton } from './SyncScrollButton';
 import { Translator } from '../../../common/Translator';
+import { TextLink } from '../../../components/TextLink';
+import { FormScreen } from '../../../components/FormScreen';
+import { FormScreenBottom } from '../../../components/FormScreenBottom';
+import { Group } from '../../../components/Group';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, finalResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts } = useSelector(transcribeSelector);
+  const testTags = ['journal', 'lecture'];
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -97,7 +102,7 @@ export function TranscriptScreen () {
   }
 
   function onInterim (interim) {
-    dispatch(transcribeActions.setSlice({ interimResult: interim }));
+    dispatch(transcribeActions.onInterim(interim));
     dispatch(commonActions.scrollToBottom());
   }
 
@@ -183,17 +188,16 @@ export function TranscriptScreen () {
       centerContent: true,
       easyClose: false,
       children: (
-        <form className="flex flex-col w-full text-white items-center" onSubmit={onEdit}>
-          <div className="flex flex-col w-full mt-3 mb-6 gap-2">
-            <span className="font-semibold">Set Transcript Name</span>
+        <FormScreen isForm={true} onSubmit={onEdit}>
+          <Group title="Set Transcript Name">
             <TextField placeholder="Transcript name" autoFocus={true} defaultValue={title} name="title" />
-          </div>
-          <div className="flex">
+          </Group>
+          <FormScreenBottom>
             <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
             <GroupDivider dir="horiz w-36" />
             <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarButton>
-          </div>
-        </form>
+          </FormScreenBottom>
+        </FormScreen>
       ),
     }));
   }
@@ -255,8 +259,13 @@ export function TranscriptScreen () {
               <span className={twMerge('sm:text-xl text-lg font-semibold', mode === 'edit' && 'overflow-hidden truncate')}>{title}</span>
               {mode === 'edit' && <Button onClick={handleEditTitle}><span className="icon-edit text-2xl cursor-pointer" /></Button>}
             </div>
-            {!updatedAt && createdAt && <span className="sm:text-base text-sm text-gray-subtext">Created on {formatUnixTimestamp2(createdAt)}</span>}
-            {updatedAt && <span className="sm:text-base text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>}
+            {!updatedAt && createdAt && <span className="text-sm text-gray-subtext">Created on {formatUnixTimestamp2(createdAt)}</span>}
+            {updatedAt && <span className="text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>}
+            <div className="flex flex-wrap gap-1.5">
+              {testTags.map((tag, i) => (
+                <TextLink to="#" key={i} twStyle="text-purple-custom text-sm">#{tag}</TextLink>
+              ))}
+            </div>
           </div>
           <Divider twStyle="mx-2 sm:mx-1" />
         </div>
@@ -290,7 +299,7 @@ export function TranscriptScreen () {
                     return (
                       <React.Fragment key={j}>
                         <ContainerButton
-                          twStyle={twMerge('flex items-center gap-3 w-full justify-between', isPlaying && mode === 'default' && 'bg-purple-custom2 hover:bg-purple-custom2 text-white', mode === 'record' && 'cursor-text')}
+                          twStyle={twMerge('flex items-center gap-3 w-full justify-between', isPlaying && mode === 'default' && 'bg-purple-custom2 hover:bg-purple-custom2 active:bg-purple-custom2 text-white', mode === 'record' && 'cursor-text')}
                           disabled={mode === 'edit' || mode === 'record'}
                           onClick={() => onResultClick(partId, result.timestamp)}
                           key={i}
@@ -322,8 +331,8 @@ export function TranscriptScreen () {
           >
             <div className="flex flex-row gap-3 p-2">
               <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
-                <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none flex justify-center' style={{ width: getTimestampWidth(formatFloatToTime((finalResultTime))) }}>
-                  {formatFloatToTime((finalResultTime))}
+                <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none flex justify-center' style={{ width: getTimestampWidth(formatFloatToTime((newResultTime))) }}>
+                  {formatFloatToTime((newResultTime))}
                 </div>
               </div>
               <span className="text-sm sm:text-base text-left w-full">{interimResult}</span>

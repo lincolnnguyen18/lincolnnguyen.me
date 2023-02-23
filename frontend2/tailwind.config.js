@@ -23,6 +23,8 @@ module.exports = {
           active: '#e5e7eb',
           // gray-500
           subtext: '#6c727f',
+          subtext2: '#e0e0e0',
+          input: '#c2c2c2',
           // gray-200
           divider: '#e5e7eb',
         },
