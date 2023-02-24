@@ -8,11 +8,12 @@ import { commonActions, commonSelector } from '../../../slices/commonSlice';
 import { wait } from '../../../common/timeUtils';
 import { NavbarButton } from '../../../components/NavbarButton';
 import { GroupDivider } from '../../../components/GroupDivider';
+import { languages } from '../../../common/data';
 
 export function BottomBar () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
-  const { mode, partsOrder, parts, recorder, transcriber, currentPartId, currentTime, maxTime, playing, selectedParts } = useSelector(transcribeSelector);
+  const { mode, partsOrder, parts, recorder, transcriber, currentPartId, currentTime, maxTime, playing, selectedParts, transcribeLanguage } = useSelector(transcribeSelector);
   const { transcriptionSupported } = useSelector(commonSelector);
 
   function updateCurrentTime (e) {
@@ -52,6 +53,11 @@ export function BottomBar () {
   function handleRestart () {
     transcriber.stop();
     window.lastInterim = '';
+  }
+
+  function handleSwitchLanguages () {
+    dispatch(transcribeActions.switchLanguages());
+    handleRestart();
   }
 
   function closeMenu () {
@@ -157,9 +163,15 @@ export function BottomBar () {
     return (
       <div className='text-white max-w-screen-sm w-full h-11 flex items-center justify-between fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-all duration-300'>
         <span className="sm:text-sm text-xs">{formatFloatToTime(parts[currentPartId]?.duration || 0)}</span>
-        <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={handleRestart}>
-          <span className='icon-refresh' />
-        </Button>
+        {/*currentLanguage.split('-')[1].toUpperCase()*/}
+        <div className="flex gap-3 items-center">
+          <Button twStyle="select-auto" onClick={handleSwitchLanguages}>
+            <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{languages.find(l => l.name === transcribeLanguage).code}</span>
+          </Button>
+          <Button twStyle="select-auto" onClick={handleRestart}>
+            <span className='icon-refresh' />
+          </Button>
+        </div>
         <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto absolute left-1/2 transform -translate-x-1/2" onClick={handleStop}>
           <span className='icon-mic' />
           <span className="sm:text-base text-sm">Stop transcribing</span>

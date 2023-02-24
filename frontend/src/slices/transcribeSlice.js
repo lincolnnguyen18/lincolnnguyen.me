@@ -65,8 +65,8 @@ const initialState = {
   currentTime: 0,
   maxTime: 0,
   playing: false,
-  transcribeLanguage: 'ja-JP',
-  translateLanguage: 'en',
+  transcribeLanguage: 'Japanese',
+  translateLanguage: 'English (United States)',
   playbackSpeed: 1,
   selectedParts: [],
   sort: null,
@@ -79,17 +79,19 @@ export const sortMap = { updated_at: 'Updated at', created_at: 'Created at' };
 const translateFinalResult = createAsyncThunk(
   'transcribe/translateFinalResult',
   async (text, { getState, dispatch }) => {
-    const { translator, currentPartId: partId, parts } = getState().transcribe;
+    const { translator, currentPartId: partId, parts, translateLanguage } = getState().transcribe;
     const resultIndex = parts[partId].results.length;
     text = text.trim();
     dispatch(transcribeActions.onFinal(text));
-    let translation = await translator.translate(text);
-    translation = translation.trim();
-    dispatch(transcribeActions.addTranslationToFinalResult({
-      translation,
-      partId,
-      resultIndex,
-    }));
+    if (translateLanguage !== 'None') {
+      let translation = await translator.translate(text);
+      translation = translation.trim();
+      dispatch(transcribeActions.addTranslationToFinalResult({
+        translation,
+        partId,
+        resultIndex,
+      }));
+    }
     setTimeout(() => {
       dispatch(commonActions.scrollToBottom());
     }, 100);
@@ -224,6 +226,11 @@ const transcribeSlice = createSlice({
       state.partsOrder = state.partsOrder.filter((partId) => !state.selectedParts.includes(partId));
       state.selectedParts.forEach((partId) => delete state.parts[partId]);
       state.selectedParts = [];
+    },
+    switchLanguages: (state) => {
+      const { translateLanguage, transcribeLanguage } = state;
+      state.translateLanguage = transcribeLanguage;
+      state.transcribeLanguage = translateLanguage;
     },
   },
 });

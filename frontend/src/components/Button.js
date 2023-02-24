@@ -12,7 +12,7 @@ export function Button ({ twStyle, linkPath, onClick, disabled = false, stopProp
 
   const content = (
     <button
-      className={twMerge('select-none cursor-pointer active:opacity-50 transition-opacity duration-75 text-2xl', twStyle, disabled && 'cursor-not-allowed opacity-50')}
+      className={twMerge('select-none cursor-pointer active:opacity-50 transition-opacity duration-75 text-2xl flex items-center', twStyle, disabled && 'cursor-not-allowed opacity-50')}
       onClick={handleClick}
       {...rest}
     />

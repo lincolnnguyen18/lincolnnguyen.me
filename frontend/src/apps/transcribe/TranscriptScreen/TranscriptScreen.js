@@ -29,12 +29,13 @@ import { TextLink } from '../../../components/TextLink';
 import { FormScreen } from '../../../components/FormScreen';
 import { FormScreenBottom } from '../../../components/FormScreenBottom';
 import { Group } from '../../../components/Group';
+import { languages } from '../../../common/data';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts, translateLanguage } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts, translateLanguage, transcriber, translator } = useSelector(transcribeSelector);
   const testTags = ['journal', 'lecture'];
 
   function getTimestampWidth (timestamp) {
@@ -115,8 +116,8 @@ export function TranscriptScreen () {
     dispatch(commonActions.setSlice({ scrollPosition: 0 }));
 
     const recorder = new Recorder({ onRecordingReady });
-    const transcriber = new Transcriber({ onInterim, onFinal, lang: transcribeLanguage });
-    const translator = new Translator({ targetLang: translateLanguage });
+    const transcriber = new Transcriber({ onInterim, onFinal, lang: languages.find(l => l.name === transcribeLanguage)?.transcribe });
+    const translator = new Translator({ targetLang: languages.find(l => l.name === translateLanguage)?.translate });
     dispatch(transcribeActions.setSlice({ recorder, transcriber, translator }));
 
     handleDone();
@@ -136,6 +137,12 @@ export function TranscriptScreen () {
       handleDone();
     };
   }, []);
+
+  React.useEffect(() => {
+    if (!transcriber || !translator) return;
+    transcriber.setLanguage(languages.find(l => l.name === transcribeLanguage)?.transcribe);
+    translator.setTargetLanguage(languages.find(l => l.name === translateLanguage)?.translate);
+  }, [transcribeLanguage, translateLanguage]);
 
   React.useEffect(() => {
     const audio = document.getElementById('audio');
@@ -241,7 +248,7 @@ export function TranscriptScreen () {
   }, [playing]);
 
   if (Object.keys(parts).length === 0) {
-    let messageText = 'Please press the start button below to start recording a new transcript.';
+    let messageText = `Please press the start button below to start recording a new transcript in ${transcribeLanguage}.`;
     if (!transcriptionSupported) {
       messageText = 'Please use Google Chrome on a non-mobile computer to transcribe.';
     }
@@ -264,7 +271,7 @@ export function TranscriptScreen () {
             {updatedAt && <span className="text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>}
             <div className="flex flex-wrap gap-1.5">
               {testTags.map((tag, i) => (
-                <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} twStyle="text-purple-custom text-sm">#{tag}</TextLink>
+                <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} twStyle="text-purple-custom text-sm" inactive={mode !== 'default'}>#{tag}</TextLink>
               ))}
             </div>
           </div>
@@ -358,7 +365,7 @@ export function TranscriptScreen () {
       <audio hidden={true} id="audio" />
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
-        <BackButton linkPath="/transcribe/transcripts" text="Transcripts" />
+        <BackButton linkPath="/transcribe/transcripts" text="Transcripts" disabled={mode !== 'default'} />
         {mode !== 'edit' ? <MoreMenu disabled={!transcriptionSupported} /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
       <WhiteVignette />
