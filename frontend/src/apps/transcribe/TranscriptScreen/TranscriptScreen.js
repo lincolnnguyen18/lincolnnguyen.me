@@ -247,7 +247,7 @@ export function TranscriptScreen () {
   }, [playing]);
 
   if (Object.keys(parts).length === 0) {
-    let messageText = `Please press the start button below to start recording a new transcript in ${transcribeLanguage}.`;
+    let messageText = 'Please press the start button below to start recording a new transcript.';
     if (!transcriptionSupported) {
       messageText = 'Please use Google Chrome on a non-mobile computer to transcribe.';
     }

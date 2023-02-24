@@ -110,6 +110,11 @@ export function BottomBar () {
     }));
   }
 
+  function getLanguageName () {
+    const lang = languages.find(l => l.name === transcribeLanguage);
+    return lang?.shortName || lang.name;
+  }
+
   if (mode === 'default') {
     if (partsOrder.length === 0) {
       async function handleStart () {
@@ -128,7 +133,7 @@ export function BottomBar () {
         <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-center bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-[border-radius] duration-300 transition-all duration-300'>
           <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={handleStart} disabled={!transcriptionSupported}>
             <span className='icon-mic' />
-            <span className="sm:text-base text-sm">Start transcribing</span>
+            <span className="sm:text-base text-sm overflow-hidden truncate max-w-[270px]">Start transcribing in {getLanguageName()}</span>
           </Button>
         </div>
       );
