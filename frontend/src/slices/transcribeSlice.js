@@ -15,7 +15,7 @@ import { Group } from '../components/Group';
 
 const initialState = {
   // default, record, edit
-  mode: 'record',
+  mode: 'default',
   // parts: Object.fromEntries(Array(5).fill(0).map((_, i) => [i, {
   //   createdAt: 1675670582 + i *
   //   duration: 35,
@@ -35,6 +35,7 @@ const initialState = {
   //       text: `Hello ${i}`,
   //       translation: `Konnichiwa ${i}`,
   //     })),
+  //     audioUrl: 'url here',
   //   },
   //   1: {
   //     createdAt: 2885672582,
@@ -72,6 +73,7 @@ const initialState = {
   sort: null,
   keywords: null,
   searching: false,
+  switchingLanguages: false,
 };
 
 export const sortMap = { updated_at: 'Updated at', created_at: 'Created at' };
@@ -79,7 +81,7 @@ export const sortMap = { updated_at: 'Updated at', created_at: 'Created at' };
 const translateFinalResult = createAsyncThunk(
   'transcribe/translateFinalResult',
   async (text, { getState, dispatch }) => {
-    const { translator, currentPartId: partId, parts, translateLanguage } = getState().transcribe;
+    const { translator, currentPartId: partId, parts, translateLanguage, switchingLanguages } = getState().transcribe;
     const resultIndex = parts[partId].results.length;
     text = text.trim();
     dispatch(transcribeActions.onFinal(text));
@@ -91,6 +93,13 @@ const translateFinalResult = createAsyncThunk(
         partId,
         resultIndex,
       }));
+    }
+    if (switchingLanguages) {
+      dispatch(transcribeActions.switchLanguages());
+      setTimeout(() => {
+        window.recognition.start();
+        dispatch(transcribeActions.setSlice({ switchingLanguages: false }));
+      }, 300);
     }
     setTimeout(() => {
       dispatch(commonActions.scrollToBottom());

@@ -34,7 +34,7 @@ export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts, translateLanguage, transcriber, translator } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts, translateLanguage, transcriber, translator, switchingLanguages } = useSelector(transcribeSelector);
   // const testTags = ['journal', 'lecture'];
 
   function getTimestampWidth (timestamp) {
@@ -159,7 +159,7 @@ export function TranscriptScreen () {
 
   React.useEffect(() => {
     function onEnd () {
-      if (mode === 'record') {
+      if (mode === 'record' && !switchingLanguages) {
         try {
           window.recognition.start();
         } catch (e) {}
@@ -171,7 +171,7 @@ export function TranscriptScreen () {
       window.recognition.removeEventListener('end', onEnd);
       window.recognition.removeEventListener('error', onEnd);
     };
-  }, [mode]);
+  }, [mode, switchingLanguages]);
 
   function closeMenu () {
     dispatch(commonActions.closeNavMenu());
