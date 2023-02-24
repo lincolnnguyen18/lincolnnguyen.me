@@ -34,7 +34,7 @@ export function TranscriptsScreen () {
   const testTitle = 'Untitled Transcript';
   const testPreview = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu tincidunt nunc. Vivamus viverra feugiat libero, ornare mollis risus tempus id. Aliquam erat volutpat. Etiam quis erat risus. Maecenas pellentesque in quam eu lobortis. Pellentesque vulputate egestas arcu, eu ultrices augue ultricies eu. Cras dolor urna, imperdiet eu ante non, maximus suscipit leo. In convallis mi at libero vestibulum hendrerit. Aliquam erat volutpat. Vestibulum lacinia ex sapien, quis feugiat quam aliquet quis. Sed porta, velit vel fringilla tristique, mi risus aliquam odio, et pretium nibh risus sit amet erat. Proin in massa massa. Sed at scelerisque lorem, nec sagittis elit. Etiam auctor erat ut sollicitudin condimentum.';
   const testTimestamp = 'Created Mon 4:02 AM · Updated 4:02 AM';
-  const testTags = ['journal', 'lecture'];
+  // const testTags = ['journal', 'lecture'];
 
   function showSubNav () {
     if (!searching) return false;
@@ -80,11 +80,11 @@ export function TranscriptsScreen () {
                 <TextLink to="/transcribe/transcripts/1" twStyle="sm:text-lg text-purple-custom w-fit">{testTitle}</TextLink>
               </div>
               <span className="sm:text-base text-sm">{testPreview}</span>
-              <div className="flex flex-wrap gap-1.5">
-                {testTags.map((tag, i) => (
-                  <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} twStyle="text-purple-custom text-sm">#{tag}</TextLink>
-                ))}
-              </div>
+              {/*<div className="flex flex-wrap gap-1.5">*/}
+              {/*  {testTags.map((tag, i) => (*/}
+              {/*    <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} twStyle="text-purple-custom text-sm">#{tag}</TextLink>*/}
+              {/*  ))}*/}
+              {/*</div>*/}
               <span className="text-gray-subtext text-xs">{testTimestamp}</span>
             </div>
             <Divider twStyle="sm:mx-0 mx-3.5 last:hidden" />

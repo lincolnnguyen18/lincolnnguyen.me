@@ -214,7 +214,8 @@ export function MoreMenu ({ disabled }) {
       children: (
         <div className="flex flex-col">
           <NavbarButton onClick={handleStart}>
-            <span className='icon-mic text-2xl text-white' />
+            {/*<span className='icon-mic text-2xl text-white' />*/}
+            <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{languages.find(l => l.name === transcribeLanguage).code}</span>
             <span className="text-white">Transcribe</span>
           </NavbarButton>
           <GroupDivider />

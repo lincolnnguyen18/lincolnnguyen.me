@@ -25,7 +25,6 @@ import { Recorder } from '../../../common/Recorder';
 import { Transcriber } from '../../../common/Transcriber';
 import { SyncScrollButton } from './SyncScrollButton';
 import { Translator } from '../../../common/Translator';
-import { TextLink } from '../../../components/TextLink';
 import { FormScreen } from '../../../components/FormScreen';
 import { FormScreenBottom } from '../../../components/FormScreenBottom';
 import { Group } from '../../../components/Group';
@@ -36,7 +35,7 @@ export function TranscriptScreen () {
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
   const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts, translateLanguage, transcriber, translator } = useSelector(transcribeSelector);
-  const testTags = ['journal', 'lecture'];
+  // const testTags = ['journal', 'lecture'];
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {
@@ -262,18 +261,18 @@ export function TranscriptScreen () {
     content = (
       <>
         <div className="top-11" id="title-div">
-          <div className="flex flex-col gap-0.5 mx-2">
+          <div className="flex flex-col gap-1 mx-2">
             <div className="flex gap-2 items-center">
               <span className={twMerge('sm:text-xl text-lg font-semibold', mode === 'edit' && 'overflow-hidden truncate')}>{title}</span>
               {mode === 'edit' && <Button onClick={handleEditTitle}><span className="icon-edit text-2xl cursor-pointer" /></Button>}
             </div>
             {!updatedAt && createdAt && <span className="text-sm text-gray-subtext">Created on {formatUnixTimestamp2(createdAt)}</span>}
             {updatedAt && <span className="text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>}
-            <div className="flex flex-wrap gap-1.5">
-              {testTags.map((tag, i) => (
-                <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} twStyle="text-purple-custom text-sm" inactive={mode !== 'default'}>#{tag}</TextLink>
-              ))}
-            </div>
+            {/*<div className="flex flex-wrap gap-1.5">*/}
+            {/*  {testTags.map((tag, i) => (*/}
+            {/*    <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} twStyle="text-purple-custom text-sm" inactive={mode !== 'default'}>#{tag}</TextLink>*/}
+            {/*  ))}*/}
+            {/*</div>*/}
           </div>
           <Divider twStyle="mx-2 sm:mx-1" />
         </div>

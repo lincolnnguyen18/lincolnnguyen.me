@@ -125,7 +125,7 @@ const openTranscriptsSearch = createAsyncThunk(
         <FormScreen isForm={true} onSubmit={onSearch}>
           <Group title="Keywords">
             <TextField placeholder="Enter keywords here" autoFocus={true} defaultValue={keywords} name="keywords" />
-            <span className="text-xs sm:text-sm text-gray-subtext2 mt-2">For example, enter "#cse-416 final exam" to search for transcripts with the tag "cse-416" and the keyword "final exam" anywhere in their title or content.</span>
+            <span className="text-xs sm:text-sm text-gray-subtext2 mt-2">For example, enter "cse 416" to search for all transcripts with "cse 416" anywhere in their title.</span>
           </Group>
           <GroupInput twStyle="rounded-lg mt-6">
             <span>Sorted by</span>
