@@ -85,7 +85,7 @@ export function TranscriptScreen () {
 
   function maxPartResults (results) {
     if (mode === 'edit') {
-      return results.length ? [results[0]] : [];
+      return results.slice(0, 3);
     } else {
       return results;
     }
@@ -101,6 +101,13 @@ export function TranscriptScreen () {
     audio.src = audioUrl;
   }
 
+  async function onRecordingStop () {
+    dispatch(transcribeActions.setSlice({ mode: 'default', interimResult: '' }));
+    clearInterval(window.interval);
+    await wait(50);
+    dispatch(commonActions.scrollToBottom());
+  }
+
   async function onInterim (interim) {
     dispatch(transcribeActions.onInterim(interim));
     await wait(100);
@@ -108,15 +115,20 @@ export function TranscriptScreen () {
   }
 
   async function onFinal (final) {
+    if (final.trim() === '') {
+      dispatch(transcribeActions.setSlice({ interimResult: '' }));
+      return;
+    }
     dispatch(translateFinalResult(final));
     await wait(100);
     dispatch(commonActions.scrollToBottom());
   }
 
   React.useEffect(() => {
+    if (!transcriptionSupported) return;
     dispatch(commonActions.setSlice({ scrollPosition: 0 }));
 
-    const recorder = new Recorder({ onRecordingReady });
+    const recorder = new Recorder({ onRecordingReady, onRecordingStop });
     const transcriber = new Transcriber({ onInterim, onFinal, lang: languages.find(l => l.name === transcribeLanguage)?.transcribe });
     const translator = new Translator({ targetLang: languages.find(l => l.name === translateLanguage)?.translate });
     dispatch(transcribeActions.setSlice({ recorder, transcriber, translator }));
@@ -137,7 +149,7 @@ export function TranscriptScreen () {
     return () => {
       handleDone();
     };
-  }, []);
+  }, [transcriptionSupported]);
 
   React.useEffect(() => {
     if (!transcriber || !translator) return;
@@ -160,6 +172,7 @@ export function TranscriptScreen () {
   }, [playing]);
 
   React.useEffect(() => {
+    if (!transcriptionSupported) return;
     function onEnd () {
       if (mode === 'record' && !switchingLanguages) {
         try {
@@ -173,7 +186,7 @@ export function TranscriptScreen () {
       window.recognition.removeEventListener('end', onEnd);
       window.recognition.removeEventListener('error', onEnd);
     };
-  }, [mode, switchingLanguages]);
+  }, [mode, switchingLanguages, transcriptionSupported]);
 
   function closeMenu () {
     dispatch(commonActions.closeNavMenu());
@@ -326,11 +339,11 @@ export function TranscriptScreen () {
                             </div>
                           </div>
                         </ContainerButton>
-                        {mode === 'edit' && i !== partsOrder.length - 1 && <Divider twStyle="mx-2 sm:mx-1" />}
                         {mode !== 'edit' && j === part.results.length - 1 && i !== partsOrder.length - 1 && <Divider twStyle="mx-2 sm:mx-1" />}
                       </React.Fragment>
                     );
                   })}
+                  {mode === 'edit' && i !== partsOrder.length - 1 && <Divider twStyle="mx-2 sm:mx-1" />}
                 </React.Fragment>
               );
             })

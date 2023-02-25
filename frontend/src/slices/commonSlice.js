@@ -80,8 +80,9 @@ const commonSlice = createSlice({
         behavior: 'smooth',
       });
     },
-    scrollToBottom: (state) => {
-      if (!state.autoScrollOn) return;
+    scrollToBottom: (state, action) => {
+      const ignoreAutoScroll = action.payload;
+      if (!state.autoScrollOn && !ignoreAutoScroll) return;
       window.scrollTo({
         top: document.body.scrollHeight,
         behavior: 'smooth',

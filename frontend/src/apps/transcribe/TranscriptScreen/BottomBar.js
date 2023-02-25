@@ -42,18 +42,14 @@ export function BottomBar () {
   }
 
   async function handleStop () {
-    dispatch(transcribeActions.setSlice({ mode: 'default', interimResult: '' }));
     recorder.stop();
     transcriber.stop();
-    clearInterval(window.interval);
-    await wait(50);
-    dispatch(commonActions.scrollToBottom());
   }
 
-  function handleRestart () {
-    transcriber.stop();
-    window.lastInterim = '';
-  }
+  // function handleRestart () {
+  //   transcriber.stop();
+  //   window.lastInterim = '';
+  // }
 
   function handleSwitchLanguages () {
     if (interimResult !== '') {
@@ -127,7 +123,7 @@ export function BottomBar () {
           dispatch(transcribeActions.incrementDuration(0.1));
         }, 100);
         await wait(50);
-        dispatch(commonActions.scrollToBottom());
+        dispatch(commonActions.scrollToBottom(true));
       }
 
       return (
@@ -179,9 +175,9 @@ export function BottomBar () {
           <Button twStyle="select-auto" onClick={handleSwitchLanguages} disabled={switchingLanguages}>
             <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{languages.find(l => l.name === transcribeLanguage).code}</span>
           </Button>
-          <Button twStyle="select-auto" onClick={handleRestart}>
-            <span className='icon-refresh' />
-          </Button>
+          {/*<Button twStyle="select-auto" onClick={handleRestart}>*/}
+          {/*  <span className='icon-refresh' />*/}
+          {/*</Button>*/}
         </div>
         <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto absolute left-1/2 transform -translate-x-1/2" onClick={handleStop}>
           <span className='icon-mic' />

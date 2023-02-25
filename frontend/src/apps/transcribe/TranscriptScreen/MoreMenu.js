@@ -205,7 +205,7 @@ export function MoreMenu ({ disabled }) {
         dispatch(transcribeActions.incrementDuration(0.1));
       }, 100);
       await wait(50);
-      dispatch(commonActions.scrollToBottom());
+      dispatch(commonActions.scrollToBottom(true));
     }
 
     dispatch(commonActions.openNavMenu({

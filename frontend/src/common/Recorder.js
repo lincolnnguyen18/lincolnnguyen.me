@@ -1,10 +1,11 @@
 export class Recorder {
-  constructor ({ onRecordingReady }) {
+  constructor ({ onRecordingReady, onRecordingStop }) {
     this.onRecordingReady = onRecordingReady;
 
     const setupRecorder = (stream) => {
       window.mediaRecorder = new window.MediaRecorder(stream);
       window.mediaRecorder.addEventListener('dataavailable', e => this.onRecordingReady(URL.createObjectURL(e.data)));
+      window.mediaRecorder.addEventListener('stop', onRecordingStop);
     };
 
     navigator.mediaDevices

@@ -3,7 +3,7 @@ export class Transcriber {
     this.onInterim = onInterim;
     this.onFinal = onFinal;
     window.lastInterim = '';
-    // window.timeSinceLastResult = 0;
+    window.timeSinceLastResult = 0;
     this.interval = null;
     // eslint-disable-next-line new-cap
     window.recognition = new window.webkitSpeechRecognition();
@@ -19,14 +19,14 @@ export class Transcriber {
           if (e.results[i].isFinal) {
             final += e.results[i][j].transcript;
             onFinal(final);
-            // window.timeSinceLastResult = 0;
+            window.timeSinceLastResult = 0;
             window.lastInterim = '';
           } else {
             interim += e.results[i][j].transcript;
             if (interim !== window.lastInterim) {
               onInterim(interim);
               window.lastInterim = interim;
-              // window.timeSinceLastResult = 0;
+              window.timeSinceLastResult = 0;
             }
           }
         }
@@ -38,19 +38,19 @@ export class Transcriber {
 
   start () {
     window.recognition.start();
-    // const timeoutAfter = 2;
-    // const maxResultLength = 100;
-    // this.interval = setInterval(() => {
-    //   // console.log('Time since last result: ', window.timeSinceLastResult);
-    //   // console.log('lastInterim length', window.lastInterim?.length);
-    //   if (window.timeSinceLastResult > timeoutAfter || window.lastInterim.length > maxResultLength) {
-    //     window.recognition.stop();
-    //     window.timeSinceLastResult = 0;
-    //     console.log('Restarted due to timeout');
-    //   } else {
-    //     window.timeSinceLastResult += 1;
-    //   }
-    // }, 700);
+    const timeoutAfter = 3;
+    const maxResultLength = 50;
+    this.interval = setInterval(() => {
+      // console.log('Time since last result: ', window.timeSinceLastResult);
+      // console.log('lastInterim length', window.lastInterim?.length);
+      if (window.timeSinceLastResult > timeoutAfter || window.lastInterim.length > maxResultLength) {
+        window.recognition.stop();
+        window.timeSinceLastResult = 0;
+        // console.log('Restarted due to timeout');
+      } else {
+        window.timeSinceLastResult += 1;
+      }
+    }, 1000);
   }
 
   stop () {
