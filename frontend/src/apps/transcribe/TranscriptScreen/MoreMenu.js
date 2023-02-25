@@ -16,7 +16,7 @@ import { languages } from '../../../common/data';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
-  const { mode, recorder, transcriber, playing, transcribeLanguage, translateLanguage, partsOrder, createdAt, playbackSpeed } = useSelector(transcribeSelector);
+  const { mode, recorder, transcriber, playing, transcribeLanguage, translateLanguage, partsOrder, createdAt, playbackSpeed, cutOffType } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   function closeMenu () {
@@ -90,8 +90,14 @@ export function MoreMenu ({ disabled }) {
     }
 
     function onTranslateSelectChange (e) {
-      let translateLanguage = e.target.value;
+      const translateLanguage = e.target.value;
       dispatch(transcribeActions.setSlice({ translateLanguage }));
+    }
+
+    function onCutOffTypeSelectChange (e) {
+      const cutOffType = e.target.value;
+      dispatch(transcribeActions.setSlice({ cutOffType }));
+      window.cutOffType = cutOffType;
     }
 
     dispatch(commonActions.openNavMenu({
@@ -120,7 +126,7 @@ export function MoreMenu ({ disabled }) {
               />
             </Blackbox>
           </Group>
-          <Group title="Language">
+          <Group title="Transcription settings">
             <GroupInput>
               <span>Transcribe in</span>
               <div className="flex items-center">
@@ -139,6 +145,14 @@ export function MoreMenu ({ disabled }) {
                 {languages.map((language, i) => (
                   <option key={i} value={language.name}>{language.name}</option>
                 ))}
+              </Dropdown>
+            </GroupInput>
+            <GroupDivider />
+            <GroupInput>
+              <span>Cut off transcription results</span>
+              <Dropdown onChange={onCutOffTypeSelectChange} defaultValue={cutOffType}>
+                <option value="auto">Automatically</option>
+                <option value="manual">Manually</option>
               </Dropdown>
             </GroupInput>
           </Group>

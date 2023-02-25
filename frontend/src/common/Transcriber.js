@@ -41,6 +41,7 @@ export class Transcriber {
     const timeoutAfter = 3;
     const maxResultLength = 50;
     this.interval = setInterval(() => {
+      if (!window.cutOffType === 'manual') return;
       // console.log('Time since last result: ', window.timeSinceLastResult);
       // console.log('lastInterim length', window.lastInterim?.length);
       if (window.timeSinceLastResult > timeoutAfter || window.lastInterim.length > maxResultLength) {

@@ -74,6 +74,7 @@ const initialState = {
   keywords: null,
   searching: false,
   switchingLanguages: false,
+  cutOffType: 'auto',
 };
 
 export const sortMap = { updated_at: 'Updated at', created_at: 'Created at' };
