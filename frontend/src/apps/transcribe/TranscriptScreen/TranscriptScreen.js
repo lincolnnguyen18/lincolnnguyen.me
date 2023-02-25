@@ -101,13 +101,15 @@ export function TranscriptScreen () {
     audio.src = audioUrl;
   }
 
-  function onInterim (interim) {
+  async function onInterim (interim) {
     dispatch(transcribeActions.onInterim(interim));
+    await wait(100);
     dispatch(commonActions.scrollToBottom());
   }
 
-  function onFinal (final) {
+  async function onFinal (final) {
     dispatch(translateFinalResult(final));
+    await wait(100);
     dispatch(commonActions.scrollToBottom());
   }
 

@@ -96,14 +96,12 @@ const translateFinalResult = createAsyncThunk(
     }
     if (switchingLanguages) {
       dispatch(transcribeActions.switchLanguages());
-      setTimeout(() => {
-        window.recognition.start();
-        dispatch(transcribeActions.setSlice({ switchingLanguages: false }));
-      }, 300);
+      await wait(300);
+      window.recognition.start();
     }
-    setTimeout(() => {
-      dispatch(commonActions.scrollToBottom());
-    }, 100);
+    dispatch(transcribeActions.setSlice({ switchingLanguages: false }));
+    await wait(100);
+    dispatch(commonActions.scrollToBottom());
   },
 );
 

@@ -13,7 +13,7 @@ const typeDefs = `
         playbackSpeed: Float!
         translateLang: String!
         transcribeLang: String!
-        transcripts: [Transcript]!
+        transcripts: [Transcript!]!
     }
 
     type Transcript {
@@ -25,9 +25,23 @@ const typeDefs = `
         partsUrl: String!
         partsOrder: [String]!
     }
+
+    type Error {
+        fields: [String!]!
+        message: String!
+    }
     
     type Query {
-        user(id: ID!): User
+        # returns user or null if ctx.id is invalid
+        user: User
+        # returns a session token or null if login fails
+        login(username: String!, password: String!): String
+    }
+    
+    type Mutation {
+        # username: username already taken
+        # password, confirmPassword: passwords do not match
+        register(username: String!, password: String!, confirmPassword: String!): [Error!]!
     }
 `;
 
@@ -36,6 +50,14 @@ const resolvers = {
     // parent, args, ctx, info
     user: async (_, args, ctx) => {
       console.log('ctx', ctx);
+      return null;
+    },
+    login: async () => {
+      return null;
+    },
+  },
+  Mutation: {
+    register: async () => {
       return null;
     },
   },

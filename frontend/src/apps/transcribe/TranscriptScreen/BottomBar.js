@@ -61,6 +61,7 @@ export function BottomBar () {
     } else {
       dispatch(transcribeActions.switchLanguages());
     }
+    // dispatch(transcribeActions.switchLanguages());
     window.recognition.stop();
     window.lastInterim = '';
   }
