@@ -120,7 +120,7 @@ export function MoreMenu ({ disabled }) {
                 onChange={updatePlaybackSpeed}
                 onInput={updatePlaybackSpeed}
                 max={maxSpeed}
-                step={(maxSpeed - minSpeed) / 100}
+                step={0.25}
               />
             </Blackbox>
           </Group>
@@ -227,9 +227,6 @@ export function MoreMenu ({ disabled }) {
       transcriber.start();
       dispatch(transcribeActions.setSlice({ mode: 'record' }));
       dispatch(transcribeActions.updateMetadata());
-      window.interval = setInterval(() => {
-        dispatch(transcribeActions.incrementDuration(0.1));
-      }, 100);
       await wait(50);
       dispatch(commonActions.scrollToBottom(true));
     }

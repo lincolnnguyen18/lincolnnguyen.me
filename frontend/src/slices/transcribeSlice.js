@@ -65,7 +65,6 @@ const initialState = {
   interimResult: '',
   recorder: null,
   currentTime: 0,
-  maxTime: 0,
   playing: false,
   transcribeLanguage: 'Japanese',
   translateLanguage: 'English (United States)',
@@ -168,12 +167,6 @@ const transcribeSlice = createSlice({
       state.newResultTime = 0;
       state.currentPartId = partId;
     },
-    incrementDuration: (state, action) => {
-      const partId = state.partsOrder[state.partsOrder.length - 1];
-      state.parts[partId].duration += action.payload;
-
-      state.maxTime = state.parts[partId].duration;
-    },
     setLatestPart: (state, action) => {
       const partId = state.partsOrder[state.partsOrder.length - 1];
       _.merge(state.parts[partId], action.payload);
@@ -181,8 +174,9 @@ const transcribeSlice = createSlice({
     onFinal: (state, action) => {
       const text = action.payload;
       const partId = state.partsOrder[state.partsOrder.length - 1];
+      const createdAt = state.parts[partId].createdAt;
       state.parts[partId].results.push({
-        timestamp: state.newResultTime,
+        timestamp: Math.max(0, ((state.newResultTime - createdAt) / 1000) - 2),
         text,
       });
       state.interimResult = '';
@@ -190,7 +184,9 @@ const transcribeSlice = createSlice({
     onInterim: (state, action) => {
       const text = action.payload;
       if (state.interimResult === '') {
-        state.newResultTime = Math.max(state.parts[state.currentPartId]?.duration - 2, 0);
+        // state.newResultTime = Math.max(state.parts[state.currentPartId]?.duration - 2, 0);
+        state.newResultTime = Date.now();
+        // state.parts[state.currentPartId].startTimestamp = Date.now();
       }
       state.interimResult = text;
     },
@@ -228,7 +224,6 @@ const transcribeSlice = createSlice({
       if (state.selectedParts.includes(state.currentPartId)) {
         state.currentPartId = null;
         state.currentTime = 0;
-        state.maxTime = 0;
       }
       state.partsOrder = state.partsOrder.filter((partId) => !state.selectedParts.includes(partId));
       state.selectedParts.forEach((partId) => delete state.parts[partId]);
@@ -238,6 +233,13 @@ const transcribeSlice = createSlice({
       const { translateLanguage, transcribeLanguage } = state;
       state.translateLanguage = transcribeLanguage;
       state.transcribeLanguage = translateLanguage;
+    },
+    setCurrentPartDuration: (state) => {
+      // set duration to date.now - createdAt / 1000
+      const partId = state.partsOrder[state.partsOrder.length - 1];
+      const duration = (Date.now() - state.parts[partId].createdAt) / 1000;
+      console.log('duration', duration);
+      state.parts[partId].duration = duration;
     },
   },
 });

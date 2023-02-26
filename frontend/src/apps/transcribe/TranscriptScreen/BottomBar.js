@@ -12,7 +12,7 @@ import { handlePlayPause, restartTranscriber, seekTo, startStopRecording, switch
 export function BottomBar () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
-  const { mode, partsOrder, parts, recorder, transcriber, currentPartId, currentTime, maxTime, playing, selectedParts, transcribeLanguage, switchingLanguages, interimResult, cutOffType } = useSelector(transcribeSelector);
+  const { mode, partsOrder, parts, recorder, transcriber, currentPartId, currentTime, playing, selectedParts, transcribeLanguage, switchingLanguages, interimResult, cutOffType } = useSelector(transcribeSelector);
   const { transcriptionSupported } = useSelector(commonSelector);
 
   function updateCurrentTime (e) {
@@ -42,6 +42,19 @@ export function BottomBar () {
     return lang?.shortName || lang.name;
   }
 
+  const [duration, setDuration] = React.useState(0);
+
+  React.useEffect(() => {
+    if (mode === 'record' && !window.interval) {
+      window.interval = setInterval(() => {
+        setDuration((Date.now() - parts[currentPartId].createdAt) / 1000);
+      }, 1000);
+    } else {
+      clearInterval(window.interval);
+      window.interval = null;
+    }
+  }, [mode, currentPartId, parts]);
+
   if (mode === 'default') {
     if (partsOrder.length === 0) {
       return (
@@ -68,7 +81,7 @@ export function BottomBar () {
               value={currentTime}
               onChange={updateCurrentTime}
               onInput={updateCurrentTime}
-              max={Math.round(maxTime)}
+              max={Math.round(duration - 1)}
               step={1}
             />
             <div className="flex items-center gap-1 justify-between">
@@ -78,7 +91,7 @@ export function BottomBar () {
                 <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} onClick={() => handlePlayPause(dispatch, playing)} />
                 <Button twStyle="icon-forward-5" onClick={() => seekTo(dispatch, currentTime + 5)} />
               </div>
-              <span className="text-sm">{formatFloatToTime(Math.round(maxTime))}</span>
+              <span className="text-sm">{formatFloatToTime(Math.round(duration - 1))}</span>
             </div>
           </div>
         </div>
@@ -87,13 +100,12 @@ export function BottomBar () {
   } else if (mode === 'record') {
     return (
       <div className='text-white max-w-screen-sm w-full h-11 flex items-center justify-between fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-all duration-300'>
-        <span className="sm:text-sm text-xs">{formatFloatToTime(parts[currentPartId]?.duration || 0)}</span>
-        {/*currentLanguage.split('-')[1].toUpperCase()*/}
+        <span className="sm:text-sm text-xs">{formatFloatToTime(duration)}</span>
         <div className="flex gap-3 items-center">
           <Button twStyle="select-auto" onClick={() => switchLanguages(dispatch, interimResult)} disabled={switchingLanguages}>
             <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{languages.find(l => l.name === transcribeLanguage).code}</span>
           </Button>
-          {cutOffType === 'manual' && <Button twStyle="select-auto" onClick={() => restartTranscriber(transcriber)}>
+          {cutOffType === 'manual' && <Button twStyle="select-auto" onClick={restartTranscriber}>
             <span className='icon-refresh' />
           </Button>}
         </div>

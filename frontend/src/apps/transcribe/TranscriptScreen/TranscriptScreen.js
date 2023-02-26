@@ -31,12 +31,13 @@ import { Group } from '../../../components/Group';
 import { closeMenu, openAlert } from '../../../common/MenuUtils';
 import { languages } from '../../../common/data';
 import { Hotkeys } from './Hotkeys';
+import _ from 'lodash';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts, translateLanguage, transcriber, translator, switchingLanguages } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts, translateLanguage, transcriber, translator, switchingLanguages, playbackSpeed } = useSelector(transcribeSelector);
   // const testTags = ['journal', 'lecture'];
 
   function getTimestampWidth (timestamp) {
@@ -105,7 +106,6 @@ export function TranscriptScreen () {
 
   async function onRecordingStop () {
     dispatch(transcribeActions.setSlice({ mode: 'default', interimResult: '' }));
-    clearInterval(window.interval);
     await wait(50);
     dispatch(commonActions.scrollToBottom());
   }
@@ -226,6 +226,10 @@ export function TranscriptScreen () {
     }));
   }
 
+  React.useEffect(() => {
+    window.cutOffType = 'auto';
+  }, []);
+
   let content;
 
   function onResultClick (partId, timestamp) {
@@ -233,7 +237,7 @@ export function TranscriptScreen () {
     audio.autoplay = false;
     if (audio.src !== src) audio.src = src;
     audio.currentTime = timestamp;
-    dispatch(transcribeActions.setSlice({ currentTime: timestamp, maxTime: parts[partId].duration, currentPartId: partId }));
+    dispatch(transcribeActions.setSlice({ currentTime: timestamp, currentPartId: partId }));
   }
 
   function onRadioClick (partId) {
@@ -355,8 +359,8 @@ export function TranscriptScreen () {
           >
             <div className="flex flex-row gap-3 p-2">
               <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
-                <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none flex justify-center' style={{ width: getTimestampWidth(formatFloatToTime((newResultTime))) }}>
-                  {formatFloatToTime((newResultTime))}
+                <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none flex justify-center' style={{ width: getTimestampWidth(formatFloatToTime((newResultTime - parts[currentPartId].createdAt) / 1000)) }}>
+                  {formatFloatToTime(Math.max(0, ((newResultTime - parts[currentPartId].createdAt) / 1000) - 2))}
                 </div>
               </div>
               <span className="text-sm sm:text-base text-left w-full">{interimResult}</span>
@@ -383,13 +387,14 @@ export function TranscriptScreen () {
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcripts" text="Transcripts" disabled={mode !== 'default'} />
+        {mode === 'default' && partsOrder.length > 0 && <span className="absolute left-1/2 transform -translate-x-1/2 no-underline">{_.round(playbackSpeed, 2)}x</span>}
         {mode !== 'edit' ? <MoreMenu disabled={!transcriptionSupported} /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
       <WhiteVignette />
       <OverflowContainer twStyle={overflowStyle}>
         {content}
       </OverflowContainer>
-      {mode === 'default' && <div
+      <div
         className="fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"
         style={{ opacity: showSubNav() ? 1 : 0, pointerEvents: showSubNav() ? 'all' : 'none' }}
       >
@@ -398,7 +403,7 @@ export function TranscriptScreen () {
           <span className="sm:text-sm text-xs text-gray-subtext text-sm mx-2 overflow-hidden truncate">Recorded on {formatUnixTimestamp2(getCurrentPart()?.createdAt)}</span>
         </div>
         <Divider twStyle="sm:my-0 my-0" />
-      </div>}
+      </div>
       <BottomBar />
       <SyncScrollButton />
     </>
