@@ -13,7 +13,7 @@ import { FormScreen } from '../../../components/FormScreen';
 import { Blackbox } from '../../../components/BlackBox';
 import { FormScreenBottom } from '../../../components/FormScreenBottom';
 import { languages } from '../../../common/data';
-import { closeMenu, showShortcuts } from '../../../common/MenuUtils';
+import { closeMenu, openConfirm, showShortcuts } from '../../../common/MenuUtils';
 import { shortcuts } from './Hotkeys';
 import _ from 'lodash';
 
@@ -124,7 +124,7 @@ export function MoreMenu ({ disabled }) {
               />
             </Blackbox>
           </Group>
-          <Group title="Transcription settings">
+          <Group title="Transcription Settings">
             <GroupInput>
               <span>Transcribe in</span>
               <div className="flex items-center">
@@ -210,6 +210,16 @@ export function MoreMenu ({ disabled }) {
     showShortcuts({ dispatch, shortcuts });
   }
 
+  function onDelete () {
+    console.log('deleting transcript');
+  }
+
+  async function confirmDelete () {
+    dispatch(commonActions.hideNavMenuChildren());
+    await wait();
+    openConfirm({ dispatch, message: 'Are you sure you want to delete this transcript?', onConfirm: onDelete });
+  }
+
   function openMoreMenu () {
     async function handleStart () {
       dispatch(transcribeActions.addPart());
@@ -263,6 +273,11 @@ export function MoreMenu ({ disabled }) {
               </NavbarButton>
             </>
           )}
+          <GroupDivider />
+          <NavbarButton stopPropagation={true} onClick={confirmDelete}>
+            <span className='icon-delete text-2xl text-white' />
+            <span className="text-white">Delete</span>
+          </NavbarButton>
         </div>
       ),
     }));

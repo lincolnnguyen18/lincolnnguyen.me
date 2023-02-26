@@ -32,7 +32,7 @@ function openAlert ({ dispatch, title, message }) {
   }));
 }
 
-function openConfirm ({ dispatch, title, message, onConfirm }) {
+function openConfirm ({ dispatch, title = 'Please Confirm', message, onConfirm }) {
   dispatch(commonActions.openNavMenu({
     position: 'right',
     isMainMenu: false,
@@ -68,7 +68,7 @@ async function showShortcuts ({ dispatch, shortcuts }) {
     easyClose: false,
     children: (
       <FormScreen>
-        <Group title="Keyboard shortcuts">
+        <Group title="Keyboard Shortcuts">
           {shortcuts.map(({ name, key }, i) => (
             <>
               <GroupInput>

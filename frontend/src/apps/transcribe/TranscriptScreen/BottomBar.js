@@ -34,7 +34,7 @@ export function BottomBar () {
       }
     }
 
-    openConfirm({ dispatch, title: 'Please Confirm', message: deleteMessage(selectedParts.length), onConfirm: onDelete });
+    openConfirm({ dispatch, message: deleteMessage(selectedParts.length), onConfirm: onDelete });
   }
 
   function getLanguageName () {
