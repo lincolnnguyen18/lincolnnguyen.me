@@ -13,15 +13,12 @@ import { FormScreen } from '../../../components/FormScreen';
 import { Blackbox } from '../../../components/BlackBox';
 import { FormScreenBottom } from '../../../components/FormScreenBottom';
 import { languages } from '../../../common/data';
+import { closeMenu, showShortcuts } from '../../../common/MenuUtils';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
   const { mode, recorder, transcriber, playing, transcribeLanguage, translateLanguage, partsOrder, createdAt, playbackSpeed, cutOffType } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
-
-  function closeMenu () {
-    dispatch(commonActions.closeNavMenu());
-  }
 
   async function handleOpenInfo () {
     dispatch(commonActions.hideNavMenuChildren());
@@ -59,7 +56,7 @@ export function MoreMenu ({ disabled }) {
             </Blackbox>
           </Group>
           <FormScreenBottom>
-            <NavbarButton onClick={closeMenu} dir="single" twStyle="justify-center">Close</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} dir="single" twStyle="justify-center">Close</NavbarButton>
           </FormScreenBottom>
         </FormScreen>
       ),
@@ -157,7 +154,7 @@ export function MoreMenu ({ disabled }) {
             </GroupInput>
           </Group>
           <FormScreenBottom>
-            <NavbarButton onClick={closeMenu} dir="single" twStyle="justify-center">Close</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} dir="single" twStyle="justify-center">Close</NavbarButton>
           </FormScreenBottom>
         </FormScreen>
       ),
@@ -190,7 +187,7 @@ export function MoreMenu ({ disabled }) {
   const [turningOnEditMode, setTurningOnEditMode] = React.useState(false);
 
   function turnOnEditMode () {
-    closeMenu();
+    closeMenu(dispatch);
     if (scrollPosition === 0) {
       dispatch(transcribeActions.setSlice({ mode: 'edit' }));
     } else {
@@ -207,6 +204,19 @@ export function MoreMenu ({ disabled }) {
       }, 50);
     }
   }, [scrollPosition]);
+
+  function openShortcuts () {
+    const shortcuts = [
+      { name: 'Play/pause', key: 'K' },
+      { name: 'Start/stop recording', key: 'O' },
+      { name: 'Skip forward', key: 'L' },
+      { name: 'Skip backwards', key: 'J' },
+      { name: 'Switch languages', key: 'P' },
+      { name: 'Speed up', key: ']' },
+      { name: 'Slow down', key: '[' },
+    ];
+    showShortcuts({ dispatch, shortcuts });
+  }
 
   function openMoreMenu () {
     async function handleStart () {
@@ -241,6 +251,11 @@ export function MoreMenu ({ disabled }) {
           <NavbarButton stopPropagation={true} onClick={openSettings}>
             <span className='icon-settings text-2xl text-white' />
             <span className="text-white">Settings</span>
+          </NavbarButton>
+          <GroupDivider />
+          <NavbarButton stopPropagation={true} onClick={openShortcuts}>
+            <span className='icon-keyboard text-2xl text-white' />
+            <span className="text-white">Shortcuts</span>
           </NavbarButton>
           {/*<NavbarGroupButton onClick={handleFilterBySpeaker} stopPropagation={true}>*/}
           {/*  <span className='icon-two-users text-2xl text-white' />*/}

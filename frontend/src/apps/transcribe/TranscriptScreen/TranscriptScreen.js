@@ -29,6 +29,7 @@ import { FormScreen } from '../../../components/FormScreen';
 import { FormScreenBottom } from '../../../components/FormScreenBottom';
 import { Group } from '../../../components/Group';
 import { languages } from '../../../common/data';
+import { closeMenu, openAlert } from '../../../common/MenuUtils';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
@@ -108,6 +109,10 @@ export function TranscriptScreen () {
     dispatch(commonActions.scrollToBottom());
   }
 
+  function onRecordingError () {
+    openAlert({ dispatch, title: 'Error', message: 'There was an error in starting the recording. Please make sure there are no other tabs open that are using the microphone. After that, try going to "chrome://settings/content/microphone", switching between microphones, then refreshing the page. If it still does not work, please try restarting your computer or using a different computer.' });
+  }
+
   async function onInterim (interim) {
     dispatch(transcribeActions.onInterim(interim));
     await wait(100);
@@ -128,7 +133,7 @@ export function TranscriptScreen () {
     if (!transcriptionSupported) return;
     dispatch(commonActions.setSlice({ scrollPosition: 0 }));
 
-    const recorder = new Recorder({ onRecordingReady, onRecordingStop });
+    const recorder = new Recorder({ onRecordingReady, onRecordingStop, onRecordingError });
     const transcriber = new Transcriber({ onInterim, onFinal, lang: languages.find(l => l.name === transcribeLanguage)?.transcribe });
     const translator = new Translator({ targetLang: languages.find(l => l.name === translateLanguage)?.translate });
     dispatch(transcribeActions.setSlice({ recorder, transcriber, translator }));
@@ -188,10 +193,6 @@ export function TranscriptScreen () {
     };
   }, [mode, switchingLanguages, transcriptionSupported]);
 
-  function closeMenu () {
-    dispatch(commonActions.closeNavMenu());
-  }
-
   async function handleEditTitle () {
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
@@ -201,7 +202,7 @@ export function TranscriptScreen () {
       const formData = new window.FormData(e.target);
       const title = formData.get('title');
       dispatch(transcribeActions.setSlice({ title }));
-      closeMenu();
+      closeMenu(dispatch);
     }
 
     dispatch(commonActions.openNavMenu({
@@ -215,9 +216,9 @@ export function TranscriptScreen () {
             <TextField placeholder="Transcript name" autoFocus={true} defaultValue={title} name="title" />
           </Group>
           <FormScreenBottom>
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
             <GroupDivider dir="horiz w-36" />
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarButton>
           </FormScreenBottom>
         </FormScreen>
       ),

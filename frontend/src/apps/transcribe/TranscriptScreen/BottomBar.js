@@ -6,9 +6,8 @@ import { formatFloatToTime } from '../../../common/stringUtils.js';
 import { twMerge } from 'tailwind-merge';
 import { commonActions, commonSelector } from '../../../slices/commonSlice';
 import { wait } from '../../../common/timeUtils';
-import { NavbarButton } from '../../../components/NavbarButton';
-import { GroupDivider } from '../../../components/GroupDivider';
 import { languages } from '../../../common/data';
+import { closeMenu, openConfirm } from '../../../common/MenuUtils';
 
 export function BottomBar () {
   const dispatch = useDispatch();
@@ -44,6 +43,8 @@ export function BottomBar () {
   async function handleStop () {
     recorder.stop();
     transcriber.stop();
+    window.lastInterim = '';
+    dispatch(transcribeActions.setSlice({ interimResult: '' }));
   }
 
   function handleRestart () {
@@ -62,17 +63,10 @@ export function BottomBar () {
     window.lastInterim = '';
   }
 
-  function closeMenu () {
-    dispatch(commonActions.closeNavMenu());
-  }
-
-  async function handleDelete () {
-    dispatch(commonActions.hideNavMenuChildren());
-    await wait();
-
+  function handleDelete () {
     function onDelete () {
       dispatch(transcribeActions.deleteSelectedParts());
-      closeMenu();
+      closeMenu(dispatch);
     }
 
     function deleteMessage (numParts) {
@@ -83,28 +77,7 @@ export function BottomBar () {
       }
     }
 
-    dispatch(commonActions.openNavMenu({
-      position: 'right',
-      isMainMenu: false,
-      centerContent: true,
-      easyClose: false,
-      hideCloseButton: true,
-      children: (
-        <div className="flex flex-col w-full text-white items-center">
-          <div className="w-full max-w-md">
-            <span className="font-semibold sm:text-lg text-base">Please Confirm</span>
-            <div className="bg-black bg-opacity-50 rounded-lg w-full flex-col mb-6 mt-2 py-2 px-3">
-              <span className="">{deleteMessage(selectedParts.length)}</span>
-            </div>
-          </div>
-          <div className="flex">
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
-            <GroupDivider dir="horiz w-36" />
-            <NavbarButton onClick={onDelete} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Confirm</NavbarButton>
-          </div>
-        </div>
-      ),
-    }));
+    openConfirm({ dispatch, title: 'Please Confirm', message: deleteMessage(selectedParts.length), onConfirm: onDelete });
   }
 
   function getLanguageName () {

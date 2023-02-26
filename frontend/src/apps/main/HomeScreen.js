@@ -12,6 +12,7 @@ import { NavbarButton } from '../../components/NavbarButton';
 import { GroupDivider } from '../../components/GroupDivider';
 import { useNavigate } from 'react-router-dom';
 import { TextLink } from '../../components/TextLink';
+import { closeMenu } from '../../common/MenuUtils';
 
 export function HomeScreen () {
   const dispatch = useDispatch();
@@ -29,10 +30,6 @@ export function HomeScreen () {
     dispatch(commonActions.openNavMenu());
   }
 
-  function closeMenu () {
-    dispatch(commonActions.closeNavMenu());
-  }
-
   async function handleLogin () {
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
@@ -41,7 +38,7 @@ export function HomeScreen () {
       e.preventDefault();
       navigate(showLogin);
       dispatch(commonActions.setSlice({ showLogin: null, loggedIn: true }));
-      closeMenu();
+      closeMenu(dispatch);
     }
 
     dispatch(commonActions.openNavMenu({
@@ -64,9 +61,9 @@ export function HomeScreen () {
             </div>
           </div>
           <div className="flex">
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
             <GroupDivider dir="horiz" />
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Login</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Login</NavbarButton>
           </div>
         </form>
       ),
@@ -80,7 +77,7 @@ export function HomeScreen () {
     function onRegister (e) {
       e.preventDefault();
       dispatch(commonActions.setSlice({ showLogin: null, loggedIn: true }));
-      closeMenu();
+      closeMenu(dispatch);
     }
 
     dispatch(commonActions.openNavMenu({
@@ -101,9 +98,9 @@ export function HomeScreen () {
             </div>
           </div>
           <div className="flex">
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
             <GroupDivider dir="horiz" />
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Register</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Register</NavbarButton>
           </div>
         </form>
       ),

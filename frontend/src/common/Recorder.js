@@ -1,6 +1,7 @@
 export class Recorder {
-  constructor ({ onRecordingReady, onRecordingStop }) {
+  constructor ({ onRecordingReady, onRecordingStop, onRecordingError }) {
     this.onRecordingReady = onRecordingReady;
+    this.onRecordingError = onRecordingError;
 
     const setupRecorder = (stream) => {
       window.mediaRecorder = new window.MediaRecorder(stream);
@@ -8,9 +9,11 @@ export class Recorder {
       window.mediaRecorder.addEventListener('stop', onRecordingStop);
     };
 
-    navigator.mediaDevices
+    window.navigator.mediaDevices
       .getUserMedia({ audio: true })
-      .then((stream) => setupRecorder(stream))
+      .then((stream) => {
+        setupRecorder(stream);
+      })
       .catch(err => console.log(err));
   }
 
@@ -19,7 +22,7 @@ export class Recorder {
       if (window.mediaRecorder) {
         window.mediaRecorder.start();
       } else {
-        alert('There was an error in starting the recording. Please make sure there are no other tabs open that are using the microphone. Try refreshing the page or using a different computer.');
+        this.onRecordingError();
       }
     }, 1000);
   }

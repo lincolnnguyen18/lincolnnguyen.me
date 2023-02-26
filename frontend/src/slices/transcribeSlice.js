@@ -12,6 +12,7 @@ import { GroupInput } from '../components/GroupInput';
 import { FormScreen } from '../components/FormScreen';
 import { FormScreenBottom } from '../components/FormScreenBottom';
 import { Group } from '../components/Group';
+import { closeMenu } from '../common/MenuUtils';
 
 const initialState = {
   // default, record, edit
@@ -113,15 +114,11 @@ const openTranscriptsSearch = createAsyncThunk(
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
 
-    function closeMenu () {
-      dispatch(commonActions.closeNavMenu());
-    }
-
     function onSearch (e) {
       e.preventDefault();
       const { keywords, sort } = e.target;
       navigate(`/transcribe/transcripts?keywords=${encodeURIComponent(keywords.value)}&sort=${sort.value}`);
-      closeMenu();
+      closeMenu(dispatch);
     }
 
     dispatch(commonActions.openNavMenu({
@@ -143,9 +140,9 @@ const openTranscriptsSearch = createAsyncThunk(
             </Dropdown>
           </GroupInput>
           <FormScreenBottom>
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
             <GroupDivider dir="horiz" />
-            <NavbarButton onClick={closeMenu} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Search</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Search</NavbarButton>
           </FormScreenBottom>
         </FormScreen>
       ),
