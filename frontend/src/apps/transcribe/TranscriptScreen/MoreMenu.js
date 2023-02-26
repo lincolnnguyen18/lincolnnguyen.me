@@ -14,6 +14,8 @@ import { Blackbox } from '../../../components/BlackBox';
 import { FormScreenBottom } from '../../../components/FormScreenBottom';
 import { languages } from '../../../common/data';
 import { closeMenu, showShortcuts } from '../../../common/MenuUtils';
+import { shortcuts } from './Hotkeys';
+import _ from 'lodash';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
@@ -63,7 +65,7 @@ export function MoreMenu ({ disabled }) {
     }));
   }
 
-  const [defaultPlaybackSpeed, setDefaultPlaybackSpeed] = React.useState(playbackSpeed);
+  // const [defaultPlaybackSpeed, setDefaultPlaybackSpeed] = React.useState(playbackSpeed);
 
   async function openSettings () {
     dispatch(commonActions.hideNavMenuChildren());
@@ -73,9 +75,8 @@ export function MoreMenu ({ disabled }) {
     const minSpeed = 0.5;
 
     function updatePlaybackSpeed (e) {
-      let rounded = Math.round(e.target.value * 100) / 100;
+      let rounded = _.round(e.target.value, 2);
       rounded = Math.max(minSpeed, Math.min(maxSpeed, rounded));
-      setDefaultPlaybackSpeed(rounded);
       dispatch(transcribeActions.setPlaybackSpeed(rounded));
       const label = document.getElementById('playbackspeed-label');
       label.innerText = `${rounded}x`;
@@ -108,14 +109,14 @@ export function MoreMenu ({ disabled }) {
             <Blackbox twStyle="gap-4 py-4">
               <div className="flex justify-between w-full">
                 <span>Slower</span>
-                <span id="playbackspeed-label">{defaultPlaybackSpeed}x</span>
+                <span id="playbackspeed-label">{_.round(playbackSpeed, 2)}x</span>
                 <span>Faster</span>
               </div>
               <input
                 type="range"
                 min={minSpeed}
                 className="appearance-none w-full h-1 bg-white rounded-full white cursor-pointer"
-                defaultValue={defaultPlaybackSpeed}
+                defaultValue={_.round(playbackSpeed, 2)}
                 onChange={updatePlaybackSpeed}
                 onInput={updatePlaybackSpeed}
                 max={maxSpeed}
@@ -206,15 +207,6 @@ export function MoreMenu ({ disabled }) {
   }, [scrollPosition]);
 
   function openShortcuts () {
-    const shortcuts = [
-      { name: 'Play/pause', key: 'K' },
-      { name: 'Start/stop recording', key: 'O' },
-      { name: 'Skip forward', key: 'L' },
-      { name: 'Skip backwards', key: 'J' },
-      { name: 'Switch languages', key: 'P' },
-      { name: 'Speed up', key: ']' },
-      { name: 'Slow down', key: '[' },
-    ];
     showShortcuts({ dispatch, shortcuts });
   }
 

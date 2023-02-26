@@ -33,7 +33,15 @@ export class Transcriber {
       }
     }
 
+    function onEnd () {
+      if (window.lastInterim.trim() !== '') {
+        onFinal(window.lastInterim);
+        window.lastInterim = '';
+      }
+    }
+
     window.recognition.addEventListener('result', onResult);
+    window.recognition.addEventListener('end', onEnd);
   }
 
   start () {

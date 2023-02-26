@@ -11,6 +11,7 @@
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hotkeys-hook": "^4.3.7",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
@@ -64,7 +65,8 @@
         }
       ],
       "react-hooks/exhaustive-deps": "off"
-    }
+    },
+    "ignorePatterns": ["node_modules", "build"]
   },
   "browserslist": {
     "production": [

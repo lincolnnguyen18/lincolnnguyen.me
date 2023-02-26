@@ -206,7 +206,9 @@ const transcribeSlice = createSlice({
       }
     },
     setPlaybackSpeed: (state, action) => {
-      state.playbackSpeed = action.payload;
+      const newSpeed = action.payload;
+      if (newSpeed < 0.5 || newSpeed > 3) return;
+      state.playbackSpeed = newSpeed;
       const audio = document.querySelector('audio');
       if (audio) {
         audio.playbackRate = action.payload;

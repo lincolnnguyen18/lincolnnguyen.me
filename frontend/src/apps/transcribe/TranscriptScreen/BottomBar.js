@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { formatFloatToTime } from '../../../common/stringUtils.js';
 import { twMerge } from 'tailwind-merge';
-import { commonActions, commonSelector } from '../../../slices/commonSlice';
-import { wait } from '../../../common/timeUtils';
+import { commonSelector } from '../../../slices/commonSlice';
 import { languages } from '../../../common/data';
 import { closeMenu, openConfirm } from '../../../common/MenuUtils';
+import { handlePlayPause, restartTranscriber, seekTo, startStopRecording, switchLanguages } from './Hotkeys';
 
 export function BottomBar () {
   const dispatch = useDispatch();
@@ -18,49 +18,6 @@ export function BottomBar () {
   function updateCurrentTime (e) {
     dispatch(transcribeActions.setSlice({ currentTime: e.target.value }));
     audio.currentTime = e.target.value;
-  }
-
-  function seekForward () {
-    dispatch(transcribeActions.setSlice({ currentTime: currentTime + 5 }));
-    audio.currentTime = currentTime + 5;
-  }
-
-  function seekBackward () {
-    dispatch(transcribeActions.setSlice({ currentTime: currentTime - 5 }));
-    audio.currentTime = currentTime - 5;
-  }
-
-  function handlePlay () {
-    dispatch(transcribeActions.setSlice({ playing: true }));
-    audio.play();
-  }
-
-  function handlePause () {
-    audio.pause();
-    dispatch(transcribeActions.setSlice({ playing: false }));
-  }
-
-  async function handleStop () {
-    recorder.stop();
-    transcriber.stop();
-    window.lastInterim = '';
-    dispatch(transcribeActions.setSlice({ interimResult: '' }));
-  }
-
-  function handleRestart () {
-    transcriber.stop();
-    window.lastInterim = '';
-  }
-
-  function handleSwitchLanguages () {
-    if (interimResult !== '') {
-      dispatch(transcribeActions.setSlice({ switchingLanguages: true }));
-    } else {
-      dispatch(transcribeActions.switchLanguages());
-    }
-    // dispatch(transcribeActions.switchLanguages());
-    window.recognition.stop();
-    window.lastInterim = '';
   }
 
   function handleDelete () {
@@ -87,21 +44,9 @@ export function BottomBar () {
 
   if (mode === 'default') {
     if (partsOrder.length === 0) {
-      async function handleStart () {
-        dispatch(transcribeActions.addPart());
-        recorder.start();
-        transcriber.start();
-        dispatch(transcribeActions.setSlice({ createdAt: Date.now(), mode: 'record' }));
-        window.interval = setInterval(() => {
-          dispatch(transcribeActions.incrementDuration(0.1));
-        }, 100);
-        await wait(50);
-        dispatch(commonActions.scrollToBottom(true));
-      }
-
       return (
         <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-center bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-[border-radius] duration-300 transition-all duration-300'>
-          <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={handleStart} disabled={!transcriptionSupported}>
+          <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={() => startStopRecording(dispatch, recorder, transcriber, mode)} disabled={!transcriptionSupported}>
             <span className='icon-mic' />
             <span className="sm:text-base text-sm overflow-hidden truncate max-w-[270px]">Start transcribing in {getLanguageName()}</span>
           </Button>
@@ -129,9 +74,9 @@ export function BottomBar () {
             <div className="flex items-center gap-1 justify-between">
               <span className="text-sm">{formatFloatToTime(currentTime)}</span>
               <div className="flex items-center gap-7 transition-all duration-300 absolute transform -translate-x-1/2 left-1/2">
-                <Button twStyle="icon-back-5" onClick={seekBackward} />
-                <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} onClick={playing ? handlePause : handlePlay} />
-                <Button twStyle="icon-forward-5" onClick={seekForward} />
+                <Button twStyle="icon-back-5" onClick={() => seekTo(dispatch, currentTime - 5)} />
+                <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} onClick={() => handlePlayPause(dispatch, playing)} />
+                <Button twStyle="icon-forward-5" onClick={() => seekTo(dispatch, currentTime + 5)} />
               </div>
               <span className="text-sm">{formatFloatToTime(Math.round(maxTime))}</span>
             </div>
@@ -145,14 +90,14 @@ export function BottomBar () {
         <span className="sm:text-sm text-xs">{formatFloatToTime(parts[currentPartId]?.duration || 0)}</span>
         {/*currentLanguage.split('-')[1].toUpperCase()*/}
         <div className="flex gap-3 items-center">
-          <Button twStyle="select-auto" onClick={handleSwitchLanguages} disabled={switchingLanguages}>
+          <Button twStyle="select-auto" onClick={() => switchLanguages(dispatch, interimResult)} disabled={switchingLanguages}>
             <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{languages.find(l => l.name === transcribeLanguage).code}</span>
           </Button>
-          {cutOffType === 'manual' && <Button twStyle="select-auto" onClick={handleRestart}>
+          {cutOffType === 'manual' && <Button twStyle="select-auto" onClick={() => restartTranscriber(transcriber)}>
             <span className='icon-refresh' />
           </Button>}
         </div>
-        <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto absolute left-1/2 transform -translate-x-1/2" onClick={handleStop}>
+        <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto absolute left-1/2 transform -translate-x-1/2" onClick={() => startStopRecording(dispatch, recorder, transcriber, mode)}>
           <span className='icon-mic' />
           <span className="sm:text-base text-sm">Stop transcribing</span>
         </Button>

@@ -28,8 +28,9 @@ import { Translator } from '../../../common/Translator';
 import { FormScreen } from '../../../components/FormScreen';
 import { FormScreenBottom } from '../../../components/FormScreenBottom';
 import { Group } from '../../../components/Group';
-import { languages } from '../../../common/data';
 import { closeMenu, openAlert } from '../../../common/MenuUtils';
+import { languages } from '../../../common/data';
+import { Hotkeys } from './Hotkeys';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
@@ -377,6 +378,7 @@ export function TranscriptScreen () {
 
   return (
     <>
+      <Hotkeys />
       <audio hidden={true} id="audio" />
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
