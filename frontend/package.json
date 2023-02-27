@@ -64,7 +64,8 @@
           "argsIgnorePattern": "^_"
         }
       ],
-      "react-hooks/exhaustive-deps": "off"
+      "react-hooks/exhaustive-deps": "off",
+      "prefer-const": "error"
     },
     "ignorePatterns": ["node_modules", "build"]
   },

@@ -27,7 +27,7 @@ const typeDefs = `
     }
 
     type Error {
-        fields: [String!]!
+        field: [String!]!
         message: String!
     }
     
@@ -48,8 +48,8 @@ const typeDefs = `
 const resolvers = {
   Query: {
     // parent, args, ctx, info
-    user: async (_, args, ctx) => {
-      console.log('ctx', ctx);
+    user: async (_, __, { id }) => {
+      if (!id) throw new Error('Unauthorized');
       return null;
     },
     login: async () => {
@@ -57,8 +57,10 @@ const resolvers = {
     },
   },
   Mutation: {
-    register: async () => {
-      return null;
+    register: async (_, args) => {
+      // const { username, password, confirmPassword } = args;
+      console.log(args);
+      return [];
     },
   },
 };
