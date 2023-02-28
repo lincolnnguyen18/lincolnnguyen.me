@@ -9,7 +9,7 @@
     "test": "NODE_ENV=test node --experimental-vm-modules ./node_modules/.bin/jest",
     "prismaCreate": "dotenv -e .env.test -- npx prisma migrate dev --create-only",
     "prismaMigrate": "dotenv -e .env.test -- npx prisma migrate dev && npm run copyPrismaClient",
-    "copyPrismaClient": "cp ./prisma/schema.prisma ../aws-cdk/src/schema.prisma && (cd ../aws-cdk/src && prisma generate)"
+    "copyPrismaClient": "cp ./prisma/schema.prisma ../aws-cdk/lambda/schema.prisma && (cd ../aws-cdk/lambda && prisma generate)"
   },
   "keywords": [],
   "author": "",

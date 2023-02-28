@@ -1,5 +1,5 @@
-import { putUserRecord } from './testData.js';
-import { ddbStreamRecordHandler, putUserHandler } from './ddbStreamRecordHandler.js';
+import { putUserRecord } from '../common/testData.js';
+import { ddbStreamRecordHandler, putUserHandler } from '../lambda/ddbStreamRecordHandler.js';
 
 describe('ddbStreamRecordHandler', () => {
   it('putUser', async () => {

@@ -1,37 +1,44 @@
-import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as cdk from 'aws-cdk-lib';
+import dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import lambda from 'aws-cdk-lib/aws-lambda';
+import cdk from 'aws-cdk-lib';
+import ec2 from 'aws-cdk-lib/aws-ec2';
 import { DynamoEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 
-class LincolnnguyenCdkStack extends cdk.Stack {
+class LincolnnguyenBackendStack extends cdk.Stack {
   constructor (scope, id, props) {
     super(scope, id, props);
 
-    // const vpc = new ec2.Vpc(this, 'lincolnnguyen-vpc', {
-    //   maxAzs: 2,
-    //   natGateways: 0,
-    //   subnetConfiguration: [
-    //     {
-    //       name: 'public',
-    //       subnetType: ec2.SubnetType.PUBLIC,
-    //       cidrMask: 28,
-    //     },
-    //   ],
-    // });
+    const vpc = new ec2.Vpc(this, 'lincolnnguyen-vpc', {
+      ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
+      natGateways: 0,
+      maxAzs: 2,
+    });
 
-    // const rdsSecurityGroup = new ec2.SecurityGroup(this, 'lincolnnguyen-rds-security-group', {
-    //   vpc,
-    //   allowAllOutbound: true,
-    // });
-    //
-    // rdsSecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(3306));
+    const sg = new ec2.SecurityGroup(this, 'lincolnnguyen-sg', {
+      vpc,
+      allowAllOutbound: true,
+    });
+    sg.addIngressRule(ec2.Peer.ipv4('0.0.0.0/0'), ec2.Port.allTraffic());
 
     const lambdaFunction = new lambda.Function(this, 'lincolnnguyen-ddb-stream-lambda', {
-      code: lambda.Code.fromAsset('src'),
+      code: lambda.Code.fromAsset('lambda'),
       handler: 'index.handler',
       functionName: 'lincolnnguyen-ddb-stream-lambda',
       runtime: lambda.Runtime.NODEJS_14_X,
+      timeout: cdk.Duration.seconds(30),
     });
+
+    // const rds = new ServerlessCluster(this, 'lincolnnguyen-rds', {
+    //   engine: DatabaseClusterEngine.AURORA_POSTGRESQL,
+    //   vpc,
+    //   credentials: {
+    //     username: environment.RDS_USERNAME,
+    //     password: environment.RDS_PASSWORD,
+    //   },
+    //   defaultDatabaseName: environment.RDS_DB_NAME,
+    //   clusterIdentifier: 'lincolnnguyen-rds',
+    //   removalPolicy: cdk.RemovalPolicy.DESTROY,
+    // });
 
     // const rdsSubnetGroup = new rds.SubnetGroup(this, 'lincolnnguyen-rds', {
     //   vpc,
@@ -57,7 +64,7 @@ class LincolnnguyenCdkStack extends cdk.Stack {
     //
     // rdsDatabase.connections.allowDefaultPortFromAnyIpv4('Open to the world');
 
-    const table = new dynamodb.Table(this, 'lincolnnguyen', {
+    const table = new dynamodb.Table(this, 'lincolnnguyen-ddb', {
       tableName: 'lincolnnguyen',
       partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
       sortKey: { name: 'sk', type: dynamodb.AttributeType.STRING },
@@ -79,4 +86,4 @@ class LincolnnguyenCdkStack extends cdk.Stack {
   }
 }
 
-export { LincolnnguyenCdkStack };
+export { LincolnnguyenBackendStack };

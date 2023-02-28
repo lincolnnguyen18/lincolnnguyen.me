@@ -1,4 +1,5 @@
-import { userSqlDao } from '../daos/userSqlDao.mjs';
+import { userSqlDao } from '../daos/userSqlDao.js';
+import { logger } from './utils.js';
 
 class DdbStreamRecordHandler {
   constructor () {
@@ -23,10 +24,13 @@ async function putUserHandler ({ eventName, record }) {
   if (!canHandle()) return;
 
   const id = record.sk;
-  return userSqlDao.putUser({
+  logger.log('id', id);
+  const res = await userSqlDao.putUser({
     id,
     ...record,
   });
+  logger.log('res', res);
+  return res;
 }
 
 const ddbStreamRecordHandler = new DdbStreamRecordHandler();

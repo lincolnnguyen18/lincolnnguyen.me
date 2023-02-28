@@ -9,19 +9,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="UserSqlDao putUser, lambda ddb stream record handler">
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Add vpc, sg to cdk, refactor lambda">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk/bin/lincolnnguyen-cdk.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/bin/lincolnnguyen-cdk.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-cdk-stack.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="ChangesViewManager">
-    <option name="groupingKeys">
-      <option value="directory" />
-    </option>
   </component>
   <component name="FormatOnSaveOptions">
     <option name="myRunOnSave" value="false" />
@@ -183,7 +180,7 @@
     "eslint.code.style.apply.dismiss": "true",
     "javascript.nodejs.core.library.configured.version": "19.4.0",
     "javascript.nodejs.core.library.typings.version": "18.14.2",
-    "last_opened_file_path": "/Users/lincolnnguyen/repos/lincolnnguyen.me/aws-cdk/src",
+    "last_opened_file_path": "/Users/lincolnnguyen/repos/lincolnnguyen.me/aws-cdk/lambda/common",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
@@ -214,18 +211,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/aws-cdk/lambda/common" />
       <recent name="$PROJECT_DIR$/aws-cdk/src" />
       <recent name="$PROJECT_DIR$/aws-cdk/src/daos" />
       <recent name="$PROJECT_DIR$/aws-cdk/src/common" />
       <recent name="$PROJECT_DIR$/backend2/src/daos" />
-      <recent name="$PROJECT_DIR$/lincolnnguyen-cdk" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend2/src/lambda" />
+      <recent name="$PROJECT_DIR$/backend2/src/tests" />
+      <recent name="$PROJECT_DIR$/backend2/src/lambda-tests" />
+      <recent name="$PROJECT_DIR$/aws-cdk/src" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/backend2/src" />
-      <recent name="$PROJECT_DIR$/ddb-streams-test" />
-      <recent name="$PROJECT_DIR$/backend2/common" />
-      <recent name="$PROJECT_DIR$/frontend3" />
     </key>
   </component>
   <component name="RunManager" selected="Jest.userDao.putUser">
@@ -404,13 +401,6 @@
       <workItem from="1677574098413" duration="41000" />
       <workItem from="1677574145995" duration="197000" />
       <workItem from="1677574353504" duration="5833000" />
-    </task>
-    <task id="LOCAL-00216" summary="Recording mode, scroll down on new result">
-      <created>1676791021351</created>
-      <option name="number" value="00216" />
-      <option name="presentableId" value="LOCAL-00216" />
-      <option name="project" value="LOCAL" />
-      <updated>1676791021351</updated>
     </task>
     <task id="LOCAL-00217" summary="Add playback speed controls">
       <created>1676796411673</created>
@@ -748,7 +738,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677580189720</updated>
     </task>
-    <option name="localTasksCounter" value="265" />
+    <task id="LOCAL-00265" summary="Add vpc, sg to cdk, refactor lambda">
+      <created>1677623207430</created>
+      <option name="number" value="00265" />
+      <option name="presentableId" value="LOCAL-00265" />
+      <option name="project" value="LOCAL" />
+      <updated>1677623207430</updated>
+    </task>
+    <option name="localTasksCounter" value="266" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -783,7 +780,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Finish move from parcel to CRA" />
     <MESSAGE value="Add Translator.js" />
     <MESSAGE value="Translate each final result" />
     <MESSAGE value="Search subnav" />
@@ -808,6 +804,7 @@
     <MESSAGE value="Switch between transcription modes shortcut, adjust step size of speed range slider, fix incorrect timestamp bug, restore auto scroll button" />
     <MESSAGE value="UserDao putUser, start aws cdk rewrite" />
     <MESSAGE value="UserSqlDao putUser, lambda ddb stream record handler" />
-    <option name="LAST_COMMIT_MESSAGE" value="UserSqlDao putUser, lambda ddb stream record handler" />
+    <MESSAGE value="Add vpc, sg to cdk, refactor lambda" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add vpc, sg to cdk, refactor lambda" />
   </component>
 </project>
