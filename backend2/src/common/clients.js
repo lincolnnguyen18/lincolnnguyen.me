@@ -1,6 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { environment } from './environment.js';
+import { PrismaClient } from '@prisma/client';
 
 const ddb = new DynamoDBClient({
   region: environment.AWS_REGION,
@@ -10,6 +11,8 @@ const ddb = new DynamoDBClient({
   },
 });
 
+const prismaClient = new PrismaClient();
+
 const ddbClient = DynamoDBDocumentClient.from(ddb);
 
-export { ddbClient };
+export { ddbClient, prismaClient };

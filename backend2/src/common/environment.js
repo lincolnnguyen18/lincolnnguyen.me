@@ -7,7 +7,7 @@ const environment = {
   AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
   AWS_REGION: process.env.AWS_REGION,
   PORT: process.env.PORT,
-  MAIN_TABLE_NAME: process.env.MAIN_TABLE_NAME,
+  DDB_MAIN_TABLE: process.env.DDB_MAIN_TABLE,
 };
 
 export { environment };

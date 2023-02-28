@@ -1,14 +1,13 @@
 import { ddbClient } from '../common/clients.js';
 import { PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { environment } from '../common/environment.js';
-import { uuid } from '../common/stringUtils.js';
 
-class UserDao {
+class UserDynamoDao {
   constructor (tableName) {
     this.tableName = tableName;
   }
 
-  async putUser ({ username, password }) {
+  async putUser ({ id, username, password, playbackSpeed = 1, transcribeLang = 'Japanese', translateLang = 'English (United States)', createdAt, updatedAt }) {
     let params = {
       TableName: this.tableName,
       IndexName: 'usernameIdLookupIndex',
@@ -28,12 +27,14 @@ class UserDao {
       TableName: this.tableName,
       Item: {
         pk: 'userData',
-        sk: uuid(),
+        sk: id,
         username,
         password,
-        playbackSpeed: 1.0,
-        transcribeLang: 'Japanese',
-        translateLang: 'English (United States)',
+        playbackSpeed,
+        transcribeLang,
+        translateLang,
+        createdAt,
+        updatedAt,
       },
       ConditionExpression: 'attribute_not_exists(pk)',
     };
@@ -47,6 +48,6 @@ class UserDao {
   }
 }
 
-const userDao = new UserDao(environment.MAIN_TABLE_NAME);
+const userDynamoDao = new UserDynamoDao(environment.DDB_MAIN_TABLE);
 
-export { UserDao, userDao };
+export { UserDynamoDao, userDynamoDao };

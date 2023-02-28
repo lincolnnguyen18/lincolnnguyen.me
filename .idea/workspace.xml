@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYZE_INJECTED_CODE" value="false" />
+    <option name="SCOPE_TYPE" value="8" />
+    <option name="CUSTOM_SCOPE_NAME" value="frontend2" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="UserSqlDao putUser, lambda ddb stream record handler">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="false" />
+    <option name="myAllFileTypesSelected" value="true" />
+    <option name="mySelectedFileTypes">
+      <set />
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="3eb48a18b4836448caa1a64997c033848b668820" />
+      </map>
+    </option>
+    <option name="RESET_MODE" value="MIXED" />
+  </component>
+  <component name="GitRewordedCommitMessages">
+    <option name="commitMessagesMapping">
+      <RewordedCommitMessageMapping>
+        <option name="originalMessage" value="Add edit parts ability to TranscriptionScreen" />
+        <option name="rewordedMessage" value="Add edit parts ability to TranscriptionScreen" />
+      </RewordedCommitMessageMapping>
+    </option>
+    <option name="currentCommit" value="1" />
+    <option name="onto" value="23a06fa3c028eb3be3d7c0355bda6d8ba99b7022" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@babel/core/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@babel/eslint-parser/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@babel/generator/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@babel/helper-compilation-targets/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@babel/helper-define-polyfill-provider/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@babel/plugin-transform-runtime/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@babel/preset-env/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@eslint/eslintrc/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@istanbuljs/load-nyc-config/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@jest/console/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@jest/core/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@jest/expect-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@jest/reporters/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@jest/source-map/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@jest/transform/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@jest/types/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@jridgewell/source-map/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@rollup/pluginutils/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@testing-library/dom/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@testing-library/jest-dom/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@testing-library/react/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/@typescript-eslint/utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/acorn-globals/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/acorn-node/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/ajv-formats/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/babel-jest/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/babel-loader/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/babel-plugin-polyfill-corejs2/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/body-parser/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/chokidar/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/clean-css/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/compression/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/css-minimizer-webpack-plugin/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/css-tree/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/csso/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/cssstyle/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/detect-port-alt/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/domexception/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/escodegen/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/eslint-import-resolver-node/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/eslint-plugin-import/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/eslint-plugin-jsx-a11y/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/eslint-plugin-react/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/eslint-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/eslint-webpack-plugin/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/eslint/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/express/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/fast-glob/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/finalhandler/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/fork-ts-checker-webpack-plugin/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/global-prefix/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/hoist-non-react-statics/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/hpack.js/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/import-fresh/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/istanbul-lib-instrument/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/istanbul-lib-report/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/istanbul-lib-source-maps/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jake/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-circus/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-cli/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-config/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-diff/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-each/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-jasmine2/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-matcher-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-message-util/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-resolve/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-runner/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-runtime/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-snapshot/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-util/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-validate/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-watch-typeahead/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-watcher/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-worker/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/make-dir/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/mini-css-extract-plugin/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/pkg-dir/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/pkg-up/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/postcss-svgo/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/pretty-format/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/prop-types/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/proxy-addr/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/raw-body/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/react-dev-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/react-redux/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/regjsparser/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/resolve-url-loader/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/rollup-plugin-terser/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/semver/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/send/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/serve-index/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/sockjs/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/source-map-support/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/stack-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/string-width/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/supports-hyperlinks/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/svgo/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/tailwindcss/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/tempy/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/terser/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/tough-cookie/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/tsconfig-paths/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/tsutils/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/webpack-dev-middleware/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/webpack-dev-server/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/webpack-manifest-plugin/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/webpack/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/whatwg-encoding/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/workbox-build/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/workbox-webpack-plugin/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/wrap-ansi/package.json" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2JPxu5B73Zsl0Hqt6XMxPVM9nQz" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "eslint.code.style.apply.dismiss": "true",
+    "javascript.nodejs.core.library.configured.version": "19.4.0",
+    "javascript.nodejs.core.library.typings.version": "18.14.2",
+    "last_opened_file_path": "/Users/lincolnnguyen/repos/lincolnnguyen.me/aws-cdk/src",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs.jest.jest_package": "/Users/lincolnnguyen/repos/lincolnnguyen.me/backend2/node_modules/jest",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "JavaScript.Libraries",
+    "ts.external.directory.path": "/Users/lincolnnguyen/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/223.8617.44/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql",
+      "postgresql"
+    ],
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/Change SQL Dialect": [
+      "PostgreSQL"
+    ],
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "TEXT",
+      "JavaScript",
+      "GraphQL"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/aws-cdk/src" />
+      <recent name="$PROJECT_DIR$/aws-cdk/src/daos" />
+      <recent name="$PROJECT_DIR$/aws-cdk/src/common" />
+      <recent name="$PROJECT_DIR$/backend2/src/daos" />
+      <recent name="$PROJECT_DIR$/lincolnnguyen-cdk" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/backend2/src" />
+      <recent name="$PROJECT_DIR$/ddb-streams-test" />
+      <recent name="$PROJECT_DIR$/backend2/common" />
+      <recent name="$PROJECT_DIR$/frontend3" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Jest.userDao.putUser">
+    <configuration name="ddbStreamRecordHandler" type="JavaScriptTestRunnerJest" nameIsGenerated="true">
+      <config-file value="$PROJECT_DIR$/.idea/runConfigurations/backendDevConfig.xml" />
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend2" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/backend2/src/common/ddbStreamRecordHandler.test.js" />
+      <test-names>
+        <test-name value="ddbStreamRecordHandler" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="ddbStreamRecordHandler.putUser" type="JavaScriptTestRunnerJest" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend2" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend2/src/common/ddbStreamRecordHandler.test.js" />
+      <test-names>
+        <test-name value="ddbStreamRecordHandler" />
+        <test-name value="putUser" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="handlers.putUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend2" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend2/src/common/ddbStreamRecordHandler.test.js" />
+      <test-names>
+        <test-name value="handlers" />
+        <test-name value="putUser" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="userDao.putUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend2" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" />
+      <test-names>
+        <test-name value="userDao" />
+        <test-name value="putUser" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="copyPrismaClient" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/backend2/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="copyPrismaClient" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/backend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Jest.ddbStreamRecordHandler" />
+      <item itemvalue="Jest.ddbStreamRecordHandler.putUser" />
+      <item itemvalue="Jest.handlers.putUser" />
+      <item itemvalue="Jest.userDao.putUser" />
+      <item itemvalue="npm.start" />
+      <item itemvalue="npm.copyPrismaClient" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Jest.userDao.putUser" />
+        <item itemvalue="npm.copyPrismaClient" />
+        <item itemvalue="Jest.handlers.putUser" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="" />
+      <created>1671993739427</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1671993739427</updated>
+      <workItem from="1671993739845" duration="2886000" />
+      <workItem from="1672031227710" duration="13000" />
+      <workItem from="1672031249568" duration="4002000" />
+      <workItem from="1672086066829" duration="8489000" />
+      <workItem from="1672117128780" duration="7505000" />
+      <workItem from="1672166217410" duration="7590000" />
+      <workItem from="1672180072160" duration="6732000" />
+      <workItem from="1672189377064" duration="85638000" />
+      <workItem from="1672393536045" duration="2971000" />
+      <workItem from="1672396526761" duration="26332000" />
+      <workItem from="1672535038065" duration="48697000" />
+      <workItem from="1672807505661" duration="38196000" />
+      <workItem from="1672889431472" duration="15494000" />
+      <workItem from="1672917271463" duration="3685000" />
+      <workItem from="1672939154323" duration="7933000" />
+      <workItem from="1672978377665" duration="18112000" />
+      <workItem from="1673039789030" duration="1676000" />
+      <workItem from="1673046220413" duration="5012000" />
+      <workItem from="1673074463202" duration="332000" />
+      <workItem from="1673075022140" duration="30000" />
+      <workItem from="1673075111015" duration="28000" />
+      <workItem from="1673075202215" duration="82820000" />
+      <workItem from="1673832173899" duration="66307000" />
+      <workItem from="1673955362931" duration="1696000" />
+      <workItem from="1673957077138" duration="29139000" />
+      <workItem from="1674031404911" duration="17000000" />
+      <workItem from="1674168606197" duration="8000" />
+      <workItem from="1674260717880" duration="3308000" />
+      <workItem from="1674362596368" duration="1230000" />
+      <workItem from="1674600336433" duration="505000" />
+      <workItem from="1674600851008" duration="645000" />
+      <workItem from="1674601789812" duration="632000" />
+      <workItem from="1674610753906" duration="33000" />
+      <workItem from="1674610793812" duration="3508000" />
+      <workItem from="1674620289211" duration="1752000" />
+      <workItem from="1674884186388" duration="4104000" />
+      <workItem from="1675011744753" duration="138000" />
+      <workItem from="1675011891207" duration="53557000" />
+      <workItem from="1675102771727" duration="20531000" />
+      <workItem from="1675221781128" duration="3636000" />
+      <workItem from="1675277776805" duration="22463000" />
+      <workItem from="1675395566368" duration="6548000" />
+      <workItem from="1675483154870" duration="6375000" />
+      <workItem from="1675494716331" duration="59800000" />
+      <workItem from="1675649430687" duration="38219000" />
+      <workItem from="1675754125573" duration="328000" />
+      <workItem from="1675754521000" duration="18884000" />
+      <workItem from="1675849795358" duration="3691000" />
+      <workItem from="1675853909689" duration="24442000" />
+      <workItem from="1676051767565" duration="21903000" />
+      <workItem from="1676084328242" duration="7667000" />
+      <workItem from="1676236545681" duration="14138000" />
+      <workItem from="1676420880441" duration="2021000" />
+      <workItem from="1676423117478" duration="3287000" />
+      <workItem from="1676626447490" duration="5573000" />
+      <workItem from="1676665553782" duration="2851000" />
+      <workItem from="1676670624616" duration="13663000" />
+      <workItem from="1676702825054" duration="35810000" />
+      <workItem from="1676857377238" duration="14779000" />
+      <workItem from="1676969140733" duration="5757000" />
+      <workItem from="1677008178333" duration="24795000" />
+      <workItem from="1677052881742" duration="76488000" />
+      <workItem from="1677305195442" duration="24885000" />
+      <workItem from="1677374479550" duration="54000" />
+      <workItem from="1677374539398" duration="83000" />
+      <workItem from="1677374630911" duration="380000" />
+      <workItem from="1677375013436" duration="29000" />
+      <workItem from="1677375047976" duration="14719000" />
+      <workItem from="1677390109754" duration="40530000" />
+      <workItem from="1677523595215" duration="6524000" />
+      <workItem from="1677540744146" duration="5542000" />
+      <workItem from="1677547133502" duration="15081000" />
+      <workItem from="1677574098413" duration="41000" />
+      <workItem from="1677574145995" duration="197000" />
+      <workItem from="1677574353504" duration="5833000" />
+    </task>
+    <task id="LOCAL-00216" summary="Recording mode, scroll down on new result">
+      <created>1676791021351</created>
+      <option name="number" value="00216" />
+      <option name="presentableId" value="LOCAL-00216" />
+      <option name="project" value="LOCAL" />
+      <updated>1676791021351</updated>
+    </task>
+    <task id="LOCAL-00217" summary="Add playback speed controls">
+      <created>1676796411673</created>
+      <option name="number" value="00217" />
+      <option name="presentableId" value="LOCAL-00217" />
+      <option name="project" value="LOCAL" />
+      <updated>1676796411674</updated>
+    </task>
+    <task id="LOCAL-00218" summary="Highlight current line">
+      <created>1676799946774</created>
+      <option name="number" value="00218" />
+      <option name="presentableId" value="LOCAL-00218" />
+      <option name="project" value="LOCAL" />
+      <updated>1676799946774</updated>
+    </task>
+    <task id="LOCAL-00219" summary="Backup">
+      <created>1676800807295</created>
+      <option name="number" value="00219" />
+      <option name="presentableId" value="LOCAL-00219" />
+      <option name="project" value="LOCAL" />
+      <updated>1676800807296</updated>
+    </task>
+    <task id="LOCAL-00220" summary="Playback, scroll active line into view every second">
+      <created>1676842283621</created>
+      <option name="number" value="00220" />
+      <option name="presentableId" value="LOCAL-00220" />
+      <option name="project" value="LOCAL" />
+      <updated>1676842283621</updated>
+    </task>
+    <task id="LOCAL-00221" summary="Autoscroll button when recording">
+      <created>1676849617342</created>
+      <option name="number" value="00221" />
+      <option name="presentableId" value="LOCAL-00221" />
+      <option name="project" value="LOCAL" />
+      <updated>1676849617342</updated>
+    </task>
+    <task id="LOCAL-00222" summary="Hide sync scroll button">
+      <created>1676850174916</created>
+      <option name="number" value="00222" />
+      <option name="presentableId" value="LOCAL-00222" />
+      <option name="project" value="LOCAL" />
+      <updated>1676850174916</updated>
+    </task>
+    <task id="LOCAL-00223" summary="Add seek buttons">
+      <created>1676851306974</created>
+      <option name="number" value="00223" />
+      <option name="presentableId" value="LOCAL-00223" />
+      <option name="project" value="LOCAL" />
+      <updated>1676851306974</updated>
+    </task>
+    <task id="LOCAL-00224" summary="Add dropdown component">
+      <created>1676859271858</created>
+      <option name="number" value="00224" />
+      <option name="presentableId" value="LOCAL-00224" />
+      <option name="project" value="LOCAL" />
+      <updated>1676859271859</updated>
+    </task>
+    <task id="LOCAL-00225" summary="Delete selected parts in edit mode">
+      <created>1676965504608</created>
+      <option name="number" value="00225" />
+      <option name="presentableId" value="LOCAL-00225" />
+      <option name="project" value="LOCAL" />
+      <updated>1676965504608</updated>
+    </task>
+    <task id="LOCAL-00226" summary="Auto restart transcriber on timeout">
+      <created>1676968177687</created>
+      <option name="number" value="00226" />
+      <option name="presentableId" value="LOCAL-00226" />
+      <option name="project" value="LOCAL" />
+      <updated>1676968177687</updated>
+    </task>
+    <task id="LOCAL-00227" summary="Auto restart transcriber on timeout">
+      <created>1676969266789</created>
+      <option name="number" value="00227" />
+      <option name="presentableId" value="LOCAL-00227" />
+      <option name="project" value="LOCAL" />
+      <updated>1676969266789</updated>
+    </task>
+    <task id="LOCAL-00228" summary="Confirm modal when deleting parts from transcript">
+      <created>1676973235491</created>
+      <option name="number" value="00228" />
+      <option name="presentableId" value="LOCAL-00228" />
+      <option name="project" value="LOCAL" />
+      <updated>1676973235491</updated>
+    </task>
+    <task id="LOCAL-00229" summary="Start Translator.js">
+      <created>1677011782173</created>
+      <option name="number" value="00229" />
+      <option name="presentableId" value="LOCAL-00229" />
+      <option name="project" value="LOCAL" />
+      <updated>1677011782174</updated>
+    </task>
+    <task id="LOCAL-00230" summary="Start move from parcel to CRA">
+      <created>1677015344866</created>
+      <option name="number" value="00230" />
+      <option name="presentableId" value="LOCAL-00230" />
+      <option name="project" value="LOCAL" />
+      <updated>1677015344866</updated>
+    </task>
+    <task id="LOCAL-00231" summary="Finish move from parcel to CRA">
+      <created>1677016021356</created>
+      <option name="number" value="00231" />
+      <option name="presentableId" value="LOCAL-00231" />
+      <option name="project" value="LOCAL" />
+      <updated>1677016021356</updated>
+    </task>
+    <task id="LOCAL-00232" summary="Add Translator">
+      <created>1677043936919</created>
+      <option name="number" value="00232" />
+      <option name="presentableId" value="LOCAL-00232" />
+      <option name="project" value="LOCAL" />
+      <updated>1677043936919</updated>
+    </task>
+    <task id="LOCAL-00233" summary="Translate each final result">
+      <created>1677050728045</created>
+      <option name="number" value="00233" />
+      <option name="presentableId" value="LOCAL-00233" />
+      <option name="project" value="LOCAL" />
+      <updated>1677050728045</updated>
+    </task>
+    <task id="LOCAL-00234" summary="Backup">
+      <created>1677053843457</created>
+      <option name="number" value="00234" />
+      <option name="presentableId" value="LOCAL-00234" />
+      <option name="project" value="LOCAL" />
+      <updated>1677053843458</updated>
+    </task>
+    <task id="LOCAL-00235" summary="Search subnav">
+      <created>1677124127289</created>
+      <option name="number" value="00235" />
+      <option name="presentableId" value="LOCAL-00235" />
+      <option name="project" value="LOCAL" />
+      <updated>1677124127289</updated>
+    </task>
+    <task id="LOCAL-00236" summary="Search subnav">
+      <created>1677133714366</created>
+      <option name="number" value="00236" />
+      <option name="presentableId" value="LOCAL-00236" />
+      <option name="project" value="LOCAL" />
+      <updated>1677133714366</updated>
+    </task>
+    <task id="LOCAL-00237" summary="Search url query load search params">
+      <created>1677138256480</created>
+      <option name="number" value="00237" />
+      <option name="presentableId" value="LOCAL-00237" />
+      <option name="project" value="LOCAL" />
+      <updated>1677138256480</updated>
+    </task>
+    <task id="LOCAL-00238" summary="Fix bugs; translate language was not being updated properly, other bugs...">
+      <created>1677194953855</created>
+      <option name="number" value="00238" />
+      <option name="presentableId" value="LOCAL-00238" />
+      <option name="project" value="LOCAL" />
+      <updated>1677194953855</updated>
+    </task>
+    <task id="LOCAL-00239" summary="Delete old frontend">
+      <created>1677195324473</created>
+      <option name="number" value="00239" />
+      <option name="presentableId" value="LOCAL-00239" />
+      <option name="project" value="LOCAL" />
+      <updated>1677195324473</updated>
+    </task>
+    <task id="LOCAL-00240" summary="Unify languages, switch languages button">
+      <created>1677202965408</created>
+      <option name="number" value="00240" />
+      <option name="presentableId" value="LOCAL-00240" />
+      <option name="project" value="LOCAL" />
+      <updated>1677202965408</updated>
+    </task>
+    <task id="LOCAL-00241" summary="Unify languages, switch languages button">
+      <created>1677204597403</created>
+      <option name="number" value="00241" />
+      <option name="presentableId" value="LOCAL-00241" />
+      <option name="project" value="LOCAL" />
+      <updated>1677204597403</updated>
+    </task>
+    <task id="LOCAL-00242" summary="Disable tags, indicate language in transcribe button">
+      <created>1677205709720</created>
+      <option name="number" value="00242" />
+      <option name="presentableId" value="LOCAL-00242" />
+      <option name="project" value="LOCAL" />
+      <updated>1677205709720</updated>
+    </task>
+    <task id="LOCAL-00243" summary="Fix switching languages bug">
+      <created>1677230141446</created>
+      <option name="number" value="00243" />
+      <option name="presentableId" value="LOCAL-00243" />
+      <option name="project" value="LOCAL" />
+      <updated>1677230141446</updated>
+    </task>
+    <task id="LOCAL-00244" summary="Fix switching languages bug">
+      <created>1677233050186</created>
+      <option name="number" value="00244" />
+      <option name="presentableId" value="LOCAL-00244" />
+      <option name="project" value="LOCAL" />
+      <updated>1677233050187</updated>
+    </task>
+    <task id="LOCAL-00245" summary="Indicate langauge on start transcribe button">
+      <created>1677263024014</created>
+      <option name="number" value="00245" />
+      <option name="presentableId" value="LOCAL-00245" />
+      <option name="project" value="LOCAL" />
+      <updated>1677263024014</updated>
+    </task>
+    <task id="LOCAL-00246" summary="Start graphql api">
+      <created>1677269239743</created>
+      <option name="number" value="00246" />
+      <option name="presentableId" value="LOCAL-00246" />
+      <option name="project" value="LOCAL" />
+      <updated>1677269239743</updated>
+    </task>
+    <task id="LOCAL-00247" summary="Add query and mutation, try to fix switching languages bug">
+      <created>1677299168086</created>
+      <option name="number" value="00247" />
+      <option name="presentableId" value="LOCAL-00247" />
+      <option name="project" value="LOCAL" />
+      <updated>1677299168086</updated>
+    </task>
+    <task id="LOCAL-00248" summary="Backup">
+      <created>1677313134090</created>
+      <option name="number" value="00248" />
+      <option name="presentableId" value="LOCAL-00248" />
+      <option name="project" value="LOCAL" />
+      <updated>1677313134091</updated>
+    </task>
+    <task id="LOCAL-00249" summary="Fix more bugs, restore timeout before transcribe restart, etc.">
+      <created>1677345800786</created>
+      <option name="number" value="00249" />
+      <option name="presentableId" value="LOCAL-00249" />
+      <option name="project" value="LOCAL" />
+      <updated>1677345800786</updated>
+    </task>
+    <task id="LOCAL-00250" summary="Cut off transcription results options">
+      <created>1677353593948</created>
+      <option name="number" value="00250" />
+      <option name="presentableId" value="LOCAL-00250" />
+      <option name="project" value="LOCAL" />
+      <updated>1677353593948</updated>
+    </task>
+    <task id="LOCAL-00251" summary="Backup">
+      <created>1677363097567</created>
+      <option name="number" value="00251" />
+      <option name="presentableId" value="LOCAL-00251" />
+      <option name="project" value="LOCAL" />
+      <updated>1677363097567</updated>
+    </task>
+    <task id="LOCAL-00252" summary="MenuUtils and view shortcuts">
+      <created>1677369729532</created>
+      <option name="number" value="00252" />
+      <option name="presentableId" value="LOCAL-00252" />
+      <option name="project" value="LOCAL" />
+      <updated>1677369729532</updated>
+    </task>
+    <task id="LOCAL-00253" summary="Implement shortcuts">
+      <created>1677383017791</created>
+      <option name="number" value="00253" />
+      <option name="presentableId" value="LOCAL-00253" />
+      <option name="project" value="LOCAL" />
+      <updated>1677383017792</updated>
+    </task>
+    <task id="LOCAL-00254" summary="Implement shortcuts">
+      <created>1677383901882</created>
+      <option name="number" value="00254" />
+      <option name="presentableId" value="LOCAL-00254" />
+      <option name="project" value="LOCAL" />
+      <updated>1677383901882</updated>
+    </task>
+    <task id="LOCAL-00255" summary="Add delete transcript button">
+      <created>1677384455948</created>
+      <option name="number" value="00255" />
+      <option name="presentableId" value="LOCAL-00255" />
+      <option name="project" value="LOCAL" />
+      <updated>1677384455948</updated>
+    </task>
+    <task id="LOCAL-00256" summary="Switch between transcription modes shortcut, adjust step size of speed range slider">
+      <created>1677386864797</created>
+      <option name="number" value="00256" />
+      <option name="presentableId" value="LOCAL-00256" />
+      <option name="project" value="LOCAL" />
+      <updated>1677386864797</updated>
+    </task>
+    <task id="LOCAL-00257" summary="Backup">
+      <created>1677403532755</created>
+      <option name="number" value="00257" />
+      <option name="presentableId" value="LOCAL-00257" />
+      <option name="project" value="LOCAL" />
+      <updated>1677403532755</updated>
+    </task>
+    <task id="LOCAL-00258" summary="Fix incorrect timestamp bug, restore auto scroll button">
+      <created>1677445555157</created>
+      <option name="number" value="00258" />
+      <option name="presentableId" value="LOCAL-00258" />
+      <option name="project" value="LOCAL" />
+      <updated>1677445555157</updated>
+    </task>
+    <task id="LOCAL-00259" summary="Switch between transcription modes shortcut, adjust step size of speed range slider, fix incorrect timestamp bug, restore auto scroll button">
+      <created>1677445878704</created>
+      <option name="number" value="00259" />
+      <option name="presentableId" value="LOCAL-00259" />
+      <option name="project" value="LOCAL" />
+      <updated>1677445878704</updated>
+    </task>
+    <task id="LOCAL-00260" summary="UserDao putUser, start aws cdk rewrite">
+      <created>1677461755899</created>
+      <option name="number" value="00260" />
+      <option name="presentableId" value="LOCAL-00260" />
+      <option name="project" value="LOCAL" />
+      <updated>1677461755899</updated>
+    </task>
+    <task id="LOCAL-00261" summary="UserSqlDao putUser, lambda ddb stream record handler">
+      <created>1677579997789</created>
+      <option name="number" value="00261" />
+      <option name="presentableId" value="LOCAL-00261" />
+      <option name="project" value="LOCAL" />
+      <updated>1677579997790</updated>
+    </task>
+    <task id="LOCAL-00262" summary="UserSqlDao putUser, lambda ddb stream record handler">
+      <created>1677580042860</created>
+      <option name="number" value="00262" />
+      <option name="presentableId" value="LOCAL-00262" />
+      <option name="project" value="LOCAL" />
+      <updated>1677580042860</updated>
+    </task>
+    <task id="LOCAL-00263" summary="UserSqlDao putUser, lambda ddb stream record handler">
+      <created>1677580176527</created>
+      <option name="number" value="00263" />
+      <option name="presentableId" value="LOCAL-00263" />
+      <option name="project" value="LOCAL" />
+      <updated>1677580176527</updated>
+    </task>
+    <task id="LOCAL-00264" summary="UserSqlDao putUser, lambda ddb stream record handler">
+      <created>1677580189720</created>
+      <option name="number" value="00264" />
+      <option name="presentableId" value="LOCAL-00264" />
+      <option name="project" value="LOCAL" />
+      <updated>1677580189720</updated>
+    </task>
+    <option name="localTasksCounter" value="265" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="javascript:npm:tailwindcss" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.test" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:postcss" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Finish move from parcel to CRA" />
+    <MESSAGE value="Add Translator.js" />
+    <MESSAGE value="Translate each final result" />
+    <MESSAGE value="Search subnav" />
+    <MESSAGE value="Search url query load search params" />
+    <MESSAGE value="Fix bugs; translate language was not being updated properly, other bugs..." />
+    <MESSAGE value="Delete old frontend" />
+    <MESSAGE value="Unify languages, switch languages button" />
+    <MESSAGE value="Disable tags, indicate language in transcribe button" />
+    <MESSAGE value="Fix bugs; switching languages" />
+    <MESSAGE value="Fix switching languages bug" />
+    <MESSAGE value="Indicate language on start transcribe button" />
+    <MESSAGE value="Start graphql api, backend rewrite" />
+    <MESSAGE value="Add query and mutation, try to fix switching languages bug" />
+    <MESSAGE value="Fix more bugs, restore timeout before transcribe restart, etc." />
+    <MESSAGE value="Cut off transcription results options" />
+    <MESSAGE value="MenuUtils and view shortcuts" />
+    <MESSAGE value="Implement shortcuts" />
+    <MESSAGE value="Add delete transcript button" />
+    <MESSAGE value="Switch between transcription modes shortcut, adjust step size of speed range slider" />
+    <MESSAGE value="Backup" />
+    <MESSAGE value="Fix incorrect timestamp bug, restore auto scroll button" />
+    <MESSAGE value="Switch between transcription modes shortcut, adjust step size of speed range slider, fix incorrect timestamp bug, restore auto scroll button" />
+    <MESSAGE value="UserDao putUser, start aws cdk rewrite" />
+    <MESSAGE value="UserSqlDao putUser, lambda ddb stream record handler" />
+    <option name="LAST_COMMIT_MESSAGE" value="UserSqlDao putUser, lambda ddb stream record handler" />
+  </component>
+</project>

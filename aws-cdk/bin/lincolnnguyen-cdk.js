@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const cdk = require('aws-cdk-lib');
-const { AwsCdk2Stack } = require('../lib/aws-cdk2-stack');
+import * as cdk from 'aws-cdk-lib';
+import { LincolnnguyenCdkStack } from '../lib/lincolnnguyen-cdk-stack.js';
 
 const app = new cdk.App();
-new AwsCdk2Stack(app, 'AwsCdk2Stack', {
+new LincolnnguyenCdkStack(app, 'LincolnnguyenCdkStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */
