@@ -5,7 +5,7 @@ describe('userDao', () => {
   it('putUser', async () => {
     const res = await userDynamoDao.putUser({
       id: uuid(),
-      username: 'username',
+      username: 'username2',
       password: 'password',
     });
     console.log('res', res);

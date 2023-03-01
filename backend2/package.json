@@ -18,6 +18,7 @@
     "@apollo/server": "^4.4.0",
     "@aws-sdk/client-dynamodb": "^3.279.0",
     "@aws-sdk/lib-dynamodb": "^3.279.0",
+    "@aws-sdk/util-dynamodb": "^3.281.0",
     "@prisma/client": "^4.11.0",
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
