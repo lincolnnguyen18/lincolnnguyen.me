@@ -7,7 +7,7 @@ class UserDynamoDao {
     this.tableName = tableName;
   }
 
-  async putUser ({ id, username, password, playbackSpeed = 1, transcribeLang = 'Japanese', translateLang = 'English (United States)', createdAt, updatedAt }) {
+  async putUser ({ id, username, password, playbackSpeed = 1, transcribeLang = 'Japanese', translateLang = 'English (United States)', timestamp = new Date().toISOString() }) {
     let params = {
       TableName: this.tableName,
       IndexName: 'usernameIdLookupIndex',
@@ -20,7 +20,7 @@ class UserDynamoDao {
     let exists = await ddbClient.send(new QueryCommand(params));
     exists = exists.Items.length > 0;
     if (exists) {
-      return [{ field: 'username', message: 'Username already exists' }];
+      return [{ field: ['username'], message: 'Username already exists' }];
     }
 
     params = {
@@ -33,8 +33,8 @@ class UserDynamoDao {
         playbackSpeed,
         transcribeLang,
         translateLang,
-        createdAt,
-        updatedAt,
+        createdAt: timestamp,
+        updatedAt: timestamp,
       },
       ConditionExpression: 'attribute_not_exists(pk)',
     };
@@ -43,7 +43,7 @@ class UserDynamoDao {
       return [];
     } catch (e) {
       console.error(e);
-      return [{ field: 'username', message: 'UUID collision' }];
+      return [{ field: ['username'], message: 'UUID collision' }];
     }
   }
 }

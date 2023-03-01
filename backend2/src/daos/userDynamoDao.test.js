@@ -7,8 +7,6 @@ describe('userDao', () => {
       id: uuid(),
       username: 'username',
       password: 'password',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
     });
     console.log('res', res);
   });

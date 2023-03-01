@@ -5,10 +5,8 @@ describe('userSqlDao', () => {
   it('putUser', async () => {
     const res = await userSqlDao.putUser({
       id: uuid(),
-      username: 'lincoln',
-      password: 'pass123',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      username: 'username',
+      password: 'password',
     });
     console.log('res', res);
   });

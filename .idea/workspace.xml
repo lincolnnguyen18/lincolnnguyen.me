@@ -9,11 +9,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Add vpc, sg to cdk, refactor lambda">
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Add rds to cdk, finish register mutation, add validators">
+      <change afterPath="$PROJECT_DIR$/backend2/src/common/validators.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend2/src/common/validators.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws-cdk/bin/lincolnnguyen-cdk.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/bin/lincolnnguyen-cdk.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-cdk-stack.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk/.eslintrc.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/.eslintrc.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/prisma/migrations/20230228025143_init_add_user_transcript_models/migration.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/prisma/migrations/20230301071053_init/migration.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userSqlDao.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/daos/userSqlDao.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userSqlDao.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/daos/userSqlDao.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -254,20 +264,6 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="handlers.putUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="--experimental-vm-modules" />
-      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$/backend2" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/backend2/src/common/ddbStreamRecordHandler.test.js" />
-      <test-names>
-        <test-name value="handlers" />
-        <test-name value="putUser" />
-      </test-names>
-      <method v="2" />
-    </configuration>
     <configuration name="userDao.putUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="--experimental-vm-modules" />
@@ -282,11 +278,53 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="copyPrismaClient" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="userDao.validate user schema" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend2" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" />
+      <test-names>
+        <test-name value="userDao" />
+        <test-name value="validate user schema" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="userSqlDao.putUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend2" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend2/src/daos/userSqlDao.test.js" />
+      <test-names>
+        <test-name value="userSqlDao" />
+        <test-name value="putUser" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="validators.putUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend2" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend2/src/common/validators.test.js" />
+      <test-names>
+        <test-name value="validators" />
+        <test-name value="putUser" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="prismaCreate" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/backend2/package.json" />
       <command value="run" />
       <scripts>
-        <script value="copyPrismaClient" />
+        <script value="prismaCreate" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -305,16 +343,20 @@
     <list>
       <item itemvalue="Jest.ddbStreamRecordHandler" />
       <item itemvalue="Jest.ddbStreamRecordHandler.putUser" />
-      <item itemvalue="Jest.handlers.putUser" />
+      <item itemvalue="Jest.userDao.validate user schema" />
+      <item itemvalue="Jest.userSqlDao.putUser" />
+      <item itemvalue="Jest.validators.putUser" />
       <item itemvalue="Jest.userDao.putUser" />
       <item itemvalue="npm.start" />
-      <item itemvalue="npm.copyPrismaClient" />
+      <item itemvalue="npm.prismaCreate" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Jest.userDao.putUser" />
-        <item itemvalue="npm.copyPrismaClient" />
-        <item itemvalue="Jest.handlers.putUser" />
+        <item itemvalue="Jest.userSqlDao.putUser" />
+        <item itemvalue="npm.prismaCreate" />
+        <item itemvalue="Jest.validators.putUser" />
+        <item itemvalue="Jest.userDao.validate user schema" />
       </list>
     </recent_temporary>
   </component>
@@ -401,13 +443,8 @@
       <workItem from="1677574098413" duration="41000" />
       <workItem from="1677574145995" duration="197000" />
       <workItem from="1677574353504" duration="5833000" />
-    </task>
-    <task id="LOCAL-00217" summary="Add playback speed controls">
-      <created>1676796411673</created>
-      <option name="number" value="00217" />
-      <option name="presentableId" value="LOCAL-00217" />
-      <option name="project" value="LOCAL" />
-      <updated>1676796411674</updated>
+      <workItem from="1677628698217" duration="1565000" />
+      <workItem from="1677632392204" duration="17593000" />
     </task>
     <task id="LOCAL-00218" summary="Highlight current line">
       <created>1676799946774</created>
@@ -745,7 +782,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677623207430</updated>
     </task>
-    <option name="localTasksCounter" value="266" />
+    <task id="LOCAL-00266" summary="Add vpc, sg to cdk, refactor lambda">
+      <created>1677627910786</created>
+      <option name="number" value="00266" />
+      <option name="presentableId" value="LOCAL-00266" />
+      <option name="project" value="LOCAL" />
+      <updated>1677627910786</updated>
+    </task>
+    <option name="localTasksCounter" value="267" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -780,7 +824,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add Translator.js" />
     <MESSAGE value="Translate each final result" />
     <MESSAGE value="Search subnav" />
     <MESSAGE value="Search url query load search params" />
@@ -805,6 +848,7 @@
     <MESSAGE value="UserDao putUser, start aws cdk rewrite" />
     <MESSAGE value="UserSqlDao putUser, lambda ddb stream record handler" />
     <MESSAGE value="Add vpc, sg to cdk, refactor lambda" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add vpc, sg to cdk, refactor lambda" />
+    <MESSAGE value="Add rds to cdk, finish register mutation, add validators" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add rds to cdk, finish register mutation, add validators" />
   </component>
 </project>

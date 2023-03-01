@@ -1,7 +1,7 @@
 import { prismaClient } from '../common/clients.js';
 
 class UserSqlDao {
-  async putUser ({ id, username, password, playbackSpeed = 1, transcribeLang = 'Japanese', translateLang = 'English (United States)', createdAt, updatedAt }) {
+  async putUser ({ id, username, password, playbackSpeed = 1, transcribeLang = 'Japanese', translateLang = 'English (United States)', timestamp = new Date().toISOString() }) {
     return prismaClient.user.create({
       data: {
         id,
@@ -10,8 +10,8 @@ class UserSqlDao {
         playbackSpeed,
         transcribeLang,
         translateLang,
-        createdAt,
-        updatedAt,
+        createdAt: timestamp,
+        updatedAt: timestamp,
       },
     });
   }

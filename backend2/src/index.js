@@ -1,6 +1,10 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { environment } from './common/environment.js';
+import { userDynamoDao } from './daos/userDynamoDao.js';
+import { uuid } from './common/stringUtils.js';
+import { validatePutUser } from './common/validators.js';
+import bcrypt from 'bcrypt';
 
 // language=GraphQL
 const typeDefs = `
@@ -57,10 +61,18 @@ const resolvers = {
     },
   },
   Mutation: {
-    register: async (_, args) => {
-      // const { username, password, confirmPassword } = args;
-      console.log(args);
-      return [];
+    register: async (_, user) => {
+      let { username, password } = user;
+      const errors = validatePutUser(user);
+      if (errors.length > 0) return errors;
+      const salt = bcrypt.genSaltSync(10);
+      password = bcrypt.hashSync(password, salt);
+
+      return userDynamoDao.putUser({
+        id: uuid(),
+        username,
+        password,
+      });
     },
   },
 };

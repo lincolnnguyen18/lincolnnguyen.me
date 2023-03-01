@@ -2,7 +2,9 @@ import dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import lambda from 'aws-cdk-lib/aws-lambda';
 import cdk from 'aws-cdk-lib';
 import ec2 from 'aws-cdk-lib/aws-ec2';
+import rds from 'aws-cdk-lib/aws-rds';
 import { DynamoEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
+import { environment } from '../common/environment.js';
 
 class LincolnnguyenBackendStack extends cdk.Stack {
   constructor (scope, id, props) {
@@ -14,11 +16,21 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       maxAzs: 2,
     });
 
-    const sg = new ec2.SecurityGroup(this, 'lincolnnguyen-sg', {
+    const rdsSubnetGroup = new rds.SubnetGroup(this, 'lincolnnguyen-rds-subnet-group', {
+      description: 'Subnet group for lincolnnguyen RDS',
+      vpc,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      subnetGroupName: 'lincolnnguyen-rds-subnet-group',
+      vpcSubnets: {
+        subnets: vpc.publicSubnets,
+      },
+    });
+
+    const securityGroup = new ec2.SecurityGroup(this, 'lincolnnguyen-security-group', {
       vpc,
       allowAllOutbound: true,
     });
-    sg.addIngressRule(ec2.Peer.ipv4('0.0.0.0/0'), ec2.Port.allTraffic());
+    securityGroup.addIngressRule(ec2.Peer.ipv4('0.0.0.0/0'), ec2.Port.allTraffic());
 
     const lambdaFunction = new lambda.Function(this, 'lincolnnguyen-ddb-stream-lambda', {
       code: lambda.Code.fromAsset('lambda'),
@@ -28,41 +40,41 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(30),
     });
 
-    // const rds = new ServerlessCluster(this, 'lincolnnguyen-rds', {
-    //   engine: DatabaseClusterEngine.AURORA_POSTGRESQL,
-    //   vpc,
-    //   credentials: {
-    //     username: environment.RDS_USERNAME,
-    //     password: environment.RDS_PASSWORD,
-    //   },
-    //   defaultDatabaseName: environment.RDS_DB_NAME,
-    //   clusterIdentifier: 'lincolnnguyen-rds',
-    //   removalPolicy: cdk.RemovalPolicy.DESTROY,
-    // });
+    const rdsCluster = new rds.DatabaseCluster(this, 'lincolnnguyen-rds', {
+      engine: rds.DatabaseClusterEngine.auroraPostgres({
+        version: rds.AuroraPostgresEngineVersion.VER_14_6,
+      }),
+      instances: 1,
+      instanceProps: {
+        vpc,
+        instanceType: new ec2.InstanceType('serverless'),
+        autoMinorVersionUpgrade: true,
+        publiclyAccessible: true,
+        securityGroups: [securityGroup],
+        vpcSubnets: vpc.selectSubnets({
+          subnetType: ec2.SubnetType.PUBLIC,
+        }),
+      },
+      credentials: {
+        username: environment.RDS_USERNAME,
+        password: cdk.SecretValue.unsafePlainText(environment.RDS_PASSWORD),
+      },
+      clusterIdentifier: 'lincolnnguyen-rds',
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      subnetGroup: rdsSubnetGroup,
+      defaultDatabaseName: environment.RDS_DB_NAME,
+    });
 
-    // const rdsSubnetGroup = new rds.SubnetGroup(this, 'lincolnnguyen-rds', {
-    //   vpc,
-    //   description: 'Subnet group for lincolnnguyen RDS',
-    //   subnetGroupName: 'lincolnnguyen-rds',
-    //   vpcSubnets: {
-    //     subnetType: ec2.SubnetType.PUBLIC,
-    //   },
-    // });
-    //
-    // const rdsDatabase = new rds.DatabaseInstance(this, 'MyDatabase', {
-    //   engine: rds.DatabaseInstanceEngine.mysql({ version: rds.MysqlEngineVersion.VER_5_7 }),
-    //   instanceType: ec2.InstanceType.of(ec2.InstanceClass.T2, ec2.InstanceSize.MICRO),
-    //   masterUsername: 'admin',
-    //   masterUserPassword: 'password',
-    //   vpc,
-    //   subnetGroup: rdsSubnetGroup,
-    //   publiclyAccessible: true,
-    //   securityGroups: [rdsSecurityGroup],
-    //   deletionProtection: false,
-    //   removalPolicy: cdk.RemovalPolicy.DESTROY,
-    // });
-    //
-    // rdsDatabase.connections.allowDefaultPortFromAnyIpv4('Open to the world');
+    cdk.Aspects.of(rdsCluster).add({
+      visit: (node) => {
+        if (node instanceof rds.CfnDBCluster) {
+          node.serverlessV2ScalingConfiguration = {
+            minCapacity: 0.5,
+            maxCapacity: 1,
+          };
+        }
+      },
+    });
 
     const table = new dynamodb.Table(this, 'lincolnnguyen-ddb', {
       tableName: 'lincolnnguyen',

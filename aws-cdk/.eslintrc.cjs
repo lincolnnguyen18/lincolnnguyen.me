@@ -14,7 +14,8 @@ module.exports = {
     'eol-last': 'error',
     quotes: ['error', 'single'],
     'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-    'no-useless-constructor': 'off'
+    'no-useless-constructor': 'off',
+    'new-cap': 'off',
   },
   env: {
     'jest': true,
