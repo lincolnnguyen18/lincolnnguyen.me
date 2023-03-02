@@ -111,7 +111,7 @@ export function TranscriptScreen () {
   }
 
   function onRecordingError () {
-    openAlert({ dispatch, title: 'Error', message: 'There was an error in starting the recording. Please make sure there are no other tabs open that are using the microphone. After that, try going to "chrome://settings/content/microphone", switching between microphones, then refreshing the page. If it still does not work, please try restarting your computer or using a different computer.' });
+    openAlert({ dispatch, title: 'Error', message: 'There was an error in starting the recording. Please make sure this website has permission to use the mic and that there are no other tabs open that are using the mic.' });
   }
 
   async function onInterim (interim) {

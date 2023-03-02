@@ -1,5 +1,5 @@
 {
-  "name": "frontend2",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,7 +22,8 @@
     "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "npm run build && aws s3 sync build s3://lincolnnguyen-frontend && aws cloudfront create-invalidation --distribution-id E32IRRBSQ2H3ZB  --paths '/*'"
   },
   "eslintConfig": {
     "extends": [

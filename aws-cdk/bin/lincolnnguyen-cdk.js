@@ -2,6 +2,7 @@
 
 import * as cdk from 'aws-cdk-lib';
 import { LincolnnguyenBackendStack } from '../lib/lincolnnguyen-backend-stack.js';
+import { LincolnnguyenFrontendStack } from '../lib/lincolnnguyen-frontend-stack.js';
 
 const app = new cdk.App();
 
@@ -20,3 +21,5 @@ new LincolnnguyenBackendStack(app, 'lincolnnguyen-backend-stack', {
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 });
+
+new LincolnnguyenFrontendStack(app, 'lincolnnguyen-frontend-stack', { });

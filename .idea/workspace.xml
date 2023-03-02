@@ -9,17 +9,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Add login/user query, register mutation, gqlClient">
-      <change afterPath="$PROJECT_DIR$/backend2/src/common/stringUtils.test.js" afterDir="false" />
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Add frontend stack cdk">
+      <change afterPath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-frontend-stack.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/schema.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/common/stringUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/stringUtils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/common/validators.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/validators.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/common/validators.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/validators.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk/bin/lincolnnguyen-cdk.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/bin/lincolnnguyen-cdk.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/common/environment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/TranscriptScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/TranscriptScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/common/Translator.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/common/Translator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/slices/transcribeSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/slices/transcribeSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -224,11 +225,11 @@
       <recent name="$PROJECT_DIR$/backend2/src/daos" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docs" />
       <recent name="$PROJECT_DIR$/backend2/src/lambda" />
       <recent name="$PROJECT_DIR$/backend2/src/tests" />
       <recent name="$PROJECT_DIR$/backend2/src/lambda-tests" />
       <recent name="$PROJECT_DIR$/aws-cdk/src" />
-      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunManager" selected="Jest.userGqlClient.updateUser">
@@ -444,14 +445,7 @@
       <workItem from="1677574145995" duration="197000" />
       <workItem from="1677574353504" duration="5833000" />
       <workItem from="1677628698217" duration="1565000" />
-      <workItem from="1677632392204" duration="48879000" />
-    </task>
-    <task id="LOCAL-00223" summary="Add seek buttons">
-      <created>1676851306974</created>
-      <option name="number" value="00223" />
-      <option name="presentableId" value="LOCAL-00223" />
-      <option name="project" value="LOCAL" />
-      <updated>1676851306974</updated>
+      <workItem from="1677632392204" duration="56349000" />
     </task>
     <task id="LOCAL-00224" summary="Add dropdown component">
       <created>1676859271858</created>
@@ -789,7 +783,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677729682205</updated>
     </task>
-    <option name="localTasksCounter" value="272" />
+    <task id="LOCAL-00272" summary="Add update user mutation">
+      <created>1677750795267</created>
+      <option name="number" value="00272" />
+      <option name="presentableId" value="LOCAL-00272" />
+      <option name="project" value="LOCAL" />
+      <updated>1677750795267</updated>
+    </task>
+    <option name="localTasksCounter" value="273" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -824,8 +825,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Search url query load search params" />
-    <MESSAGE value="Fix bugs; translate language was not being updated properly, other bugs..." />
     <MESSAGE value="Delete old frontend" />
     <MESSAGE value="Unify languages, switch languages button" />
     <MESSAGE value="Disable tags, indicate language in transcribe button" />
@@ -849,6 +848,8 @@
     <MESSAGE value="Add rds to cdk, finish register mutation, add validators" />
     <MESSAGE value="Refactor ddbStreamRecordHandler" />
     <MESSAGE value="Add login/user query, register mutation, gqlClient" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add login/user query, register mutation, gqlClient" />
+    <MESSAGE value="Add update user mutation" />
+    <MESSAGE value="Add frontend stack cdk" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add frontend stack cdk" />
   </component>
 </project>

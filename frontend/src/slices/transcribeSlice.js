@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { uuid } from '../common/stringUtils';
 import _ from 'lodash';
 import { commonActions } from './commonSlice';
@@ -237,9 +237,7 @@ const transcribeSlice = createSlice({
     setCurrentPartDuration: (state) => {
       // set duration to date.now - createdAt / 1000
       const partId = state.partsOrder[state.partsOrder.length - 1];
-      const duration = (Date.now() - state.parts[partId].createdAt) / 1000;
-      console.log('duration', duration);
-      state.parts[partId].duration = duration;
+      state.parts[partId].duration = (Date.now() - state.parts[partId].createdAt) / 1000;
     },
   },
 });

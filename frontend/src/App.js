@@ -32,6 +32,8 @@ export function App () {
   }, [navMenu.open]);
 
   React.useEffect(() => {
+    console.log('Version 1');
+
     const browser = detect();
     // window.alert(JSON.stringify(browser));
     dispatch(commonActions.setSlice({ browser }));

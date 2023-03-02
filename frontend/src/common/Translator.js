@@ -18,7 +18,7 @@ export class Translator {
     let res = '';
 
     for (let i = 0; i < chunks.length; i++) {
-      let chunk = chunks[i];
+      const chunk = chunks[i];
       const { translated } = await translate(chunk, this.targetLang);
       if (this.targetLang !== 'ja' && this.targetLang !== 'zh' && this.targetLang !== 'ko') {
         res += translated + ' ';
