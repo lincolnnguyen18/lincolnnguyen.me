@@ -1,6 +1,7 @@
 import { ddbClient } from '../common/clients.js';
-import { PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { DeleteCommand, PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { environment } from '../common/environment.js';
+import bcrypt from 'bcrypt';
 
 class UserDynamoDao {
   constructor (tableName) {
@@ -8,6 +9,8 @@ class UserDynamoDao {
   }
 
   async putUser ({ id, username, password, playbackSpeed = 1, transcribeLang = 'Japanese', translateLang = 'English (United States)', timestamp = new Date().toISOString() }) {
+    const salt = bcrypt.genSaltSync(10);
+    password = bcrypt.hashSync(password, salt);
     let params = {
       TableName: this.tableName,
       IndexName: 'usernameIdLookupIndex',
@@ -45,6 +48,52 @@ class UserDynamoDao {
       console.error(e);
       return [{ field: ['username'], message: 'UUID collision' }];
     }
+  }
+
+  async getIdFromUsername (username) {
+    const params = {
+      TableName: this.tableName,
+      IndexName: 'usernameIdLookupIndex',
+      KeyConditionExpression: 'pk = :pk and username = :username',
+      ExpressionAttributeValues: {
+        ':pk': 'userData',
+        ':username': username,
+      },
+    };
+    const exists = await ddbClient.send(new QueryCommand(params));
+    if (exists.Items.length === 0) {
+      return null;
+    }
+    return exists.Items[0].sk;
+  }
+
+  async getUserFromId (id) {
+    const params = {
+      TableName: this.tableName,
+      KeyConditionExpression: 'pk = :pk and sk = :sk',
+      ExpressionAttributeValues: {
+        ':pk': 'userData',
+        ':sk': id,
+      },
+    };
+    const exists = await ddbClient.send(new QueryCommand(params));
+    if (exists.Items.length === 0) {
+      return null;
+    }
+    const user = exists.Items[0];
+    user.id = user.sk;
+    return user;
+  }
+
+  async deleteUserById (id) {
+    const params = {
+      TableName: this.tableName,
+      Key: {
+        pk: 'userData',
+        sk: id,
+      },
+    };
+    return ddbClient.send(new DeleteCommand(params));
   }
 }
 

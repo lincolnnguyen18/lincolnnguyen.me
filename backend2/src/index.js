@@ -4,6 +4,7 @@ import { environment } from './common/environment.js';
 import { userDynamoDao } from './daos/userDynamoDao.js';
 import { uuid } from './common/stringUtils.js';
 import { validatePutUser } from './common/validators.js';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 // language=GraphQL
@@ -12,6 +13,8 @@ const typeDefs = `
         id: ID!
         username: String!
         password: String!
+        createdAt: String!
+        updatedAt: String!
 
         # transcribe
         playbackSpeed: Float!
@@ -53,20 +56,29 @@ const resolvers = {
   Query: {
     // parent, args, ctx, info
     user: async (_, __, { id }) => {
-      if (!id) throw new Error('Unauthorized');
-      return null;
+      if (!id) return null;
+      const user = await userDynamoDao.getUserFromId(id);
+      user.transcripts = [];
+      return user;
     },
-    login: async () => {
-      return null;
+    login: async (_, { username, password }) => {
+      const id = await userDynamoDao.getIdFromUsername(username);
+      if (!id) return null;
+
+      const user = await userDynamoDao.getUserFromId(id);
+      if (!user) return null;
+
+      const match = bcrypt.compareSync(password, user.password);
+      if (!match) return null;
+
+      return jwt.sign({ id }, environment.JWT_SECRET);
     },
   },
   Mutation: {
     register: async (_, user) => {
-      let { username, password } = user;
+      const { username, password } = user;
       const errors = validatePutUser(user);
       if (errors.length > 0) return errors;
-      const salt = bcrypt.genSaltSync(10);
-      password = bcrypt.hashSync(password, salt);
 
       return userDynamoDao.putUser({
         id: uuid(),
@@ -85,9 +97,13 @@ const server = new ApolloServer({
 const { url } = await startStandaloneServer(server, {
   context: async ({ req }) => {
     const authorization = req.headers.authorization;
-    const bearer = authorization && authorization.split(' ')[1].trim();
-    console.log(`bearer = ${bearer}`);
-    return {};
+    const token = authorization && authorization.split(' ')[1].trim();
+    if (!token) return {};
+    try {
+      return jwt.verify(token, environment.JWT_SECRET);
+    } catch (e) {
+      return {};
+    }
   },
   listen: { port: environment.PORT },
 });
