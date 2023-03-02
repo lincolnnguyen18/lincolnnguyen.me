@@ -1,6 +1,7 @@
 import { ddbClient } from '../common/clients.js';
-import { DeleteCommand, PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { DeleteCommand, PutCommand, QueryCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { environment } from '../common/environment.js';
+import { buildUpdateExpression } from '../common/stringUtils.js';
 import bcrypt from 'bcrypt';
 
 class UserDynamoDao {
@@ -46,7 +47,41 @@ class UserDynamoDao {
       return [];
     } catch (e) {
       console.error(e);
-      return [{ field: ['username'], message: 'UUID collision' }];
+      return [{ field: ['other'], message: 'UUID collision' }];
+    }
+  }
+
+  async updateUser ({ id, username, password, playbackSpeed, transcribeLang, translateLang }) {
+    if (password) {
+      const salt = bcrypt.genSaltSync(10);
+      password = bcrypt.hashSync(password, salt);
+    }
+    const attributes = {
+      username,
+      password,
+      playbackSpeed,
+      transcribeLang,
+      translateLang,
+      updatedAt: new Date().toISOString(),
+    };
+    const { UpdateExpression, ExpressionAttributeNames, ExpressionAttributeValues } = buildUpdateExpression(attributes);
+
+    const params = {
+      TableName: this.tableName,
+      Key: {
+        pk: 'userData',
+        sk: id,
+      },
+      UpdateExpression,
+      ExpressionAttributeNames,
+      ExpressionAttributeValues,
+    };
+    try {
+      await ddbClient.send(new UpdateCommand(params));
+      return [];
+    } catch (e) {
+      console.error(e);
+      return [{ field: ['other'], message: 'Update failed' }];
     }
   }
 

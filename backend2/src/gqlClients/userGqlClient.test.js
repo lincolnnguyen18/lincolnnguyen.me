@@ -1,16 +1,16 @@
 import { userGqlClient } from './userGqlClient.js';
 
 describe('userGqlClient', () => {
-  it('getTokenFromUsernamePassword', async () => {
-    const res = await userGqlClient.getTokenFromUsernamePassword({
+  it('getToken', async () => {
+    const res = await userGqlClient.getToken({
       username: 'thanh',
       password: 'password',
     });
     console.log(res);
   });
 
-  it('getUserFromToken', async () => {
-    const res = await userGqlClient.getUserFromToken();
+  it('getUser', async () => {
+    const res = await userGqlClient.getUser();
     console.log(res);
   });
 
@@ -19,6 +19,13 @@ describe('userGqlClient', () => {
       username: 'thanh',
       password: 'password',
       confirmPassword: 'password',
+    });
+    console.log(res);
+  });
+
+  it('updateUser', async () => {
+    const res = await userGqlClient.updateUser({
+      playbackSpeed: 3,
     });
     console.log(res);
   });

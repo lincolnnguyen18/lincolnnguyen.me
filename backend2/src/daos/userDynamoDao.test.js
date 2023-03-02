@@ -12,7 +12,7 @@ describe('userDao', () => {
   });
 
   it('getIdFromUsername', async () => {
-    const res = await userDynamoDao.getIdFromUsername('HELLO');
+    const res = await userDynamoDao.getIdFromUsername('lincoln');
     console.log('res', res);
   });
 

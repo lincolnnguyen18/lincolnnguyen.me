@@ -3,7 +3,7 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import { environment } from './common/environment.js';
 import { userDynamoDao } from './daos/userDynamoDao.js';
 import { uuid } from './common/stringUtils.js';
-import { validatePutUser } from './common/validators.js';
+import { validateAuthenticated, validatePutUser, validateUpdateUser } from './common/validators.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
@@ -22,6 +22,16 @@ const typeDefs = `
         transcribeLang: String!
         transcripts: [Transcript!]!
     }
+    
+    input UpdateUserInput {
+        username: String
+        password: String
+        
+        # transcribe
+        playbackSpeed: Float
+        translateLang: String
+        transcribeLang: String
+    }
 
     type Transcript {
         id: ID!
@@ -39,16 +49,19 @@ const typeDefs = `
     }
     
     type Query {
-        # returns user or null if ctx.id is invalid
-        user: User
-        # returns a session token or null if login fails
+        # no auth required
         login(username: String!, password: String!): String
+        
+        # auth required
+        user: User
     }
     
     type Mutation {
-        # username: username already taken
-        # password, confirmPassword: passwords do not match
+        # no auth required
         register(username: String!, password: String!, confirmPassword: String!): [Error!]!
+        
+        # auth required
+        updateUser(input: UpdateUserInput!): [Error!]!
     }
 `;
 
@@ -76,15 +89,30 @@ const resolvers = {
   },
   Mutation: {
     register: async (_, user) => {
-      const { username, password } = user;
       const errors = validatePutUser(user);
       if (errors.length > 0) return errors;
 
+      const { username, password } = user;
       return userDynamoDao.putUser({
         id: uuid(),
         username,
         password,
       });
+    },
+    updateUser: async (_, { input }, { id }) => {
+      let errors = validateAuthenticated(id);
+      if (errors.length > 0) return errors;
+
+      errors = validateUpdateUser(input);
+      if (errors.length > 0) return errors;
+
+      errors = await userDynamoDao.updateUser({
+        id,
+        ...input,
+      });
+      if (errors.length > 0) return errors;
+
+      return [];
     },
   },
 };

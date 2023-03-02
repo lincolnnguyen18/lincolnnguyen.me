@@ -95,4 +95,39 @@ function removeEmptyLines (text) {
   return text.split('\n').filter(line => line.trim().length > 0).join('\n');
 }
 
-export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestamp2, uuid, splitText, translate, removeEmptyLines };
+function buildUpdateExpression (attributes) {
+  const expressionAttributeValues = {};
+  const updateExpressionParts = [];
+  const expressionAttributeNames = {};
+  let i = 0;
+  for (const [key, value] of Object.entries(attributes)) {
+    if (value != null) {
+      const expressionAttributeKey = `:val${i}`;
+      expressionAttributeValues[expressionAttributeKey] = value;
+      expressionAttributeNames[`#${key}`] = key;
+      if (value !== '') {
+        updateExpressionParts.push(`#${key} = ${expressionAttributeKey}`);
+      }
+      i++;
+    }
+  }
+  let updateExpression = updateExpressionParts.join(', ');
+  if (updateExpression !== '') {
+    updateExpression = 'SET ' + updateExpression;
+  }
+  return {
+    UpdateExpression: updateExpression,
+    ExpressionAttributeNames: expressionAttributeNames,
+    ExpressionAttributeValues: expressionAttributeValues,
+  };
+}
+
+function mapErrorDetails (error) {
+  if (!error) return [];
+  return error.details.map((detail) => ({
+    field: detail.path,
+    message: detail.message,
+  }));
+}
+
+export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestamp2, uuid, splitText, translate, removeEmptyLines, buildUpdateExpression, mapErrorDetails };

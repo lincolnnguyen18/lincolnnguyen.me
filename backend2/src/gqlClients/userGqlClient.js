@@ -2,7 +2,7 @@ import { gql } from 'graphql-request';
 import { gqlClient, gqlClientNoAuth } from '../common/clients.js';
 
 class UserGqlClient {
-  async getTokenFromUsernamePassword ({ username, password }) {
+  async getToken ({ username, password }) {
     const query = gql`
       query ($username: String!, $password: String!) {
         login(username: $username, password: $password)
@@ -16,7 +16,7 @@ class UserGqlClient {
     return res.login;
   }
 
-  async getUserFromToken () {
+  async getUser () {
     const query = gql`
       query {
         user {
@@ -50,6 +50,26 @@ class UserGqlClient {
     };
     const res = await gqlClientNoAuth.request(query, variables);
     return res.register;
+  }
+
+  async updateUser ({ username, password, playbackSpeed, transcribeLang, translateLang }) {
+    const query = gql`
+        mutation ($username: String, $password: String, $playbackSpeed: Float, $transcribeLang: String, $translateLang: String) {
+            updateUser(input: { username: $username, password: $password, playbackSpeed: $playbackSpeed, transcribeLang: $transcribeLang, translateLang: $translateLang }) {
+                field
+                message
+            }
+        }
+    `;
+    const variables = {
+      username,
+      password,
+      playbackSpeed,
+      transcribeLang,
+      translateLang,
+    };
+    const res = await gqlClient.request(query, variables);
+    return res.updateUser;
   }
 }
 

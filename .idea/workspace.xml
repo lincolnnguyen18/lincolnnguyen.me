@@ -10,9 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Add login/user query, register mutation, gqlClient">
-      <change afterPath="$PROJECT_DIR$/aws-cdk/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend2/src/common/stringUtils.test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/stringUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/stringUtils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/validators.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/validators.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/validators.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/validators.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -224,7 +231,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Jest.userGqlClient.getUserFromToken">
+  <component name="RunManager" selected="Jest.userGqlClient.updateUser">
     <configuration name="ddbStreamRecordHandler" type="JavaScriptTestRunnerJest" nameIsGenerated="true">
       <config-file value="$PROJECT_DIR$/.idea/runConfigurations/backendDevConfig.xml" />
       <node-interpreter value="project" />
@@ -253,35 +260,21 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="userDao.getUserFromId" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+    <configuration name="stringUtils.buildUpdateExpression" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="--experimental-vm-modules" />
       <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
       <working-dir value="$PROJECT_DIR$/backend2" />
       <envs />
       <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" />
+      <test-file value="$PROJECT_DIR$/backend2/src/common/stringUtils.test.js" />
       <test-names>
-        <test-name value="userDao" />
-        <test-name value="getUserFromId" />
+        <test-name value="stringUtils" />
+        <test-name value="buildUpdateExpression" />
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="userGqlClient.getTokenFromUsernamePassword" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="--experimental-vm-modules" />
-      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$/backend2" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.test.js" />
-      <test-names>
-        <test-name value="userGqlClient" />
-        <test-name value="getTokenFromUsernamePassword" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="userGqlClient.getUserFromToken" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+    <configuration name="userGqlClient.getUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="--experimental-vm-modules" />
       <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
@@ -291,11 +284,11 @@
       <test-file value="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.test.js" />
       <test-names>
         <test-name value="userGqlClient" />
-        <test-name value="getUserFromToken" />
+        <test-name value="getUser" />
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="userGqlClient.registerUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+    <configuration name="userGqlClient.updateUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="--experimental-vm-modules" />
       <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
@@ -305,11 +298,36 @@
       <test-file value="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.test.js" />
       <test-names>
         <test-name value="userGqlClient" />
-        <test-name value="registerUser" />
+        <test-name value="updateUser" />
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="index.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/backend2/src/index.js" working-dir="$PROJECT_DIR$/backend2/src">
+    <configuration name="validators.putUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend2" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend2/src/common/validators.test.js" />
+      <test-names>
+        <test-name value="validators" />
+        <test-name value="putUser" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="validators.updateUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend2" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend2/src/common/validators.test.js" />
+      <test-names>
+        <test-name value="validators" />
+        <test-name value="updateUser" />
+      </test-names>
       <method v="2" />
     </configuration>
     <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
@@ -325,20 +343,20 @@
     <list>
       <item itemvalue="Jest.ddbStreamRecordHandler" />
       <item itemvalue="Jest.ddbStreamRecordHandler.putUser" />
-      <item itemvalue="Jest.userDao.getUserFromId" />
-      <item itemvalue="Jest.userGqlClient.getTokenFromUsernamePassword" />
-      <item itemvalue="Jest.userGqlClient.getUserFromToken" />
-      <item itemvalue="Jest.userGqlClient.registerUser" />
-      <item itemvalue="Node.js.index.js" />
+      <item itemvalue="Jest.stringUtils.buildUpdateExpression" />
+      <item itemvalue="Jest.userGqlClient.getUser" />
+      <item itemvalue="Jest.userGqlClient.updateUser" />
+      <item itemvalue="Jest.validators.putUser" />
+      <item itemvalue="Jest.validators.updateUser" />
       <item itemvalue="npm.start" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Jest.userGqlClient.getUserFromToken" />
-        <item itemvalue="Jest.userGqlClient.getTokenFromUsernamePassword" />
-        <item itemvalue="Jest.userGqlClient.registerUser" />
-        <item itemvalue="Node.js.index.js" />
-        <item itemvalue="Jest.userDao.getUserFromId" />
+        <item itemvalue="Jest.userGqlClient.updateUser" />
+        <item itemvalue="Jest.stringUtils.buildUpdateExpression" />
+        <item itemvalue="Jest.userGqlClient.getUser" />
+        <item itemvalue="Jest.validators.updateUser" />
+        <item itemvalue="Jest.validators.putUser" />
       </list>
     </recent_temporary>
   </component>
@@ -426,21 +444,7 @@
       <workItem from="1677574145995" duration="197000" />
       <workItem from="1677574353504" duration="5833000" />
       <workItem from="1677628698217" duration="1565000" />
-      <workItem from="1677632392204" duration="38187000" />
-    </task>
-    <task id="LOCAL-00221" summary="Autoscroll button when recording">
-      <created>1676849617342</created>
-      <option name="number" value="00221" />
-      <option name="presentableId" value="LOCAL-00221" />
-      <option name="project" value="LOCAL" />
-      <updated>1676849617342</updated>
-    </task>
-    <task id="LOCAL-00222" summary="Hide sync scroll button">
-      <created>1676850174916</created>
-      <option name="number" value="00222" />
-      <option name="presentableId" value="LOCAL-00222" />
-      <option name="project" value="LOCAL" />
-      <updated>1676850174916</updated>
+      <workItem from="1677632392204" duration="48879000" />
     </task>
     <task id="LOCAL-00223" summary="Add seek buttons">
       <created>1676851306974</created>
@@ -771,7 +775,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677726334005</updated>
     </task>
-    <option name="localTasksCounter" value="270" />
+    <task id="LOCAL-00270" summary="Add login/user query, register mutation, gqlClient">
+      <created>1677729653551</created>
+      <option name="number" value="00270" />
+      <option name="presentableId" value="LOCAL-00270" />
+      <option name="project" value="LOCAL" />
+      <updated>1677729653551</updated>
+    </task>
+    <task id="LOCAL-00271" summary="Add login/user query, register mutation, gqlClient">
+      <created>1677729682205</created>
+      <option name="number" value="00271" />
+      <option name="presentableId" value="LOCAL-00271" />
+      <option name="project" value="LOCAL" />
+      <updated>1677729682205</updated>
+    </task>
+    <option name="localTasksCounter" value="272" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
