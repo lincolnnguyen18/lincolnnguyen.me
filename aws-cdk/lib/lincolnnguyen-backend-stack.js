@@ -3,12 +3,14 @@ import lambda from 'aws-cdk-lib/aws-lambda';
 import cdk from 'aws-cdk-lib';
 import ec2 from 'aws-cdk-lib/aws-ec2';
 import rds from 'aws-cdk-lib/aws-rds';
+import ecs from 'aws-cdk-lib/aws-ecs';
 import { DynamoEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 import { environment } from '../common/environment.js';
 import { ApplicationLoadBalancedFargateService } from 'aws-cdk-lib/aws-ecs-patterns';
-import { ContainerImage } from 'aws-cdk-lib/aws-ecs';
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
-import { HostedZone } from 'aws-cdk-lib/aws-route53';
+import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53';
+import { ApplicationLoadBalancer } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import { LoadBalancerTarget } from 'aws-cdk-lib/aws-route53-targets';
 
 class LincolnnguyenBackendStack extends cdk.Stack {
   constructor (scope, id, props) {
@@ -109,9 +111,21 @@ class LincolnnguyenBackendStack extends cdk.Stack {
     }));
 
     // api related resources
-    new ApplicationLoadBalancedFargateService(this, 'lincolnnguyen-fargate-api', {
+    const applicationLoadBalancer = new ApplicationLoadBalancer(this, 'lincolnnguyen-api-alb', {
+      vpc,
+      internetFacing: true,
+      loadBalancerName: 'lincolnnguyen-api-alb',
+    });
+
+    const cluster = new ecs.Cluster(this, 'lincolnnguyen-api-ecs-cluster', {
+      vpc,
+      clusterName: 'lincolnnguyen-api-ecs-cluster',
+      enableFargateCapacityProviders: true,
+    });
+
+    const fargateService = new ApplicationLoadBalancedFargateService(this, 'lincolnnguyen-fargate-api', {
       taskImageOptions: {
-        image: ContainerImage.fromRegistry('amazon/amazon-ecs-sample'),
+        image: ecs.ContainerImage.fromRegistry('amazon/amazon-ecs-sample'),
       },
       serviceName: 'lincolnnguyen-fargate-api',
       capacityProviderStrategies: [
@@ -120,10 +134,24 @@ class LincolnnguyenBackendStack extends cdk.Stack {
           weight: 1,
         },
       ],
-      loadBalancerName: 'lincolnnguyen-api-lb',
-      domainName: environment.BACKEND_DOMAIN_NAME,
-      certificate,
-      domainZone: hostedZone,
+      cluster,
+      assignPublicIp: true,
+      loadBalancer: applicationLoadBalancer,
+      taskSubnets: vpc.selectSubnets({
+        subnetType: ec2.SubnetType.PUBLIC,
+      }),
+    });
+
+    applicationLoadBalancer.addListener('lincolnnguyen-api-alb-listener', {
+      port: 443,
+      certificates: [certificate],
+      defaultTargetGroups: [fargateService.targetGroup],
+    });
+
+    new ARecord(this, 'lincolnnguyen-api-alb-record', {
+      zone: hostedZone,
+      recordName: environment.BACKEND_DOMAIN_NAME,
+      target: RecordTarget.fromAlias(new LoadBalancerTarget(applicationLoadBalancer)),
     });
   }
 }
