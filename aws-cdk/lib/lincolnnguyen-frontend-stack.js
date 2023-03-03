@@ -45,8 +45,8 @@ class LincolnnguyenFrontendStack extends cdk.Stack {
     });
 
     const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'hostedZone', {
-      hostedZoneId: environment.FRONTEND_HOSTED_ZONE_ID,
-      zoneName: environment.FRONTEND_HOSTED_ZONE_NAME,
+      hostedZoneId: environment.HOSTED_ZONE_ID,
+      zoneName: environment.HOSTED_ZONE_NAME,
     });
 
     new ARecord(this, 'record', {

@@ -5,6 +5,10 @@ import ec2 from 'aws-cdk-lib/aws-ec2';
 import rds from 'aws-cdk-lib/aws-rds';
 import { DynamoEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 import { environment } from '../common/environment.js';
+import { ApplicationLoadBalancedFargateService } from 'aws-cdk-lib/aws-ecs-patterns';
+import { ContainerImage } from 'aws-cdk-lib/aws-ecs';
+import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
+import { HostedZone } from 'aws-cdk-lib/aws-route53';
 
 class LincolnnguyenBackendStack extends cdk.Stack {
   constructor (scope, id, props) {
@@ -16,14 +20,22 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       maxAzs: 2,
     });
 
+    const certificate = Certificate.fromCertificateArn(this, 'certificate', environment.BACKEND_CERTIFICATE_ARN);
+
+    const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'hostedZone', {
+      hostedZoneId: environment.HOSTED_ZONE_ID,
+      zoneName: environment.HOSTED_ZONE_NAME,
+    });
+
+    // db related resources
     const rdsSubnetGroup = new rds.SubnetGroup(this, 'lincolnnguyen-rds-subnet-group', {
       description: 'Subnet group for lincolnnguyen RDS',
       vpc,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       subnetGroupName: 'lincolnnguyen-rds-subnet-group',
-      vpcSubnets: {
-        subnets: vpc.publicSubnets,
-      },
+      vpcSubnets: vpc.selectSubnets({
+        subnetType: ec2.SubnetType.PUBLIC,
+      }),
     });
 
     const securityGroup = new ec2.SecurityGroup(this, 'lincolnnguyen-security-group', {
@@ -95,6 +107,24 @@ class LincolnnguyenBackendStack extends cdk.Stack {
     lambdaFunction.addEventSource(new DynamoEventSource(table, {
       startingPosition: lambda.StartingPosition.LATEST,
     }));
+
+    // api related resources
+    new ApplicationLoadBalancedFargateService(this, 'lincolnnguyen-fargate-api', {
+      taskImageOptions: {
+        image: ContainerImage.fromRegistry('amazon/amazon-ecs-sample'),
+      },
+      serviceName: 'lincolnnguyen-fargate-api',
+      capacityProviderStrategies: [
+        {
+          capacityProvider: 'FARGATE_SPOT',
+          weight: 1,
+        },
+      ],
+      loadBalancerName: 'lincolnnguyen-api-lb',
+      domainName: environment.BACKEND_DOMAIN_NAME,
+      certificate,
+      domainZone: hostedZone,
+    });
   }
 }
 
