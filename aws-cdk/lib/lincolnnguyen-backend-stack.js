@@ -4,6 +4,8 @@ import cdk from 'aws-cdk-lib';
 import ec2 from 'aws-cdk-lib/aws-ec2';
 import rds from 'aws-cdk-lib/aws-rds';
 import ecs from 'aws-cdk-lib/aws-ecs';
+import ecr from 'aws-cdk-lib/aws-ecr';
+import iam from 'aws-cdk-lib/aws-iam';
 import { DynamoEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 import { environment } from '../common/environment.js';
 import { ApplicationLoadBalancedFargateService } from 'aws-cdk-lib/aws-ecs-patterns';
@@ -123,9 +125,21 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       enableFargateCapacityProviders: true,
     });
 
+    const executionRole = new iam.Role(this, 'lincolnnguyen-api-ecs-execution-role', {
+      assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
+      roleName: 'lincolnnguyen-api-ecs-execution-role',
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName(
+          'service-role/AmazonECSTaskExecutionRolePolicy',
+        ),
+      ],
+    });
+
     const fargateService = new ApplicationLoadBalancedFargateService(this, 'lincolnnguyen-fargate-api', {
       taskImageOptions: {
-        image: ecs.ContainerImage.fromRegistry('amazon/amazon-ecs-sample'),
+        // image: ecs.ContainerImage.fromRegistry('amazon/amazon-ecs-sample'),
+        image: ecs.ContainerImage.fromRegistry(environment.BACKEND_IMAGE_NAME),
+        executionRole,
       },
       serviceName: 'lincolnnguyen-fargate-api',
       capacityProviderStrategies: [
@@ -142,6 +156,10 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       }),
     });
 
+    fargateService.targetGroup.configureHealthCheck({
+      healthyHttpCodes: '200-499',
+    });
+
     applicationLoadBalancer.addListener('lincolnnguyen-api-alb-listener', {
       port: 443,
       certificates: [certificate],
@@ -152,6 +170,11 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       zone: hostedZone,
       recordName: environment.BACKEND_DOMAIN_NAME,
       target: RecordTarget.fromAlias(new LoadBalancerTarget(applicationLoadBalancer)),
+    });
+
+    new ecr.Repository(this, 'lincolnnguyen-api-ecr', {
+      repositoryName: environment.ECR_REPOSITORY_NAME,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
   }
 }

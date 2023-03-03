@@ -9,7 +9,8 @@
     "test": "NODE_ENV=test node --experimental-vm-modules ./node_modules/.bin/jest",
     "prismaCreate": "dotenv -e .env.test -- npx prisma migrate dev --create-only",
     "prismaMigrate": "dotenv -e .env.test -- npx prisma migrate dev && npm run copyPrismaClient",
-    "copyPrismaClient": "cp ./prisma/schema.prisma ../aws-cdk/lambda/schema.prisma && (cd ../aws-cdk/lambda && prisma generate)"
+    "copyPrismaClient": "cp ./prisma/schema.prisma ../aws-cdk/lambda/schema.prisma && (cd ../aws-cdk/lambda && prisma generate)",
+    "deploy": "docker build -t lincolnnguyen-backend:latest . && docker tag lincolnnguyen-backend:latest 542773719222.dkr.ecr.us-east-1.amazonaws.com/lincolnnguyen-backend:latest && aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 542773719222.dkr.ecr.us-east-1.amazonaws.com && docker push 542773719222.dkr.ecr.us-east-1.amazonaws.com/lincolnnguyen-backend:latest && docker images | grep lincolnnguyen | awk '{print $1\":\"$2}' | xargs docker rmi"
   },
   "keywords": [],
   "author": "",
