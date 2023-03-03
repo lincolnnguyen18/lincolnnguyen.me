@@ -1,10 +1,11 @@
 import React from 'react';
-import { commonActions, commonSelector } from '../slices/commonSlice.js';
+import { commonActions, commonSelector, openLogin } from '../slices/commonSlice.js';
 import { Button } from './Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { NavbarButton } from './NavbarButton';
 import { useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 function MainMenu ({ children }) {
   const dispatch = useDispatch();
@@ -12,13 +13,13 @@ function MainMenu ({ children }) {
   const { loggedIn } = useSelector(commonSelector);
 
   function onLogin () {
-    setTimeout(() => {
-      dispatch(commonActions.setSlice({ showLogin: location.pathname }));
-    }, 10);
+    dispatch(commonActions.setSlice({ showLogin: location.pathname }));
+    dispatch(openLogin());
   }
 
   function onLogout () {
-    dispatch(commonActions.setSlice({ showLogin: '/', loggedIn: false }));
+    Cookies.remove('token');
+    dispatch(commonActions.setSlice({ showLogin: '/', loggedIn: false, token: null, user: null, loggingOut: true }));
   }
 
   return (

@@ -11,10 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Backup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/prisma/migrations/20230301071053_init/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/prisma/migrations/migration_lock.toml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/common/clients.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/clients.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/slices/commonSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/slices/commonSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="switch_from_aurora" />
+        <entry key="$PROJECT_DIR$" value="4ff5edb5966c296341db025efcab5905df8f3f0c" />
       </map>
     </option>
     <option name="RESET_MODE" value="MIXED" />
@@ -196,44 +193,44 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "eslint.code.style.apply.dismiss": "true",
-    "javascript.nodejs.core.library.configured.version": "19.4.0",
-    "javascript.nodejs.core.library.typings.version": "18.14.2",
-    "last_opened_file_path": "/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs.jest.jest_package": "/Users/lincolnnguyen/repos/lincolnnguyen.me/backend2/node_modules/jest",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "JavaScript.Libraries",
-    "ts.external.directory.path": "/Users/lincolnnguyen/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/223.8617.44/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;eslint.code.style.apply.dismiss&quot;: &quot;true&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;19.4.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.14.2&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs.jest.jest_package&quot;: &quot;/Users/lincolnnguyen/repos/lincolnnguyen.me/backend2/node_modules/jest&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;JavaScript.Libraries&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/lincolnnguyen/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/223.8617.44/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql",
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;,
+      &quot;postgresql&quot;
     ],
-    "com.intellij.ide.scratch.LRUPopupBuilder$1/Change SQL Dialect": [
-      "PostgreSQL"
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/Change SQL Dialect&quot;: [
+      &quot;PostgreSQL&quot;
     ],
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "JavaScript",
-      "TEXT",
-      "GraphQL"
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;JavaScript&quot;,
+      &quot;TEXT&quot;,
+      &quot;GraphQL&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/frontend" />
@@ -377,11 +374,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Jest.userDao.putUser" />
-        <item itemvalue="Jest.userGqlClient.getToken" />
-        <item itemvalue="Jest.userGqlClient.getUser (1)" />
-        <item itemvalue="Jest.stringUtils.splitText" />
         <item itemvalue="Jest.stringUtils.buildUpdateExpression" />
+        <item itemvalue="Jest.userGqlClient.getUser (1)" />
+        <item itemvalue="Jest.userGqlClient.getToken" />
+        <item itemvalue="Jest.stringUtils.splitText" />
+        <item itemvalue="Jest.userDao.putUser" />
       </list>
     </recent_temporary>
   </component>
@@ -472,13 +469,12 @@
       <workItem from="1677632392204" duration="71866000" />
       <workItem from="1677807185936" duration="19664000" />
       <workItem from="1677835372475" duration="3053000" />
-    </task>
-    <task id="LOCAL-00229" summary="Start Translator.js">
-      <created>1677011782173</created>
-      <option name="number" value="00229" />
-      <option name="presentableId" value="LOCAL-00229" />
-      <option name="project" value="LOCAL" />
-      <updated>1677011782174</updated>
+      <workItem from="1677874516961" duration="1013000" />
+      <workItem from="1677875546381" duration="2180000" />
+      <workItem from="1677878020768" duration="2717000" />
+      <workItem from="1677880824136" duration="994000" />
+      <workItem from="1677884157266" duration="4293000" />
+      <workItem from="1677893500712" duration="658000" />
     </task>
     <task id="LOCAL-00230" summary="Start move from parcel to CRA">
       <created>1677015344866</created>
@@ -816,7 +812,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677834162556</updated>
     </task>
-    <option name="localTasksCounter" value="278" />
+    <task id="LOCAL-00278" summary="Backup">
+      <created>1677888404397</created>
+      <option name="number" value="00278" />
+      <option name="presentableId" value="LOCAL-00278" />
+      <option name="project" value="LOCAL" />
+      <updated>1677888404398</updated>
+    </task>
+    <option name="localTasksCounter" value="279" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

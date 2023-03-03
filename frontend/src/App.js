@@ -1,7 +1,8 @@
 import React from 'react';
+import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { commonActions, commonSelector } from './slices/commonSlice';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { commonActions, commonSelector, getUser } from './slices/commonSlice';
 import { HomeScreen } from './apps/main/HomeScreen';
 import { TestScreen } from './apps/main/TestScreen';
 import { ContactsScreen } from './apps/messages/ContactsScreen';
@@ -10,11 +11,14 @@ import { TranscriptScreen } from './apps/transcribe/TranscriptScreen/TranscriptS
 import { Protected } from './components/Protected';
 import { NavbarMenu } from './components/NavbarMenu';
 import { detect } from 'detect-browser';
+import { closeMenu } from './common/MenuUtils';
+import { gqlClient } from './common/clients';
 
 export function App () {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { backgroundPosition, navMenu, browser, windowValues } = useSelector(commonSelector);
+  const navigate = useNavigate();
+  const { backgroundPosition, navMenu, browser, windowValues, token, showLogin, user } = useSelector(commonSelector);
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -32,7 +36,35 @@ export function App () {
   }, [navMenu.open]);
 
   React.useEffect(() => {
-    console.log('Version 1');
+    if (token) {
+      if (!user) {
+        gqlClient.setHeader('Authorization', `Bearer ${token}`);
+        dispatch(getUser());
+      } else if (showLogin) {
+        navigate(showLogin);
+        closeMenu(dispatch);
+      }
+    }
+    // closeMenu(dispatch);
+  }, [user, token]);
+
+  // React.useEffect(() => {
+  //   if (showLogin && loggedIn) {
+  //     console.log('showLogin!', showLogin);
+  //     navigate(showLogin);
+  //     dispatch(commonActions.setSlice({ showLogin: null }));
+  //   }
+  // }, [showLogin, loggedIn]);
+
+  React.useEffect(() => {
+    console.log('Version 2');
+
+    const token = Cookies.get('token');
+    if (token) {
+      dispatch(commonActions.setSlice({ token: token }));
+    } else {
+      dispatch(commonActions.setSlice({ token: null, user: null }));
+    }
 
     const browser = detect();
     // window.alert(JSON.stringify(browser));
@@ -76,7 +108,7 @@ export function App () {
     }
   }, [windowValues.width]);
 
-  return (
+  return token !== undefined && user !== undefined && (
     <>
       {location.pathname !== '/testing' && <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85]" style={{ backgroundSize: 'cover', backgroundImage: 'url(/bg.jpg)', backgroundPosition }} />}
       <Routes>

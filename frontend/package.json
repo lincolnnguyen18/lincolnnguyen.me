@@ -8,6 +8,8 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "detect-browser": "^5.3.0",
+    "graphql-request": "^5.2.0",
+    "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -68,7 +70,10 @@
       "react-hooks/exhaustive-deps": "off",
       "prefer-const": "error"
     },
-    "ignorePatterns": ["node_modules", "build"]
+    "ignorePatterns": [
+      "node_modules",
+      "build"
+    ]
   },
   "browserslist": {
     "production": [

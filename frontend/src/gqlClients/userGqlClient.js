@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { gqlClient, gqlClientNoAuth } from '../common/clients.js';
+import { gqlClient } from '../common/clients.js';
 
 class UserGqlClient {
   async getToken ({ username, password }) {
@@ -12,7 +12,7 @@ class UserGqlClient {
       username,
       password,
     };
-    const res = await gqlClientNoAuth.request(query, variables);
+    const res = await gqlClient.request(query, variables);
     return res.login;
   }
 
@@ -48,7 +48,7 @@ class UserGqlClient {
       password,
       confirmPassword,
     };
-    const res = await gqlClientNoAuth.request(query, variables);
+    const res = await gqlClient.request(query, variables);
     return res.register;
   }
 

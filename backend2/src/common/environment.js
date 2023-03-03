@@ -7,8 +7,6 @@ const environment = {
   AWS_REGION: process.env.AWS_REGION,
   PORT: process.env.PORT,
   DDB_MAIN_TABLE: process.env.DDB_MAIN_TABLE,
-  GRAPHQL_URL: process.env.GRAPHQL_URL,
-  GRAPHQL_AUTHORIZATION: process.env.GRAPHQL_AUTHORIZATION,
   JWT_SECRET: process.env.JWT_SECRET,
 };
 

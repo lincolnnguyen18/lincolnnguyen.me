@@ -71,6 +71,7 @@ const resolvers = {
     user: async (_, __, { id }) => {
       if (!id) return null;
       const user = await userDynamoDao.getUserFromId(id);
+      if (!user) return null;
       user.transcripts = [];
       return user;
     },
