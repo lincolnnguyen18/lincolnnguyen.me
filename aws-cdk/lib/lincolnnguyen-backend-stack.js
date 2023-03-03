@@ -31,17 +31,6 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       zoneName: environment.HOSTED_ZONE_NAME,
     });
 
-    // db related resources
-    const rdsSubnetGroup = new rds.SubnetGroup(this, 'lincolnnguyen-rds-subnet-group', {
-      description: 'Subnet group for lincolnnguyen RDS',
-      vpc,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      subnetGroupName: 'lincolnnguyen-rds-subnet-group',
-      vpcSubnets: vpc.selectSubnets({
-        subnetType: ec2.SubnetType.PUBLIC,
-      }),
-    });
-
     const securityGroup = new ec2.SecurityGroup(this, 'lincolnnguyen-security-group', {
       vpc,
       allowAllOutbound: true,
@@ -56,40 +45,26 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(30),
     });
 
-    const rdsCluster = new rds.DatabaseCluster(this, 'lincolnnguyen-rds', {
-      engine: rds.DatabaseClusterEngine.auroraPostgres({
-        version: rds.AuroraPostgresEngineVersion.VER_14_6,
+    new rds.DatabaseInstance(this, 'lincolnnguyen-rds', {
+      engine: rds.DatabaseInstanceEngine.POSTGRES,
+      instanceType: new ec2.InstanceType('t3.micro'),
+      vpc,
+      vpcSubnets: vpc.selectSubnets({
+        subnetType: ec2.SubnetType.PUBLIC,
       }),
-      instances: 1,
-      instanceProps: {
-        vpc,
-        instanceType: new ec2.InstanceType('serverless'),
-        autoMinorVersionUpgrade: true,
-        publiclyAccessible: true,
-        securityGroups: [securityGroup],
-        vpcSubnets: vpc.selectSubnets({
-          subnetType: ec2.SubnetType.PUBLIC,
-        }),
-      },
+      securityGroups: [securityGroup],
+      allocatedStorage: 20,
+      autoMinorVersionUpgrade: true,
+      allowMajorVersionUpgrade: true,
+      maxAllocatedStorage: 20,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
       credentials: {
         username: environment.RDS_USERNAME,
         password: cdk.SecretValue.unsafePlainText(environment.RDS_PASSWORD),
       },
-      clusterIdentifier: 'lincolnnguyen-rds',
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      subnetGroup: rdsSubnetGroup,
-      defaultDatabaseName: environment.RDS_DB_NAME,
-    });
-
-    cdk.Aspects.of(rdsCluster).add({
-      visit: (node) => {
-        if (node instanceof rds.CfnDBCluster) {
-          node.serverlessV2ScalingConfiguration = {
-            minCapacity: 0.5,
-            maxCapacity: 1,
-          };
-        }
-      },
+      publiclyAccessible: true,
+      databaseName: environment.RDS_DB_NAME,
+      instanceIdentifier: 'lincolnnguyen-rds',
     });
 
     const table = new dynamodb.Table(this, 'lincolnnguyen-ddb', {

@@ -9,23 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Make fargate service use 0 nat gateways">
-      <change afterPath="$PROJECT_DIR$/backend2/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend2/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/.env.production" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/common/clients.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/common/environment.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/gqlClients/userGqlClient.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/gqlClients/userGqlClient.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Backup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws-cdk/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/common/environment.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/apps/main/HomeScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/main/HomeScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/slices/commonSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/slices/commonSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/prisma/migrations/20230301071053_init/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/prisma/migrations/migration_lock.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/clients.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/clients.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +36,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="3eb48a18b4836448caa1a64997c033848b668820" />
+        <entry key="$PROJECT_DIR$" value="switch_from_aurora" />
       </map>
     </option>
     <option name="RESET_MODE" value="MIXED" />
@@ -223,7 +212,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.standard": "",
     "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs.jest.jest_package": "/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend/node_modules/react-scripts",
+    "nodejs.jest.jest_package": "/Users/lincolnnguyen/repos/lincolnnguyen.me/backend2/node_modules/jest",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "JavaScript.Libraries",
@@ -261,7 +250,7 @@
       <recent name="$PROJECT_DIR$/aws-cdk/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Jest.stringUtils.splitText">
+  <component name="RunManager" selected="Jest.userDao.putUser">
     <configuration name="ddbStreamRecordHandler" type="JavaScriptTestRunnerJest" nameIsGenerated="true">
       <config-file value="$PROJECT_DIR$/.idea/runConfigurations/backendDevConfig.xml" />
       <node-interpreter value="project" />
@@ -318,50 +307,52 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="userGqlClient.getUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+    <configuration name="userDao.putUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="--experimental-vm-modules" />
       <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
       <working-dir value="$PROJECT_DIR$/backend2" />
       <envs />
       <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.test.js" />
+      <test-file value="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" />
+      <test-names>
+        <test-name value="userDao" />
+        <test-name value="putUser" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="userGqlClient.getToken" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/frontend/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/frontend" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/frontend/src/gqlClients/userGqlClient.test.js" />
+      <test-names>
+        <test-name value="userGqlClient" />
+        <test-name value="getToken" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="userGqlClient.getUser (1)" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/frontend/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/frontend" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/frontend/src/gqlClients/userGqlClient.test.js" />
       <test-names>
         <test-name value="userGqlClient" />
         <test-name value="getUser" />
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="userGqlClient.updateUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="--experimental-vm-modules" />
-      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$/backend2" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/backend2/src/gqlClients/userGqlClient.test.js" />
-      <test-names>
-        <test-name value="userGqlClient" />
-        <test-name value="updateUser" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="validators.updateUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="--experimental-vm-modules" />
-      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$/backend2" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/backend2/src/common/validators.test.js" />
-      <test-names>
-        <test-name value="validators" />
-        <test-name value="updateUser" />
-      </test-names>
-      <method v="2" />
-    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
-      <deployment type="dockerfile" />
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
       <method v="2" />
     </configuration>
     <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
@@ -377,20 +368,20 @@
     <list>
       <item itemvalue="Jest.ddbStreamRecordHandler" />
       <item itemvalue="Jest.ddbStreamRecordHandler.putUser" />
+      <item itemvalue="Jest.userDao.putUser" />
       <item itemvalue="Jest.stringUtils.splitText" />
+      <item itemvalue="Jest.userGqlClient.getToken" />
+      <item itemvalue="Jest.userGqlClient.getUser (1)" />
       <item itemvalue="Jest.stringUtils.buildUpdateExpression" />
-      <item itemvalue="Jest.userGqlClient.getUser" />
-      <item itemvalue="Jest.userGqlClient.updateUser" />
-      <item itemvalue="Jest.validators.updateUser" />
       <item itemvalue="npm.start" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Jest.userDao.putUser" />
+        <item itemvalue="Jest.userGqlClient.getToken" />
+        <item itemvalue="Jest.userGqlClient.getUser (1)" />
         <item itemvalue="Jest.stringUtils.splitText" />
         <item itemvalue="Jest.stringUtils.buildUpdateExpression" />
-        <item itemvalue="Jest.userGqlClient.updateUser" />
-        <item itemvalue="Jest.userGqlClient.getUser" />
-        <item itemvalue="Jest.validators.updateUser" />
       </list>
     </recent_temporary>
   </component>
@@ -479,21 +470,8 @@
       <workItem from="1677574353504" duration="5833000" />
       <workItem from="1677628698217" duration="1565000" />
       <workItem from="1677632392204" duration="71866000" />
-      <workItem from="1677807185936" duration="9582000" />
-    </task>
-    <task id="LOCAL-00227" summary="Auto restart transcriber on timeout">
-      <created>1676969266789</created>
-      <option name="number" value="00227" />
-      <option name="presentableId" value="LOCAL-00227" />
-      <option name="project" value="LOCAL" />
-      <updated>1676969266789</updated>
-    </task>
-    <task id="LOCAL-00228" summary="Confirm modal when deleting parts from transcript">
-      <created>1676973235491</created>
-      <option name="number" value="00228" />
-      <option name="presentableId" value="LOCAL-00228" />
-      <option name="project" value="LOCAL" />
-      <updated>1676973235491</updated>
+      <workItem from="1677807185936" duration="19664000" />
+      <workItem from="1677835372475" duration="3053000" />
     </task>
     <task id="LOCAL-00229" summary="Start Translator.js">
       <created>1677011782173</created>
@@ -824,7 +802,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677809819011</updated>
     </task>
-    <option name="localTasksCounter" value="276" />
+    <task id="LOCAL-00276" summary="Dockerize backend, add code to deploy docker image">
+      <created>1677820750767</created>
+      <option name="number" value="00276" />
+      <option name="presentableId" value="LOCAL-00276" />
+      <option name="project" value="LOCAL" />
+      <updated>1677820750767</updated>
+    </task>
+    <task id="LOCAL-00277" summary="Backup">
+      <created>1677834162556</created>
+      <option name="number" value="00277" />
+      <option name="presentableId" value="LOCAL-00277" />
+      <option name="project" value="LOCAL" />
+      <updated>1677834162556</updated>
+    </task>
+    <option name="localTasksCounter" value="278" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -859,7 +851,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Disable tags, indicate language in transcribe button" />
     <MESSAGE value="Fix bugs; switching languages" />
     <MESSAGE value="Fix switching languages bug" />
     <MESSAGE value="Indicate language on start transcribe button" />
@@ -871,7 +862,6 @@
     <MESSAGE value="Implement shortcuts" />
     <MESSAGE value="Add delete transcript button" />
     <MESSAGE value="Switch between transcription modes shortcut, adjust step size of speed range slider" />
-    <MESSAGE value="Backup" />
     <MESSAGE value="Fix incorrect timestamp bug, restore auto scroll button" />
     <MESSAGE value="Switch between transcription modes shortcut, adjust step size of speed range slider, fix incorrect timestamp bug, restore auto scroll button" />
     <MESSAGE value="UserDao putUser, start aws cdk rewrite" />
@@ -884,6 +874,8 @@
     <MESSAGE value="Add frontend stack cdk" />
     <MESSAGE value="Add backend stack cdk" />
     <MESSAGE value="Make fargate service use 0 nat gateways" />
-    <option name="LAST_COMMIT_MESSAGE" value="Make fargate service use 0 nat gateways" />
+    <MESSAGE value="Dockerize backend, add code to deploy docker image" />
+    <MESSAGE value="Backup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Backup" />
   </component>
 </project>
