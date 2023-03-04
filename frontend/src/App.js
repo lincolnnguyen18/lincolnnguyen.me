@@ -13,6 +13,7 @@ import { NavbarMenu } from './components/NavbarMenu';
 import { detect } from 'detect-browser';
 import { closeMenu } from './common/MenuUtils';
 import { gqlClient } from './common/clients';
+import { environment } from './common/environment';
 
 export function App () {
   const dispatch = useDispatch();
@@ -45,19 +46,10 @@ export function App () {
         closeMenu(dispatch);
       }
     }
-    // closeMenu(dispatch);
   }, [user, token]);
 
-  // React.useEffect(() => {
-  //   if (showLogin && loggedIn) {
-  //     console.log('showLogin!', showLogin);
-  //     navigate(showLogin);
-  //     dispatch(commonActions.setSlice({ showLogin: null }));
-  //   }
-  // }, [showLogin, loggedIn]);
-
   React.useEffect(() => {
-    console.log('Version 3');
+    console.log(environment.VERSION);
 
     const token = Cookies.get('token');
     if (token) {

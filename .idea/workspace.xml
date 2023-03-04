@@ -11,7 +11,11 @@
   <component name="ChangeListManager">
     <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Register user, show errors if any">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/environment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.env.production" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/common/environment.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -476,13 +480,6 @@
       <workItem from="1677884157266" duration="4293000" />
       <workItem from="1677893500712" duration="11151000" />
     </task>
-    <task id="LOCAL-00236" summary="Search subnav">
-      <created>1677133714366</created>
-      <option name="number" value="00236" />
-      <option name="presentableId" value="LOCAL-00236" />
-      <option name="project" value="LOCAL" />
-      <updated>1677133714366</updated>
-    </task>
     <task id="LOCAL-00237" summary="Search url query load search params">
       <created>1677138256480</created>
       <option name="number" value="00237" />
@@ -819,7 +816,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677931872105</updated>
     </task>
-    <option name="localTasksCounter" value="285" />
+    <task id="LOCAL-00285" summary="Register user, show errors if any">
+      <created>1677932221007</created>
+      <option name="number" value="00285" />
+      <option name="presentableId" value="LOCAL-00285" />
+      <option name="project" value="LOCAL" />
+      <updated>1677932221007</updated>
+    </task>
+    <option name="localTasksCounter" value="286" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

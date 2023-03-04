@@ -46,6 +46,7 @@ const typeDefs = `
     type Query {
         # no auth required
         login(username: String!, password: String!): String
+        version: String!
         
         # auth required
         user: User
@@ -82,6 +83,7 @@ const resolvers = {
 
       return jwt.sign({ id }, environment.JWT_SECRET);
     },
+    version: () => environment.VERSION,
   },
   Mutation: {
     register: async (_, user) => {

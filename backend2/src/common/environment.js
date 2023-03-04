@@ -8,6 +8,7 @@ const environment = {
   PORT: process.env.PORT,
   DDB_MAIN_TABLE: process.env.DDB_MAIN_TABLE,
   JWT_SECRET: process.env.JWT_SECRET,
+  VERSION: process.env.VERSION,
 };
 
 export { environment };
