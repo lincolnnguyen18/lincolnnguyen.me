@@ -17,6 +17,7 @@ function validatePutUser (user) {
         'string.max': 'Password should have at most {#limit} characters',
       }),
     confirmPassword: Joi.string().valid(Joi.ref('password')).messages({
+      'string.empty': 'Confirm password is required',
       'any.only': 'Passwords do not match',
     }),
   });

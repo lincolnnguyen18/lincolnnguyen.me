@@ -4,12 +4,9 @@ import Cookies from 'js-cookie';
 import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 import { userGqlClient } from '../gqlClients/userGqlClient';
 import { wait } from '../common/timeUtils';
-import { closeMenu } from '../common/MenuUtils';
-import { TextField } from '../components/TextField';
-import { NavbarButton } from '../components/NavbarButton';
-import { GroupDivider } from '../components/GroupDivider';
 import { getActionName } from '../common/stringUtils';
 import { Login } from '../apps/main/Login';
+import { Register } from '../apps/main/Register';
 
 const positions = ['center center', 'center top', 'center bottom'];
 
@@ -54,35 +51,13 @@ const openRegister = createAsyncThunk(
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
 
-    function onRegister (e) {
-      e.preventDefault();
-      dispatch(commonActions.setSlice({ showLogin: null, loggedIn: true }));
-      closeMenu(dispatch);
-    }
-
     dispatch(commonActions.openNavMenu({
       position: 'left',
       isMainMenu: false,
       centerContent: true,
       easyClose: false,
       children: (
-        <form className="flex flex-col w-full text-white items-center" onSubmit={onRegister}>
-          <div className="flex flex-col w-full mt-3 mb-6 gap-2">
-            <span className="font-semibold">Register</span>
-            <div className="flex flex-col">
-              <TextField placeholder="Username" autoFocus={true} type="username" name="title" dir="vert" />
-              <GroupDivider dir="vert" />
-              <TextField placeholder="Password" type="password" name="password" dir="vert" />
-              <GroupDivider dir="vert" />
-              <TextField placeholder="Confirm password" name="password2" type="password" dir="vert" />
-            </div>
-          </div>
-          <div className="flex">
-            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
-            <GroupDivider dir="horiz" />
-            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Register</NavbarButton>
-          </div>
-        </form>
+        <Register />
       ),
     }));
   },
@@ -132,6 +107,14 @@ const getUser = createAsyncThunk(
       dispatch(commonActions.setSlice({ token: null }));
       Cookies.remove('token');
     }
+  },
+);
+
+const registerUser = createAsyncThunk(
+  'common/registerUser',
+  async ({ username, password, confirmPassword }, { dispatch }) => {
+    const errors = await userGqlClient.registerUser({ username, password, confirmPassword });
+    dispatch(commonActions.setSlice({ errors }));
   },
 );
 
@@ -228,4 +211,4 @@ const commonReducer = commonSlice.reducer;
 const commonSelector = (state) => state.common;
 
 export { commonActions, commonReducer, commonSelector };
-export { getToken, getUser, openLogin, openRegister };
+export { getToken, getUser, openLogin, openRegister, registerUser };

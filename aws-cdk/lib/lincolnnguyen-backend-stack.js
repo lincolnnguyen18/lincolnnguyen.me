@@ -31,6 +31,7 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       zoneName: environment.HOSTED_ZONE_NAME,
     });
 
+    // db related resources
     const securityGroup = new ec2.SecurityGroup(this, 'lincolnnguyen-security-group', {
       vpc,
       allowAllOutbound: true,

@@ -16,7 +16,7 @@ describe('userGqlClient', () => {
 
   it('registerUser', async () => {
     const res = await userGqlClient.registerUser({
-      username: 'thanh',
+      username: 'username',
       password: 'password',
       confirmPassword: 'password',
     });

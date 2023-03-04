@@ -9,12 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Show error for invalid login">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Errors.js" afterDir="false" />
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Register user, show errors if any">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/apps/main/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/main/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/slices/commonSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/slices/commonSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,51 +193,51 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;eslint.code.style.apply.dismiss&quot;: &quot;true&quot;,
-    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;19.4.0&quot;,
-    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.14.2&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs.jest.jest_package&quot;: &quot;/Users/lincolnnguyen/repos/lincolnnguyen.me/backend2/node_modules/jest&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;JavaScript.Libraries&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/lincolnnguyen/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/223.8617.44/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "eslint.code.style.apply.dismiss": "true",
+    "javascript.nodejs.core.library.configured.version": "19.4.0",
+    "javascript.nodejs.core.library.typings.version": "18.14.2",
+    "last_opened_file_path": "/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend/src/apps/main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs.jest.jest_package": "/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend/node_modules/react-scripts",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "JavaScript.Libraries",
+    "ts.external.directory.path": "/Users/lincolnnguyen/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/223.8617.44/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;,
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql",
+      "postgresql"
     ],
-    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/Change SQL Dialect&quot;: [
-      &quot;PostgreSQL&quot;
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/Change SQL Dialect": [
+      "PostgreSQL"
     ],
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;JavaScript&quot;,
-      &quot;TEXT&quot;,
-      &quot;GraphQL&quot;
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "JavaScript",
+      "TEXT",
+      "GraphQL"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/apps/main" />
       <recent name="$PROJECT_DIR$/frontend" />
       <recent name="$PROJECT_DIR$/frontend/src" />
       <recent name="$PROJECT_DIR$/frontend/src/common" />
       <recent name="$PROJECT_DIR$/aws-cdk/lambda/common" />
-      <recent name="$PROJECT_DIR$/aws-cdk/src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/docs" />
@@ -250,7 +247,7 @@
       <recent name="$PROJECT_DIR$/aws-cdk/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Jest.validators.updateUser">
+  <component name="RunManager" selected="Jest.userGqlClient.registerUser">
     <configuration name="ddbStreamRecordHandler" type="JavaScriptTestRunnerJest" nameIsGenerated="true">
       <config-file value="$PROJECT_DIR$/.idea/runConfigurations/backendDevConfig.xml" />
       <node-interpreter value="project" />
@@ -293,20 +290,6 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="userGqlClient.getToken" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/frontend/node_modules/react-scripts" />
-      <working-dir value="$PROJECT_DIR$/frontend" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/frontend/src/gqlClients/userGqlClient.test.js" />
-      <test-names>
-        <test-name value="userGqlClient" />
-        <test-name value="getToken" />
-      </test-names>
-      <method v="2" />
-    </configuration>
     <configuration name="userGqlClient.getUser (1)" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -318,6 +301,20 @@
       <test-names>
         <test-name value="userGqlClient" />
         <test-name value="getUser" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="userGqlClient.registerUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/frontend/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/frontend" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/frontend/src/gqlClients/userGqlClient.test.js" />
+      <test-names>
+        <test-name value="userGqlClient" />
+        <test-name value="registerUser" />
       </test-names>
       <method v="2" />
     </configuration>
@@ -368,20 +365,20 @@
     <list>
       <item itemvalue="Jest.ddbStreamRecordHandler" />
       <item itemvalue="Jest.ddbStreamRecordHandler.putUser" />
+      <item itemvalue="Jest.userGqlClient.registerUser" />
       <item itemvalue="Jest.validators.putUser" />
       <item itemvalue="Jest.validators.updateUser" />
-      <item itemvalue="Jest.userGqlClient.getToken" />
       <item itemvalue="Jest.userGqlClient.getUser (1)" />
       <item itemvalue="Jest.stringUtils.buildUpdateExpression" />
       <item itemvalue="npm.start" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Jest.userGqlClient.registerUser" />
         <item itemvalue="Jest.validators.updateUser" />
         <item itemvalue="Jest.validators.putUser" />
         <item itemvalue="Jest.stringUtils.buildUpdateExpression" />
         <item itemvalue="Jest.userGqlClient.getUser (1)" />
-        <item itemvalue="Jest.userGqlClient.getToken" />
       </list>
     </recent_temporary>
   </component>
@@ -478,27 +475,6 @@
       <workItem from="1677880824136" duration="994000" />
       <workItem from="1677884157266" duration="4293000" />
       <workItem from="1677893500712" duration="11151000" />
-    </task>
-    <task id="LOCAL-00233" summary="Translate each final result">
-      <created>1677050728045</created>
-      <option name="number" value="00233" />
-      <option name="presentableId" value="LOCAL-00233" />
-      <option name="project" value="LOCAL" />
-      <updated>1677050728045</updated>
-    </task>
-    <task id="LOCAL-00234" summary="Backup">
-      <created>1677053843457</created>
-      <option name="number" value="00234" />
-      <option name="presentableId" value="LOCAL-00234" />
-      <option name="project" value="LOCAL" />
-      <updated>1677053843458</updated>
-    </task>
-    <task id="LOCAL-00235" summary="Search subnav">
-      <created>1677124127289</created>
-      <option name="number" value="00235" />
-      <option name="presentableId" value="LOCAL-00235" />
-      <option name="project" value="LOCAL" />
-      <updated>1677124127289</updated>
     </task>
     <task id="LOCAL-00236" summary="Search subnav">
       <created>1677133714366</created>
@@ -822,7 +798,28 @@
       <option name="project" value="LOCAL" />
       <updated>1677927224469</updated>
     </task>
-    <option name="localTasksCounter" value="282" />
+    <task id="LOCAL-00282" summary="Show error for invalid login">
+      <created>1677929457956</created>
+      <option name="number" value="00282" />
+      <option name="presentableId" value="LOCAL-00282" />
+      <option name="project" value="LOCAL" />
+      <updated>1677929457956</updated>
+    </task>
+    <task id="LOCAL-00283" summary="Register user, show errors if any">
+      <created>1677931323508</created>
+      <option name="number" value="00283" />
+      <option name="presentableId" value="LOCAL-00283" />
+      <option name="project" value="LOCAL" />
+      <updated>1677931323508</updated>
+    </task>
+    <task id="LOCAL-00284" summary="Register user, show errors if any">
+      <created>1677931872105</created>
+      <option name="number" value="00284" />
+      <option name="presentableId" value="LOCAL-00284" />
+      <option name="project" value="LOCAL" />
+      <updated>1677931872105</updated>
+    </task>
+    <option name="localTasksCounter" value="285" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -857,7 +854,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add query and mutation, try to fix switching languages bug" />
     <MESSAGE value="Fix more bugs, restore timeout before transcribe restart, etc." />
     <MESSAGE value="Cut off transcription results options" />
     <MESSAGE value="MenuUtils and view shortcuts" />
@@ -882,6 +878,7 @@
     <MESSAGE value="Disable login buttons on pending" />
     <MESSAGE value="Reformat error message format" />
     <MESSAGE value="Show error for invalid login" />
-    <option name="LAST_COMMIT_MESSAGE" value="Show error for invalid login" />
+    <MESSAGE value="Register user, show errors if any" />
+    <option name="LAST_COMMIT_MESSAGE" value="Register user, show errors if any" />
   </component>
 </project>
