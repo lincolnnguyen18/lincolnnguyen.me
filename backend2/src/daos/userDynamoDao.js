@@ -24,7 +24,7 @@ class UserDynamoDao {
     let exists = await ddbClient.send(new QueryCommand(params));
     exists = exists.Items.length > 0;
     if (exists) {
-      return [{ field: ['username'], message: 'Username already exists' }];
+      return ['Username already exists'];
     }
 
     params = {
@@ -47,7 +47,7 @@ class UserDynamoDao {
       return [];
     } catch (e) {
       console.error(e);
-      return [{ field: ['other'], message: 'UUID collision' }];
+      return ['UUID collision'];
     }
   }
 
@@ -81,7 +81,7 @@ class UserDynamoDao {
       return [];
     } catch (e) {
       console.error(e);
-      return [{ field: ['other'], message: 'Update failed' }];
+      return ['Update failed'];
     }
   }
 

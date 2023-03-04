@@ -11,9 +11,10 @@
   <component name="ChangeListManager">
     <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Disable login buttons on pending">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/apps/main/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/main/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/NavbarMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NavbarMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/slices/commonSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/slices/commonSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/stringUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/stringUtils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/validators.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/validators.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +39,7 @@
         <entry key="$PROJECT_DIR$" value="4ff5edb5966c296341db025efcab5905df8f3f0c" />
       </map>
     </option>
-    <option name="RESET_MODE" value="MIXED" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitRewordedCommitMessages">
     <option name="commitMessagesMapping">
@@ -249,7 +250,7 @@
       <recent name="$PROJECT_DIR$/aws-cdk/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Jest.userDao.putUser">
+  <component name="RunManager" selected="Jest.validators.updateUser">
     <configuration name="ddbStreamRecordHandler" type="JavaScriptTestRunnerJest" nameIsGenerated="true">
       <config-file value="$PROJECT_DIR$/.idea/runConfigurations/backendDevConfig.xml" />
       <node-interpreter value="project" />
@@ -292,34 +293,6 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="stringUtils.splitText" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/frontend/node_modules/react-scripts" />
-      <working-dir value="$PROJECT_DIR$/frontend" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/frontend/src/common/stringUtils.test.js" />
-      <test-names>
-        <test-name value="stringUtils" />
-        <test-name value="splitText" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="userDao.putUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="--experimental-vm-modules" />
-      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$/backend2" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" />
-      <test-names>
-        <test-name value="userDao" />
-        <test-name value="putUser" />
-      </test-names>
-      <method v="2" />
-    </configuration>
     <configuration name="userGqlClient.getToken" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -348,6 +321,34 @@
       </test-names>
       <method v="2" />
     </configuration>
+    <configuration name="validators.putUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend2" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend2/src/common/validators.test.js" />
+      <test-names>
+        <test-name value="validators" />
+        <test-name value="putUser" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="validators.updateUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend2" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend2/src/common/validators.test.js" />
+      <test-names>
+        <test-name value="validators" />
+        <test-name value="updateUser" />
+      </test-names>
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
       <deployment type="dockerfile">
         <settings />
@@ -367,8 +368,8 @@
     <list>
       <item itemvalue="Jest.ddbStreamRecordHandler" />
       <item itemvalue="Jest.ddbStreamRecordHandler.putUser" />
-      <item itemvalue="Jest.userDao.putUser" />
-      <item itemvalue="Jest.stringUtils.splitText" />
+      <item itemvalue="Jest.validators.putUser" />
+      <item itemvalue="Jest.validators.updateUser" />
       <item itemvalue="Jest.userGqlClient.getToken" />
       <item itemvalue="Jest.userGqlClient.getUser (1)" />
       <item itemvalue="Jest.stringUtils.buildUpdateExpression" />
@@ -376,11 +377,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Jest.validators.updateUser" />
+        <item itemvalue="Jest.validators.putUser" />
         <item itemvalue="Jest.stringUtils.buildUpdateExpression" />
         <item itemvalue="Jest.userGqlClient.getUser (1)" />
         <item itemvalue="Jest.userGqlClient.getToken" />
-        <item itemvalue="Jest.stringUtils.splitText" />
-        <item itemvalue="Jest.userDao.putUser" />
       </list>
     </recent_temporary>
   </component>

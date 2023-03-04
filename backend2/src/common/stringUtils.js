@@ -124,10 +124,7 @@ function buildUpdateExpression (attributes) {
 
 function mapErrorDetails (error) {
   if (!error) return [];
-  return error.details.map((detail) => ({
-    field: detail.path,
-    message: detail.message,
-  }));
+  return error.details.map((detail) => detail.message);
 }
 
 export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestamp2, uuid, splitText, translate, removeEmptyLines, buildUpdateExpression, mapErrorDetails };

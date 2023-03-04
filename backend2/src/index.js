@@ -43,11 +43,6 @@ const typeDefs = `
         partsUrl: String!
         partsOrder: [String]!
     }
-
-    type Error {
-        field: [String!]!
-        message: String!
-    }
     
     type Query {
         # no auth required
@@ -59,10 +54,10 @@ const typeDefs = `
     
     type Mutation {
         # no auth required
-        register(username: String!, password: String!, confirmPassword: String!): [Error!]!
+        register(username: String!, password: String!, confirmPassword: String!): [String!]!
         
         # auth required
-        updateUser(input: UpdateUserInput!): [Error!]!
+        updateUser(input: UpdateUserInput!): [String!]!
     }
 `;
 

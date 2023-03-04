@@ -51,7 +51,7 @@ function validateUpdateUser (user) {
 }
 
 function validateAuthenticated (id) {
-  if (!id) return [{ field: ['other'], message: 'Not authorized' }];
+  if (!id) return ['Not authorized'];
   return [];
 }
 
