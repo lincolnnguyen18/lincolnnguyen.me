@@ -115,6 +115,8 @@ const getToken = createAsyncThunk(
     });
     if (token) {
       Cookies.set('token', token);
+    } else {
+      dispatch(commonActions.setSlice({ errors: ['Invalid username or password'] }));
     }
     dispatch(commonActions.setSlice({ token }));
   },
@@ -142,7 +144,6 @@ const commonSlice = createSlice({
     },
     closeNavMenu: (state) => {
       // if (!state.loggedIn) state.showLogin = null;
-      state.navMenuCloseButtonDisabled = false;
       _.merge(state.navMenu, { open: false, items: [], easyClose: true });
     },
     hideNavMenuChildren: (state) => {
@@ -208,12 +209,16 @@ const commonSlice = createSlice({
       .addMatcher(isPending, (state, action) => {
         state.errors = [];
         state.pending[getActionName(action)] = true;
+        state.navMenuCloseButtonDisabled = true;
+
       })
       .addMatcher(isFulfilled, (state, action) => {
         state.pending[getActionName(action)] = false;
+        state.navMenuCloseButtonDisabled = false;
       })
       .addMatcher(isRejected, (state, action) => {
         state.pending[getActionName(action)] = false;
+        state.navMenuCloseButtonDisabled = false;
       });
   },
 });

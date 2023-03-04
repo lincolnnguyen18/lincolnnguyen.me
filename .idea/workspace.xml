@@ -9,12 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Disable login buttons on pending">
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Show error for invalid login">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Errors.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/common/stringUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/stringUtils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/common/validators.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/validators.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend2/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/apps/main/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/main/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/slices/commonSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/slices/commonSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -479,13 +479,6 @@
       <workItem from="1677884157266" duration="4293000" />
       <workItem from="1677893500712" duration="11151000" />
     </task>
-    <task id="LOCAL-00232" summary="Add Translator">
-      <created>1677043936919</created>
-      <option name="number" value="00232" />
-      <option name="presentableId" value="LOCAL-00232" />
-      <option name="project" value="LOCAL" />
-      <updated>1677043936919</updated>
-    </task>
     <task id="LOCAL-00233" summary="Translate each final result">
       <created>1677050728045</created>
       <option name="number" value="00233" />
@@ -822,7 +815,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677920611655</updated>
     </task>
-    <option name="localTasksCounter" value="281" />
+    <task id="LOCAL-00281" summary="Reformat error message format">
+      <created>1677927224469</created>
+      <option name="number" value="00281" />
+      <option name="presentableId" value="LOCAL-00281" />
+      <option name="project" value="LOCAL" />
+      <updated>1677927224469</updated>
+    </task>
+    <option name="localTasksCounter" value="282" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -857,8 +857,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Indicate language on start transcribe button" />
-    <MESSAGE value="Start graphql api, backend rewrite" />
     <MESSAGE value="Add query and mutation, try to fix switching languages bug" />
     <MESSAGE value="Fix more bugs, restore timeout before transcribe restart, etc." />
     <MESSAGE value="Cut off transcription results options" />
@@ -882,6 +880,8 @@
     <MESSAGE value="Backup" />
     <MESSAGE value="Add login, logout" />
     <MESSAGE value="Disable login buttons on pending" />
-    <option name="LAST_COMMIT_MESSAGE" value="Disable login buttons on pending" />
+    <MESSAGE value="Reformat error message format" />
+    <MESSAGE value="Show error for invalid login" />
+    <option name="LAST_COMMIT_MESSAGE" value="Show error for invalid login" />
   </component>
 </project>
