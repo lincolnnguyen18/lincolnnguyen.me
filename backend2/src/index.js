@@ -6,6 +6,7 @@ import { uuid } from './common/stringUtils.js';
 import { validateAuthenticated, validatePutUser, validateUpdateUser } from './common/validators.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { wait } from './common/miscUtils.js';
 
 // language=GraphQL
 const typeDefs = `
@@ -76,6 +77,7 @@ const resolvers = {
       return user;
     },
     login: async (_, { username, password }) => {
+      await wait(3000);
       const id = await userDynamoDao.getIdFromUsername(username);
       if (!id) return null;
 

@@ -95,4 +95,8 @@ function removeEmptyLines (text) {
   return text.split('\n').filter(line => line.trim().length > 0).join('\n');
 }
 
-export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestamp2, uuid, splitText, translate, removeEmptyLines };
+function getActionName (action) {
+  return action.type.split('/')[1];
+}
+
+export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestamp2, uuid, splitText, translate, removeEmptyLines, getActionName };

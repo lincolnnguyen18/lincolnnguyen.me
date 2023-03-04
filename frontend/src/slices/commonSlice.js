@@ -1,14 +1,15 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import _ from 'lodash';
-import { userGqlClient } from '../gqlClients/userGqlClient';
+import React from 'react';
 import Cookies from 'js-cookie';
+import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { userGqlClient } from '../gqlClients/userGqlClient';
 import { wait } from '../common/timeUtils';
 import { closeMenu } from '../common/MenuUtils';
 import { TextField } from '../components/TextField';
 import { NavbarButton } from '../components/NavbarButton';
 import { GroupDivider } from '../components/GroupDivider';
-import React from 'react';
-import { TextLink } from '../components/TextLink';
+import { getActionName } from '../common/stringUtils';
+import { Login } from '../apps/main/Login';
 
 const positions = ['center center', 'center top', 'center bottom'];
 
@@ -42,6 +43,8 @@ const initialState = {
   autoScrollOn: true,
   user: undefined,
   loggingOut: false,
+  errors: [],
+  pending: {},
 };
 
 const openRegister = createAsyncThunk(
@@ -90,42 +93,13 @@ const openLogin = createAsyncThunk(
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
 
-    function onLogin (e) {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const { username, password } = Object.fromEntries(formData);
-      dispatch(getToken({ username, password }));
-    }
-
-    function onRegister () {
-      dispatch(openRegister());
-    }
-
     dispatch(commonActions.openNavMenu({
       position: 'left',
       isMainMenu: false,
       centerContent: true,
       easyClose: false,
       children: (
-        <form className="flex flex-col w-full text-white items-center" onSubmit={onLogin}>
-          <div className="flex flex-col w-full mt-3 gap-2 mb-6">
-            <span className="font-semibold">Login</span>
-            <div className="flex flex-col">
-              <TextField placeholder="Username" autoFocus={true} type="username" name="username" dir="vert" />
-              <GroupDivider dir="vert" />
-              <TextField placeholder="Password" name="password" type="password" dir="vert" />
-            </div>
-            <div className="flex flex-col items-start">
-              <span>No account?</span>
-              <TextLink type="button" onClick={onRegister}>Register</TextLink>
-            </div>
-          </div>
-          <div className="flex">
-            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
-            <GroupDivider dir="horiz" />
-            <NavbarButton twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Login</NavbarButton>
-          </div>
-        </form>
+        <Login />
       ),
     }));
   },
@@ -226,6 +200,19 @@ const commonSlice = createSlice({
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     },
+  },
+  extraReducers (builder) {
+    builder
+      .addMatcher(isPending, (state, action) => {
+        state.errors = [];
+        state.pending[getActionName(action)] = true;
+      })
+      .addMatcher(isFulfilled, (state, action) => {
+        state.pending[getActionName(action)] = false;
+      })
+      .addMatcher(isRejected, (state, action) => {
+        state.pending[getActionName(action)] = false;
+      });
   },
 });
 
