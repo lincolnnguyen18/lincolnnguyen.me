@@ -1,5 +1,5 @@
 import React from 'react';
-import { commonSelector, getToken, openRegister } from '../../slices/commonSlice';
+import { commonActions, commonSelector, getToken, openRegister } from '../../slices/commonSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField } from '../../components/TextField';
 import { GroupDivider } from '../../components/GroupDivider';
@@ -16,6 +16,7 @@ export function Login () {
     const formData = new FormData(e.target);
     const { username, password } = Object.fromEntries(formData);
     dispatch(getToken({ username, password }));
+    dispatch(commonActions.setSlice({ navMenuCloseButtonDisabled: true }));
   }
 
   function onRegister () {

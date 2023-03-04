@@ -27,6 +27,7 @@ const initialState = {
     easyClose: true,
     hideCloseButton: false,
   },
+  navMenuCloseButtonDisabled: false,
   windowValues: {
     width: 0,
     height: 0,
@@ -141,6 +142,7 @@ const commonSlice = createSlice({
     },
     closeNavMenu: (state) => {
       // if (!state.loggedIn) state.showLogin = null;
+      state.navMenuCloseButtonDisabled = false;
       _.merge(state.navMenu, { open: false, items: [], easyClose: true });
     },
     hideNavMenuChildren: (state) => {
