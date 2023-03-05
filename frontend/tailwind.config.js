@@ -27,6 +27,7 @@ module.exports = {
           input: '#c2c2c2',
           // gray-200
           divider: '#e5e7eb',
+          background: '#dadada',
         },
       },
     },

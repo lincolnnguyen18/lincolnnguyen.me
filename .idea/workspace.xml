@@ -9,13 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Register user, show errors if any">
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Add version tags to backend and frontend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/common/environment.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend2/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend2/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.env.production" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/common/environment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/tailwind.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,8 +226,8 @@
       "PostgreSQL"
     ],
     "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "JavaScript",
       "TEXT",
+      "JavaScript",
       "GraphQL"
     ]
   }
@@ -479,13 +476,7 @@
       <workItem from="1677880824136" duration="994000" />
       <workItem from="1677884157266" duration="4293000" />
       <workItem from="1677893500712" duration="11151000" />
-    </task>
-    <task id="LOCAL-00237" summary="Search url query load search params">
-      <created>1677138256480</created>
-      <option name="number" value="00237" />
-      <option name="presentableId" value="LOCAL-00237" />
-      <option name="project" value="LOCAL" />
-      <updated>1677138256480</updated>
+      <workItem from="1677965724943" duration="3533000" />
     </task>
     <task id="LOCAL-00238" summary="Fix bugs; translate language was not being updated properly, other bugs...">
       <created>1677194953855</created>
@@ -823,7 +814,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677932221007</updated>
     </task>
-    <option name="localTasksCounter" value="286" />
+    <task id="LOCAL-00286" summary="Add version tags to backend and frontend">
+      <created>1677933513546</created>
+      <option name="number" value="00286" />
+      <option name="presentableId" value="LOCAL-00286" />
+      <option name="project" value="LOCAL" />
+      <updated>1677933513546</updated>
+    </task>
+    <option name="localTasksCounter" value="287" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -858,7 +856,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix more bugs, restore timeout before transcribe restart, etc." />
     <MESSAGE value="Cut off transcription results options" />
     <MESSAGE value="MenuUtils and view shortcuts" />
     <MESSAGE value="Implement shortcuts" />
@@ -883,6 +880,7 @@
     <MESSAGE value="Reformat error message format" />
     <MESSAGE value="Show error for invalid login" />
     <MESSAGE value="Register user, show errors if any" />
-    <option name="LAST_COMMIT_MESSAGE" value="Register user, show errors if any" />
+    <MESSAGE value="Add version tags to backend and frontend" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add version tags to backend and frontend" />
   </component>
 </project>

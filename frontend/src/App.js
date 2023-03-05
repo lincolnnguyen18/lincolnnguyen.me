@@ -102,7 +102,7 @@ export function App () {
 
   return token !== undefined && user !== undefined && (
     <>
-      {location.pathname !== '/testing' && <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85]" style={{ backgroundSize: 'cover', backgroundImage: 'url(/bg.jpg)', backgroundPosition }} />}
+      {location.pathname !== '/testing' && <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85] bg-gray-background" style={{ backgroundSize: 'cover', backgroundImage: 'url(/bg.jpg)', backgroundPosition }} />}
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/testing" element={<TestScreen />} />
