@@ -48,7 +48,7 @@ export function TranscriptsScreen () {
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar>
         <Button twStyle="icon-menu" onClick={openNavMenu} />
-        <TextLink to="/transcribe/transcripts" twStyle="absolute left-1/2 transform -translate-x-1/2 no-underline">Transcripts</TextLink>
+        <span className="font-semibold absolute left-1/2 transform -translate-x-1/2 no-underline">Transcripts</span>
         <div className="flex gap-3">
           <MoreMenu />
         </div>
@@ -59,7 +59,7 @@ export function TranscriptsScreen () {
         {/*  iconStyle="icon-article text-purple-custom"*/}
         {/*  messageText="You have no transcripts. Add a transcript by pressing the plus button at the top right."*/}
         {/*/>*/}
-        {searching && <div className="top-11" id="title-div">
+        {searching && keywords.trim() && <div className="top-11" id="title-div">
           <div className="sm:px-1 px-4 flex flex-col gap-0.5 w-full">
             <span className="sm:text-xl text-lg font-semibold">Showing search results for</span>
             <div className="flex gap-2 items-center text-gray-subtext text-sm">
