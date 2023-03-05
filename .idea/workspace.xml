@@ -9,9 +9,62 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Fix rounded input corners ios">
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Update transcripts search subnav">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptsScreen/TranscriptsScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptsScreen/TranscriptsScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/.eslintignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/.eslintrc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/.npmignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/bin/aws-cdk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/cdk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/jest.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/lib/aws-cdk-stack.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/lib/react-app-stack.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk-old/test/aws-cdk.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.eslintrc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/apps/messages/messagesDao.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/apps/messages/messagesDao.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/apps/messages/messagesSchema.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/apps/shared/sharedDao.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/apps/shared/sharedDao.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/apps/shared/sharedSchema.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/apps/shared/utils/sharedClients.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/apps/shared/utils/sharedUtils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/apps/shared/utils/sharedUtils.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/.env.example" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/.eslintrc.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.eslintrc.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/prisma/migrations/20230303101155_init/migration.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/migrations/20230303101155_init/migration.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/prisma/migrations/migration_lock.toml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/migrations/migration_lock.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/clients.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/clients.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/environment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/miscUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/miscUtils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/stringUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/stringUtils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/stringUtils.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/stringUtils.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/testData.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/testData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/validators.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/validators.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/common/validators.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/validators.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/daos/userDynamoDao.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userDynamoDao.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/daos/userDynamoDao.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userSqlDao.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/daos/userSqlDao.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/daos/userSqlDao.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/daos/userSqlDao.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/lambda-tests/ddbStreamRecordHandler.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/lambda-tests/ddbStreamRecordHandler.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/lambda/ddbStreamRecordHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/lambda/ddbStreamRecordHandler.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend2/src/lambda/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/lambda/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,44 +246,44 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "eslint.code.style.apply.dismiss": "true",
-    "javascript.nodejs.core.library.configured.version": "19.4.0",
-    "javascript.nodejs.core.library.typings.version": "18.14.2",
-    "last_opened_file_path": "/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend/src/apps/main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs.jest.jest_package": "/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend/node_modules/react-scripts",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "JavaScript.Libraries",
-    "ts.external.directory.path": "/Users/lincolnnguyen/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/223.8617.44/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;eslint.code.style.apply.dismiss&quot;: &quot;true&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;19.4.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.14.2&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend/src/apps/main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs.jest.jest_package&quot;: &quot;/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend/node_modules/react-scripts&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;JavaScript.Libraries&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/lincolnnguyen/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/223.8617.44/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql",
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;,
+      &quot;postgresql&quot;
     ],
-    "com.intellij.ide.scratch.LRUPopupBuilder$1/Change SQL Dialect": [
-      "PostgreSQL"
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/Change SQL Dialect&quot;: [
+      &quot;PostgreSQL&quot;
     ],
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "TEXT",
-      "JavaScript",
-      "GraphQL"
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TEXT&quot;,
+      &quot;JavaScript&quot;,
+      &quot;GraphQL&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/frontend/src/apps/main" />
@@ -475,14 +528,7 @@
       <workItem from="1677880824136" duration="994000" />
       <workItem from="1677884157266" duration="4293000" />
       <workItem from="1677893500712" duration="11151000" />
-      <workItem from="1677965724943" duration="5350000" />
-    </task>
-    <task id="LOCAL-00240" summary="Unify languages, switch languages button">
-      <created>1677202965408</created>
-      <option name="number" value="00240" />
-      <option name="presentableId" value="LOCAL-00240" />
-      <option name="project" value="LOCAL" />
-      <updated>1677202965408</updated>
+      <workItem from="1677965724943" duration="5680000" />
     </task>
     <task id="LOCAL-00241" summary="Unify languages, switch languages button">
       <created>1677204597403</created>
@@ -820,7 +866,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677982971219</updated>
     </task>
-    <option name="localTasksCounter" value="289" />
+    <task id="LOCAL-00289" summary="Update transcripts search subnav">
+      <created>1677983535862</created>
+      <option name="number" value="00289" />
+      <option name="presentableId" value="LOCAL-00289" />
+      <option name="project" value="LOCAL" />
+      <updated>1677983535862</updated>
+    </task>
+    <option name="localTasksCounter" value="290" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -855,7 +908,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implement shortcuts" />
     <MESSAGE value="Add delete transcript button" />
     <MESSAGE value="Switch between transcription modes shortcut, adjust step size of speed range slider" />
     <MESSAGE value="Fix incorrect timestamp bug, restore auto scroll button" />
@@ -880,6 +932,7 @@
     <MESSAGE value="Add version tags to backend and frontend" />
     <MESSAGE value="Gray background" />
     <MESSAGE value="Fix rounded input corners ios" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix rounded input corners ios" />
+    <MESSAGE value="Update transcripts search subnav" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update transcripts search subnav" />
   </component>
 </project>

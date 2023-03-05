@@ -49,7 +49,9 @@ export function App () {
   }, [user, token]);
 
   React.useEffect(() => {
-    console.log(environment.VERSION);
+    if (process.env.NODE_ENV === 'production') {
+      console.log(environment.VERSION);
+    }
 
     const token = Cookies.get('token');
     if (token) {

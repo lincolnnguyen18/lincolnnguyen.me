@@ -1,30 +1,40 @@
 {
-  "name": "backend",
+  "name": "backend2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "NODE_ENV=test nodemon src/index.js",
+    "startProd": "NODE_ENV=prod nodemon src/index.js",
+    "test": "NODE_ENV=test node --experimental-vm-modules ./node_modules/.bin/jest",
+    "prismaCreate": "dotenv -e .env.test -- npx prisma migrate dev --create-only",
+    "prismaMigrate": "dotenv -e .env.test -- npx prisma migrate dev && npm run copyPrismaClient",
+    "copyPrismaClient": "cp ./prisma/schema.prisma ../aws-cdk/lambda/schema.prisma && (cd ../aws-cdk/lambda && prisma generate)",
+    "deploy": "docker build -t lincolnnguyen-backend:latest . && docker tag lincolnnguyen-backend:latest 542773719222.dkr.ecr.us-east-1.amazonaws.com/lincolnnguyen-backend:latest && aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 542773719222.dkr.ecr.us-east-1.amazonaws.com && docker push 542773719222.dkr.ecr.us-east-1.amazonaws.com/lincolnnguyen-backend:latest && docker images | grep lincolnnguyen | awk '{print $1\":\"$2}' | xargs docker rmi"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@apollo/server": "^4.3.0",
-    "@aws-sdk/client-dynamodb": "^3.241.0",
-    "@aws-sdk/lib-dynamodb": "^3.241.0",
-    "@faker-js/faker": "^7.6.0",
+    "@apollo/server": "^4.4.0",
+    "@aws-sdk/client-dynamodb": "^3.279.0",
+    "@aws-sdk/lib-dynamodb": "^3.279.0",
+    "@aws-sdk/util-dynamodb": "^3.281.0",
+    "@prisma/client": "^4.11.0",
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
-    "dynamoose": "^3.1.0",
-    "eslint": "^8.30.0",
-    "eslint-config-standard": "^17.0.0",
-    "google-auth-library": "^8.7.0",
-    "graphql": "^16.6.0",
-    "graphql-request": "^5.1.0",
-    "jest": "^29.3.1",
+    "jest": "^29.4.3",
+    "joi": "^17.8.3",
     "jsonwebtoken": "^9.0.0",
-    "lodash": "^4.17.21",
-    "socket.io": "^4.5.4"
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.34.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "prisma": "^4.11.0"
   },
   "type": "module"
 }
