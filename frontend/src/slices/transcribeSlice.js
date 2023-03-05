@@ -61,7 +61,7 @@ const initialState = {
   currentPartId: null,
   createdAt: null,
   updatedAt: null,
-  title: 'Untitled Transcript',
+  title: 'Untitled  Transcript',
   interimResult: '',
   recorder: null,
   currentTime: 0,

@@ -13,7 +13,7 @@ import { FormScreen } from '../../../components/FormScreen';
 import { Blackbox } from '../../../components/BlackBox';
 import { FormScreenBottom } from '../../../components/FormScreenBottom';
 import { languages } from '../../../common/data';
-import { closeMenu, openConfirm, showShortcuts } from '../../../common/MenuUtils';
+import { closeMenu, openConfirm } from '../../../common/MenuUtils';
 import { shortcuts } from './Hotkeys';
 import _ from 'lodash';
 
@@ -152,6 +152,17 @@ export function MoreMenu ({ disabled }) {
               </Dropdown>
             </GroupInput>
           </Group>
+          <Group title="Keyboard Shortcuts">
+            {shortcuts.map(({ name, key }, i) => (
+              <>
+                <GroupInput>
+                  <span>{name}</span>
+                  <span>{key}</span>
+                </GroupInput>
+                {i !== shortcuts.length - 1 && <GroupDivider />}
+              </>
+            ))}
+          </Group>
           <FormScreenBottom>
             <NavbarButton onClick={() => closeMenu(dispatch)} dir="single" twStyle="justify-center">Close</NavbarButton>
           </FormScreenBottom>
@@ -204,9 +215,9 @@ export function MoreMenu ({ disabled }) {
     }
   }, [scrollPosition]);
 
-  function openShortcuts () {
-    showShortcuts({ dispatch, shortcuts });
-  }
+  // function openShortcuts () {
+  //   showShortcuts({ dispatch, shortcuts });
+  // }
 
   function onDelete () {
     console.log('deleting transcript');
@@ -240,39 +251,29 @@ export function MoreMenu ({ disabled }) {
             <span className="text-white">Transcribe</span>
           </NavbarButton>
           <GroupDivider />
-          <NavbarButton stopPropagation={true} onClick={turnOnEditMode} disabled={partsOrder.length === 0}>
-            <span className="icon-edit text-2xl text-white" />
-            <span className="text-white">Edit</span>
-          </NavbarButton>
-          <GroupDivider />
           <NavbarButton stopPropagation={true} onClick={openSettings}>
             <span className='icon-settings text-2xl text-white' />
             <span className="text-white">Settings</span>
           </NavbarButton>
-          <GroupDivider />
-          <NavbarButton stopPropagation={true} onClick={openShortcuts}>
-            <span className='icon-keyboard text-2xl text-white' />
-            <span className="text-white">Shortcuts</span>
-          </NavbarButton>
-          {/*<NavbarGroupButton onClick={handleFilterBySpeaker} stopPropagation={true}>*/}
-          {/*  <span className='icon-two-users text-2xl text-white' />*/}
-          {/*  <span className="text-white">Filter by speaker</span>*/}
-          {/*</NavbarGroupButton>*/}
-          {/*<NavbarGroupDivider />*/}
           {createdAt && (
             <>
+              <GroupDivider />
+              <NavbarButton stopPropagation={true} onClick={turnOnEditMode} disabled={partsOrder.length === 0}>
+                <span className="icon-edit text-2xl text-white" />
+                <span className="text-white">Edit</span>
+              </NavbarButton>
               <GroupDivider />
               <NavbarButton stopPropagation={true} onClick={handleOpenInfo}>
                 <span className='icon-info text-2xl text-white' />
                 <span className="text-white">Transcript info</span>
               </NavbarButton>
+              <GroupDivider />
+              <NavbarButton stopPropagation={true} onClick={confirmDelete}>
+                <span className='icon-delete text-2xl text-white' />
+                <span className="text-white">Delete</span>
+              </NavbarButton>
             </>
           )}
-          <GroupDivider />
-          <NavbarButton stopPropagation={true} onClick={confirmDelete}>
-            <span className='icon-delete text-2xl text-white' />
-            <span className="text-white">Delete</span>
-          </NavbarButton>
         </div>
       ),
     }));

@@ -9,11 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Save user transcription settings to db">
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Reorganize transcript more menu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/environment.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/SyncTranscriberSettings.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/SyncTranscriberSettings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/common/environment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/Hotkeys.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/Hotkeys.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/MoreMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/MoreMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/slices/transcribeSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/slices/transcribeSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -474,14 +474,7 @@
       <workItem from="1677884157266" duration="4293000" />
       <workItem from="1677893500712" duration="11151000" />
       <workItem from="1677965724943" duration="5680000" />
-      <workItem from="1677987223733" duration="14876000" />
-    </task>
-    <task id="LOCAL-00245" summary="Indicate langauge on start transcribe button">
-      <created>1677263024014</created>
-      <option name="number" value="00245" />
-      <option name="presentableId" value="LOCAL-00245" />
-      <option name="project" value="LOCAL" />
-      <updated>1677263024014</updated>
+      <workItem from="1677987223733" duration="17765000" />
     </task>
     <task id="LOCAL-00246" summary="Start graphql api">
       <created>1677269239743</created>
@@ -819,7 +812,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678011653084</updated>
     </task>
-    <option name="localTasksCounter" value="294" />
+    <task id="LOCAL-00294" summary="Save playbackSpeed to db">
+      <created>1678055853409</created>
+      <option name="number" value="00294" />
+      <option name="presentableId" value="LOCAL-00294" />
+      <option name="project" value="LOCAL" />
+      <updated>1678055853409</updated>
+    </task>
+    <option name="localTasksCounter" value="295" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -854,8 +854,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="UserDao putUser, start aws cdk rewrite" />
-    <MESSAGE value="UserSqlDao putUser, lambda ddb stream record handler" />
     <MESSAGE value="Add vpc, sg to cdk, refactor lambda" />
     <MESSAGE value="Add rds to cdk, finish register mutation, add validators" />
     <MESSAGE value="Refactor ddbStreamRecordHandler" />
@@ -879,6 +877,8 @@
     <MESSAGE value="Clean up old directories, add figma design" />
     <MESSAGE value="Task definition api deployment script" />
     <MESSAGE value="Save user transcription settings to db" />
-    <option name="LAST_COMMIT_MESSAGE" value="Save user transcription settings to db" />
+    <MESSAGE value="Save playbackSpeed to db" />
+    <MESSAGE value="Reorganize transcript more menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reorganize transcript more menu" />
   </component>
 </project>

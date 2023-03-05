@@ -13,7 +13,7 @@ const shortcuts = [
   { name: 'Speed up', key: ']' },
   { name: 'Slow down', key: '[' },
   { name: 'Restart transcriber', key: 'I' },
-  { name: 'Switch between transcription modes', key: 'M' },
+  { name: 'Switch between transcription cut off modes', key: 'M' },
 ];
 
 function handlePlayPause (dispatch, playing) {
