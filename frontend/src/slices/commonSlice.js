@@ -7,6 +7,7 @@ import { wait } from '../common/timeUtils';
 import { getActionName } from '../common/stringUtils';
 import { Login } from '../apps/main/Login';
 import { Register } from '../apps/main/Register';
+import { transcribeActions } from './transcribeSlice';
 
 const positions = ['center center', 'center top', 'center bottom'];
 
@@ -103,6 +104,7 @@ const getUser = createAsyncThunk(
     const user = await userGqlClient.getUser();
     if (user) {
       dispatch(commonActions.setSlice({ user, loggedIn: true }));
+      dispatch(transcribeActions.setSlice({ transcribeLang: user.transcribeLang, translateLang: user.translateLang, playbackSpeed: user.playbackSpeed, cutOffType: user.transcribeCutOffType }));
     } else {
       dispatch(commonActions.setSlice({ token: null }));
       Cookies.remove('token');

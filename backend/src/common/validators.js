@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { mapErrorDetails } from './stringUtils.js';
+import { languages } from './data.js';
 
 function validatePutUser (user) {
   const schema = Joi.object({
@@ -44,8 +45,18 @@ function validateUpdateUser (user) {
         'number.min': 'Playback speed should be at least {#limit}',
         'number.max': 'Playback speed should be at most {#limit}',
       }),
-    translateLang: Joi.string(),
-    transcribeLang: Joi.string(),
+    translateLang: Joi.string().valid(...languages.map(l => l.name))
+      .messages({
+        'any.only': 'Invalid translate language',
+      }),
+    transcribeLang: Joi.string().valid(...languages.map(l => l.name))
+      .messages({
+        'any.only': 'Invalid transcribe language',
+      }),
+    transcribeCutOffType: Joi.string().valid('auto', 'manual')
+      .messages({
+        'any.only': 'Invalid transcribe cut off type',
+      }),
   });
   const { error } = schema.validate(user, { abortEarly: false });
   return mapErrorDetails(error);

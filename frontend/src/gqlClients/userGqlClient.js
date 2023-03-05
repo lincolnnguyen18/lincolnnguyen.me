@@ -25,6 +25,7 @@ class UserGqlClient {
           playbackSpeed
           transcribeLang
           translateLang
+          transcribeCutOffType
           createdAt
           updatedAt
         }
@@ -49,10 +50,10 @@ class UserGqlClient {
     return res.register;
   }
 
-  async updateUser ({ username, password, playbackSpeed, transcribeLang, translateLang }) {
+  async updateUser ({ username, password, playbackSpeed, transcribeLang, translateLang, transcribeCutOffType }) {
     const query = gql`
-        mutation ($username: String, $password: String, $playbackSpeed: Float, $transcribeLang: String, $translateLang: String) {
-            updateUser(input: { username: $username, password: $password, playbackSpeed: $playbackSpeed, transcribeLang: $transcribeLang, translateLang: $translateLang })
+        mutation ($username: String, $password: String, $playbackSpeed: Float, $transcribeLang: String, $translateLang: String, $transcribeCutOffType: String) {
+            updateUser(input: { username: $username, password: $password, playbackSpeed: $playbackSpeed, transcribeLang: $transcribeLang, translateLang: $translateLang, transcribeCutOffType: $transcribeCutOffType })
         }
     `;
     const variables = {
@@ -61,6 +62,7 @@ class UserGqlClient {
       playbackSpeed,
       transcribeLang,
       translateLang,
+      transcribeCutOffType,
     };
     const res = await gqlClient.request(query, variables);
     return res.updateUser;

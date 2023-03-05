@@ -9,7 +9,7 @@ class UserDynamoDao {
     this.tableName = tableName;
   }
 
-  async putUser ({ id, username, password, playbackSpeed = 1, transcribeLang = 'Japanese', translateLang = 'English (United States)', timestamp = new Date().toISOString() }) {
+  async putUser ({ id, username, password, playbackSpeed = 1, transcribeLang = 'Japanese', translateLang = 'English (United States)', transcribeCutOffType = 'auto', timestamp = new Date().toISOString() }) {
     const salt = bcrypt.genSaltSync(10);
     password = bcrypt.hashSync(password, salt);
     let params = {
@@ -37,6 +37,7 @@ class UserDynamoDao {
         playbackSpeed,
         transcribeLang,
         translateLang,
+        transcribeCutOffType,
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -51,7 +52,7 @@ class UserDynamoDao {
     }
   }
 
-  async updateUser ({ id, username, password, playbackSpeed, transcribeLang, translateLang }) {
+  async updateUser ({ id, username, password, playbackSpeed, transcribeLang, translateLang, transcribeCutOffType }) {
     if (password) {
       const salt = bcrypt.genSaltSync(10);
       password = bcrypt.hashSync(password, salt);
@@ -62,6 +63,7 @@ class UserDynamoDao {
       playbackSpeed,
       transcribeLang,
       translateLang,
+      transcribeCutOffType,
       updatedAt: new Date().toISOString(),
     };
     const { UpdateExpression, ExpressionAttributeNames, ExpressionAttributeValues } = buildUpdateExpression(attributes);

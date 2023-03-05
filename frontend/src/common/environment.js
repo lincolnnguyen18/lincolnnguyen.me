@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  environment.VERSION = process.env.REACT_APP_VERSION;
+  environment.VERSION = 'Version 6';
 }
 
 export { environment };

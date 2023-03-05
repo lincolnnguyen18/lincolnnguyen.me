@@ -1,7 +1,7 @@
 import { prismaClient } from '../common/clients.js';
 
 class UserSqlDao {
-  async putUser ({ id, username, password, playbackSpeed, transcribeLang, translateLang, createdAt, updatedAt }) {
+  async putUser ({ id, username, password, playbackSpeed, transcribeLang, translateLang, transcribeCutOffType, createdAt, updatedAt }) {
     return prismaClient.user.create({
       data: {
         id,
@@ -10,6 +10,7 @@ class UserSqlDao {
         playbackSpeed,
         transcribeLang,
         translateLang,
+        transcribeCutOffType,
         createdAt,
         updatedAt,
       },
@@ -24,7 +25,7 @@ class UserSqlDao {
     });
   }
 
-  async updateUser ({ id, username, password, playbackSpeed, transcribeLang, translateLang, createdAt, updatedAt }) {
+  async updateUser ({ id, username, password, playbackSpeed, transcribeLang, translateLang, transcribeCutOffType, createdAt, updatedAt }) {
     return prismaClient.user.update({
       where: {
         id,
@@ -35,6 +36,7 @@ class UserSqlDao {
         playbackSpeed,
         transcribeLang,
         translateLang,
+        transcribeCutOffType,
         createdAt,
         updatedAt,
       },

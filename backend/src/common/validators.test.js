@@ -16,6 +16,7 @@ describe('validators', () => {
       username: '!',
       password: '',
       playbackSpeed: 10,
+      transcribeCutOffType: 'word',
     };
     const errors = validateUpdateUser(user);
     console.log('errors', errors);

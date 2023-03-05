@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
@@ -9,15 +9,16 @@ datasource db {
 }
 
 model User {
-  id             String       @id
-  username       String       @unique
-  password       String
-  playbackSpeed  Float
-  translateLang  String
-  transcribeLang String
-  transcripts    Transcript[]
-  createdAt      DateTime
-  updatedAt      DateTime
+  id                   String       @id
+  username             String       @unique
+  password             String
+  playbackSpeed        Float
+  translateLang        String
+  transcribeLang       String
+  transcribeCutOffType String       @default("auto")
+  transcripts          Transcript[]
+  createdAt            DateTime
+  updatedAt            DateTime
 }
 
 model Transcript {

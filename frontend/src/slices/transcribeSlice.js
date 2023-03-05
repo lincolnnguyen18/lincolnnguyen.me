@@ -66,8 +66,8 @@ const initialState = {
   recorder: null,
   currentTime: 0,
   playing: false,
-  transcribeLanguage: 'Japanese',
-  translateLanguage: 'English (United States)',
+  transcribeLang: 'Japanese',
+  translateLang: 'English (United States)',
   playbackSpeed: 1,
   selectedParts: [],
   sort: null,
@@ -82,11 +82,11 @@ export const sortMap = { updated_at: 'Updated at', created_at: 'Created at' };
 const translateFinalResult = createAsyncThunk(
   'transcribe/translateFinalResult',
   async (text, { getState, dispatch }) => {
-    const { translator, currentPartId: partId, parts, translateLanguage, switchingLanguages } = getState().transcribe;
+    const { translator, currentPartId: partId, parts, translateLang, switchingLanguages } = getState().transcribe;
     const resultIndex = parts[partId].results.length;
     text = text.trim();
     dispatch(transcribeActions.onFinal(text));
-    if (translateLanguage !== 'None') {
+    if (translateLang !== 'None') {
       let translation = await translator.translate(text);
       translation = translation.trim();
       dispatch(transcribeActions.addTranslationToFinalResult({
@@ -230,9 +230,9 @@ const transcribeSlice = createSlice({
       state.selectedParts = [];
     },
     switchLanguages: (state) => {
-      const { translateLanguage, transcribeLanguage } = state;
-      state.translateLanguage = transcribeLanguage;
-      state.transcribeLanguage = translateLanguage;
+      const { translateLang, transcribeLang } = state;
+      state.translateLang = transcribeLang;
+      state.transcribeLang = translateLang;
     },
     setCurrentPartDuration: (state) => {
       // set duration to date.now - createdAt / 1000

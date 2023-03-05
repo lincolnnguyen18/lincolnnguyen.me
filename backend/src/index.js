@@ -20,6 +20,7 @@ const typeDefs = `
         playbackSpeed: Float!
         translateLang: String!
         transcribeLang: String!
+        transcribeCutOffType: String!
         transcripts: [Transcript!]!
     }
     
@@ -31,6 +32,7 @@ const typeDefs = `
         playbackSpeed: Float
         translateLang: String
         transcribeLang: String
+        transcribeCutOffType: String
     }
 
     type Transcript {

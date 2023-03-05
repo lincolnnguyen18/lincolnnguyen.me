@@ -12,7 +12,7 @@ import { handlePlayPause, restartTranscriber, seekTo, startStopRecording, switch
 export function BottomBar () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
-  const { mode, partsOrder, parts, recorder, transcriber, currentPartId, currentTime, playing, selectedParts, transcribeLanguage, switchingLanguages, interimResult, cutOffType } = useSelector(transcribeSelector);
+  const { mode, partsOrder, parts, recorder, transcriber, currentPartId, currentTime, playing, selectedParts, transcribeLang, switchingLanguages, interimResult, cutOffType } = useSelector(transcribeSelector);
   const { transcriptionSupported } = useSelector(commonSelector);
 
   function updateCurrentTime (e) {
@@ -38,7 +38,7 @@ export function BottomBar () {
   }
 
   function getLanguageName () {
-    const lang = languages.find(l => l.name === transcribeLanguage);
+    const lang = languages.find(l => l.name === transcribeLang);
     return lang?.shortName || lang.name;
   }
 
@@ -103,7 +103,7 @@ export function BottomBar () {
         <span className="sm:text-sm text-xs">{formatFloatToTime(duration)}</span>
         <div className="flex gap-3 items-center">
           <Button twStyle="select-auto" onClick={() => switchLanguages(dispatch, interimResult)} disabled={switchingLanguages}>
-            <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{languages.find(l => l.name === transcribeLanguage).code}</span>
+            <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{languages.find(l => l.name === transcribeLang).code}</span>
           </Button>
           {cutOffType === 'manual' && <Button twStyle="select-auto" onClick={restartTranscriber}>
             <span className='icon-refresh' />

@@ -32,12 +32,13 @@ import { closeMenu, openAlert } from '../../../common/MenuUtils';
 import { languages } from '../../../common/data';
 import { Hotkeys } from './Hotkeys';
 import _ from 'lodash';
+import { SyncTranscriberSettings } from './SyncTranscriberSettings';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLanguage, currentTime, currentPartId, selectedParts, translateLanguage, transcriber, translator, switchingLanguages, playbackSpeed } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLang, currentTime, currentPartId, selectedParts, translateLang, transcriber, translator, switchingLanguages, playbackSpeed } = useSelector(transcribeSelector);
   // const testTags = ['journal', 'lecture'];
 
   function getTimestampWidth (timestamp) {
@@ -135,8 +136,8 @@ export function TranscriptScreen () {
     dispatch(commonActions.setSlice({ scrollPosition: 0 }));
 
     const recorder = new Recorder({ onRecordingReady, onRecordingStop, onRecordingError });
-    const transcriber = new Transcriber({ onInterim, onFinal, lang: languages.find(l => l.name === transcribeLanguage)?.transcribe });
-    const translator = new Translator({ targetLang: languages.find(l => l.name === translateLanguage)?.translate });
+    const transcriber = new Transcriber({ onInterim, onFinal, lang: languages.find(l => l.name === transcribeLang)?.transcribe });
+    const translator = new Translator({ targetLang: languages.find(l => l.name === translateLang)?.translate });
     dispatch(transcribeActions.setSlice({ recorder, transcriber, translator }));
 
     handleDone();
@@ -159,9 +160,9 @@ export function TranscriptScreen () {
 
   React.useEffect(() => {
     if (!transcriber || !translator) return;
-    transcriber.setLanguage(languages.find(l => l.name === transcribeLanguage)?.transcribe);
-    translator.setTargetLanguage(languages.find(l => l.name === translateLanguage)?.translate);
-  }, [transcribeLanguage, translateLanguage]);
+    transcriber.setLanguage(languages.find(l => l.name === transcribeLang)?.transcribe);
+    translator.setTargetLanguage(languages.find(l => l.name === translateLang)?.translate);
+  }, [transcribeLang, translateLang]);
 
   React.useEffect(() => {
     const audio = document.getElementById('audio');
@@ -406,6 +407,7 @@ export function TranscriptScreen () {
       </div>
       <BottomBar />
       <SyncScrollButton />
+      <SyncTranscriberSettings />
     </>
   );
 }

@@ -9,14 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Clean up old directories, add figma design">
-      <change afterPath="$PROJECT_DIR$/frontend/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Save user transcription settings to db">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.env.production" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/environment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/common/environment.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,14 +203,14 @@
     "eslint.code.style.apply.dismiss": "true",
     "javascript.nodejs.core.library.configured.version": "19.4.0",
     "javascript.nodejs.core.library.typings.version": "18.14.2",
-    "last_opened_file_path": "/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend",
+    "last_opened_file_path": "/Users/lincolnnguyen/repos/lincolnnguyen.me/backend/src/common",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.standard": "",
     "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs.jest.jest_package": "/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend/node_modules/react-scripts",
+    "nodejs.jest.jest_package": "/Users/lincolnnguyen/repos/lincolnnguyen.me/backend/node_modules/jest",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "JavaScript.Libraries",
@@ -238,11 +234,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/src/common" />
       <recent name="$PROJECT_DIR$/frontend" />
       <recent name="$PROJECT_DIR$/frontend/src/apps/main" />
       <recent name="$PROJECT_DIR$/frontend/src" />
       <recent name="$PROJECT_DIR$/frontend/src/common" />
-      <recent name="$PROJECT_DIR$/aws-cdk/lambda/common" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/docs" />
@@ -252,7 +248,7 @@
       <recent name="$PROJECT_DIR$/aws-cdk/src" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.joe">
+  <component name="RunManager" selected="Jest.validators.updateUser (1)">
     <configuration name="ddbStreamRecordHandler" type="JavaScriptTestRunnerJest" nameIsGenerated="true">
       <config-file value="$PROJECT_DIR$/.idea/runConfigurations/backendDevConfig.xml" />
       <node-interpreter value="project" />
@@ -281,20 +277,6 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="stringUtils.buildUpdateExpression" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="--experimental-vm-modules" />
-      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$/backend2" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/backend2/src/common/stringUtils.test.js" />
-      <test-names>
-        <test-name value="stringUtils" />
-        <test-name value="buildUpdateExpression" />
-      </test-names>
-      <method v="2" />
-    </configuration>
     <configuration name="userGqlClient.registerUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -320,6 +302,20 @@
       <test-names>
         <test-name value="validators" />
         <test-name value="putUser" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="validators.updateUser (1)" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend/src/common/validators.test.js" />
+      <test-names>
+        <test-name value="validators" />
+        <test-name value="updateUser" />
       </test-names>
       <method v="2" />
     </configuration>
@@ -366,20 +362,20 @@
     <list>
       <item itemvalue="Jest.ddbStreamRecordHandler" />
       <item itemvalue="Jest.ddbStreamRecordHandler.putUser" />
+      <item itemvalue="Jest.validators.updateUser (1)" />
       <item itemvalue="Jest.userGqlClient.registerUser" />
       <item itemvalue="Jest.validators.putUser" />
       <item itemvalue="Jest.validators.updateUser" />
-      <item itemvalue="Jest.stringUtils.buildUpdateExpression" />
       <item itemvalue="npm.start" />
       <item itemvalue="npm.joe" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Jest.validators.updateUser (1)" />
         <item itemvalue="npm.joe" />
         <item itemvalue="Jest.userGqlClient.registerUser" />
         <item itemvalue="Jest.validators.updateUser" />
         <item itemvalue="Jest.validators.putUser" />
-        <item itemvalue="Jest.stringUtils.buildUpdateExpression" />
       </list>
     </recent_temporary>
   </component>
@@ -477,21 +473,7 @@
       <workItem from="1677884157266" duration="4293000" />
       <workItem from="1677893500712" duration="11151000" />
       <workItem from="1677965724943" duration="5680000" />
-      <workItem from="1677987223733" duration="1315000" />
-    </task>
-    <task id="LOCAL-00242" summary="Disable tags, indicate language in transcribe button">
-      <created>1677205709720</created>
-      <option name="number" value="00242" />
-      <option name="presentableId" value="LOCAL-00242" />
-      <option name="project" value="LOCAL" />
-      <updated>1677205709720</updated>
-    </task>
-    <task id="LOCAL-00243" summary="Fix switching languages bug">
-      <created>1677230141446</created>
-      <option name="number" value="00243" />
-      <option name="presentableId" value="LOCAL-00243" />
-      <option name="project" value="LOCAL" />
-      <updated>1677230141446</updated>
+      <workItem from="1677987223733" duration="10878000" />
     </task>
     <task id="LOCAL-00244" summary="Fix switching languages bug">
       <created>1677233050186</created>
@@ -822,7 +804,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677985043437</updated>
     </task>
-    <option name="localTasksCounter" value="291" />
+    <task id="LOCAL-00291" summary="Task definition api deployment script">
+      <created>1677988701856</created>
+      <option name="number" value="00291" />
+      <option name="presentableId" value="LOCAL-00291" />
+      <option name="project" value="LOCAL" />
+      <updated>1677988701856</updated>
+    </task>
+    <task id="LOCAL-00292" summary="Save user transcription settings to db">
+      <created>1678011213731</created>
+      <option name="number" value="00292" />
+      <option name="presentableId" value="LOCAL-00292" />
+      <option name="project" value="LOCAL" />
+      <updated>1678011213731</updated>
+    </task>
+    <option name="localTasksCounter" value="293" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -857,8 +853,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix incorrect timestamp bug, restore auto scroll button" />
-    <MESSAGE value="Switch between transcription modes shortcut, adjust step size of speed range slider, fix incorrect timestamp bug, restore auto scroll button" />
     <MESSAGE value="UserDao putUser, start aws cdk rewrite" />
     <MESSAGE value="UserSqlDao putUser, lambda ddb stream record handler" />
     <MESSAGE value="Add vpc, sg to cdk, refactor lambda" />
@@ -882,6 +876,8 @@
     <MESSAGE value="Update transcripts search subnav" />
     <MESSAGE value="Show version in non-production" />
     <MESSAGE value="Clean up old directories, add figma design" />
-    <option name="LAST_COMMIT_MESSAGE" value="Clean up old directories, add figma design" />
+    <MESSAGE value="Task definition api deployment script" />
+    <MESSAGE value="Save user transcription settings to db" />
+    <option name="LAST_COMMIT_MESSAGE" value="Save user transcription settings to db" />
   </component>
 </project>

@@ -19,7 +19,7 @@ import _ from 'lodash';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
-  const { mode, recorder, transcriber, playing, transcribeLanguage, translateLanguage, partsOrder, createdAt, playbackSpeed, cutOffType } = useSelector(transcribeSelector);
+  const { mode, recorder, transcriber, playing, transcribeLang, translateLang, partsOrder, createdAt, playbackSpeed, cutOffType } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   async function handleOpenInfo () {
@@ -65,8 +65,6 @@ export function MoreMenu ({ disabled }) {
     }));
   }
 
-  // const [defaultPlaybackSpeed, setDefaultPlaybackSpeed] = React.useState(playbackSpeed);
-
   async function openSettings () {
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
@@ -83,13 +81,13 @@ export function MoreMenu ({ disabled }) {
     }
 
     function onTranscribeSelectChange (e) {
-      const transcribeLanguage = e.target.value;
-      dispatch(transcribeActions.setSlice({ transcribeLanguage }));
+      const transcribeLang = e.target.value;
+      dispatch(transcribeActions.setSlice({ transcribeLang }));
     }
 
     function onTranslateSelectChange (e) {
-      const translateLanguage = e.target.value;
-      dispatch(transcribeActions.setSlice({ translateLanguage }));
+      const translateLang = e.target.value;
+      dispatch(transcribeActions.setSlice({ translateLang }));
     }
 
     function onCutOffTypeSelectChange (e) {
@@ -128,7 +126,7 @@ export function MoreMenu ({ disabled }) {
             <GroupInput>
               <span>Transcribe in</span>
               <div className="flex items-center">
-                <Dropdown onChange={onTranscribeSelectChange} defaultValue={transcribeLanguage}>
+                <Dropdown onChange={onTranscribeSelectChange} defaultValue={transcribeLang}>
                   {languages.map((language, i) => (
                     <option key={i} value={language.name}>{language.name}</option>
                   ))}
@@ -138,7 +136,7 @@ export function MoreMenu ({ disabled }) {
             <GroupDivider />
             <GroupInput>
               <span>Translate to</span>
-              <Dropdown onChange={onTranslateSelectChange} defaultValue={translateLanguage}>
+              <Dropdown onChange={onTranslateSelectChange} defaultValue={translateLang}>
                 <option value="None">None</option>
                 {languages.map((language, i) => (
                   <option key={i} value={language.name}>{language.name}</option>
@@ -238,7 +236,7 @@ export function MoreMenu ({ disabled }) {
         <div className="flex flex-col">
           <NavbarButton onClick={handleStart}>
             {/*<span className='icon-mic text-2xl text-white' />*/}
-            <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{languages.find(l => l.name === transcribeLanguage).code}</span>
+            <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{languages.find(l => l.name === transcribeLang).code}</span>
             <span className="text-white">Transcribe</span>
           </NavbarButton>
           <GroupDivider />
