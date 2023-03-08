@@ -9,10 +9,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Reorganize transcript more menu">
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Upload file to secured s3/cloudfront">
+      <change afterPath="$PROJECT_DIR$/docs/cloudfront key pair generation" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/common/environment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk/lambda/common/ddbStreamRecordHandler.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lambda/common/ddbStreamRecordHandler.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk/lambda/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lambda/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-frontend-stack.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-frontend-stack.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/common/clients.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/clients.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/environment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/common/testData.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/testData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/daos/userDynamoDao.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/daos/userDynamoDao.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/daos/userDynamoDao.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/daos/userDynamoDao.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/daos/userSqlDao.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/daos/userSqlDao.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/schema.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/schema.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/Hotkeys.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/Hotkeys.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/MoreMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/MoreMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/SyncScrollButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/SyncScrollButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/TranscriptScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/TranscriptScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptsScreen/MoreMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptsScreen/MoreMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptsScreen/TranscriptsScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptsScreen/TranscriptsScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/slices/transcribeSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/slices/transcribeSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +59,7 @@
         <entry key="$PROJECT_DIR$" value="4ff5edb5966c296341db025efcab5905df8f3f0c" />
       </map>
     </option>
-    <option name="RESET_MODE" value="HARD" />
+    <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="GitRewordedCommitMessages">
     <option name="commitMessagesMapping">
@@ -73,6 +94,52 @@
     <dismissed value="$PROJECT_DIR$/aws-cdk/node_modules/pretty-format/package.json" />
     <dismissed value="$PROJECT_DIR$/aws-cdk/node_modules/tsconfig-paths/package.json" />
     <dismissed value="$PROJECT_DIR$/aws-cdk/node_modules/v8-to-istanbul/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@apollo/protobufjs/cli/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@aws-sdk/client-dynamodb/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@aws-sdk/client-s3/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@aws-sdk/lib-dynamodb/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@aws-sdk/middleware-bucket-endpoint/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@aws-sdk/middleware-expect-continue/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@aws-sdk/middleware-flexible-checksums/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@aws-sdk/middleware-retry/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@aws-sdk/middleware-sdk-s3/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@aws-sdk/s3-request-presigner/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@aws-sdk/signature-v4-multi-region/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@aws-sdk/util-stream-browser/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@aws-sdk/util-stream-node/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@babel/core/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@babel/generator/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@babel/helper-compilation-targets/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@babel/highlight/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@babel/traverse/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@eslint/eslintrc/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@humanwhocodes/config-array/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@istanbuljs/load-nyc-config/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/@mapbox/node-pre-gyp/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/agent-base/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/ansi-escapes/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/builtins/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/eslint-import-resolver-node/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/eslint-plugin-es/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/eslint-plugin-import/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/eslint-plugin-n/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/eslint-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/eslint/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/express/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/fs-minipass/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/https-proxy-agent/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/istanbul-lib-source-maps/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/jest-runtime/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/jest-snapshot/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/jest-worker/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/minizlib/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/pkg-dir/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/pretty-format/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/resolve-cwd/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/send/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/stack-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/backend/node_modules/v8-to-istanbul/package.json" />
     <dismissed value="$PROJECT_DIR$/frontend/node_modules/@babel/core/package.json" />
     <dismissed value="$PROJECT_DIR$/frontend/node_modules/@babel/eslint-parser/package.json" />
     <dismissed value="$PROJECT_DIR$/frontend/node_modules/@babel/generator/package.json" />
@@ -150,6 +217,7 @@
     <dismissed value="$PROJECT_DIR$/frontend/node_modules/jest-worker/package.json" />
     <dismissed value="$PROJECT_DIR$/frontend/node_modules/make-dir/package.json" />
     <dismissed value="$PROJECT_DIR$/frontend/node_modules/mini-css-extract-plugin/package.json" />
+    <dismissed value="$PROJECT_DIR$/frontend/node_modules/node-fetch/package.json" />
     <dismissed value="$PROJECT_DIR$/frontend/node_modules/pkg-dir/package.json" />
     <dismissed value="$PROJECT_DIR$/frontend/node_modules/pkg-up/package.json" />
     <dismissed value="$PROJECT_DIR$/frontend/node_modules/postcss-svgo/package.json" />
@@ -195,51 +263,51 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "eslint.code.style.apply.dismiss": "true",
-    "javascript.nodejs.core.library.configured.version": "19.4.0",
-    "javascript.nodejs.core.library.typings.version": "18.14.2",
-    "last_opened_file_path": "/Users/lincolnnguyen/repos/lincolnnguyen.me/backend/src/common",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs.jest.jest_package": "/Users/lincolnnguyen/repos/lincolnnguyen.me/backend/node_modules/jest",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "JavaScript.Libraries",
-    "ts.external.directory.path": "/Users/lincolnnguyen/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/223.8617.44/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;eslint.code.style.apply.dismiss&quot;: &quot;true&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;19.4.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.14.2&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend/src/gqlClients&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs.jest.jest_package&quot;: &quot;/Users/lincolnnguyen/repos/lincolnnguyen.me/frontend/node_modules/react-scripts&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;JavaScript.Libraries&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/lincolnnguyen/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/223.8617.44/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql",
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;,
+      &quot;postgresql&quot;
     ],
-    "com.intellij.ide.scratch.LRUPopupBuilder$1/Change SQL Dialect": [
-      "PostgreSQL"
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/Change SQL Dialect&quot;: [
+      &quot;PostgreSQL&quot;
     ],
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "TEXT",
-      "JavaScript",
-      "GraphQL"
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TEXT&quot;,
+      &quot;JavaScript&quot;,
+      &quot;GraphQL&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/gqlClients" />
       <recent name="$PROJECT_DIR$/backend/src/common" />
       <recent name="$PROJECT_DIR$/frontend" />
       <recent name="$PROJECT_DIR$/frontend/src/apps/main" />
       <recent name="$PROJECT_DIR$/frontend/src" />
-      <recent name="$PROJECT_DIR$/frontend/src/common" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/docs" />
@@ -249,7 +317,49 @@
       <recent name="$PROJECT_DIR$/aws-cdk/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Jest.validators.updateUser (1)">
+  <component name="RunManager" selected="Jest.fileGqlClient.uploadFile">
+    <configuration name="FileDao.deleteFile" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend/src/daos/fileDao.test.js" />
+      <test-names>
+        <test-name value="FileDao" />
+        <test-name value="deleteFile" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="FileDao.getFile" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend/src/daos/fileDao.test.js" />
+      <test-names>
+        <test-name value="FileDao" />
+        <test-name value="getFile" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="FileDao.putFile" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="--experimental-vm-modules" />
+      <jest-package value="$PROJECT_DIR$/backend/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/backend" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/backend/src/daos/fileDao.test.js" />
+      <test-names>
+        <test-name value="FileDao" />
+        <test-name value="putFile" />
+      </test-names>
+      <method v="2" />
+    </configuration>
     <configuration name="ddbStreamRecordHandler" type="JavaScriptTestRunnerJest" nameIsGenerated="true">
       <config-file value="$PROJECT_DIR$/.idea/runConfigurations/backendDevConfig.xml" />
       <node-interpreter value="project" />
@@ -278,76 +388,27 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="userGqlClient.registerUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+    <configuration name="fileGqlClient.uploadFile" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
       <jest-package value="$PROJECT_DIR$/frontend/node_modules/react-scripts" />
       <working-dir value="$PROJECT_DIR$/frontend" />
       <envs />
       <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/frontend/src/gqlClients/userGqlClient.test.js" />
+      <test-file value="$PROJECT_DIR$/frontend/src/gqlClients/fileGqlClient.test.js" />
       <test-names>
-        <test-name value="userGqlClient" />
-        <test-name value="registerUser" />
+        <test-name value="fileGqlClient" />
+        <test-name value="uploadFile" />
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="validators.putUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="--experimental-vm-modules" />
-      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$/backend2" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/backend2/src/common/validators.test.js" />
-      <test-names>
-        <test-name value="validators" />
-        <test-name value="putUser" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="validators.updateUser (1)" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="--experimental-vm-modules" />
-      <jest-package value="$PROJECT_DIR$/backend/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$/backend" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/backend/src/common/validators.test.js" />
-      <test-names>
-        <test-name value="validators" />
-        <test-name value="updateUser" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="validators.updateUser" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="--experimental-vm-modules" />
-      <jest-package value="$PROJECT_DIR$/backend2/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$/backend2" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/backend2/src/common/validators.test.js" />
-      <test-names>
-        <test-name value="validators" />
-        <test-name value="updateUser" />
-      </test-names>
+    <configuration name="fileDao.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/backend/src/daos/fileDao.js" working-dir="$PROJECT_DIR$/backend/src/daos">
       <method v="2" />
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
       <deployment type="dockerfile">
         <settings />
       </deployment>
-      <method v="2" />
-    </configuration>
-    <configuration name="joe" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/backend/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="joe" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
       <method v="2" />
     </configuration>
     <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
@@ -363,20 +424,20 @@
     <list>
       <item itemvalue="Jest.ddbStreamRecordHandler" />
       <item itemvalue="Jest.ddbStreamRecordHandler.putUser" />
-      <item itemvalue="Jest.validators.updateUser (1)" />
-      <item itemvalue="Jest.userGqlClient.registerUser" />
-      <item itemvalue="Jest.validators.putUser" />
-      <item itemvalue="Jest.validators.updateUser" />
+      <item itemvalue="Jest.FileDao.deleteFile" />
+      <item itemvalue="Jest.FileDao.getFile" />
+      <item itemvalue="Jest.FileDao.putFile" />
+      <item itemvalue="Jest.fileGqlClient.uploadFile" />
+      <item itemvalue="Node.js.fileDao.js" />
       <item itemvalue="npm.start" />
-      <item itemvalue="npm.joe" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Jest.validators.updateUser (1)" />
-        <item itemvalue="npm.joe" />
-        <item itemvalue="Jest.userGqlClient.registerUser" />
-        <item itemvalue="Jest.validators.updateUser" />
-        <item itemvalue="Jest.validators.putUser" />
+        <item itemvalue="Jest.fileGqlClient.uploadFile" />
+        <item itemvalue="Jest.FileDao.deleteFile" />
+        <item itemvalue="Jest.FileDao.putFile" />
+        <item itemvalue="Jest.FileDao.getFile" />
+        <item itemvalue="Node.js.fileDao.js" />
       </list>
     </recent_temporary>
   </component>
@@ -474,35 +535,12 @@
       <workItem from="1677884157266" duration="4293000" />
       <workItem from="1677893500712" duration="11151000" />
       <workItem from="1677965724943" duration="5680000" />
-      <workItem from="1677987223733" duration="17765000" />
-    </task>
-    <task id="LOCAL-00246" summary="Start graphql api">
-      <created>1677269239743</created>
-      <option name="number" value="00246" />
-      <option name="presentableId" value="LOCAL-00246" />
-      <option name="project" value="LOCAL" />
-      <updated>1677269239743</updated>
-    </task>
-    <task id="LOCAL-00247" summary="Add query and mutation, try to fix switching languages bug">
-      <created>1677299168086</created>
-      <option name="number" value="00247" />
-      <option name="presentableId" value="LOCAL-00247" />
-      <option name="project" value="LOCAL" />
-      <updated>1677299168086</updated>
-    </task>
-    <task id="LOCAL-00248" summary="Backup">
-      <created>1677313134090</created>
-      <option name="number" value="00248" />
-      <option name="presentableId" value="LOCAL-00248" />
-      <option name="project" value="LOCAL" />
-      <updated>1677313134091</updated>
-    </task>
-    <task id="LOCAL-00249" summary="Fix more bugs, restore timeout before transcribe restart, etc.">
-      <created>1677345800786</created>
-      <option name="number" value="00249" />
-      <option name="presentableId" value="LOCAL-00249" />
-      <option name="project" value="LOCAL" />
-      <updated>1677345800786</updated>
+      <workItem from="1677987223733" duration="22364000" />
+      <workItem from="1678064475004" duration="6227000" />
+      <workItem from="1678079757944" duration="13715000" />
+      <workItem from="1678135347377" duration="18119000" />
+      <workItem from="1678163413700" duration="123000" />
+      <workItem from="1678174066323" duration="16533000" />
     </task>
     <task id="LOCAL-00250" summary="Cut off transcription results options">
       <created>1677353593948</created>
@@ -819,15 +857,51 @@
       <option name="project" value="LOCAL" />
       <updated>1678055853409</updated>
     </task>
-    <option name="localTasksCounter" value="295" />
+    <task id="LOCAL-00295" summary="Reorganize transcript more menu">
+      <created>1678059419216</created>
+      <option name="number" value="00295" />
+      <option name="presentableId" value="LOCAL-00295" />
+      <option name="project" value="LOCAL" />
+      <updated>1678059419216</updated>
+    </task>
+    <task id="LOCAL-00296" summary="Backup">
+      <created>1678095046725</created>
+      <option name="number" value="00296" />
+      <option name="presentableId" value="LOCAL-00296" />
+      <option name="project" value="LOCAL" />
+      <updated>1678095046726</updated>
+    </task>
+    <task id="LOCAL-00297" summary="Upload file to secured s3/cloudfront">
+      <created>1678188572885</created>
+      <option name="number" value="00297" />
+      <option name="presentableId" value="LOCAL-00297" />
+      <option name="project" value="LOCAL" />
+      <updated>1678188572886</updated>
+    </task>
+    <task id="LOCAL-00298" summary="Upload file to secured s3/cloudfront">
+      <created>1678190038070</created>
+      <option name="number" value="00298" />
+      <option name="presentableId" value="LOCAL-00298" />
+      <option name="project" value="LOCAL" />
+      <updated>1678190038070</updated>
+    </task>
+    <option name="localTasksCounter" value="299" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="javascript:npm:prettier" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:hbs" />
     <option featureType="dependencySupport" implementationName="javascript:npm:tailwindcss" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:ejs" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:stylus" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:pug" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:webpack" />
     <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:karma" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:tslint" />
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.test" />
     <option featureType="dependencySupport" implementationName="javascript:npm:postcss" />
   </component>
@@ -854,7 +928,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add vpc, sg to cdk, refactor lambda" />
     <MESSAGE value="Add rds to cdk, finish register mutation, add validators" />
     <MESSAGE value="Refactor ddbStreamRecordHandler" />
     <MESSAGE value="Add login/user query, register mutation, gqlClient" />
@@ -863,7 +936,6 @@
     <MESSAGE value="Add backend stack cdk" />
     <MESSAGE value="Make fargate service use 0 nat gateways" />
     <MESSAGE value="Dockerize backend, add code to deploy docker image" />
-    <MESSAGE value="Backup" />
     <MESSAGE value="Add login, logout" />
     <MESSAGE value="Disable login buttons on pending" />
     <MESSAGE value="Reformat error message format" />
@@ -879,6 +951,8 @@
     <MESSAGE value="Save user transcription settings to db" />
     <MESSAGE value="Save playbackSpeed to db" />
     <MESSAGE value="Reorganize transcript more menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reorganize transcript more menu" />
+    <MESSAGE value="Backup" />
+    <MESSAGE value="Upload file to secured s3/cloudfront" />
+    <option name="LAST_COMMIT_MESSAGE" value="Upload file to secured s3/cloudfront" />
   </component>
 </project>

@@ -33,6 +33,8 @@ async function putUserHandler (record, keys) {
   const res = await userSqlDao.putUser({
     id,
     ...newImage,
+    createdAt: newImage.transcriptCreatedAt,
+    updatedAt: newImage.transcriptUpdatedAt,
   });
   logger.log('res', res);
   return res;
@@ -51,6 +53,8 @@ async function updateUserHandler (record, keys) {
   const res = await userSqlDao.updateUser({
     id,
     ...newImage,
+    createdAt: newImage.transcriptCreatedAt,
+    updatedAt: newImage.transcriptUpdatedAt,
   });
   logger.log('res', res);
   return res;

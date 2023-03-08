@@ -1,18 +1,17 @@
+import React from 'react';
+import _ from 'lodash';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { uuid } from '../common/stringUtils';
-import _ from 'lodash';
 import { commonActions } from './commonSlice';
 import { wait } from '../common/timeUtils';
 import { TextField } from '../components/TextField';
 import { NavbarButton } from '../components/NavbarButton';
 import { GroupDivider } from '../components/GroupDivider';
-import React from 'react';
-import { Dropdown } from '../components/Dropdown';
-import { GroupInput } from '../components/GroupInput';
 import { FormScreen } from '../components/FormScreen';
 import { FormScreenBottom } from '../components/FormScreenBottom';
 import { Group } from '../components/Group';
 import { closeMenu } from '../common/MenuUtils';
+import { uploadObject, uploadWebmAudio } from '../common/fileUtils';
 
 const initialState = {
   // default, record, edit
@@ -70,11 +69,12 @@ const initialState = {
   translateLang: 'English (United States)',
   playbackSpeed: 1,
   selectedParts: [],
-  sort: null,
   keywords: null,
-  searching: false,
   switchingLanguages: false,
   cutOffType: 'auto',
+  saving: false,
+  id: null,
+  preview: '',
 };
 
 export const sortMap = { updated_at: 'Updated at', created_at: 'Created at' };
@@ -82,7 +82,7 @@ export const sortMap = { updated_at: 'Updated at', created_at: 'Created at' };
 const translateFinalResult = createAsyncThunk(
   'transcribe/translateFinalResult',
   async (text, { getState, dispatch }) => {
-    const { translator, currentPartId: partId, parts, translateLang, switchingLanguages } = getState().transcribe;
+    const { translator, currentPartId: partId, parts, translateLang, switchingLanguages, saving } = getState().transcribe;
     const resultIndex = parts[partId].results.length;
     text = text.trim();
     dispatch(transcribeActions.onFinal(text));
@@ -103,20 +103,30 @@ const translateFinalResult = createAsyncThunk(
     dispatch(transcribeActions.setSlice({ switchingLanguages: false }));
     await wait(100);
     dispatch(commonActions.scrollToBottom());
+    if (saving) {
+      dispatch(transcribeActions.updatePreview());
+      dispatch(transcribeActions.setSlice({ saving: false }));
+      dispatch(saveTranscript());
+    }
   },
 );
 
 const openTranscriptsSearch = createAsyncThunk(
   'transcribe/openTranscriptsSearch',
   async (navigate, { dispatch, getState }) => {
-    const { sort, keywords } = getState().transcribe;
+    const { keywords } = getState().transcribe;
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
 
     function onSearch (e) {
       e.preventDefault();
-      const { keywords, sort } = e.target;
-      navigate(`/transcribe/transcripts?keywords=${encodeURIComponent(keywords.value)}&sort=${sort.value}`);
+      const formData = new FormData(e.target);
+      const { keywords } = Object.fromEntries(formData);
+      if (keywords?.trim()) {
+        navigate(`/transcribe/transcripts?keywords=${encodeURIComponent(keywords)}`);
+      } else {
+        navigate('/transcribe/transcripts');
+      }
       closeMenu(dispatch);
     }
 
@@ -131,22 +141,42 @@ const openTranscriptsSearch = createAsyncThunk(
             <TextField placeholder="Enter keywords here" autoFocus={true} defaultValue={keywords} name="keywords" />
             <span className="text-xs sm:text-sm text-gray-subtext2 mt-2">For example, enter "cse 416" to search for all transcripts with "cse 416" anywhere in their title.</span>
           </Group>
-          <GroupInput twStyle="rounded-lg mt-6">
-            <span>Sorted by</span>
-            <Dropdown defaultValue={sort} name="sort">
-              <option value="updated_at">Updated at</option>
-              <option value="created_at">Created at</option>
-            </Dropdown>
-          </GroupInput>
+          {/*<GroupInput twStyle="rounded-lg mt-6">*/}
+          {/*  <span>Sorted by</span>*/}
+          {/*  <Dropdown defaultValue={sort} name="sort">*/}
+          {/*    <option value="updated_at">Updated at</option>*/}
+          {/*    <option value="created_at">Created at</option>*/}
+          {/*  </Dropdown>*/}
+          {/*</GroupInput>*/}
           <FormScreenBottom>
             <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
             <GroupDivider dir="horiz" />
-            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Search</NavbarButton>
+            <NavbarButton twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Search</NavbarButton>
           </FormScreenBottom>
         </FormScreen>
       ),
     }));
   },
+);
+
+const saveTranscript = createAsyncThunk(
+  'transcribe/saveTranscript',
+  async (_, { getState, dispatch }) => {
+    const { parts, partsOrder } = getState().transcribe;
+    for (const partId of partsOrder) {
+      if (parts[partId].unsaved) {
+        // console.log('unsaved part', parts[partId]);
+        const blobUrl = parts[partId].audioUrl;
+        const s3ObjectKey = uuid() + '.webm';
+        await uploadWebmAudio({ blobUrl, s3ObjectKey });
+        dispatch(transcribeActions.setPartAsSaved({ partId, s3ObjectKey }));
+      }
+    }
+    const partsUrl = uuid() + '.json';
+    const { parts: parts2 } = getState().transcribe;
+    // console.log('parts2', parts2);
+    await uploadObject({ object: parts2, s3ObjectKey: partsUrl });
+  }
 );
 
 const transcribeSlice = createSlice({
@@ -162,6 +192,7 @@ const transcribeSlice = createSlice({
         createdAt: Date.now(),
         duration: 0,
         results: [],
+        unsaved: true,
       };
       state.partsOrder.push(partId);
       state.newResultTime = 0;
@@ -170,6 +201,26 @@ const transcribeSlice = createSlice({
     setLatestPart: (state, action) => {
       const partId = state.partsOrder[state.partsOrder.length - 1];
       _.merge(state.parts[partId], action.payload);
+    },
+    updatePreview: (state) => {
+      let preview = '';
+      for (const partId of state.partsOrder) {
+        const part = state.parts[partId];
+        for (const result of part.results) {
+          preview += result.text;
+          if (result.translation) {
+            preview += ` (${result.translation})`;
+          }
+          preview += ' ';
+          if (preview.length > 500) {
+            break;
+          }
+        }
+        if (preview.length > 500) {
+          break;
+        }
+      }
+      state.preview = preview;
     },
     onFinal: (state, action) => {
       const text = action.payload;
@@ -184,9 +235,7 @@ const transcribeSlice = createSlice({
     onInterim: (state, action) => {
       const text = action.payload;
       if (state.interimResult === '') {
-        // state.newResultTime = Math.max(state.parts[state.currentPartId]?.duration - 2, 0);
         state.newResultTime = Date.now();
-        // state.parts[state.currentPartId].startTimestamp = Date.now();
       }
       state.interimResult = text;
     },
@@ -235,9 +284,13 @@ const transcribeSlice = createSlice({
       state.transcribeLang = translateLang;
     },
     setCurrentPartDuration: (state) => {
-      // set duration to date.now - createdAt / 1000
       const partId = state.partsOrder[state.partsOrder.length - 1];
       state.parts[partId].duration = (Date.now() - state.parts[partId].createdAt) / 1000;
+    },
+    setPartAsSaved: (state, action) => {
+      const { partId, s3ObjectKey } = action.payload;
+      delete state.parts[partId].unsaved;
+      state.parts[partId].audioUrl = s3ObjectKey;
     },
   },
 });
@@ -247,4 +300,4 @@ const transcribeReducer = transcribeSlice.reducer;
 const transcribeSelector = (state) => state.transcribe;
 
 export { transcribeActions, transcribeReducer, transcribeSelector };
-export { translateFinalResult, openTranscriptsSearch };
+export { translateFinalResult, openTranscriptsSearch, saveTranscript };

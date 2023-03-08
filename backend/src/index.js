@@ -4,6 +4,7 @@ import { environment } from './common/environment.js';
 import { userDynamoDao } from './daos/userDynamoDao.js';
 import { uuid } from './common/stringUtils.js';
 import { validateAuthenticated, validatePutUser, validateUpdateUser } from './common/validators.js';
+import { fileDao } from './daos/fileDao.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
@@ -34,6 +35,12 @@ const typeDefs = `
         transcribeLang: String
         transcribeCutOffType: String
     }
+    
+    input AddTranscriptInput {
+        title: String!
+        preview: String!
+        partsOrder: [String]!
+    }
 
     type Transcript {
         id: ID!
@@ -41,7 +48,6 @@ const typeDefs = `
         preview: String!
         createdAt: String!
         updatedAt: String!
-        partsUrl: String!
         partsOrder: [String]!
     }
     
@@ -52,6 +58,8 @@ const typeDefs = `
         
         # auth required
         user: User
+        uploadFile(s3ObjectKey: String!): String
+        getFile(s3ObjectKey: String!): String
     }
     
     type Mutation {
@@ -60,12 +68,15 @@ const typeDefs = `
         
         # auth required
         updateUser(input: UpdateUserInput!): [String!]!
+        # transcribe
+        addTranscript: [String!]!
     }
 `;
 
 const resolvers = {
   Query: {
     // parent, args, ctx, info
+    version: () => environment.VERSION,
     user: async (_, __, { id }) => {
       if (!id) return null;
       const user = await userDynamoDao.getUserFromId(id);
@@ -85,7 +96,16 @@ const resolvers = {
 
       return jwt.sign({ id }, environment.JWT_SECRET);
     },
-    version: () => environment.VERSION,
+    uploadFile: async (_, { s3ObjectKey }, { id }) => {
+      if (!id) return null;
+      s3ObjectKey = `${id}/${s3ObjectKey}`;
+      return fileDao.putFile(s3ObjectKey);
+    },
+    getFile: async (_, { s3ObjectKey }, { id }) => {
+      if (!id) return null;
+      s3ObjectKey = `${id}/${s3ObjectKey}`;
+      return fileDao.getFile(s3ObjectKey);
+    },
   },
   Mutation: {
     register: async (_, user) => {
@@ -114,6 +134,10 @@ const resolvers = {
 
       return [];
     },
+    // addTranscript: async (_, __, { id }) => {
+    //   if (!id) return null;
+    //   return userDynamoDao.addTranscript(id);
+    // },
   },
 };
 

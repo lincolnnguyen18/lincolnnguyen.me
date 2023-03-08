@@ -1,5 +1,6 @@
+import React from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
+import { saveTranscript, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
 import { wait } from '../../../common/timeUtils';
 import { commonActions, commonSelector } from '../../../slices/commonSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,12 +33,20 @@ async function startStopRecording (dispatch, recorder, transcriber, mode) {
     dispatch(transcribeActions.addPart());
     recorder.start();
     transcriber.start();
-    dispatch(transcribeActions.setSlice({ createdAt: Date.now(), mode: 'record' }));
+    const timestamp = Date.now();
+    dispatch(transcribeActions.setSlice({ createdAt: timestamp, updatedAt: timestamp, mode: 'record' }));
     await wait(50);
     dispatch(commonActions.scrollToBottom(true));
   } else {
+    if (window.lastInterim !== '') {
+      dispatch(transcribeActions.setSlice({ saving: true }));
+    }
     recorder.stop();
     transcriber.stop();
+    if (window.lastInterim === '') {
+      dispatch(transcribeActions.updatePreview());
+      dispatch(saveTranscript());
+    }
     window.lastInterim = '';
     dispatch(transcribeActions.setSlice({ interimResult: '' }));
     dispatch(transcribeActions.setCurrentPartDuration());

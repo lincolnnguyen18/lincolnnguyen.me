@@ -9,6 +9,10 @@ const environment = {
   DDB_MAIN_TABLE: process.env.DDB_MAIN_TABLE,
   JWT_SECRET: process.env.JWT_SECRET,
   VERSION: 'Version 5',
+  CLOUDFRONT_KEY_PAIR_ID: process.env.CLOUDFRONT_KEY_PAIR_ID,
+  CLOUDFRONT_PRIVATE_KEY: process.env.CLOUDFRONT_PRIVATE_KEY,
+  CLOUDFRONT_DISTRIBUTION_DOMAIN: process.env.CLOUDFRONT_DISTRIBUTION_DOMAIN,
+  API_S3_BUCKET_NAME: process.env.API_S3_BUCKET_NAME,
 };
 
 export { environment };

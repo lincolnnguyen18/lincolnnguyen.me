@@ -6,13 +6,16 @@ import rds from 'aws-cdk-lib/aws-rds';
 import ecs from 'aws-cdk-lib/aws-ecs';
 import ecr from 'aws-cdk-lib/aws-ecr';
 import iam from 'aws-cdk-lib/aws-iam';
+import s3 from 'aws-cdk-lib/aws-s3';
+import cloudfront from 'aws-cdk-lib/aws-cloudfront';
+import route53 from 'aws-cdk-lib/aws-route53';
 import { DynamoEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 import { environment } from '../common/environment.js';
 import { ApplicationLoadBalancedFargateService } from 'aws-cdk-lib/aws-ecs-patterns';
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
-import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { ApplicationLoadBalancer } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import { LoadBalancerTarget } from 'aws-cdk-lib/aws-route53-targets';
+import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 
 class LincolnnguyenBackendStack extends cdk.Stack {
   constructor (scope, id, props) {
@@ -26,7 +29,7 @@ class LincolnnguyenBackendStack extends cdk.Stack {
 
     const certificate = Certificate.fromCertificateArn(this, 'certificate', environment.BACKEND_CERTIFICATE_ARN);
 
-    const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'hostedZone', {
+    const hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, 'hostedZone', {
       hostedZoneId: environment.HOSTED_ZONE_ID,
       zoneName: environment.HOSTED_ZONE_NAME,
     });
@@ -82,6 +85,13 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       sortKey: { name: 'username', type: dynamodb.AttributeType.STRING },
       projectionType: dynamodb.ProjectionType.INCLUDE,
       nonKeyAttributes: ['id'],
+    });
+
+    table.addLocalSecondaryIndex({
+      indexName: 'listTranscriptsIndex',
+      sortKey: { name: 'transcriptCreatedAt', type: dynamodb.AttributeType.STRING },
+      projectionType: dynamodb.ProjectionType.INCLUDE,
+      nonKeyAttributes: ['title', 'transcriptUpdatedAt', 'preview'],
     });
 
     lambdaFunction.addEventSource(new DynamoEventSource(table, {
@@ -142,16 +152,36 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       defaultTargetGroups: [fargateService.targetGroup],
     });
 
-    new ARecord(this, 'lincolnnguyen-api-alb-record', {
+    new route53.ARecord(this, 'lincolnnguyen-api-alb-record', {
       zone: hostedZone,
       recordName: environment.BACKEND_DOMAIN_NAME,
-      target: RecordTarget.fromAlias(new LoadBalancerTarget(applicationLoadBalancer)),
+      target: route53.RecordTarget.fromAlias(new LoadBalancerTarget(applicationLoadBalancer)),
     });
 
     new ecr.Repository(this, 'lincolnnguyen-api-ecr', {
       repositoryName: environment.ECR_REPOSITORY_NAME,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
+
+    // s3 related resources
+    const bucket = new s3.Bucket(this, 'lincolnnguyen-api-bucket', {
+      bucketName: environment.BACKEND_BUCKET_NAME,
+      publicReadAccess: false,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+    });
+
+    const oai = new cloudfront.OriginAccessIdentity(this, 'lincolnnguyen-api-oai');
+    bucket.grantRead(oai.grantPrincipal);
+
+    new cloudfront.Distribution(this, 'lincolnnguyen-api-distribution', {
+      comment: 'lincolnnguyen-api-distribution',
+      defaultBehavior: {
+        origin: new S3Origin(bucket, { oai }),
+        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+      },
+    });
+    // manually turn on Restrict viewer access for distribution to only allow access through presigned URLs
   }
 }
 

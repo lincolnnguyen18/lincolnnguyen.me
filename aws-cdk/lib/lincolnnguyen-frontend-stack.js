@@ -1,28 +1,36 @@
+import cloudfront from 'aws-cdk-lib/aws-cloudfront';
+import s3 from 'aws-cdk-lib/aws-s3';
+import route53 from 'aws-cdk-lib/aws-route53';
+import cdk from 'aws-cdk-lib';
 import { environment } from '../common/environment.js';
-import { Distribution, OriginAccessIdentity, ViewerProtocolPolicy } from 'aws-cdk-lib/aws-cloudfront';
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
-import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
-import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
-import cdk from 'aws-cdk-lib';
 
 class LincolnnguyenFrontendStack extends cdk.Stack {
   constructor (scope, id, props) {
     super(scope, id, props);
 
-    const bucket = new Bucket(this, 'bucket', {
+    const bucket = new s3.Bucket(this, 'bucket', {
       bucketName: environment.FRONTEND_BUCKET_NAME,
       publicReadAccess: false,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      cors: [{
+        allowedMethods: [s3.HttpMethods.GET],
+        allowedOrigins: ['lincolnnguyen.me'],
+        allowedHeaders: ['*'],
+      }],
     });
 
-    const originAccessIdentity = new OriginAccessIdentity(this, 'originAccessIdentity');
+    const originAccessIdentity = new cloudfront.OriginAccessIdentity(this, 'originAccessIdentity');
     bucket.grantRead(originAccessIdentity.grantPrincipal);
 
     const certificate = Certificate.fromCertificateArn(this, 'certificate', environment.FRONTEND_CERTIFICATE_ARN);
 
-    const distribution = new Distribution(this, 'distribution', {
+    const distribution = new cloudfront.Distribution(this, 'distribution', {
+      comment: 'lincolnnguyen-frontend-distribution',
       defaultRootObject: 'index.html',
       domainNames: [environment.FRONTEND_DOMAIN_NAME],
       certificate,
@@ -40,18 +48,18 @@ class LincolnnguyenFrontendStack extends cdk.Stack {
       ],
       defaultBehavior: {
         origin: new S3Origin(bucket, { originAccessIdentity }),
-        viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       },
     });
 
-    const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'hostedZone', {
+    const hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, 'hostedZone', {
       hostedZoneId: environment.HOSTED_ZONE_ID,
       zoneName: environment.HOSTED_ZONE_NAME,
     });
 
-    new ARecord(this, 'record', {
+    new route53.ARecord(this, 'record', {
       recordName: environment.FRONTEND_DOMAIN_NAME,
-      target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
+      target: route53.RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
       zone: hostedZone,
     });
 

@@ -17,6 +17,7 @@ const environment = {
   BACKEND_CERTIFICATE_ARN: process.env.BACKEND_CERTIFICATE_ARN,
   ECR_REPOSITORY_NAME: process.env.ECR_REPOSITORY_NAME,
   BACKEND_IMAGE_NAME: process.env.BACKEND_IMAGE_NAME,
+  BACKEND_BUCKET_NAME: process.env.BACKEND_BUCKET_NAME,
 };
 
 export { environment };

@@ -10,21 +10,19 @@ import { TextLink } from '../../../components/TextLink';
 import { Divider } from '../../../components/Divider';
 import { MoreMenu } from './MoreMenu';
 import { useLocation } from 'react-router-dom';
-import { sortMap, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
+import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
 
 export function TranscriptsScreen () {
   const dispatch = useDispatch();
   const location = useLocation();
   const { scrollPosition } = useSelector(commonSelector);
-  const { searching, keywords, sort } = useSelector(transcribeSelector);
+  const { keywords } = useSelector(transcribeSelector);
 
   React.useEffect(() => {
     dispatch(commonActions.scrollToTop({ useSmoothScroll: false }));
     const params = new URLSearchParams(location.search);
-    const keywords = params.get('keywords');
-    const sort = params.get('sort');
-    const searching = keywords || sort;
-    dispatch(transcribeActions.setSlice({ keywords, sort, searching }));
+    const { keywords } = Object.fromEntries(params.entries());
+    dispatch(transcribeActions.setSlice({ keywords }));
   }, [location]);
 
   function openNavMenu () {
@@ -37,7 +35,7 @@ export function TranscriptsScreen () {
   // const testTags = ['journal', 'lecture'];
 
   function showSubNav () {
-    if (!searching) return false;
+    if (!keywords?.trim()) return false;
     const titleDiv = document.getElementById('title-div');
     if (!titleDiv) return false;
     return scrollPosition > titleDiv.offsetTop + titleDiv.offsetHeight - 52;
@@ -59,17 +57,17 @@ export function TranscriptsScreen () {
         {/*  iconStyle="icon-article text-purple-custom"*/}
         {/*  messageText="You have no transcripts. Add a transcript by pressing the plus button at the top right."*/}
         {/*/>*/}
-        {searching && keywords.trim() && <div className="top-11" id="title-div">
+        {keywords?.trim() && <div className="top-11" id="title-div">
           <div className="sm:px-1 px-4 flex flex-col gap-0.5 w-full">
             <span className="sm:text-xl text-lg font-semibold">Showing search results for</span>
-            <div className="flex gap-2 items-center text-gray-subtext text-sm">
-              <span className="font-bold w-[75px] flex-shrink-0">Keywords: </span>
+            <div className="flex gap-2 items-center text-gray-subtext text-sm sm:text-base">
+              <span className="font-semibold w-[75px] flex-shrink-0">Keywords: </span>
               <span className="overflow-hidden truncate">"{keywords}"</span>
             </div>
-            <div className="flex gap-2 items-center text-gray-subtext text-sm">
-              <span className="font-bold w-[75px] flex-shrink-0">Sorted by: </span>
-              <span className="overflow-hidden truncate">{sortMap[sort]}</span>
-            </div>
+            {/*<div className="flex gap-2 items-center text-gray-subtext text-sm">*/}
+            {/*  <span className="font-bold w-[75px] flex-shrink-0">Sorted by: </span>*/}
+            {/*  <span className="overflow-hidden truncate">{sortMap[sort]}</span>*/}
+            {/*</div>*/}
           </div>
           <Divider twStyle="mx-2 sm:mx-1" />
         </div>}

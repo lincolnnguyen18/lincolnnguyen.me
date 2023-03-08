@@ -10,7 +10,7 @@ export function SyncScrollButton () {
   const { scrollPosition, autoScrollOn } = useSelector(commonSelector);
 
   React.useEffect(() => {
-    const autoScrollOn = scrollPosition > document.body.scrollHeight - window.innerHeight - 300;
+    const autoScrollOn = scrollPosition > document.body.scrollHeight - window.innerHeight - 150;
     dispatch(commonActions.setSlice({ autoScrollOn }));
   }, [scrollPosition]);
 

@@ -31,15 +31,22 @@ import { Group } from '../../../components/Group';
 import { closeMenu, openAlert } from '../../../common/MenuUtils';
 import { languages } from '../../../common/data';
 import { Hotkeys } from './Hotkeys';
-import _ from 'lodash';
 import { SyncTranscriberSettings } from './SyncTranscriberSettings';
+import { useParams } from 'react-router-dom';
+import _ from 'lodash';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
   const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLang, currentTime, currentPartId, selectedParts, translateLang, transcriber, translator, switchingLanguages, playbackSpeed } = useSelector(transcribeSelector);
-  // const testTags = ['journal', 'lecture'];
+  const { id } = useParams();
+
+  React.useEffect(() => {
+    if (!createdAt) {
+      dispatch(transcribeActions.setSlice({ id: id }));
+    }
+  }, []);
 
   function getTimestampWidth (timestamp) {
     if (windowValues.width > parseInt(theme.screens.sm)) {

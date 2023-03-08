@@ -8,8 +8,8 @@ describe('userSqlDao', () => {
       id: uuid(),
       username: 'username',
       password: 'password',
-      createdAt: timestamp,
-      updatedAt: timestamp,
+      transcriptCreatedAt: timestamp,
+      transcriptUpdatedAt: timestamp,
     });
     console.log('res', res);
   });

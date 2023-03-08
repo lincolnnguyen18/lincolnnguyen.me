@@ -21,7 +21,7 @@ const insertUserRecord = {
       transcribeLang: {
         S: 'Japanese',
       },
-      createdAt: {
+      transcriptCreatedAt: {
         S: '2023-03-01T08:57:01.663Z',
       },
       password: {
@@ -36,7 +36,7 @@ const insertUserRecord = {
       pk: {
         S: 'userData',
       },
-      updatedAt: {
+      transcriptUpdatedAt: {
         S: '2023-03-01T08:57:01.663Z',
       },
       username: {
@@ -96,7 +96,7 @@ const modifyUserRecord = {
       transcribeLang: {
         S: 'Spanish',
       },
-      createdAt: {
+      transcriptCreatedAt: {
         S: '2023-03-01T08:57:01.663Z',
       },
       password: {
@@ -111,7 +111,7 @@ const modifyUserRecord = {
       pk: {
         S: 'userData',
       },
-      updatedAt: {
+      transcriptUpdatedAt: {
         S: '2023-03-01T08:57:01.663Z',
       },
       username: {
