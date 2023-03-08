@@ -9,32 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Upload file to secured s3/cloudfront">
-      <change afterPath="$PROJECT_DIR$/docs/cloudfront key pair generation" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="File dao, gql client">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws-cdk/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/common/environment.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws-cdk/lambda/common/ddbStreamRecordHandler.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lambda/common/ddbStreamRecordHandler.mjs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws-cdk/lambda/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lambda/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-frontend-stack.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-frontend-stack.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/common/clients.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/clients.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/environment.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/common/testData.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/common/testData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/daos/userDynamoDao.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/daos/userDynamoDao.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/daos/userDynamoDao.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/daos/userDynamoDao.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/daos/userSqlDao.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/daos/userSqlDao.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/schema.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/schema.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/Hotkeys.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/Hotkeys.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/SyncScrollButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/SyncScrollButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/TranscriptScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/TranscriptScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptsScreen/MoreMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptsScreen/MoreMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptsScreen/TranscriptsScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptsScreen/TranscriptsScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/slices/transcribeSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/slices/transcribeSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dropdown.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -540,14 +517,7 @@
       <workItem from="1678079757944" duration="13715000" />
       <workItem from="1678135347377" duration="18119000" />
       <workItem from="1678163413700" duration="123000" />
-      <workItem from="1678174066323" duration="16533000" />
-    </task>
-    <task id="LOCAL-00250" summary="Cut off transcription results options">
-      <created>1677353593948</created>
-      <option name="number" value="00250" />
-      <option name="presentableId" value="LOCAL-00250" />
-      <option name="project" value="LOCAL" />
-      <updated>1677353593948</updated>
+      <workItem from="1678174066323" duration="17308000" />
     </task>
     <task id="LOCAL-00251" summary="Backup">
       <created>1677363097567</created>
@@ -885,7 +855,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678190038070</updated>
     </task>
-    <option name="localTasksCounter" value="299" />
+    <task id="LOCAL-00299" summary="File dao, gql client">
+      <created>1678250317194</created>
+      <option name="number" value="00299" />
+      <option name="presentableId" value="LOCAL-00299" />
+      <option name="project" value="LOCAL" />
+      <updated>1678250317194</updated>
+    </task>
+    <option name="localTasksCounter" value="300" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -928,7 +905,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add rds to cdk, finish register mutation, add validators" />
     <MESSAGE value="Refactor ddbStreamRecordHandler" />
     <MESSAGE value="Add login/user query, register mutation, gqlClient" />
     <MESSAGE value="Add update user mutation" />
@@ -953,6 +929,7 @@
     <MESSAGE value="Reorganize transcript more menu" />
     <MESSAGE value="Backup" />
     <MESSAGE value="Upload file to secured s3/cloudfront" />
-    <option name="LAST_COMMIT_MESSAGE" value="Upload file to secured s3/cloudfront" />
+    <MESSAGE value="File dao, gql client" />
+    <option name="LAST_COMMIT_MESSAGE" value="File dao, gql client" />
   </component>
 </project>
