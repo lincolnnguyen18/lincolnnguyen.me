@@ -182,6 +182,20 @@ const commonSlice = createSlice({
         behavior: 'smooth',
       });
     },
+    scrollToBottomHard: (state, action) => {
+      const ignoreAutoScroll = action.payload;
+      if (!state.autoScrollOn && !ignoreAutoScroll) return;
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'auto',
+      });
+      const container = document.getElementById('overflow-container');
+      if (!container) return;
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: 'auto',
+      });
+    },
     scrollElementIntoView: (state, action) => {
       const element = document.getElementById(action.payload);
       if (element) {

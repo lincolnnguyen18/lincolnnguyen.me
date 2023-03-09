@@ -237,7 +237,7 @@ export function MoreMenu ({ disabled }) {
       dispatch(transcribeActions.setSlice({ mode: 'record' }));
       dispatch(transcribeActions.updateMetadata());
       await wait(50);
-      dispatch(commonActions.scrollToBottom(true));
+      dispatch(commonActions.scrollToBottomHard(true));
     }
 
     dispatch(commonActions.openNavMenu({

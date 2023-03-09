@@ -36,7 +36,7 @@ async function startStopRecording (dispatch, recorder, transcriber, mode) {
     const timestamp = Date.now();
     dispatch(transcribeActions.setSlice({ createdAt: timestamp, updatedAt: timestamp, mode: 'record' }));
     await wait(50);
-    dispatch(commonActions.scrollToBottom(true));
+    dispatch(commonActions.scrollToBottomHard(true));
   } else {
     if (window.lastInterim !== '') {
       dispatch(transcribeActions.setSlice({ saving: true }));

@@ -6,14 +6,32 @@ import { commonActions, commonSelector } from '../slices/commonSlice.js';
 export function OverflowContainer ({ children, twStyle }) {
   const dispatch = useDispatch();
   const { browser } = useSelector(commonSelector);
+  const fixedScroll = browser?.os.startsWith('iOS') || browser?.name.startsWith('safari');/**/
+  // const fixedScroll = true;
 
-  function handleScroll (e) {
-    dispatch(commonActions.setSlice({ scrollPosition: e.target.scrollTop }));
-  }
+  React.useEffect(() => {
+    if (fixedScroll) {
+      function onScroll (e) {
+        const scrollPosition = e.target.scrollTop;
+        dispatch(commonActions.setSlice({ scrollPosition }));
+      }
+      const overflowContainer = document.getElementById('overflow-container');
+      overflowContainer.onscroll = onScroll;
+    } else {
+      function onScroll () {
+        const scrollPosition = window.scrollY;
+        // const boundingRect = document.body.getBoundingClientRect();
+        // const distanceFromBottom = boundingRect.bottom - window.innerHeight;
+        // console.log('distanceFromBottom', distanceFromBottom);
+        dispatch(commonActions.setSlice({ scrollPosition }));
+      }
+      document.body.onscroll = onScroll;
+    }
+  }, []);
 
-  if (browser?.os.startsWith('iOS') || browser?.name.startsWith('safari')) {
+  if (fixedScroll) {
     return (
-      <div className="overflow-y-scroll fixed top-0 bottom-0 left-0 right-0" onScroll={handleScroll} id="overflow-container">
+      <div className="overflow-y-scroll fixed top-0 bottom-0 left-0 right-0" id="overflow-container">
         <div className={twMerge('max-w-screen-sm mx-auto w-full sm:px-2 pt-14 pb-3 flex flex-col', twStyle)}>
           {children}
         </div>
@@ -21,7 +39,7 @@ export function OverflowContainer ({ children, twStyle }) {
     );
   } else {
     return (
-      <div className="fixed top-0 bottom-0 left-0 right-0 relative overflow-y-auto" onScroll={handleScroll} id="overflow-container">
+      <div className="fixed top-0 bottom-0 left-0 right-0 relative overflow-y-auto">
         <div className={twMerge('max-w-screen-sm mx-auto w-full sm:px-2 pt-14 pb-3 flex flex-col', twStyle)}>
           {children}
         </div>
