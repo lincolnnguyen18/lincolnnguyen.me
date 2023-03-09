@@ -16,6 +16,7 @@ import { languages } from '../../../common/data';
 import { closeMenu, openConfirm } from '../../../common/MenuUtils';
 import { shortcuts } from './Hotkeys';
 import _ from 'lodash';
+import { DropdownOption } from '../../../components/DropdownOption';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
@@ -128,7 +129,7 @@ export function MoreMenu ({ disabled }) {
               <div className="flex items-center">
                 <Dropdown onChange={onTranscribeSelectChange} defaultValue={transcribeLang}>
                   {languages.map((language, i) => (
-                    <option key={i} value={language.name}>{language.name}</option>
+                    <DropdownOption key={i} value={language.name}>{language.name}</DropdownOption>
                   ))}
                 </Dropdown>
               </div>
@@ -137,9 +138,9 @@ export function MoreMenu ({ disabled }) {
             <GroupInput>
               <span>Translate to</span>
               <Dropdown onChange={onTranslateSelectChange} defaultValue={translateLang}>
-                <option value="None">None</option>
+                <DropdownOption value="None">None</DropdownOption>
                 {languages.map((language, i) => (
-                  <option key={i} value={language.name}>{language.name}</option>
+                  <DropdownOption key={i} value={language.name}>{language.name}</DropdownOption>
                 ))}
               </Dropdown>
             </GroupInput>
@@ -147,8 +148,8 @@ export function MoreMenu ({ disabled }) {
             <GroupInput>
               <span>Cut off transcription results</span>
               <Dropdown onChange={onCutOffTypeSelectChange} defaultValue={cutOffType}>
-                <option value="auto">Automatically</option>
-                <option value="manual">Manually</option>
+                <DropdownOption value="auto">Automatically</DropdownOption>
+                <DropdownOption value="manual">Manually</DropdownOption>
               </Dropdown>
             </GroupInput>
           </Group>

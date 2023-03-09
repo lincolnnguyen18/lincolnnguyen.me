@@ -9,10 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Fix sync scroll button">
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Add cloudfront keygroup to cdk">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/DropdownOption.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws-cdk/common/environment.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/common/environment.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" beforeDir="false" afterPath="$PROJECT_DIR$/aws-cdk/lib/lincolnnguyen-backend-stack.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/MoreMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/MoreMenu.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/slices/transcribeSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/slices/transcribeSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -515,14 +515,7 @@
       <workItem from="1678135347377" duration="18119000" />
       <workItem from="1678163413700" duration="123000" />
       <workItem from="1678174066323" duration="38817000" />
-      <workItem from="1678352776386" duration="3489000" />
-    </task>
-    <task id="LOCAL-00255" summary="Add delete transcript button">
-      <created>1677384455948</created>
-      <option name="number" value="00255" />
-      <option name="presentableId" value="LOCAL-00255" />
-      <option name="project" value="LOCAL" />
-      <updated>1677384455948</updated>
+      <workItem from="1678352776386" duration="3889000" />
     </task>
     <task id="LOCAL-00256" summary="Switch between transcription modes shortcut, adjust step size of speed range slider">
       <created>1677386864797</created>
@@ -860,7 +853,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678351762720</updated>
     </task>
-    <option name="localTasksCounter" value="304" />
+    <task id="LOCAL-00304" summary="Add cloudfront keygroup to cdk">
+      <created>1678357264783</created>
+      <option name="number" value="00304" />
+      <option name="presentableId" value="LOCAL-00304" />
+      <option name="project" value="LOCAL" />
+      <updated>1678357264784</updated>
+    </task>
+    <option name="localTasksCounter" value="305" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -903,7 +903,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add update user mutation" />
     <MESSAGE value="Add frontend stack cdk" />
     <MESSAGE value="Add backend stack cdk" />
     <MESSAGE value="Make fargate service use 0 nat gateways" />
@@ -928,6 +927,7 @@
     <MESSAGE value="File dao, gql client" />
     <MESSAGE value="Fit chevron arrow inside dropdown clickable area" />
     <MESSAGE value="Fix sync scroll button" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix sync scroll button" />
+    <MESSAGE value="Add cloudfront keygroup to cdk" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add cloudfront keygroup to cdk" />
   </component>
 </project>

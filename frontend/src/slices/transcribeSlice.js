@@ -144,8 +144,8 @@ const openTranscriptsSearch = createAsyncThunk(
           {/*<GroupInput twStyle="rounded-lg mt-6">*/}
           {/*  <span>Sorted by</span>*/}
           {/*  <Dropdown defaultValue={sort} name="sort">*/}
-          {/*    <option value="updated_at">Updated at</option>*/}
-          {/*    <option value="created_at">Created at</option>*/}
+          {/*    <DropdownOption value="updated_at">Updated at</DropdownOption>*/}
+          {/*    <DropdownOption value="created_at">Created at</DropdownOption>*/}
           {/*  </Dropdown>*/}
           {/*</GroupInput>*/}
           <FormScreenBottom>
