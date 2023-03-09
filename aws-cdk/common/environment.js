@@ -18,6 +18,7 @@ const environment = {
   ECR_REPOSITORY_NAME: process.env.ECR_REPOSITORY_NAME,
   BACKEND_IMAGE_NAME: process.env.BACKEND_IMAGE_NAME,
   BACKEND_BUCKET_NAME: process.env.BACKEND_BUCKET_NAME,
+  BACKEND_CLOUDFRONT_PUBLIC_KEY: process.env.BACKEND_CLOUDFRONT_PUBLIC_KEY,
 };
 
 export { environment };

@@ -169,19 +169,36 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       publicReadAccess: false,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      cors: [
+        {
+          allowedHeaders: ['*'],
+          allowedMethods: [s3.HttpMethods.PUT],
+          allowedOrigins: ['http://localhost:3000', 'https://lincolnnguyen.me'],
+        },
+      ],
     });
 
     const oai = new cloudfront.OriginAccessIdentity(this, 'lincolnnguyen-api-oai');
     bucket.grantRead(oai.grantPrincipal);
+
+    const pubKey = new cloudfront.PublicKey(this, 'lincolnnguyen-api-cloudfront-public-key', {
+      encodedKey: environment.BACKEND_CLOUDFRONT_PUBLIC_KEY,
+      publicKeyName: 'lincolnnguyen-api-cloudfront-public-key',
+    });
+
+    const keyGroup = new cloudfront.KeyGroup(this, 'lincolnnguyen-api-cloudfront-key-group', {
+      items: [pubKey],
+      keyGroupName: 'lincolnnguyen-api-cloudfront-key-group',
+    });
 
     new cloudfront.Distribution(this, 'lincolnnguyen-api-distribution', {
       comment: 'lincolnnguyen-api-distribution',
       defaultBehavior: {
         origin: new S3Origin(bucket, { oai }),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        trustedKeyGroups: [keyGroup],
       },
     });
-    // manually turn on Restrict viewer access for distribution to only allow access through presigned URLs
   }
 }
 

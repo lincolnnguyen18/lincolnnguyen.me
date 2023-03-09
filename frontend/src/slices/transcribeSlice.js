@@ -290,7 +290,7 @@ const transcribeSlice = createSlice({
     setPartAsSaved: (state, action) => {
       const { partId, s3ObjectKey } = action.payload;
       delete state.parts[partId].unsaved;
-      state.parts[partId].audioUrl = s3ObjectKey;
+      state.parts[partId].s3ObjectKey = s3ObjectKey;
     },
   },
 });
