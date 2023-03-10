@@ -15,9 +15,9 @@ async function uploadWebmAudio ({ blobUrl, s3ObjectKey }) {
   });
 }
 
-async function uploadObject ({ object, s3ObjectKey }) {
+async function uploadJsObject ({ jsObject, s3ObjectKey }) {
   const formData = new FormData();
-  formData.append('json', new Blob([JSON.stringify(object)], { type: 'application/json' }));
+  formData.append('json', new Blob([JSON.stringify(jsObject)], { type: 'application/json' }));
   const uploadUrl = await fileGqlClient.uploadFile({ s3ObjectKey });
   return fetch(uploadUrl, {
     method: 'PUT',
@@ -28,4 +28,4 @@ async function uploadObject ({ object, s3ObjectKey }) {
   });
 }
 
-export { uploadWebmAudio, uploadObject };
+export { uploadWebmAudio, uploadJsObject };

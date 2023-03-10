@@ -11,24 +11,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
 import { Divider } from '../../../components/Divider';
 import { MoreMenu } from './MoreMenu';
-import { transcribeActions, transcribeSelector, translateFinalResult } from '../../../slices/transcribeSlice.js';
+import {
+  openRenameTranscript,
+  transcribeActions,
+  transcribeSelector,
+  translateFinalResult,
+} from '../../../slices/transcribeSlice.js';
 import { twMerge } from 'tailwind-merge';
 import { Radio } from '../../../components/Radio';
 import { BottomBar } from './BottomBar';
 import { wait } from '../../../common/timeUtils.js';
-import { TextField } from '../../../components/TextField';
-import { NavbarButton } from '../../../components/NavbarButton';
-import { GroupDivider } from '../../../components/GroupDivider';
 import { IconMessage } from '../../../components/IconMessage';
 import { formatFloatToTime, formatUnixTimestamp2 } from '../../../common/stringUtils.js';
 import { Recorder } from '../../../common/Recorder';
 import { Transcriber } from '../../../common/Transcriber';
 import { SyncScrollButton } from './SyncScrollButton';
 import { Translator } from '../../../common/Translator';
-import { FormScreen } from '../../../components/FormScreen';
-import { FormScreenBottom } from '../../../components/FormScreenBottom';
-import { Group } from '../../../components/Group';
-import { closeMenu, openAlert } from '../../../common/MenuUtils';
+import { openAlert } from '../../../common/MenuUtils';
 import { languages } from '../../../common/data';
 import { Hotkeys } from './Hotkeys';
 import { SyncTranscriberSettings } from './SyncTranscriberSettings';
@@ -203,35 +202,7 @@ export function TranscriptScreen () {
   }, [mode, switchingLanguages, transcriptionSupported]);
 
   async function handleEditTitle () {
-    dispatch(commonActions.hideNavMenuChildren());
-    await wait();
-
-    function onEdit (e) {
-      e.preventDefault();
-      const formData = new window.FormData(e.target);
-      const title = formData.get('title');
-      dispatch(transcribeActions.setSlice({ title }));
-      closeMenu(dispatch);
-    }
-
-    dispatch(commonActions.openNavMenu({
-      position: 'right',
-      isMainMenu: false,
-      centerContent: true,
-      easyClose: false,
-      children: (
-        <FormScreen isForm={true} onSubmit={onEdit}>
-          <Group title="Set Transcript Name">
-            <TextField placeholder="Transcript name" autoFocus={true} defaultValue={title} name="title" />
-          </Group>
-          <FormScreenBottom>
-            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
-            <GroupDivider dir="horiz w-36" />
-            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarButton>
-          </FormScreenBottom>
-        </FormScreen>
-      ),
-    }));
+    dispatch(openRenameTranscript());
   }
 
   React.useEffect(() => {
@@ -295,8 +266,8 @@ export function TranscriptScreen () {
               <span className={twMerge('sm:text-xl text-lg font-semibold', mode === 'edit' && 'overflow-hidden truncate')}>{title}</span>
               {mode === 'edit' && <Button onClick={handleEditTitle}><span className="icon-edit text-2xl cursor-pointer" /></Button>}
             </div>
-            {!updatedAt && createdAt && <span className="text-sm text-gray-subtext">Created on {formatUnixTimestamp2(createdAt)}</span>}
-            {updatedAt && <span className="text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>}
+            {updatedAt === createdAt && <span className="text-sm text-gray-subtext">Created on {formatUnixTimestamp2(createdAt)}</span>}
+            {updatedAt !== createdAt && <span className="text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>}
             {/*<div className="flex flex-wrap gap-1.5">*/}
             {/*  {testTags.map((tag, i) => (*/}
             {/*    <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} twStyle="text-purple-custom text-sm" inactive={mode !== 'default'}>#{tag}</TextLink>*/}

@@ -1,6 +1,7 @@
 import { ddbClient } from '../common/clients.js';
-import { PutCommand } from '@aws-sdk/lib-dynamodb';
+import { DeleteCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { environment } from '../common/environment.js';
+import { buildUpdateExpression } from '../common/stringUtils.js';
 
 class TranscribeDynamoDao {
   constructor (tableName) {
@@ -33,18 +34,18 @@ class TranscribeDynamoDao {
   //   "preview": "明日の2巻です今日二十四節気の一つということであるがどんどん進んでいきますけれども (Tomorrow's volume 2 is one of the twenty-four solar terms today, but it's progressing steadily.) "
   // }
 
-  async putTranscript ({ userId, id, title, partsUrl, partsOrder, preview, timestamp = new Date().toISOString() }) {
+  async putTranscript ({ userId, id, title, partsKey, partsOrder, preview, createdAt, updatedAt }) {
     const params = {
       TableName: this.tableName,
       Item: {
         pk: `userTranscripts#${userId}`,
         sk: `transcript#${id}`,
         title,
-        partsUrl,
+        partsKey,
         partsOrder,
         preview,
-        transcriptCreatedAt: timestamp,
-        transcriptUpdatedAt: timestamp,
+        transcriptCreatedAt: createdAt,
+        transcriptUpdatedAt: updatedAt,
       },
     };
     try {
@@ -53,6 +54,53 @@ class TranscribeDynamoDao {
     } catch (e) {
       console.error(e);
       return ['UUID collision'];
+    }
+  }
+
+  async updateTranscript ({ userId, id, title, partsKey, partsOrder, preview, createdAt, updatedAt }) {
+    const attributes = {
+      title,
+      partsKey,
+      partsOrder,
+      preview,
+      transcriptCreatedAt: createdAt,
+      transcriptUpdatedAt: updatedAt,
+    };
+    const { UpdateExpression, ExpressionAttributeNames, ExpressionAttributeValues } = buildUpdateExpression(attributes);
+
+    const params = {
+      TableName: this.tableName,
+      Key: {
+        pk: `userTranscripts#${userId}`,
+        sk: `transcript#${id}`,
+      },
+      UpdateExpression,
+      ExpressionAttributeNames,
+      ExpressionAttributeValues,
+    };
+    try {
+      await ddbClient.send(new UpdateCommand(params));
+      return [];
+    } catch (e) {
+      console.error(e);
+      return ['Update failed'];
+    }
+  }
+
+  async deleteTranscript ({ userId, id }) {
+    const params = {
+      TableName: this.tableName,
+      Key: {
+        pk: `userTranscripts#${userId}`,
+        sk: `transcript#${id}`,
+      },
+    };
+    try {
+      await ddbClient.send(new DeleteCommand(params));
+      return [];
+    } catch (e) {
+      console.error(e);
+      return ['Delete failed'];
     }
   }
 }

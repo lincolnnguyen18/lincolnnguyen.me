@@ -7,6 +7,7 @@ import { validateAuthenticated, validatePutUser, validateUpdateUser } from './co
 import { fileDao } from './daos/fileDao.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { transcribeDynamoDao } from './daos/transcribeDynamoDao.js';
 
 // language=GraphQL
 const typeDefs = `
@@ -36,10 +37,14 @@ const typeDefs = `
         transcribeCutOffType: String
     }
     
-    input AddTranscriptInput {
+    input PutTranscriptInput {
+        id: ID!
         title: String!
         preview: String!
+        createdAt: String!
+        updatedAt: String!
         partsOrder: [String]!
+        partsKey: String!
     }
 
     type Transcript {
@@ -49,6 +54,7 @@ const typeDefs = `
         createdAt: String!
         updatedAt: String!
         partsOrder: [String]!
+        partsKey: String!
     }
     
     type Query {
@@ -69,7 +75,8 @@ const typeDefs = `
         # auth required
         updateUser(input: UpdateUserInput!): [String!]!
         # transcribe
-        addTranscript: [String!]!
+        putTranscript(input: PutTranscriptInput!): [String!]!
+        updateTranscript(input: PutTranscriptInput!): [String!]!
     }
 `;
 
@@ -134,10 +141,21 @@ const resolvers = {
 
       return [];
     },
-    // addTranscript: async (_, __, { id }) => {
-    //   if (!id) return null;
-    //   return userDynamoDao.addTranscript(id);
-    // },
+    putTranscript: async (_, { input }, { id: userId }) => {
+      if (!userId) return null;
+      const { id, title, preview, createdAt, updatedAt, partsOrder, partsKey } = input;
+      await transcribeDynamoDao.putTranscript({
+        userId,
+        id,
+        title,
+        partsKey,
+        partsOrder,
+        preview,
+        createdAt,
+        updatedAt,
+      });
+      return [];
+    },
   },
 };
 

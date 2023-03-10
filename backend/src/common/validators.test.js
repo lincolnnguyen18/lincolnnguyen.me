@@ -5,7 +5,7 @@ describe('validators', () => {
     const user = {
       username: '',
       password: '',
-      confirmPassword: 'Ln2121809',
+      confirmPassword: '',
     };
     const errors = validatePutUser(user);
     console.log('errors', errors);

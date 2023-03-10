@@ -49,6 +49,14 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(30),
     });
 
+    const lambdaFunctionProd = new lambda.Function(this, 'lincolnnguyen-ddb-stream-lambda-prod', {
+      code: lambda.Code.fromAsset('lambda'),
+      handler: 'index.handler',
+      functionName: 'lincolnnguyen-ddb-stream-lambda-prod',
+      runtime: lambda.Runtime.NODEJS_14_X,
+      timeout: cdk.Duration.seconds(30),
+    });
+
     new rds.DatabaseInstance(this, 'lincolnnguyen-rds', {
       engine: rds.DatabaseInstanceEngine.POSTGRES,
       instanceType: new ec2.InstanceType('t3.micro'),
@@ -69,6 +77,28 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       publiclyAccessible: true,
       databaseName: environment.RDS_DB_NAME,
       instanceIdentifier: 'lincolnnguyen-rds',
+    });
+
+    new rds.DatabaseInstance(this, 'lincolnnguyen-rds-prod', {
+      engine: rds.DatabaseInstanceEngine.POSTGRES,
+      instanceType: new ec2.InstanceType('t3.micro'),
+      vpc,
+      vpcSubnets: vpc.selectSubnets({
+        subnetType: ec2.SubnetType.PUBLIC,
+      }),
+      securityGroups: [securityGroup],
+      allocatedStorage: 20,
+      autoMinorVersionUpgrade: true,
+      allowMajorVersionUpgrade: true,
+      maxAllocatedStorage: 20,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      credentials: {
+        username: environment.RDS_USERNAME,
+        password: cdk.SecretValue.unsafePlainText(environment.RDS_PASSWORD),
+      },
+      publiclyAccessible: true,
+      databaseName: environment.RDS_DB_NAME,
+      instanceIdentifier: 'lincolnnguyen-rds-prod',
     });
 
     const table = new dynamodb.Table(this, 'lincolnnguyen-ddb', {
@@ -94,7 +124,34 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       nonKeyAttributes: ['title', 'transcriptUpdatedAt', 'preview'],
     });
 
+    const tableProd = new dynamodb.Table(this, 'lincolnnguyen-ddb-prod', {
+      tableName: 'lincolnnguyen-prod',
+      partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
+      sortKey: { name: 'sk', type: dynamodb.AttributeType.STRING },
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      stream: dynamodb.StreamViewType.NEW_IMAGE,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+    tableProd.addLocalSecondaryIndex({
+      indexName: 'usernameIdLookupIndex',
+      sortKey: { name: 'username', type: dynamodb.AttributeType.STRING },
+      projectionType: dynamodb.ProjectionType.INCLUDE,
+      nonKeyAttributes: ['id'],
+    });
+
+    tableProd.addLocalSecondaryIndex({
+      indexName: 'listTranscriptsIndex',
+      sortKey: { name: 'transcriptCreatedAt', type: dynamodb.AttributeType.STRING },
+      projectionType: dynamodb.ProjectionType.INCLUDE,
+      nonKeyAttributes: ['title', 'transcriptUpdatedAt', 'preview'],
+    });
+
     lambdaFunction.addEventSource(new DynamoEventSource(table, {
+      startingPosition: lambda.StartingPosition.LATEST,
+    }));
+
+    lambdaFunctionProd.addEventSource(new DynamoEventSource(tableProd, {
       startingPosition: lambda.StartingPosition.LATEST,
     }));
 

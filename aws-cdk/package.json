@@ -7,7 +7,9 @@
   "scripts": {
     "build": "echo \"The build step is not required when using JavaScript!\" && exit 0",
     "cdk": "cdk",
-    "test": "jest"
+    "test": "jest",
+    "updateLambda": "cp .env.lambda.dev lambda/.env && cd lambda && zip -r ../lambda.zip * .env && cd .. && aws lambda update-function-code --function-name lincolnnguyen-ddb-stream-lambda --zip-file fileb://lambda.zip && rm lambda.zip",
+    "updateLambdaProd": "cp .env.lambda.prod lambda/.env && cd lambda && zip -r ../lambda.zip * .env && cd .. && aws lambda update-function-code --function-name lincolnnguyen-ddb-stream-lambda-prod --zip-file fileb://lambda.zip && rm lambda.zip"
   },
   "devDependencies": {
     "aws-cdk": "2.66.1",

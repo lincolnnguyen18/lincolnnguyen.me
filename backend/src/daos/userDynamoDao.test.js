@@ -5,8 +5,16 @@ describe('userDao', () => {
   it('putUser', async () => {
     const res = await userDynamoDao.putUser({
       id: uuid(),
-      username: 'username',
+      username: 'lincoln',
       password: 'password',
+    });
+    console.log('res', res);
+  });
+
+  it('updateUser', async () => {
+    const res = await userDynamoDao.updateUser({
+      id: '531c6978-c687-4992-a5f6-d77f2d314c84',
+      username: 'changed',
     });
     console.log('res', res);
   });

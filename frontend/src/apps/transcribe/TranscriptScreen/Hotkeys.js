@@ -33,11 +33,12 @@ async function startStopRecording (dispatch, recorder, transcriber, mode) {
     dispatch(transcribeActions.addPart());
     recorder.start();
     transcriber.start();
-    const timestamp = Date.now();
+    const timestamp = new Date().toISOString();
     dispatch(transcribeActions.setSlice({ createdAt: timestamp, updatedAt: timestamp, mode: 'record' }));
     await wait(50);
     dispatch(commonActions.scrollToBottomHard(true));
   } else {
+    console.log('window.lastInterim', window.lastInterim);
     if (window.lastInterim !== '') {
       dispatch(transcribeActions.setSlice({ saving: true }));
     }
@@ -46,6 +47,7 @@ async function startStopRecording (dispatch, recorder, transcriber, mode) {
     if (window.lastInterim === '') {
       dispatch(transcribeActions.updatePreview());
       dispatch(saveTranscript());
+      // dispatch(openNameTranscript());
     }
     window.lastInterim = '';
     dispatch(transcribeActions.setSlice({ interimResult: '' }));

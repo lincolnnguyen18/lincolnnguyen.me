@@ -11,7 +11,8 @@ import { FormScreen } from '../components/FormScreen';
 import { FormScreenBottom } from '../components/FormScreenBottom';
 import { Group } from '../components/Group';
 import { closeMenu } from '../common/MenuUtils';
-import { uploadObject, uploadWebmAudio } from '../common/fileUtils';
+import { RenameTranscript } from '../apps/transcribe/TranscriptScreen/RenameTranscript';
+import { NameTranscript } from '../apps/transcribe/TranscriptScreen/NameTranscript';
 
 const initialState = {
   // default, record, edit
@@ -60,7 +61,7 @@ const initialState = {
   currentPartId: null,
   createdAt: null,
   updatedAt: null,
-  title: 'Untitled  Transcript',
+  title: 'Unsaved Transcript',
   interimResult: '',
   recorder: null,
   currentTime: 0,
@@ -95,6 +96,12 @@ const translateFinalResult = createAsyncThunk(
         resultIndex,
       }));
     }
+    if (saving) {
+      dispatch(transcribeActions.updatePreview());
+      dispatch(transcribeActions.setSlice({ saving: false }));
+      dispatch(saveTranscript());
+      // dispatch(openNameTranscript());
+    }
     if (switchingLanguages) {
       dispatch(transcribeActions.switchLanguages());
       await wait(300);
@@ -103,11 +110,6 @@ const translateFinalResult = createAsyncThunk(
     dispatch(transcribeActions.setSlice({ switchingLanguages: false }));
     await wait(100);
     dispatch(commonActions.scrollToBottom());
-    if (saving) {
-      dispatch(transcribeActions.updatePreview());
-      dispatch(transcribeActions.setSlice({ saving: false }));
-      dispatch(saveTranscript());
-    }
   },
 );
 
@@ -159,23 +161,80 @@ const openTranscriptsSearch = createAsyncThunk(
   },
 );
 
+const openRenameTranscript = createAsyncThunk(
+  'transcribe/openRenameTranscript',
+  async (_, { dispatch }) => {
+    dispatch(commonActions.hideNavMenuChildren());
+    await wait();
+    dispatch(commonActions.openNavMenu({
+      position: 'right',
+      isMainMenu: false,
+      centerContent: true,
+      easyClose: false,
+      children: (
+        <RenameTranscript />
+      ),
+    }));
+  },
+);
+
+const openNameTranscript = createAsyncThunk(
+  'transcribe/openNameTranscript',
+  async (_, { dispatch }) => {
+    dispatch(commonActions.hideNavMenuChildren());
+    await wait();
+    dispatch(commonActions.openNavMenu({
+      position: 'right',
+      isMainMenu: false,
+      centerContent: true,
+      easyClose: false,
+      hideCloseButton: true,
+      children: (
+        <NameTranscript />
+      ),
+    }));
+  },
+);
+
 const saveTranscript = createAsyncThunk(
   'transcribe/saveTranscript',
-  async (_, { getState, dispatch }) => {
-    const { parts, partsOrder } = getState().transcribe;
+  async (__, { getState, dispatch }) => {
+    const { parts, partsOrder, preview, createdAt, updatedAt } = getState().transcribe;
+    const newTranscript = createdAt === updatedAt;
+    if (newTranscript) {
+      let elipsis = '';
+      if (preview.length > 30) {
+        elipsis = '...';
+      }
+      dispatch(transcribeActions.setSlice({ title: preview.slice(0, 30) + elipsis }));
+    }
     for (const partId of partsOrder) {
       if (parts[partId].unsaved) {
         // console.log('unsaved part', parts[partId]);
-        const blobUrl = parts[partId].audioUrl;
+        // const blobUrl = parts[partId].audioUrl;
         const s3ObjectKey = uuid() + '.webm';
-        await uploadWebmAudio({ blobUrl, s3ObjectKey });
+        // await uploadWebmAudio({ blobUrl, s3objectkey });
         dispatch(transcribeActions.setPartAsSaved({ partId, s3ObjectKey }));
       }
     }
-    const partsUrl = uuid() + '.json';
-    const { parts: parts2 } = getState().transcribe;
-    // console.log('parts2', parts2);
-    await uploadObject({ object: parts2, s3ObjectKey: partsUrl });
+    const partsKey = uuid() + '.json';
+    const { parts: parts2 } = _.cloneDeep(getState().transcribe);
+    for (const partId of Object.keys(parts2)) {
+      delete parts2[partId].audioUrl;
+    }
+    // await uploadJsObject({ jsObject: parts2, s3ObjectKey: partsKey });
+
+    const { id, title } = getState().transcribe;
+    const transcript = {
+      id,
+      title,
+      createdAt,
+      updatedAt,
+      preview,
+      partsOrder,
+      partsKey,
+    };
+    console.log('transcript', transcript);
   }
 );
 
@@ -245,9 +304,9 @@ const transcribeSlice = createSlice({
     },
     updateMetadata: (state) => {
       if (!state.createdAt) {
-        state.createdAt = Date.now();
+        state.createdAt = new Date().toISOString();
       } else {
-        state.updatedAt = Date.now();
+        state.updatedAt = new Date().toISOString();
       }
     },
     setPlaybackSpeed: (state, action) => {
@@ -300,4 +359,4 @@ const transcribeReducer = transcribeSlice.reducer;
 const transcribeSelector = (state) => state.transcribe;
 
 export { transcribeActions, transcribeReducer, transcribeSelector };
-export { translateFinalResult, openTranscriptsSearch, saveTranscript };
+export { translateFinalResult, openTranscriptsSearch, saveTranscript, openRenameTranscript, openNameTranscript };

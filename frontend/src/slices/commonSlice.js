@@ -107,8 +107,9 @@ const getUser = createAsyncThunk(
       dispatch(commonActions.setSlice({ user, loggedIn: true }));
       dispatch(transcribeActions.setSlice({ transcribeLang: user.transcribeLang, translateLang: user.translateLang, playbackSpeed: user.playbackSpeed, cutOffType: user.transcribeCutOffType }));
     } else {
-      dispatch(commonActions.setSlice({ token: null }));
       Cookies.remove('token');
+      dispatch(commonActions.setSlice({ showLogin: '/', loggedIn: false, token: null, user: null, loggingOut: true }));
+      dispatch(openLogin());
     }
   },
 );
@@ -117,7 +118,11 @@ const registerUser = createAsyncThunk(
   'common/registerUser',
   async ({ username, password, confirmPassword }, { dispatch }) => {
     const errors = await userGqlClient.registerUser({ username, password, confirmPassword });
-    dispatch(commonActions.setSlice({ errors }));
+    if (errors.length === 0) {
+      dispatch(getToken({ username, password }));
+    } else {
+      dispatch(commonActions.setSlice({ errors }));
+    }
   },
 );
 

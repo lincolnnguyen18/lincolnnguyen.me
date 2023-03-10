@@ -13,4 +13,10 @@ describe('userSqlDao', () => {
     });
     console.log('res', res);
   });
+
+  it('getUserTranscripts', async () => {
+    const userId = '8f8365ea-baa0-4a77-80c4-f3da3778d797';
+    const res = await userSqlDao.getUserTranscripts(userId);
+    console.log('res', res);
+  });
 });

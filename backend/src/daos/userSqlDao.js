@@ -42,6 +42,14 @@ class UserSqlDao {
       },
     });
   }
+
+  async getUserTranscripts (userId) {
+    return prismaClient.transcript.findMany({
+      where: {
+        userId,
+      },
+    });
+  }
 }
 
 const userSqlDao = new UserSqlDao();

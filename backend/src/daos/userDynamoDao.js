@@ -38,8 +38,8 @@ class UserDynamoDao {
         transcribeLang,
         translateLang,
         transcribeCutOffType,
-        transcriptCreatedAt: timestamp,
-        transcriptUpdatedAt: timestamp,
+        userCreatedAt: timestamp,
+        userUpdatedAt: timestamp,
       },
       ConditionExpression: 'attribute_not_exists(pk)',
     };
@@ -64,7 +64,7 @@ class UserDynamoDao {
       transcribeLang,
       translateLang,
       transcribeCutOffType,
-      transcriptUpdatedAt: new Date().toISOString(),
+      userUpdatedAt: new Date().toISOString(),
     };
     const { UpdateExpression, ExpressionAttributeNames, ExpressionAttributeValues } = buildUpdateExpression(attributes);
 
@@ -119,8 +119,8 @@ class UserDynamoDao {
     }
     const user = exists.Items[0];
     user.id = user.sk;
-    user.createdAt = user.transcriptCreatedAt;
-    user.updatedAt = user.transcriptUpdatedAt;
+    user.createdAt = user.userCreatedAt;
+    user.updatedAt = user.userUpdatedAt;
     return user;
   }
 
