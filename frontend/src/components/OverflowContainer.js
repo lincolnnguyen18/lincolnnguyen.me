@@ -13,17 +13,19 @@ export function OverflowContainer ({ children, twStyle }) {
     if (fixedScroll) {
       function onScroll (e) {
         const scrollPosition = e.target.scrollTop;
-        dispatch(commonActions.setSlice({ scrollPosition }));
+        const distanceFromBottom = e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight;
+        // console.log('distanceFromBottom', distanceFromBottom);
+        dispatch(commonActions.setSlice({ scrollPosition, distanceFromBottom }));
       }
       const overflowContainer = document.getElementById('overflow-container');
       overflowContainer.onscroll = onScroll;
     } else {
       function onScroll () {
         const scrollPosition = window.scrollY;
-        // const boundingRect = document.body.getBoundingClientRect();
-        // const distanceFromBottom = boundingRect.bottom - window.innerHeight;
+        const boundingRect = document.body.getBoundingClientRect();
+        const distanceFromBottom = boundingRect.bottom - window.innerHeight;
         // console.log('distanceFromBottom', distanceFromBottom);
-        dispatch(commonActions.setSlice({ scrollPosition }));
+        dispatch(commonActions.setSlice({ scrollPosition, distanceFromBottom }));
       }
       document.body.onscroll = onScroll;
     }

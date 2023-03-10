@@ -9,11 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Add cloudfront keygroup to cdk">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/DropdownOption.js" afterDir="false" />
+    <list default="true" id="8d9df5a6-4798-482c-b0b0-d1f2d78b69b4" name="Changes" comment="Make dropdown option color black">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/MoreMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/MoreMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/slices/transcribeSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/slices/transcribeSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/SyncScrollButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/apps/transcribe/TranscriptScreen/SyncScrollButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/OverflowContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OverflowContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/slices/commonSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/slices/commonSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -515,14 +515,7 @@
       <workItem from="1678135347377" duration="18119000" />
       <workItem from="1678163413700" duration="123000" />
       <workItem from="1678174066323" duration="38817000" />
-      <workItem from="1678352776386" duration="3889000" />
-    </task>
-    <task id="LOCAL-00256" summary="Switch between transcription modes shortcut, adjust step size of speed range slider">
-      <created>1677386864797</created>
-      <option name="number" value="00256" />
-      <option name="presentableId" value="LOCAL-00256" />
-      <option name="project" value="LOCAL" />
-      <updated>1677386864797</updated>
+      <workItem from="1678352776386" duration="10411000" />
     </task>
     <task id="LOCAL-00257" summary="Backup">
       <created>1677403532755</created>
@@ -860,7 +853,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678357264784</updated>
     </task>
-    <option name="localTasksCounter" value="305" />
+    <task id="LOCAL-00305" summary="Make dropdown option color black">
+      <created>1678358157922</created>
+      <option name="number" value="00305" />
+      <option name="presentableId" value="LOCAL-00305" />
+      <option name="project" value="LOCAL" />
+      <updated>1678358157922</updated>
+    </task>
+    <option name="localTasksCounter" value="306" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -903,7 +903,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add frontend stack cdk" />
     <MESSAGE value="Add backend stack cdk" />
     <MESSAGE value="Make fargate service use 0 nat gateways" />
     <MESSAGE value="Dockerize backend, add code to deploy docker image" />
@@ -928,6 +927,7 @@
     <MESSAGE value="Fit chevron arrow inside dropdown clickable area" />
     <MESSAGE value="Fix sync scroll button" />
     <MESSAGE value="Add cloudfront keygroup to cdk" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add cloudfront keygroup to cdk" />
+    <MESSAGE value="Make dropdown option color black" />
+    <option name="LAST_COMMIT_MESSAGE" value="Make dropdown option color black" />
   </component>
 </project>

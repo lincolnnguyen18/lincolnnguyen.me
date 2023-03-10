@@ -7,17 +7,21 @@ import { Button } from '../../../components/Button';
 export function SyncScrollButton () {
   const dispatch = useDispatch();
   const { mode } = useSelector(transcribeSelector);
-  const { scrollPosition, autoScrollOn } = useSelector(commonSelector);
+  const { scrollPosition, autoScrollOn, distanceFromBottom } = useSelector(commonSelector);
   const [ previousScrollPosition, setPreviousScrollPosition ] = React.useState(scrollPosition);
 
   React.useEffect(() => {
     setPreviousScrollPosition(scrollPosition);
-    // const scrollingUp = scrollPosition < previousScrollPosition;
-    const scrollingUp = previousScrollPosition - scrollPosition > 3;
-    if (scrollingUp) {
+    const difference = previousScrollPosition - scrollPosition;
+    const scrollingUp = difference > 30;
+    if (scrollingUp && distanceFromBottom >= 130) {
       dispatch(commonActions.setSlice({ autoScrollOn: false }));
     }
   }, [scrollPosition]);
+
+  React.useEffect(() => {
+    dispatch(commonActions.setSlice({ autoScrollOn: distanceFromBottom < 130 }));
+  }, [distanceFromBottom]);
 
   React.useEffect(() => {
     if (mode !== 'record') {

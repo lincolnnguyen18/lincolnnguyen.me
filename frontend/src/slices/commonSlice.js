@@ -13,6 +13,7 @@ const positions = ['center center', 'center top', 'center bottom'];
 
 const initialState = {
   scrollPosition: 0,
+  distanceFromBottom: 0,
   navMenu: {
     open: false,
     hideOnlyChildren: false,
