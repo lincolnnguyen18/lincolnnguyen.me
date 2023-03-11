@@ -117,6 +117,27 @@ class TranscribeDynamoDao {
       return ['Delete failed'];
     }
   }
+
+  async listTranscripts ({ userId, lastEvaluatedKey, limit, scanIndexForward }) {
+    const params = {
+      TableName: this.tableName,
+      IndexName: 'listTranscriptsIndex',
+      KeyConditionExpression: 'pk = :pk',
+      ExpressionAttributeValues: {
+        ':pk': `userTranscripts#${userId}`,
+      },
+      Limit: limit,
+      ScanIndexForward: scanIndexForward,
+    };
+    if (lastEvaluatedKey) {
+      params.ExclusiveStartKey = lastEvaluatedKey;
+    }
+    const res = await ddbClient.send(new QueryCommand(params));
+    return {
+      items: res.Items,
+      lastEvaluatedKey: res.LastEvaluatedKey,
+    };
+  }
 }
 
 const transcribeDynamoDao = new TranscribeDynamoDao(environment.DDB_MAIN_TABLE);

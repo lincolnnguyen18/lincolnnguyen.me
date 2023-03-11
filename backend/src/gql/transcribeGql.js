@@ -3,35 +3,79 @@ import { transcribeDynamoDao } from '../daos/transcribeDynamoDao.js';
 
 // language=GraphQL
 const transcribeTypedef = `
-  input PutTranscriptInput {
-      id: ID!
-      title: String!
-      preview: String!
-      createdAt: String!
-      updatedAt: String!
-      partsOrder: [String]!
-      partsKey: String!
-  }
+    input PutTranscriptInput {
+        id: ID!
+        title: String!
+        preview: String!
+        createdAt: String!
+        updatedAt: String!
+        partsOrder: [String]!
+        partsKey: String!
+    }
 
-  type Transcript {
-      id: ID!
-      title: String!
-      preview: String!
-      createdAt: String!
-      updatedAt: String!
-      partsOrder: [String]!
-      partsKey: String!
-  }
+    input SearchTranscriptsInput {
+        search: String
+        skip: Int = 0
+        take: Int = 10
+    }
 
-  extend type Mutation {
-      # transcribe
-      putTranscript(input: PutTranscriptInput!): [String!]!
-      updateTranscript(input: PutTranscriptInput!): [String!]!
-      deleteTranscript(id: ID!): [String!]!
-  }
+    input ListTranscriptsInput {
+        lastEvaluatedKey: String
+        limit: Int = 10
+        scanIndexForward: Boolean = false
+    }
+
+    type Transcript {
+        id: ID!
+        title: String!
+        preview: String!
+        createdAt: String!
+        updatedAt: String!
+        partsOrder: [String]!
+        partsKey: String!
+    }
+
+    type TranscriptPreview {
+        id: ID!
+        title: String!
+        preview: String!
+        createdAt: String!
+        updatedAt: String!
+    }
+
+    type ListTranscriptResults {
+        items: [TranscriptPreview!]!
+        lastEvaluatedKey: String
+    }
+
+    extend type Query {
+        searchTranscripts(input: SearchTranscriptsInput!): [TranscriptPreview!]!
+        listTranscripts(input: ListTranscriptsInput!): ListTranscriptResults
+    }
+
+    extend type Mutation {
+        # transcribe
+        putTranscript(input: PutTranscriptInput!): [String!]!
+        updateTranscript(input: PutTranscriptInput!): [String!]!
+        deleteTranscript(id: ID!): [String!]!
+    }
 `;
 
 const transcribeResolvers = {
+  Query: {
+    listTranscripts: async (_, { input }, { id: userId }) => {
+      const errors = validateAuthenticated(userId);
+      if (errors.length > 0) return errors;
+      const { lastEvaluatedKey, limit, scanIndexForward } = input;
+      return transcribeDynamoDao.listTranscripts({ userId, lastEvaluatedKey, limit, scanIndexForward });
+    },
+    // searchTranscripts: async (_, { input }, { id: userId }) => {
+    //   const errors = validateAuthenticated(userId);
+    //   if (errors.length > 0) return errors;
+    //   const { search, lastEvaluatedKey } = input;
+    //   return transcribeDynamoDao.searchTranscripts({ userId, title, lastEvaluatedKey });
+    // },
+  },
   Mutation: {
     putTranscript: async (_, { input }, { id: userId }) => {
       const errors = validateAuthenticated(userId);

@@ -33,4 +33,13 @@ describe('transcribeDao', () => {
     });
     console.log('res', res);
   });
+
+  it('listTranscripts', async () => {
+    const res = await transcribeDynamoDao.listTranscripts({
+      userId: 'f218335b-f82b-4009-adba-e254832665e8',
+      // limit: 1,
+      scanIndexForward: false,
+    });
+    console.log('res', res);
+  });
 });
