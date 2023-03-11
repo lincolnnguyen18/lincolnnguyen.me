@@ -26,7 +26,7 @@ function openAlert ({ dispatch, title, message }) {
             <span>{message}</span>
           </div>
         </div>
-        <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="single">Cancel</NavbarButton>
+        <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="single">Close</NavbarButton>
       </div>
     ),
   }));

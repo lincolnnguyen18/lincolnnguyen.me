@@ -27,7 +27,6 @@ import { Recorder } from '../../../common/Recorder';
 import { Transcriber } from '../../../common/Transcriber';
 import { SyncScrollButton } from './SyncScrollButton';
 import { Translator } from '../../../common/Translator';
-import { openAlert } from '../../../common/MenuUtils';
 import { languages } from '../../../common/data';
 import { Hotkeys } from './Hotkeys';
 import { SyncTranscriberSettings } from './SyncTranscriberSettings';
@@ -117,10 +116,6 @@ export function TranscriptScreen () {
     dispatch(commonActions.scrollToBottom());
   }
 
-  function onRecordingError () {
-    openAlert({ dispatch, title: 'Error', message: 'There was an error in starting the recording. Please make sure this website has permission to use the mic and that there are no other tabs open that are using the mic.' });
-  }
-
   async function onInterim (interim) {
     dispatch(transcribeActions.onInterim(interim));
     await wait(100);
@@ -141,7 +136,7 @@ export function TranscriptScreen () {
     if (!transcriptionSupported) return;
     dispatch(commonActions.setSlice({ scrollPosition: 0 }));
 
-    const recorder = new Recorder({ onRecordingReady, onRecordingStop, onRecordingError });
+    const recorder = new Recorder({ onRecordingReady, onRecordingStop });
     const transcriber = new Transcriber({ onInterim, onFinal, lang: languages.find(l => l.name === transcribeLang)?.transcribe });
     const translator = new Translator({ targetLang: languages.find(l => l.name === translateLang)?.translate });
     dispatch(transcribeActions.setSlice({ recorder, transcriber, translator }));

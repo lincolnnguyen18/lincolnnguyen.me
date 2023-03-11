@@ -45,7 +45,12 @@ export class Transcriber {
   }
 
   start () {
-    window.recognition.start();
+    try {
+      window.recognition.start();
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
     const timeoutAfter = 3;
     const maxResultLength = 50;
     this.interval = setInterval(() => {

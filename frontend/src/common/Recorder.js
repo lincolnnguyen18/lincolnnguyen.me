@@ -1,11 +1,12 @@
 export class Recorder {
-  constructor ({ onRecordingReady, onRecordingStop, onRecordingError }) {
+  constructor ({ onRecordingReady, onRecordingStop }) {
     this.onRecordingReady = onRecordingReady;
-    this.onRecordingError = onRecordingError;
 
     const setupRecorder = (stream) => {
       window.mediaRecorder = new window.MediaRecorder(stream);
-      window.mediaRecorder.addEventListener('dataavailable', e => this.onRecordingReady(URL.createObjectURL(e.data)));
+      window.mediaRecorder.addEventListener('dataavailable', e => {
+        this.onRecordingReady(URL.createObjectURL(e.data));
+      });
       window.mediaRecorder.addEventListener('stop', onRecordingStop);
     };
 
@@ -18,13 +19,12 @@ export class Recorder {
   }
 
   start () {
-    setTimeout(() => {
-      if (window.mediaRecorder) {
-        window.mediaRecorder.start();
-      } else {
-        this.onRecordingError();
-      }
-    }, 1000);
+    try {
+      window.mediaRecorder.start();
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   }
 
   stop () {

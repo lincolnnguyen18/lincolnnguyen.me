@@ -13,6 +13,7 @@ import { Group } from '../components/Group';
 import { closeMenu } from '../common/MenuUtils';
 import { RenameTranscript } from '../apps/transcribe/TranscriptScreen/RenameTranscript';
 import { NameTranscript } from '../apps/transcribe/TranscriptScreen/NameTranscript';
+import { transcribeGqlClient } from '../gqlClients/transcribeGqlClient';
 
 const initialState = {
   // default, record, edit
@@ -235,6 +236,16 @@ const saveTranscript = createAsyncThunk(
       partsKey,
     };
     console.log('transcript', transcript);
+    const res = await transcribeGqlClient.putTranscript({
+      id,
+      title,
+      preview,
+      createdAt,
+      updatedAt,
+      partsOrder,
+      partsKey,
+    });
+    console.log('res', res);
   }
 );
 
@@ -285,8 +296,9 @@ const transcribeSlice = createSlice({
       const text = action.payload;
       const partId = state.partsOrder[state.partsOrder.length - 1];
       const createdAt = state.parts[partId].createdAt;
+      const offset = 1;
       state.parts[partId].results.push({
-        timestamp: Math.max(0, ((state.newResultTime - createdAt) / 1000) - 2),
+        timestamp: Math.max(0, ((state.newResultTime - createdAt) / 1000) - offset),
         text,
       });
       state.interimResult = '';

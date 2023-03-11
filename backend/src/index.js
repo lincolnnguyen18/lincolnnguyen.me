@@ -77,6 +77,7 @@ const typeDefs = `
         # transcribe
         putTranscript(input: PutTranscriptInput!): [String!]!
         updateTranscript(input: PutTranscriptInput!): [String!]!
+        deleteTranscript(id: ID!): [String!]!
     }
 `;
 
@@ -142,7 +143,8 @@ const resolvers = {
       return [];
     },
     putTranscript: async (_, { input }, { id: userId }) => {
-      if (!userId) return null;
+      const errors = validateAuthenticated(userId);
+      if (errors.length > 0) return errors;
       const { id, title, preview, createdAt, updatedAt, partsOrder, partsKey } = input;
       await transcribeDynamoDao.putTranscript({
         userId,
@@ -154,6 +156,28 @@ const resolvers = {
         createdAt,
         updatedAt,
       });
+      return [];
+    },
+    updateTranscript: async (_, { input }, { id: userId }) => {
+      const errors = validateAuthenticated(userId);
+      if (errors.length > 0) return errors;
+      const { id, title, preview, createdAt, updatedAt, partsOrder, partsKey } = input;
+      await transcribeDynamoDao.updateTranscript({
+        userId,
+        id,
+        title,
+        partsKey,
+        partsOrder,
+        preview,
+        createdAt,
+        updatedAt,
+      });
+      return [];
+    },
+    deleteTranscript: async (_, { id }, { id: userId }) => {
+      const errors = validateAuthenticated(userId);
+      if (errors.length > 0) return errors;
+      await transcribeDynamoDao.deleteTranscript({ userId, id });
       return [];
     },
   },
