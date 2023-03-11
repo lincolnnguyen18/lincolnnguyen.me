@@ -1,5 +1,5 @@
 import { ddbClient } from '../common/clients.js';
-import { DeleteCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { DeleteCommand, PutCommand, UpdateCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { environment } from '../common/environment.js';
 import { buildUpdateExpression } from '../common/stringUtils.js';
 
@@ -35,7 +35,21 @@ class TranscribeDynamoDao {
   // }
 
   async putTranscript ({ userId, id, title, partsKey, partsOrder, preview, createdAt, updatedAt }) {
-    const params = {
+    let params = {
+      TableName: this.tableName,
+      KeyConditionExpression: 'pk = :pk and sk = :sk',
+      ExpressionAttributeValues: {
+        ':pk': `userTranscripts#${userId}`,
+        ':sk': `transcript#${id}`,
+      },
+    };
+    let exists = await ddbClient.send(new QueryCommand(params));
+    exists = exists.Items.length > 0;
+    if (exists) {
+      return ['Transcript already exists'];
+    }
+
+    params = {
       TableName: this.tableName,
       Item: {
         pk: `userTranscripts#${userId}`,

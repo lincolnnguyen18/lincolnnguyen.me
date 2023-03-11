@@ -134,19 +134,16 @@ const resolvers = {
       errors = validateUpdateUser(input);
       if (errors.length > 0) return errors;
 
-      errors = await userDynamoDao.updateUser({
+      return userDynamoDao.updateUser({
         id,
         ...input,
       });
-      if (errors.length > 0) return errors;
-
-      return [];
     },
     putTranscript: async (_, { input }, { id: userId }) => {
       const errors = validateAuthenticated(userId);
       if (errors.length > 0) return errors;
       const { id, title, preview, createdAt, updatedAt, partsOrder, partsKey } = input;
-      await transcribeDynamoDao.putTranscript({
+      return transcribeDynamoDao.putTranscript({
         userId,
         id,
         title,
@@ -156,13 +153,12 @@ const resolvers = {
         createdAt,
         updatedAt,
       });
-      return [];
     },
     updateTranscript: async (_, { input }, { id: userId }) => {
       const errors = validateAuthenticated(userId);
       if (errors.length > 0) return errors;
       const { id, title, preview, createdAt, updatedAt, partsOrder, partsKey } = input;
-      await transcribeDynamoDao.updateTranscript({
+      return transcribeDynamoDao.updateTranscript({
         userId,
         id,
         title,
@@ -172,13 +168,11 @@ const resolvers = {
         createdAt,
         updatedAt,
       });
-      return [];
     },
     deleteTranscript: async (_, { id }, { id: userId }) => {
       const errors = validateAuthenticated(userId);
       if (errors.length > 0) return errors;
-      await transcribeDynamoDao.deleteTranscript({ userId, id });
-      return [];
+      return transcribeDynamoDao.deleteTranscript({ userId, id });
     },
   },
 };
