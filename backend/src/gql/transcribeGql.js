@@ -13,6 +13,16 @@ const transcribeTypedef = `
         partsKey: String!
     }
 
+    input UpdateTranscriptInput {
+        id: ID!
+        title: String
+        preview: String
+        createdAt: String
+        updatedAt: String!
+        partsOrder: [String]
+        partsKey: String
+    }
+
     input SearchTranscriptsInput {
         search: String
         skip: Int = 0
@@ -56,7 +66,7 @@ const transcribeTypedef = `
     extend type Mutation {
         # transcribe
         putTranscript(input: PutTranscriptInput!): [String!]!
-        updateTranscript(input: PutTranscriptInput!): [String!]!
+        updateTranscript(input: UpdateTranscriptInput!): [String!]!
         deleteTranscript(id: ID!): [String!]!
     }
 `;
@@ -81,6 +91,8 @@ const transcribeResolvers = {
       const errors = validateAuthenticated(userId);
       if (errors.length > 0) return errors;
       const { id, title, preview, createdAt, updatedAt, partsOrder, partsKey } = input;
+      if (partsOrder.length === 0) return ['Parts order must not be empty'];
+      if (partsOrder.length > 100) return ['Parts order must not be greater than 100'];
       return transcribeDynamoDao.putTranscript({
         userId,
         id,

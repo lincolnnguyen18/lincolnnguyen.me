@@ -6,6 +6,7 @@ import { GroupInput } from '../components/GroupInput';
 import { FormScreenBottom } from '../components/FormScreenBottom';
 import { Group } from '../components/Group';
 import { FormScreen } from '../components/FormScreen';
+import { Confirm } from '../apps/main/Confirm';
 
 function closeMenu (dispatch) {
   dispatch(commonActions.closeNavMenu());
@@ -40,19 +41,7 @@ function openConfirm ({ dispatch, title = 'Please Confirm', message, onConfirm }
     easyClose: false,
     hideCloseButton: true,
     children: (
-      <div className="flex flex-col w-full text-white items-center">
-        <div className="w-full max-w-md">
-          <span className="font-semibold sm:text-lg text-base">{title}</span>
-          <div className="bg-black bg-opacity-50 rounded-lg w-full flex-col mb-6 mt-2 py-2 px-3">
-            <span>{message}</span>
-          </div>
-        </div>
-        <div className="flex">
-          <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
-          <GroupDivider dir="horiz w-36" />
-          <NavbarButton onClick={onConfirm} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Confirm</NavbarButton>
-        </div>
-      </div>
+      <Confirm title={title} message={message} onConfirm={onConfirm} />
     ),
   }));
 }

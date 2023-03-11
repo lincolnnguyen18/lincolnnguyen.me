@@ -133,8 +133,21 @@ class TranscribeDynamoDao {
       params.ExclusiveStartKey = lastEvaluatedKey;
     }
     const res = await ddbClient.send(new QueryCommand(params));
+    const items = res.Items.map(item => {
+      const id = item.sk.split('#')[1];
+      const createdAt = item.transcriptCreatedAt;
+      const updatedAt = item.transcriptUpdatedAt;
+      return {
+        id,
+        title: item.title,
+        preview: item.preview,
+        createdAt,
+        updatedAt,
+      };
+    });
+
     return {
-      items: res.Items,
+      items,
       lastEvaluatedKey: res.LastEvaluatedKey,
     };
   }

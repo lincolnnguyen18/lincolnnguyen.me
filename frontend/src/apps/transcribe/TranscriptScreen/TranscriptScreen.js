@@ -22,7 +22,7 @@ import { Radio } from '../../../components/Radio';
 import { BottomBar } from './BottomBar';
 import { wait } from '../../../common/timeUtils.js';
 import { IconMessage } from '../../../components/IconMessage';
-import { formatFloatToTime, formatUnixTimestamp2 } from '../../../common/stringUtils.js';
+import { formatFloatToTime, formatUnixTimestampFull } from '../../../common/stringUtils.js';
 import { Recorder } from '../../../common/Recorder';
 import { Transcriber } from '../../../common/Transcriber';
 import { SyncScrollButton } from './SyncScrollButton';
@@ -44,6 +44,10 @@ export function TranscriptScreen () {
     if (!createdAt) {
       dispatch(transcribeActions.setSlice({ id: id }));
     }
+
+    return () => {
+      dispatch(transcribeActions.resetState());
+    };
   }, []);
 
   function getTimestampWidth (timestamp) {
@@ -261,8 +265,8 @@ export function TranscriptScreen () {
               <span className={twMerge('sm:text-xl text-lg font-semibold', mode === 'edit' && 'overflow-hidden truncate')}>{title}</span>
               {mode === 'edit' && <Button onClick={handleEditTitle}><span className="icon-edit text-2xl cursor-pointer" /></Button>}
             </div>
-            {updatedAt === createdAt && <span className="text-sm text-gray-subtext">Created on {formatUnixTimestamp2(createdAt)}</span>}
-            {updatedAt !== createdAt && <span className="text-sm text-gray-subtext">Updated on {formatUnixTimestamp2(updatedAt)}</span>}
+            {updatedAt === createdAt && <span className="text-sm text-gray-subtext">Created on {formatUnixTimestampFull(createdAt)}</span>}
+            {updatedAt !== createdAt && <span className="text-sm text-gray-subtext">Updated on {formatUnixTimestampFull(updatedAt)}</span>}
             {/*<div className="flex flex-wrap gap-1.5">*/}
             {/*  {testTags.map((tag, i) => (*/}
             {/*    <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} twStyle="text-purple-custom text-sm" inactive={mode !== 'default'}>#{tag}</TextLink>*/}
@@ -284,7 +288,7 @@ export function TranscriptScreen () {
               return (
                 <React.Fragment key={i}>
                   <Radio twStyle="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'} data-part-id={partId} onClick={() => onRadioClick(partId)} selected={selectedParts.includes(partId)}>
-                    <span>Recorded on {formatUnixTimestamp2(part.createdAt)}</span>
+                    <span>Recorded on {formatUnixTimestampFull(part.createdAt)}</span>
                   </Radio>
                   {maxPartResults(part.results).map((result, j) => {
                     const formattedTimestamp = formatFloatToTime(result.timestamp);
@@ -374,7 +378,7 @@ export function TranscriptScreen () {
       >
         <div className="flex flex-col gap-0.5 my-2">
           <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{title}</span>
-          <span className="sm:text-sm text-xs text-gray-subtext text-sm mx-2 overflow-hidden truncate">Recorded on {formatUnixTimestamp2(getCurrentPart()?.createdAt)}</span>
+          <span className="sm:text-sm text-xs text-gray-subtext text-sm mx-2 overflow-hidden truncate">Recorded on {formatUnixTimestampFull(getCurrentPart()?.createdAt)}</span>
         </div>
         <Divider twStyle="sm:my-0 my-0" />
       </div>

@@ -2,6 +2,7 @@ import { unmarshall } from '@aws-sdk/util-dynamodb';
 import { logger } from '../common/utils.mjs';
 import { Handler } from '../common/Handler.mjs';
 import { transcribeSqlDao } from '../daos/transcribeSqlDao.mjs';
+import { fileDao } from '../daos/fileDao.mjs';
 
 async function putTranscriptHandler (record, keys) {
   function canHandle () {
@@ -62,8 +63,11 @@ async function deleteTranscriptHandler (record, keys) {
   const id = keys.sk.split('#')[1];
   logger.log('userId', userId);
   logger.log('id', id);
-  const res = await transcribeSqlDao.deleteTranscript(id);
-  logger.log('res', res);
+  let res = await transcribeSqlDao.deleteTranscript(id);
+  logger.log('sql delete res', res);
+
+  res = await fileDao.deleteDirectory(`${userId}/transcribe/${id}`);
+  // console.log('s3 delete res', res);
   return res;
 }
 

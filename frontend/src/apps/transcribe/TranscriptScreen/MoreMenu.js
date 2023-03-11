@@ -5,7 +5,7 @@ import { GroupDivider } from '../../../components/GroupDivider';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../components/Button';
-import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
+import { deleteTranscript, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { GroupInput } from '../../../components/GroupInput';
 import { Dropdown } from '../../../components/Dropdown';
 import { Group } from '../../../components/Group';
@@ -17,10 +17,12 @@ import { closeMenu, openConfirm } from '../../../common/MenuUtils';
 import { shortcuts } from './Hotkeys';
 import _ from 'lodash';
 import { DropdownOption } from '../../../components/DropdownOption';
+import { useNavigate } from 'react-router-dom';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
-  const { mode, recorder, transcriber, playing, transcribeLang, translateLang, partsOrder, createdAt, playbackSpeed, cutOffType } = useSelector(transcribeSelector);
+  const navigate = useNavigate();
+  const { mode, recorder, transcriber, playing, transcribeLang, translateLang, partsOrder, createdAt, playbackSpeed, cutOffType, id } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   async function handleOpenInfo () {
@@ -155,13 +157,13 @@ export function MoreMenu ({ disabled }) {
           </Group>
           <Group title="Keyboard Shortcuts">
             {shortcuts.map(({ name, key }, i) => (
-              <>
+              <React.Fragment key={i}>
                 <GroupInput>
                   <span>{name}</span>
                   <span>{key}</span>
                 </GroupInput>
                 {i !== shortcuts.length - 1 && <GroupDivider />}
-              </>
+              </React.Fragment>
             ))}
           </Group>
           <FormScreenBottom>
@@ -220,8 +222,9 @@ export function MoreMenu ({ disabled }) {
   //   showShortcuts({ dispatch, shortcuts });
   // }
 
-  function onDelete () {
-    console.log('deleting transcript');
+  async function onDelete () {
+    await dispatch(deleteTranscript({ id }));
+    navigate('/transcribe/transcripts');
   }
 
   async function confirmDelete () {
@@ -246,7 +249,7 @@ export function MoreMenu ({ disabled }) {
       isMainMenu: false,
       children: (
         <div className="flex flex-col">
-          <NavbarButton onClick={handleStart}>
+          <NavbarButton onClick={handleStart} disabled={partsOrder?.length > 100}>
             {/*<span className='icon-mic text-2xl text-white' />*/}
             <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{languages.find(l => l.name === transcribeLang).code}</span>
             <span className="text-white">Transcribe</span>

@@ -14,6 +14,7 @@ import { closeMenu } from '../common/MenuUtils';
 import { RenameTranscript } from '../apps/transcribe/TranscriptScreen/RenameTranscript';
 import { NameTranscript } from '../apps/transcribe/TranscriptScreen/NameTranscript';
 import { transcribeGqlClient } from '../gqlClients/transcribeGqlClient';
+import { uploadJsObject, uploadWebmAudio } from '../common/fileUtils';
 
 const initialState = {
   // default, record, edit
@@ -77,6 +78,7 @@ const initialState = {
   saving: false,
   id: null,
   preview: '',
+  listTranscriptsResult: null,
 };
 
 export const sortMap = { updated_at: 'Updated at', created_at: 'Created at' };
@@ -200,7 +202,7 @@ const openNameTranscript = createAsyncThunk(
 const saveTranscript = createAsyncThunk(
   'transcribe/saveTranscript',
   async (__, { getState, dispatch }) => {
-    const { parts, partsOrder, preview, createdAt, updatedAt } = getState().transcribe;
+    const { id, parts, partsOrder, preview, createdAt, updatedAt } = getState().transcribe;
     const newTranscript = createdAt === updatedAt;
     if (newTranscript) {
       let elipsis = '';
@@ -212,20 +214,20 @@ const saveTranscript = createAsyncThunk(
     for (const partId of partsOrder) {
       if (parts[partId].unsaved) {
         // console.log('unsaved part', parts[partId]);
-        // const blobUrl = parts[partId].audioUrl;
-        const s3ObjectKey = uuid() + '.webm';
-        // await uploadWebmAudio({ blobUrl, s3objectkey });
-        dispatch(transcribeActions.setPartAsSaved({ partId, s3ObjectKey }));
+        const blobUrl = parts[partId].audioUrl;
+        const audioKey = `transcribe/${id}/${partId}.webm`;
+        await uploadWebmAudio({ blobUrl, s3ObjectKey: audioKey });
+        dispatch(transcribeActions.setPartAsSaved({ partId, s3ObjectKey: audioKey }));
       }
     }
-    const partsKey = uuid() + '.json';
+    const partsKey = `transcribe/${id}/parts.json`;
     const { parts: parts2 } = _.cloneDeep(getState().transcribe);
     for (const partId of Object.keys(parts2)) {
       delete parts2[partId].audioUrl;
     }
-    // await uploadJsObject({ jsObject: parts2, s3ObjectKey: partsKey });
+    await uploadJsObject({ jsObject: parts2, s3ObjectKey: partsKey });
 
-    const { id, title } = getState().transcribe;
+    const { title } = getState().transcribe;
     const transcript = {
       id,
       title,
@@ -246,6 +248,21 @@ const saveTranscript = createAsyncThunk(
       partsKey,
     });
     console.log('res', res);
+  }
+);
+
+const listTranscripts = createAsyncThunk(
+  'transcribe/listTranscripts',
+  async (_, { dispatch }) => {
+    const res = await transcribeGqlClient.listTranscripts({});
+    dispatch(transcribeActions.setSlice({ listTranscriptsResult: res }));
+  }
+);
+
+const deleteTranscript = createAsyncThunk(
+  'transcribe/deleteTranscript',
+  async ({ id }) => {
+    await transcribeGqlClient.deleteTranscript({ id });
   }
 );
 
@@ -274,16 +291,45 @@ const transcribeSlice = createSlice({
     },
     updatePreview: (state) => {
       let preview = '';
+      // for (const partId of state.partsOrder) {
+      //   const part = state.parts[partId];
+      //   for (const result of part.results) {
+      //     preview += result.text;
+      //     if (result.translation) {
+      //       preview += ` (${result.translation})`;
+      //     }
+      //     preview += ' ';
+      //     if (preview.length > 500) {
+      //       break;
+      //     }
+      //   }
+      //   if (preview.length > 500) {
+      //     break;
+      //   }
+      // }
+
       for (const partId of state.partsOrder) {
         const part = state.parts[partId];
         for (const result of part.results) {
           preview += result.text;
-          if (result.translation) {
-            preview += ` (${result.translation})`;
-          }
           preview += ' ';
-          if (preview.length > 500) {
+          if (preview.length > 250) {
             break;
+          }
+        }
+        if (preview.length > 250) {
+          break;
+        }
+      }
+      for (const partId of state.partsOrder) {
+        const part = state.parts[partId];
+        for (const result of part.results) {
+          if (result.translation) {
+            preview += result.translation;
+            preview += ' ';
+            if (preview.length > 500) {
+              break;
+            }
           }
         }
         if (preview.length > 500) {
@@ -363,6 +409,9 @@ const transcribeSlice = createSlice({
       delete state.parts[partId].unsaved;
       state.parts[partId].s3ObjectKey = s3ObjectKey;
     },
+    resetState: () => {
+      return initialState;
+    },
   },
 });
 
@@ -371,4 +420,4 @@ const transcribeReducer = transcribeSlice.reducer;
 const transcribeSelector = (state) => state.transcribe;
 
 export { transcribeActions, transcribeReducer, transcribeSelector };
-export { translateFinalResult, openTranscriptsSearch, saveTranscript, openRenameTranscript, openNameTranscript };
+export { translateFinalResult, openTranscriptsSearch, saveTranscript, openRenameTranscript, openNameTranscript, listTranscripts, deleteTranscript };

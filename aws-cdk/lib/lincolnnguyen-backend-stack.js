@@ -256,6 +256,9 @@ class LincolnnguyenBackendStack extends cdk.Stack {
         trustedKeyGroups: [keyGroup],
       },
     });
+
+    bucket.grantReadWrite(lambdaFunction);
+    bucket.grantReadWrite(lambdaFunctionProd);
   }
 }
 
