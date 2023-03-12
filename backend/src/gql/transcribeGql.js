@@ -59,8 +59,9 @@ const transcribeTypedef = `
     }
 
     extend type Query {
-        searchTranscripts(input: SearchTranscriptsInput!): [TranscriptPreview!]!
+        searchTranscripts(input: SearchTranscriptsInput!): [TranscriptPreview!]
         listTranscripts(input: ListTranscriptsInput!): ListTranscriptResults
+        getTranscript(id: ID!): Transcript
     }
 
     extend type Mutation {
@@ -74,10 +75,13 @@ const transcribeTypedef = `
 const transcribeResolvers = {
   Query: {
     listTranscripts: async (_, { input }, { id: userId }) => {
-      const errors = validateAuthenticated(userId);
-      if (errors.length > 0) return errors;
+      if (!userId) return null;
       const { lastEvaluatedKey, limit, scanIndexForward } = input;
       return transcribeDynamoDao.listTranscripts({ userId, lastEvaluatedKey, limit, scanIndexForward });
+    },
+    getTranscript: async (_, { id }, { id: userId }) => {
+      if (!userId) return null;
+      return transcribeDynamoDao.getTranscript({ userId, id });
     },
     // searchTranscripts: async (_, { input }, { id: userId }) => {
     //   const errors = validateAuthenticated(userId);
@@ -108,6 +112,7 @@ const transcribeResolvers = {
       const errors = validateAuthenticated(userId);
       if (errors.length > 0) return errors;
       const { id, title, preview, createdAt, updatedAt, partsOrder, partsKey } = input;
+      if (partsOrder.length > 100) return ['Parts order must not be greater than 100'];
       return transcribeDynamoDao.updateTranscript({
         userId,
         id,

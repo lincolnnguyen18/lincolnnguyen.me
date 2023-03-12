@@ -28,4 +28,15 @@ async function uploadJsObject ({ jsObject, s3ObjectKey }) {
   });
 }
 
-export { uploadWebmAudio, uploadJsObject };
+async function downloadJsObject (s3ObjectKey) {
+  const downloadUrl = await fileGqlClient.getFile({ s3ObjectKey });
+  return fetch(downloadUrl).then(res => res.json());
+}
+
+async function downloadWebmAudio (s3ObjectKey) {
+  const downloadUrl = await fileGqlClient.getFile({ s3ObjectKey });
+  const blob = await fetch(downloadUrl).then(res => res.blob());
+  return URL.createObjectURL(blob);
+}
+
+export { uploadWebmAudio, uploadJsObject, downloadJsObject, downloadWebmAudio };

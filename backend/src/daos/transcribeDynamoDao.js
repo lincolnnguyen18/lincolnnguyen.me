@@ -151,6 +151,33 @@ class TranscribeDynamoDao {
       lastEvaluatedKey: res.LastEvaluatedKey,
     };
   }
+
+  async getTranscript ({ userId, id }) {
+    const params = {
+      TableName: this.tableName,
+      KeyConditionExpression: 'pk = :pk and sk = :sk',
+      ExpressionAttributeValues: {
+        ':pk': `userTranscripts#${userId}`,
+        ':sk': `transcript#${id}`,
+      },
+    };
+    const res = await ddbClient.send(new QueryCommand(params));
+    if (res.Items.length === 0) {
+      return null;
+    }
+    const item = res.Items[0];
+    const createdAt = item.transcriptCreatedAt;
+    const updatedAt = item.transcriptUpdatedAt;
+    return {
+      id,
+      title: item.title,
+      partsKey: item.partsKey,
+      partsOrder: item.partsOrder,
+      preview: item.preview,
+      createdAt,
+      updatedAt,
+    };
+  }
 }
 
 const transcribeDynamoDao = new TranscribeDynamoDao(environment.DDB_MAIN_TABLE);

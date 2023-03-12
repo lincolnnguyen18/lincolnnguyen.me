@@ -12,7 +12,7 @@ import { handlePlayPause, restartTranscriber, seekTo, startStopRecording, switch
 export function BottomBar () {
   const dispatch = useDispatch();
   const audio = document.getElementById('audio');
-  const { mode, partsOrder, parts, recorder, transcriber, currentPartId, currentTime, playing, selectedParts, transcribeLang, switchingLanguages, interimResult, cutOffType } = useSelector(transcribeSelector);
+  const { mode, parts, recorder, transcriber, currentPartId, currentTime, playing, selectedParts, transcribeLang, switchingLanguages, interimResult, cutOffType } = useSelector(transcribeSelector);
   const { transcriptionSupported } = useSelector(commonSelector);
 
   function updateCurrentTime (e) {
@@ -55,8 +55,18 @@ export function BottomBar () {
     }
   }, [mode, currentPartId, parts]);
 
+  const audioLoaded = currentPartId !== null && currentTime !== null;
+
+  function getCurrentPartDurration () {
+    if (mode === 'record') {
+      return duration;
+    } else {
+      return parts[currentPartId].duration;
+    }
+  }
+
   if (mode === 'default') {
-    if (partsOrder.length === 0) {
+    if (Object.keys(parts).length === 0) {
       return (
         <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-center bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-[border-radius] duration-300 transition-all duration-300'>
           <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={() => startStopRecording(dispatch, recorder, transcriber, mode)} disabled={!transcriptionSupported}>
@@ -65,7 +75,7 @@ export function BottomBar () {
           </Button>
         </div>
       );
-    } else {
+    } else if (audioLoaded) {
       return (
         <div
           className="bg-purple-custom bottom-0 fixed w-full max-w-screen-sm sm:rounded-t-lg text-white flex flex-col h-24 px-4 transition-all duration-300 space-y-2 justify-center transform -translate-x-1/2 left-1/2 bg-opacity-80 backdrop-blur z-[1]"
@@ -81,7 +91,7 @@ export function BottomBar () {
               value={currentTime}
               onChange={updateCurrentTime}
               onInput={updateCurrentTime}
-              max={Math.round(duration - 1)}
+              max={Math.round(getCurrentPartDurration() - 1)}
               step={1}
             />
             <div className="flex items-center gap-1 justify-between">
@@ -91,7 +101,7 @@ export function BottomBar () {
                 <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} onClick={() => handlePlayPause(dispatch, playing)} />
                 <Button twStyle="icon-forward-5" onClick={() => seekTo(dispatch, currentTime + 5)} />
               </div>
-              <span className="text-sm">{formatFloatToTime(Math.round(duration - 1))}</span>
+              <span className="text-sm">{formatFloatToTime(Math.round(getCurrentPartDurration() - 1))}</span>
             </div>
           </div>
         </div>

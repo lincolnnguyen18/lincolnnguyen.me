@@ -229,7 +229,7 @@ class LincolnnguyenBackendStack extends cdk.Stack {
       cors: [
         {
           allowedHeaders: ['*'],
-          allowedMethods: [s3.HttpMethods.PUT],
+          allowedMethods: [s3.HttpMethods.PUT, s3.HttpMethods.GET],
           allowedOrigins: ['http://localhost:3000', 'https://lincolnnguyen.me'],
         },
       ],
@@ -254,6 +254,7 @@ class LincolnnguyenBackendStack extends cdk.Stack {
         origin: new S3Origin(bucket, { oai }),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         trustedKeyGroups: [keyGroup],
+        responseHeadersPolicy: cloudfront.ResponseHeadersPolicy.CORS_ALLOW_ALL_ORIGINS,
       },
     });
 

@@ -14,7 +14,7 @@ import { closeMenu } from '../common/MenuUtils';
 import { RenameTranscript } from '../apps/transcribe/TranscriptScreen/RenameTranscript';
 import { NameTranscript } from '../apps/transcribe/TranscriptScreen/NameTranscript';
 import { transcribeGqlClient } from '../gqlClients/transcribeGqlClient';
-import { uploadJsObject, uploadWebmAudio } from '../common/fileUtils';
+import { downloadJsObject, downloadWebmAudio, uploadJsObject, uploadWebmAudio } from '../common/fileUtils';
 
 const initialState = {
   // default, record, edit
@@ -75,6 +75,7 @@ const initialState = {
   keywords: null,
   switchingLanguages: false,
   cutOffType: 'auto',
+  newTranscript: null,
   saving: false,
   id: null,
   preview: '',
@@ -228,16 +229,16 @@ const saveTranscript = createAsyncThunk(
     await uploadJsObject({ jsObject: parts2, s3ObjectKey: partsKey });
 
     const { title } = getState().transcribe;
-    const transcript = {
-      id,
-      title,
-      createdAt,
-      updatedAt,
-      preview,
-      partsOrder,
-      partsKey,
-    };
-    console.log('transcript', transcript);
+    // const transcript = {
+    //   id,
+    //   title,
+    //   createdAt,
+    //   updatedAt,
+    //   preview,
+    //   partsOrder,
+    //   partsKey,
+    // };
+    // console.log('transcript', transcript);
     const res = await transcribeGqlClient.putTranscript({
       id,
       title,
@@ -263,6 +264,31 @@ const deleteTranscript = createAsyncThunk(
   'transcribe/deleteTranscript',
   async ({ id }) => {
     await transcribeGqlClient.deleteTranscript({ id });
+  }
+);
+
+const getTranscript = createAsyncThunk(
+  'transcribe/getTranscript',
+  async ({ id }, { dispatch }) => {
+    const res = await transcribeGqlClient.getTranscript({ id });
+    if (res) {
+      const { title, preview, createdAt, updatedAt, partsOrder, partsKey } = res;
+      dispatch(transcribeActions.setSlice({ id, title, preview, createdAt, updatedAt, partsOrder }));
+      const parts = await downloadJsObject(partsKey);
+      dispatch(transcribeActions.setSlice({ parts, newTranscript: false }));
+      for (const partId of partsOrder) {
+        const s3ObjectKey = parts[partId].s3ObjectKey;
+        const audioUrl = await downloadWebmAudio(s3ObjectKey);
+        dispatch(transcribeActions.setPartAudioUrl({ partId, audioUrl }));
+      }
+      const firstPartId = partsOrder[0];
+      const firstPartResults = parts[firstPartId].results;
+      if (firstPartResults.length > 0) {
+        dispatch(transcribeActions.loadPart({ partId: firstPartId, timestamp: firstPartResults[0].timestamp }));
+      }
+    } else {
+      dispatch(transcribeActions.setSlice({ newTranscript: true }));
+    }
   }
 );
 
@@ -412,6 +438,20 @@ const transcribeSlice = createSlice({
     resetState: () => {
       return initialState;
     },
+    setPartAudioUrl: (state, action) => {
+      const { partId, audioUrl } = action.payload;
+      state.parts[partId].audioUrl = audioUrl;
+    },
+    loadPart: (state, action) => {
+      const { partId, timestamp } = action.payload;
+      const src = state.parts[partId].audioUrl;
+      const audio = document.querySelector('audio');
+      audio.autoplay = false;
+      if (audio.src !== src) audio.src = src;
+      audio.currentTime = timestamp;
+      state.currentTime = timestamp;
+      state.currentPartId = partId;
+    },
   },
 });
 
@@ -420,4 +460,4 @@ const transcribeReducer = transcribeSlice.reducer;
 const transcribeSelector = (state) => state.transcribe;
 
 export { transcribeActions, transcribeReducer, transcribeSelector };
-export { translateFinalResult, openTranscriptsSearch, saveTranscript, openRenameTranscript, openNameTranscript, listTranscripts, deleteTranscript };
+export { translateFinalResult, openTranscriptsSearch, saveTranscript, openRenameTranscript, openNameTranscript, listTranscripts, deleteTranscript, getTranscript };

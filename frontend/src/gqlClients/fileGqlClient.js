@@ -14,6 +14,19 @@ class FileGqlClient {
     const res = await gqlClient.request(query, variables);
     return res.uploadFile;
   }
+
+  async getFile ({ s3ObjectKey }) {
+    const query = gql`
+      query ($s3ObjectKey: String!) {
+        getFile(s3ObjectKey: $s3ObjectKey)
+      }
+    `;
+    const variables = {
+      s3ObjectKey,
+    };
+    const res = await gqlClient.request(query, variables);
+    return res.getFile;
+  }
 }
 
 const fileGqlClient = new FileGqlClient();

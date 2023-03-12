@@ -42,4 +42,12 @@ describe('transcribeDao', () => {
     });
     console.log('res', res);
   });
+
+  it('getTranscript', async () => {
+    const res = await transcribeDynamoDao.getTranscript({
+      userId: 'f218335b-f82b-4009-adba-e254832665e8',
+      id: '198a5bff-b98f-4634-bbd8-7689d880e583',
+    });
+    console.log('res', res);
+  });
 });

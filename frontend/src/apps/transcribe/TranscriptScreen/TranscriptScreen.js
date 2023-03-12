@@ -12,6 +12,7 @@ import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
 import { Divider } from '../../../components/Divider';
 import { MoreMenu } from './MoreMenu';
 import {
+  getTranscript,
   openRenameTranscript,
   transcribeActions,
   transcribeSelector,
@@ -35,14 +36,14 @@ import _ from 'lodash';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
-  const audio = document.getElementById('audio');
   const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
-  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLang, currentTime, currentPartId, selectedParts, translateLang, transcriber, translator, switchingLanguages, playbackSpeed } = useSelector(transcribeSelector);
+  const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLang, currentTime, currentPartId, selectedParts, translateLang, transcriber, translator, switchingLanguages, playbackSpeed, newTranscript } = useSelector(transcribeSelector);
   const { id } = useParams();
 
   React.useEffect(() => {
     if (!createdAt) {
-      dispatch(transcribeActions.setSlice({ id: id }));
+      dispatch(transcribeActions.setSlice({ id }));
+      dispatch(getTranscript({ id }));
     }
 
     return () => {
@@ -211,11 +212,7 @@ export function TranscriptScreen () {
   let content;
 
   function onResultClick (partId, timestamp) {
-    const src = parts[partId].audioUrl;
-    audio.autoplay = false;
-    if (audio.src !== src) audio.src = src;
-    audio.currentTime = timestamp;
-    dispatch(transcribeActions.setSlice({ currentTime: timestamp, currentPartId: partId }));
+    dispatch(transcribeActions.loadPart({ partId, timestamp }));
   }
 
   function onRadioClick (partId) {
@@ -365,26 +362,30 @@ export function TranscriptScreen () {
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcripts" text="Transcripts" disabled={mode !== 'default'} />
-        {mode === 'default' && partsOrder.length > 0 && <span className="absolute left-1/2 transform -translate-x-1/2 no-underline">{_.round(playbackSpeed, 2)}x</span>}
+        {mode === 'default' && Object.keys(parts).length > 0 && <span className="absolute left-1/2 transform -translate-x-1/2 no-underline">{_.round(playbackSpeed, 2)}x</span>}
         {mode !== 'edit' ? <MoreMenu disabled={!transcriptionSupported} /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
       <WhiteVignette />
-      <OverflowContainer twStyle={overflowStyle}>
-        {content}
-      </OverflowContainer>
-      <div
-        className="fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"
-        style={{ opacity: showSubNav() ? 1 : 0, pointerEvents: showSubNav() ? 'all' : 'none' }}
-      >
-        <div className="flex flex-col gap-0.5 my-2">
-          <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{title}</span>
-          <span className="sm:text-sm text-xs text-gray-subtext text-sm mx-2 overflow-hidden truncate">Recorded on {formatUnixTimestampFull(getCurrentPart()?.createdAt)}</span>
-        </div>
-        <Divider twStyle="sm:my-0 my-0" />
-      </div>
-      <BottomBar />
-      <SyncScrollButton />
-      <SyncTranscriberSettings />
+      {newTranscript !== null && (
+        <>
+          <OverflowContainer twStyle={overflowStyle}>
+            {content}
+          </OverflowContainer>
+          <div
+            className="fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"
+            style={{ opacity: showSubNav() ? 1 : 0, pointerEvents: showSubNav() ? 'all' : 'none' }}
+          >
+            <div className="flex flex-col gap-0.5 my-2">
+              <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{title}</span>
+              <span className="sm:text-sm text-xs text-gray-subtext text-sm mx-2 overflow-hidden truncate">Recorded on {formatUnixTimestampFull(getCurrentPart()?.createdAt)}</span>
+            </div>
+            <Divider twStyle="sm:my-0 my-0" />
+          </div>
+          <BottomBar />
+          <SyncScrollButton />
+          <SyncTranscriberSettings />
+        </>
+      )}
     </>
   );
 }

@@ -76,6 +76,26 @@ class TranscribeGqlClient {
     const res = await gqlClient.request(query, variables);
     return res.listTranscripts;
   }
+
+  async getTranscript ({ id }) {
+    const query = gql`
+      query ($id: ID!) {
+        getTranscript(id: $id) {
+          title
+          preview
+          createdAt
+          updatedAt
+          partsOrder
+          partsKey
+        }
+      }
+    `;
+    const variables = {
+      id,
+    };
+    const res = await gqlClient.request(query, variables);
+    return res.getTranscript;
+  }
 }
 
 const transcribeGqlClient = new TranscribeGqlClient();
