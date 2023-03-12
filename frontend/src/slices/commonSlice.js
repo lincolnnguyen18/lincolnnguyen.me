@@ -43,6 +43,8 @@ const initialState = {
   autoScrollOn: true,
   user: undefined,
   loggingOut: false,
+  indicatorTitle: null,
+  indicatorMessage: null,
   errors: [],
   pending: {},
 };

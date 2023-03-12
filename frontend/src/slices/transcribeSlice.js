@@ -68,13 +68,13 @@ const initialState = {
   recorder: null,
   currentTime: 0,
   playing: false,
-  transcribeLang: 'Japanese',
-  translateLang: 'English (United States)',
-  playbackSpeed: 1,
+  transcribeLang: null,
+  translateLang: null,
+  playbackSpeed: null,
   selectedParts: [],
   keywords: null,
   switchingLanguages: false,
-  cutOffType: 'auto',
+  cutOffType: null,
   newTranscript: null,
   saving: false,
   id: null,
@@ -377,7 +377,7 @@ const transcribeSlice = createSlice({
     },
     onInterim: (state, action) => {
       const text = action.payload;
-      if (state.interimResult === '') {
+      if (state.interimResult === '' && !state.saving) {
         state.newResultTime = Date.now();
       }
       state.interimResult = text;
@@ -435,8 +435,17 @@ const transcribeSlice = createSlice({
       delete state.parts[partId].unsaved;
       state.parts[partId].s3ObjectKey = s3ObjectKey;
     },
-    resetState: () => {
-      return initialState;
+    resetState: (state) => {
+      const fieldsToSkip = ['transcribeLang', 'translateLang', 'playbackSpeed'];
+      const newState = {};
+      for (const field of Object.keys(initialState)) {
+        if (fieldsToSkip.includes(field)) {
+          newState[field] = state[field];
+        } else {
+          newState[field] = initialState[field];
+        }
+      }
+      return newState;
     },
     setPartAudioUrl: (state, action) => {
       const { partId, audioUrl } = action.payload;

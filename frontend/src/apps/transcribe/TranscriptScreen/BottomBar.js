@@ -57,11 +57,11 @@ export function BottomBar () {
 
   const audioLoaded = currentPartId !== null && currentTime !== null;
 
-  function getCurrentPartDurration () {
+  function getCurrentPartDuration () {
     if (mode === 'record') {
       return duration;
     } else {
-      return parts[currentPartId].duration;
+      return Math.max(parts[currentPartId].duration - 1, 0);
     }
   }
 
@@ -91,7 +91,7 @@ export function BottomBar () {
               value={currentTime}
               onChange={updateCurrentTime}
               onInput={updateCurrentTime}
-              max={Math.round(getCurrentPartDurration() - 1)}
+              max={Math.round(getCurrentPartDuration())}
               step={1}
             />
             <div className="flex items-center gap-1 justify-between">
@@ -101,7 +101,7 @@ export function BottomBar () {
                 <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} onClick={() => handlePlayPause(dispatch, playing)} />
                 <Button twStyle="icon-forward-5" onClick={() => seekTo(dispatch, currentTime + 5)} />
               </div>
-              <span className="text-sm">{formatFloatToTime(Math.round(getCurrentPartDurration() - 1))}</span>
+              <span className="text-sm">{formatFloatToTime(Math.round(getCurrentPartDuration()))}</span>
             </div>
           </div>
         </div>

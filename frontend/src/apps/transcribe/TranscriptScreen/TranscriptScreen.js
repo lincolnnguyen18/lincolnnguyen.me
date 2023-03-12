@@ -1,5 +1,6 @@
 import React from 'react';
 import theme from 'tailwindcss/defaultTheme.js';
+import _ from 'lodash';
 import { NavbarBlur } from '../../../components/NavbarBlur';
 import { Button } from '../../../components/Button';
 import { WhiteVignette } from '../../../components/WhiteVignette';
@@ -11,13 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
 import { Divider } from '../../../components/Divider';
 import { MoreMenu } from './MoreMenu';
-import {
-  getTranscript,
-  openRenameTranscript,
-  transcribeActions,
-  transcribeSelector,
-  translateFinalResult,
-} from '../../../slices/transcribeSlice.js';
+import { getTranscript, openRenameTranscript, transcribeActions, transcribeSelector, translateFinalResult } from '../../../slices/transcribeSlice.js';
 import { twMerge } from 'tailwind-merge';
 import { Radio } from '../../../components/Radio';
 import { BottomBar } from './BottomBar';
@@ -32,7 +27,7 @@ import { languages } from '../../../common/data';
 import { Hotkeys } from './Hotkeys';
 import { SyncTranscriberSettings } from './SyncTranscriberSettings';
 import { useParams } from 'react-router-dom';
-import _ from 'lodash';
+import { Indicator } from './Indicator';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
@@ -355,6 +350,10 @@ export function TranscriptScreen () {
     }
   }, [mode, partsOrder]);
 
+  React.useEffect(() => {
+    dispatch(commonActions.setSlice({ indicatorTitle: 'Playback Speed', indicatorMessage: _.round(playbackSpeed, 2) + 'x' }));
+  }, [playbackSpeed]);
+
   return (
     <>
       <Hotkeys />
@@ -362,7 +361,7 @@ export function TranscriptScreen () {
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcripts" text="Transcripts" disabled={mode !== 'default'} />
-        {mode === 'default' && Object.keys(parts).length > 0 && <span className="absolute left-1/2 transform -translate-x-1/2 no-underline">{_.round(playbackSpeed, 2)}x</span>}
+        {/*{mode === 'default' && Object.keys(parts).length > 0 && <span className="absolute left-1/2 transform -translate-x-1/2 no-underline">{_.round(playbackSpeed, 2)}x</span>}*/}
         {mode !== 'edit' ? <MoreMenu disabled={!transcriptionSupported} /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
       <WhiteVignette />
@@ -384,6 +383,7 @@ export function TranscriptScreen () {
           <BottomBar />
           <SyncScrollButton />
           <SyncTranscriberSettings />
+          <Indicator />
         </>
       )}
     </>
