@@ -76,7 +76,8 @@ const transcribeResolvers = {
   Query: {
     listTranscripts: async (_, { input }, { id: userId }) => {
       if (!userId) return null;
-      const { lastEvaluatedKey, limit, scanIndexForward } = input;
+      let { lastEvaluatedKey, limit, scanIndexForward } = input;
+      lastEvaluatedKey = lastEvaluatedKey ? JSON.parse(lastEvaluatedKey) : null;
       return transcribeDynamoDao.listTranscripts({ userId, lastEvaluatedKey, limit, scanIndexForward });
     },
     getTranscript: async (_, { id }, { id: userId }) => {

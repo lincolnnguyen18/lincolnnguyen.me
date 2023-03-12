@@ -35,10 +35,13 @@ describe('transcribeDao', () => {
   });
 
   it('listTranscripts', async () => {
+    const lastEvaluatedKey = '{"pk":"userTranscripts#f218335b-f82b-4009-adba-e254832665e8","transcriptCreatedAt":"2023-03-12T11:13:11.131Z","sk":"transcript#c4260633-7a2a-4e0e-8249-32e5e8d3f8c2"}';
+
     const res = await transcribeDynamoDao.listTranscripts({
       userId: 'f218335b-f82b-4009-adba-e254832665e8',
-      // limit: 1,
+      limit: 2,
       scanIndexForward: false,
+      lastEvaluatedKey: lastEvaluatedKey ? JSON.parse(lastEvaluatedKey) : undefined,
     });
     console.log('res', res);
   });

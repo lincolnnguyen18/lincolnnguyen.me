@@ -256,10 +256,22 @@ const saveTranscript = createAsyncThunk(
 
 const listTranscripts = createAsyncThunk(
   'transcribe/listTranscripts',
-  async (_, { dispatch }) => {
-    dispatch(commonActions.openLoading({ title: 'Loading' }));
-    const res = await transcribeGqlClient.listTranscripts({});
-    dispatch(transcribeActions.setSlice({ listTranscriptsResult: res }));
+  async (_, { dispatch, getState }) => {
+    const { listTranscriptsResult } = getState().transcribe;
+    const lastEvaluatedKey = listTranscriptsResult?.lastEvaluatedKey;
+    if (!lastEvaluatedKey) dispatch(commonActions.openLoading({ title: 'Loading' }));
+    const res = await transcribeGqlClient.listTranscripts({ lastEvaluatedKey });
+    if (!lastEvaluatedKey) {
+      dispatch(transcribeActions.setSlice({ listTranscriptsResult: res }));
+    } else {
+      const { items, lastEvaluatedKey } = res;
+      dispatch(transcribeActions.setSlice({
+        listTranscriptsResult: {
+          items: listTranscriptsResult.items.concat(items),
+          lastEvaluatedKey,
+        },
+      }));
+    }
     dispatch(commonActions.closeLoading());
   }
 );

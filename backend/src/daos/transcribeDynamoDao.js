@@ -148,7 +148,7 @@ class TranscribeDynamoDao {
 
     return {
       items,
-      lastEvaluatedKey: res.LastEvaluatedKey,
+      lastEvaluatedKey: JSON.stringify(res.LastEvaluatedKey),
     };
   }
 
