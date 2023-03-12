@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { commonSelector } from '../../../slices/commonSlice';
+import { commonSelector } from '../../slices/commonSlice';
 
 export function Indicator () {
   const { indicatorTitle, indicatorMessage } = useSelector(commonSelector);

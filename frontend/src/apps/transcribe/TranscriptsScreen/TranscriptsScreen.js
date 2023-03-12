@@ -32,6 +32,12 @@ export function TranscriptsScreen () {
     }
   }, [location]);
 
+  React.useEffect(() => {
+    return () => {
+      dispatch(commonActions.closeLoading());
+    };
+  }, []);
+
   function openNavMenu () {
     dispatch(commonActions.openNavMenu());
   }

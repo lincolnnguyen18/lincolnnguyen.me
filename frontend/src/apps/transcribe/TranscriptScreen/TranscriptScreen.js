@@ -27,11 +27,11 @@ import { languages } from '../../../common/data';
 import { Hotkeys } from './Hotkeys';
 import { SyncTranscriberSettings } from './SyncTranscriberSettings';
 import { useParams } from 'react-router-dom';
-import { Indicator } from './Indicator';
+import { Indicator } from '../../main/Indicator';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
-  const { windowValues, scrollPosition, transcriptionSupported } = useSelector(commonSelector);
+  const { windowValues, scrollPosition, transcriptionSupported, navMenu } = useSelector(commonSelector);
   const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLang, currentTime, currentPartId, selectedParts, translateLang, transcriber, translator, switchingLanguages, playbackSpeed, newTranscript } = useSelector(transcribeSelector);
   const { id } = useParams();
 
@@ -43,6 +43,7 @@ export function TranscriptScreen () {
 
     return () => {
       dispatch(transcribeActions.resetState());
+      dispatch(commonActions.closeLoading());
     };
   }, []);
 
@@ -351,6 +352,7 @@ export function TranscriptScreen () {
   }, [mode, partsOrder]);
 
   React.useEffect(() => {
+    if (navMenu.open) return;
     dispatch(commonActions.setSlice({ indicatorTitle: 'Playback Speed', indicatorMessage: _.round(playbackSpeed, 2) + 'x' }));
   }, [playbackSpeed]);
 

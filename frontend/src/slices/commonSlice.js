@@ -47,6 +47,8 @@ const initialState = {
   indicatorMessage: null,
   errors: [],
   pending: {},
+  loadingOpen: false,
+  loadingTitle: 'Loading',
 };
 
 const openRegister = createAsyncThunk(
@@ -209,6 +211,14 @@ const commonSlice = createSlice({
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+    },
+    openLoading: (state, action) => {
+      const { title = 'Loading' } = action.payload || {};
+      state.loadingTitle = title;
+      state.loadingOpen = true;
+    },
+    closeLoading: (state) => {
+      state.loadingOpen = false;
     },
   },
   extraReducers (builder) {

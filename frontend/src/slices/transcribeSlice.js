@@ -203,6 +203,7 @@ const openNameTranscript = createAsyncThunk(
 const saveTranscript = createAsyncThunk(
   'transcribe/saveTranscript',
   async (__, { getState, dispatch }) => {
+    dispatch(commonActions.openLoading({ title: 'Saving'}));
     const { id, parts, partsOrder, preview, createdAt, updatedAt } = getState().transcribe;
     const newTranscript = createdAt === updatedAt;
     if (newTranscript) {
@@ -249,14 +250,17 @@ const saveTranscript = createAsyncThunk(
       partsKey,
     });
     console.log('res', res);
+    dispatch(commonActions.closeLoading());
   }
 );
 
 const listTranscripts = createAsyncThunk(
   'transcribe/listTranscripts',
   async (_, { dispatch }) => {
+    dispatch(commonActions.openLoading({ title: 'Loading' }));
     const res = await transcribeGqlClient.listTranscripts({});
     dispatch(transcribeActions.setSlice({ listTranscriptsResult: res }));
+    dispatch(commonActions.closeLoading());
   }
 );
 
@@ -270,6 +274,7 @@ const deleteTranscript = createAsyncThunk(
 const getTranscript = createAsyncThunk(
   'transcribe/getTranscript',
   async ({ id }, { dispatch }) => {
+    dispatch(commonActions.openLoading({ title: 'Loading' }));
     const res = await transcribeGqlClient.getTranscript({ id });
     if (res) {
       const { title, preview, createdAt, updatedAt, partsOrder, partsKey } = res;
@@ -289,6 +294,7 @@ const getTranscript = createAsyncThunk(
     } else {
       dispatch(transcribeActions.setSlice({ newTranscript: true }));
     }
+    dispatch(commonActions.closeLoading());
   }
 );
 

@@ -14,6 +14,7 @@ import { detect } from 'detect-browser';
 import { closeMenu } from './common/MenuUtils';
 import { gqlClient } from './common/clients';
 import { environment } from './common/environment';
+import { Loading } from './apps/main/Loading';
 
 export function App () {
   const dispatch = useDispatch();
@@ -115,6 +116,7 @@ export function App () {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <NavbarMenu />
+      <Loading />
     </>
   );
 }
