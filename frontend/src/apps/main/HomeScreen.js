@@ -33,8 +33,8 @@ export function HomeScreen () {
       <NavbarBlur />
       <Grid>
         <AppIcon text="Messages" twStyle="bg-red-custom" placeholderInitials="M" path="/messages/contacts" />
-        <AppIcon text="Transcribe" twStyle="bg-purple-custom" placeholderInitials="T" path="/transcribe/transcripts" />
         <AppIcon text="Resume" twStyle="bg-green-custom" placeholderInitials="R" path="/resume" />
+        <AppIcon text="Transcribe" twStyle="bg-purple-custom" placeholderInitials="T" path="/transcribe/transcripts" />
         {dummyIcons}
       </Grid>
       <Navbar>

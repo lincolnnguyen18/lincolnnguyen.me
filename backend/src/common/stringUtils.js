@@ -22,7 +22,7 @@ function formatUnixTimestamp (unix) {
   }
 }
 
-function formatUnixTimestamp2 (unix) {
+function formatUnixTimestampFull (unix) {
   // e.g. "January 1, 2022 at 7:00 AM"
   const date = new Date(unix);
   return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
@@ -127,4 +127,4 @@ function mapErrorDetails (error) {
   return error.details.map((detail) => detail.message);
 }
 
-export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestamp2, uuid, splitText, translate, removeEmptyLines, buildUpdateExpression, mapErrorDetails };
+export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestampFull, uuid, splitText, translate, removeEmptyLines, buildUpdateExpression, mapErrorDetails };

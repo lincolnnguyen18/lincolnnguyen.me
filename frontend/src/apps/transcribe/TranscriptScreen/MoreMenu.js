@@ -1,8 +1,9 @@
+import React from 'react';
+import _ from 'lodash';
 import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
 import { wait } from '../../../common/timeUtils.js';
 import { NavbarButton } from '../../../components/NavbarButton';
 import { GroupDivider } from '../../../components/GroupDivider';
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../components/Button';
 import { deleteTranscript, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
@@ -15,24 +16,24 @@ import { FormScreenBottom } from '../../../components/FormScreenBottom';
 import { languages } from '../../../common/data';
 import { closeMenu, openConfirm } from '../../../common/MenuUtils';
 import { shortcuts } from './Hotkeys';
-import _ from 'lodash';
 import { DropdownOption } from '../../../components/DropdownOption';
 import { useNavigate } from 'react-router-dom';
+import { formatUnixTimestampFull } from '../../../common/stringUtils';
 
 export function MoreMenu ({ disabled }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { mode, recorder, transcriber, playing, transcribeLang, translateLang, partsOrder, createdAt, playbackSpeed, cutOffType, id } = useSelector(transcribeSelector);
+  const { mode, recorder, transcriber, playing, transcribeLang, translateLang, partsOrder, createdAt, playbackSpeed, cutOffType, id, title, updatedAt } = useSelector(transcribeSelector);
   const { scrollPosition } = useSelector(commonSelector);
 
   async function handleOpenInfo () {
     dispatch(commonActions.hideNavMenuChildren());
     await wait();
 
-    const testTitle = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur maximus vestibulum scelerisque. Nullam pharetra felis nulla, ut finibus purus sodales at. Donec sit amet interdum libero, lobortis consectetur orci. Maecenas ac molestie libero. Mauris nibh velit, dapibus quis magna a, blandit accumsan turpis. Proin ullamcorper, augue a ullamcorper lacinia, eros dolor euismod turpis, eu vulputate enim ligula at nisi.';
-    const testDuration = '6:15:47';
-    const testCreated = '4:02 AM 4/20/2021';
-    const testUpdated = '4:02 AM 4/20/2021';
+    // const testTitle = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur maximus vestibulum scelerisque. Nullam pharetra felis nulla, ut finibus purus sodales at. Donec sit amet interdum libero, lobortis consectetur orci. Maecenas ac molestie libero. Mauris nibh velit, dapibus quis magna a, blandit accumsan turpis. Proin ullamcorper, augue a ullamcorper lacinia, eros dolor euismod turpis, eu vulputate enim ligula at nisi.';
+    // const testDuration = '6:15:47';
+    // const testCreated = '4:02 AM 4/20/2021';
+    // const testUpdated = '4:02 AM 4/20/2021';
 
     dispatch(commonActions.openNavMenu({
       position: 'right',
@@ -43,20 +44,20 @@ export function MoreMenu ({ disabled }) {
         <FormScreen>
           <Group title="Transcript Info">
             <Blackbox>
-              <span className="font-semibold sm:text-lg text-base mb-2">{testTitle}</span>
-              <div className="flex justify-between w-full">
-                <div className="flex flex-col">
-                  <span className="font-semibold sm:text-base text-sm">Duration</span>
-                  <span className="sm:text-base text-sm">{testDuration}</span>
-                </div>
+              <span className="font-semibold sm:text-lg text-base mb-2">{title}</span>
+              <div className="flex flex-col gap-2 justify-between w-full">
                 <div className="flex flex-col">
                   <span className="font-semibold sm:text-base text-sm">Created</span>
-                  <span className="sm:text-base text-sm">{testCreated}</span>
+                  <span className="sm:text-base text-sm">{formatUnixTimestampFull(createdAt)}</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="font-semibold sm:text-base text-sm">Updated</span>
-                  <span className="sm:text-base text-sm">{testUpdated}</span>
+                  <span className="sm:text-base text-sm">{formatUnixTimestampFull(updatedAt)}</span>
                 </div>
+                {/*<div className="flex flex-col">*/}
+                {/*  <span className="font-semibold sm:text-base text-sm">Total Parts</span>*/}
+                {/*  <span className="sm:text-base text-sm">{partsOrder.length}</span>*/}
+                {/*</div>*/}
               </div>
             </Blackbox>
           </Group>
