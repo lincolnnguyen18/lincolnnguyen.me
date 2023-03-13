@@ -363,7 +363,7 @@ export function TranscriptScreen () {
       <Navbar twStyle="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcripts" text="Transcripts" disabled={mode !== 'default'} />
         {/*{mode === 'default' && Object.keys(parts).length > 0 && <span className="absolute left-1/2 transform -translate-x-1/2 no-underline">{_.round(playbackSpeed, 2)}x</span>}*/}
-        {mode !== 'edit' ? <MoreMenu disabled={!transcriptionSupported} /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
+        {mode !== 'edit' ? <MoreMenu disabled={!transcriptionSupported && Object.keys(parts).length === 0} /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
       <WhiteVignette />
       {newTranscript !== null && (
