@@ -318,6 +318,7 @@ const getTranscript = createAsyncThunk(
       const { title, preview, createdAt, updatedAt, partsOrder, partsKey, version } = res;
       dispatch(transcribeActions.setSlice({ id, title, preview, createdAt, updatedAt, partsOrder, version }));
       const parts = await downloadJsObject(partsKey);
+      // console.log('parts', parts);
       dispatch(transcribeActions.setSlice({ parts, newTranscript: false }));
       for (const partId of partsOrder) {
         const s3ObjectKey = parts[partId].s3ObjectKey;

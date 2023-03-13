@@ -1,7 +1,7 @@
 import { getSignedUrl as cloudfrontGetSignedUrl } from '@aws-sdk/cloudfront-signer';
 import { getSignedUrl as s3GetSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { environment } from '../common/environment.js';
-import { DeleteObjectCommand, DeleteObjectsCommand, ListObjectsCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import { GetObjectCommand, DeleteObjectCommand, DeleteObjectsCommand, ListObjectsCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { s3Client } from '../common/clients.js';
 
 class FileDao {
@@ -14,6 +14,14 @@ class FileDao {
       // expire in 1 hour
       dateLessThan: new Date(Date.now() + 60 * 60 * 1000),
     });
+  }
+
+  async getFileDirect (s3ObjectKey) {
+    const command = new GetObjectCommand({
+      Bucket: environment.API_S3_BUCKET_NAME,
+      Key: s3ObjectKey,
+    });
+    return s3GetSignedUrl(s3Client, command, { expiresIn: 60 * 60 });
   }
 
   async putFile (s3ObjectKey) {

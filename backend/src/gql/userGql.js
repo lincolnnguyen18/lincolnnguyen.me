@@ -43,6 +43,7 @@ const userTypedef = `
       user: User
       uploadFile(s3ObjectKey: String!): String
       getFile(s3ObjectKey: String!): String
+      getFileDirect(s3ObjectKey: String!): String
   }
 
   type Mutation {
@@ -86,6 +87,11 @@ const userResolvers = {
       if (!id) return null;
       s3ObjectKey = `${id}/${s3ObjectKey}`;
       return fileDao.getFile(s3ObjectKey);
+    },
+    getFileDirect: async (_, { s3ObjectKey }, { id }) => {
+      if (!id) return null;
+      s3ObjectKey = `${id}/${s3ObjectKey}`;
+      return fileDao.getFileDirect(s3ObjectKey);
     },
   },
   Mutation: {

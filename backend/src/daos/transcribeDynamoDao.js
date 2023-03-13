@@ -46,7 +46,7 @@ class TranscribeDynamoDao {
     let exists = await ddbClient.send(new QueryCommand(params));
     exists = exists.Items.length > 0;
     if (exists) {
-      return ['Transcript already exists'];
+      return ['Transcript with this id already exists, please refresh this page and try again or create a new transcript with a different id'];
     }
 
     params = {

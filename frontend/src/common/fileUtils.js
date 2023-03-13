@@ -29,7 +29,7 @@ async function uploadJsObject ({ jsObject, s3ObjectKey }) {
 }
 
 async function downloadJsObject (s3ObjectKey) {
-  const downloadUrl = await fileGqlClient.getFile({ s3ObjectKey });
+  const downloadUrl = await fileGqlClient.getFileDirect({ s3ObjectKey });
   return fetch(downloadUrl).then(res => res.json());
 }
 

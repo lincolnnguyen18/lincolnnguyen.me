@@ -27,6 +27,19 @@ class FileGqlClient {
     const res = await gqlClient.request(query, variables);
     return res.getFile;
   }
+
+  async getFileDirect ({ s3ObjectKey }) {
+    const query = gql`
+      query ($s3ObjectKey: String!) {
+        getFileDirect(s3ObjectKey: $s3ObjectKey)
+      }
+    `;
+    const variables = {
+      s3ObjectKey,
+    };
+    const res = await gqlClient.request(query, variables);
+    return res.getFileDirect;
+  }
 }
 
 const fileGqlClient = new FileGqlClient();

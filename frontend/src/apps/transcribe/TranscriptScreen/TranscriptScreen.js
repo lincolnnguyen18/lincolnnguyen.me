@@ -357,8 +357,8 @@ export function TranscriptScreen () {
 
   return (
     <>
+      <audio hidden={true} controls preload="metadata" id="audio" />
       <Hotkeys />
-      <audio hidden={true} id="audio" />
       <NavbarBlur twStyle="bg-purple-custom" />
       <Navbar twStyle="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcripts" text="Transcripts" disabled={mode !== 'default'} />
