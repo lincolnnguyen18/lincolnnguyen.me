@@ -507,6 +507,15 @@ const transcribeSlice = createSlice({
     incrementVersion: (state) => {
       state.version += 1;
     },
+    seekTo: (state, action) => {
+      let newTime = action.payload;
+      if (newTime < 0) newTime = 0;
+      const maxTime = state.parts[state.currentPartId].duration;
+      if (newTime > maxTime) newTime = maxTime;
+      state.currentTime = newTime;
+      const audio = document.querySelector('audio');
+      audio.currentTime = newTime;
+    },
   },
 });
 

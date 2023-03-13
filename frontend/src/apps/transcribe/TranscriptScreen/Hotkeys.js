@@ -61,9 +61,7 @@ async function startStopRecording (dispatch, recorder, transcriber, mode) {
 }
 
 function seekTo (dispatch, newTime) {
-  const audio = document.getElementById('audio');
-  dispatch(transcribeActions.setSlice({ currentTime: newTime }));
-  audio.currentTime = newTime;
+  dispatch(transcribeActions.seekTo(newTime));
 }
 
 function switchLanguages (dispatch, interimResult) {
