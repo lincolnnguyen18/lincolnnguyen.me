@@ -21,10 +21,10 @@ class TranscribeGqlClient {
     return res.putTranscript;
   }
 
-  async updateTranscript ({ id, title = undefined, preview = undefined, createdAt = undefined, updatedAt, partsOrder = undefined, partsKey = undefined }) {
+  async updateTranscript ({ id, title = undefined, preview = undefined, createdAt = undefined, updatedAt, partsOrder = undefined, partsKey = undefined, version }) {
     const mutation = gql`
-      mutation ($id: ID!, $title: String!, $preview: String!, $createdAt: String!, $updatedAt: String!, $partsOrder: [String]!, $partsKey: String!) {
-        updateTranscript(input: { id: $id, title: $title, preview: $preview, createdAt: $createdAt, updatedAt: $updatedAt, partsOrder: $partsOrder, partsKey: $partsKey })
+      mutation ($id: ID!, $title: String, $preview: String, $createdAt: String, $updatedAt: String!, $partsOrder: [String], $partsKey: String, $version: Int!) {
+        updateTranscript(input: { id: $id, title: $title, preview: $preview, createdAt: $createdAt, updatedAt: $updatedAt, partsOrder: $partsOrder, partsKey: $partsKey, version: $version })
       }
     `;
     const variables = {
@@ -35,6 +35,7 @@ class TranscribeGqlClient {
       updatedAt,
       partsOrder,
       partsKey,
+      version,
     };
     const res = await gqlClient.request(mutation, variables);
     return res.updateTranscript;
@@ -87,6 +88,7 @@ class TranscribeGqlClient {
           updatedAt
           partsOrder
           partsKey
+          version
         }
       }
     `;

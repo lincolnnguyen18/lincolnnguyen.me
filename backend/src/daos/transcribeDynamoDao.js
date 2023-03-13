@@ -71,7 +71,28 @@ class TranscribeDynamoDao {
     }
   }
 
-  async updateTranscript ({ userId, id, title, partsKey, partsOrder, preview, createdAt, updatedAt }) {
+  async updateTranscript ({ userId, id, title, partsKey, partsOrder, preview, createdAt, updatedAt, version }) {
+    // get transcript and confirm given version matches it
+    let params = {
+      TableName: this.tableName,
+      KeyConditionExpression: 'pk = :pk and sk = :sk',
+      ExpressionAttributeValues: {
+        ':pk': `userTranscripts#${userId}`,
+        ':sk': `transcript#${id}`,
+      },
+    };
+    const res = await ddbClient.send(new QueryCommand(params));
+    if (res.Items.length === 0) {
+      return ['Transcript not found'];
+    }
+    const itemVersion = res.Items[0].version || 0;
+    // console.log('item version', itemVersion);
+    // console.log('given version', version);
+    if (itemVersion !== version) {
+      return ['Transcript has been updated since last opened, please refresh the page and try again'];
+    }
+
+    // update transcript
     const attributes = {
       title,
       partsKey,
@@ -79,10 +100,11 @@ class TranscribeDynamoDao {
       preview,
       transcriptCreatedAt: createdAt,
       transcriptUpdatedAt: updatedAt,
+      version: itemVersion + 1,
     };
     const { UpdateExpression, ExpressionAttributeNames, ExpressionAttributeValues } = buildUpdateExpression(attributes);
 
-    const params = {
+    params = {
       TableName: this.tableName,
       Key: {
         pk: `userTranscripts#${userId}`,
@@ -166,16 +188,18 @@ class TranscribeDynamoDao {
       return null;
     }
     const item = res.Items[0];
+    const { title, partsKey, partsOrder, preview, version = 0 } = item;
     const createdAt = item.transcriptCreatedAt;
     const updatedAt = item.transcriptUpdatedAt;
     return {
       id,
-      title: item.title,
-      partsKey: item.partsKey,
-      partsOrder: item.partsOrder,
-      preview: item.preview,
+      title,
+      partsKey,
+      partsOrder,
+      preview,
       createdAt,
       updatedAt,
+      version,
     };
   }
 }

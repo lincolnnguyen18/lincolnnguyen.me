@@ -278,7 +278,7 @@ export function TranscriptScreen () {
             partsOrder.map((partId, i) => {
               const part = parts[partId];
 
-              return (
+              return part && (
                 <React.Fragment key={i}>
                   <Radio twStyle="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'} data-part-id={partId} onClick={() => onRadioClick(partId)} selected={selectedParts.includes(partId)}>
                     <span>Recorded on {formatUnixTimestampFull(part.createdAt)}</span>

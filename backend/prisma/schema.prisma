@@ -22,13 +22,14 @@ model User {
 }
 
 model Transcript {
-  id         String           @id
+  id         String   @id
   title      String
   preview    String
   createdAt  DateTime
   updatedAt  DateTime
   partsOrder String[]
-  user       User             @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
   userId     String
   partsKey   String
+  version    Int      @default(0)
 }

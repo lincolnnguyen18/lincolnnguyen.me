@@ -15,6 +15,7 @@ import { closeMenu } from './common/MenuUtils';
 import { gqlClient } from './common/clients';
 import { environment } from './common/environment';
 import { Loading } from './apps/main/Loading';
+import { Alert } from './apps/main/Alert';
 
 export function App () {
   const dispatch = useDispatch();
@@ -117,6 +118,7 @@ export function App () {
       </Routes>
       <NavbarMenu />
       <Loading />
+      <Alert />
     </>
   );
 }

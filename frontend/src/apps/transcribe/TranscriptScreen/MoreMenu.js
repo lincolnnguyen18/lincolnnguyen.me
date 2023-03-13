@@ -240,7 +240,7 @@ export function MoreMenu ({ disabled }) {
       recorder.start();
       transcriber.start();
       dispatch(transcribeActions.setSlice({ mode: 'record' }));
-      dispatch(transcribeActions.updateMetadata());
+      // dispatch(transcribeActions.updateMetadata());
       await wait(50);
       dispatch(commonActions.scrollToBottomHard(true));
     }

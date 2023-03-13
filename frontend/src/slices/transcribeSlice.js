@@ -203,8 +203,8 @@ const openNameTranscript = createAsyncThunk(
 const saveTranscript = createAsyncThunk(
   'transcribe/saveTranscript',
   async (__, { getState, dispatch }) => {
-    dispatch(commonActions.openLoading({ title: 'Saving'}));
-    const { id, parts, partsOrder, preview, createdAt, updatedAt } = getState().transcribe;
+    const { id, parts, partsOrder, preview, createdAt, updatedAt, version } = getState().transcribe;
+    // console.log('version', version);
     const newTranscript = createdAt === updatedAt;
     if (newTranscript) {
       let elipsis = '';
@@ -213,12 +213,14 @@ const saveTranscript = createAsyncThunk(
       }
       dispatch(transcribeActions.setSlice({ title: preview.slice(0, 30) + elipsis }));
     }
+    const audioToUpload = [];
     for (const partId of partsOrder) {
       if (parts[partId].unsaved) {
         // console.log('unsaved part', parts[partId]);
         const blobUrl = parts[partId].audioUrl;
         const audioKey = `transcribe/${id}/${partId}.webm`;
-        await uploadWebmAudio({ blobUrl, s3ObjectKey: audioKey });
+        // await uploadWebmAudio({ blobUrl, s3ObjectKey: audioKey });
+        audioToUpload.push({ blobUrl, s3ObjectKey: audioKey });
         dispatch(transcribeActions.setPartAsSaved({ partId, s3ObjectKey: audioKey }));
       }
     }
@@ -227,7 +229,6 @@ const saveTranscript = createAsyncThunk(
     for (const partId of Object.keys(parts2)) {
       delete parts2[partId].audioUrl;
     }
-    await uploadJsObject({ jsObject: parts2, s3ObjectKey: partsKey });
 
     const { title } = getState().transcribe;
     // const transcript = {
@@ -240,17 +241,41 @@ const saveTranscript = createAsyncThunk(
     //   partsKey,
     // };
     // console.log('transcript', transcript);
-    const res = await transcribeGqlClient.putTranscript({
-      id,
-      title,
-      preview,
-      createdAt,
-      updatedAt,
-      partsOrder,
-      partsKey,
-    });
-    console.log('res', res);
+    let errors;
+    if (newTranscript) {
+      errors = await transcribeGqlClient.putTranscript({
+        id,
+        title,
+        preview,
+        createdAt,
+        updatedAt,
+        partsOrder,
+        partsKey,
+      });
+    } else {
+      errors = await transcribeGqlClient.updateTranscript({
+        id,
+        title,
+        preview,
+        updatedAt,
+        partsOrder,
+        partsKey,
+        version,
+      });
+    }
+    if (errors.length === 0) {
+      await uploadJsObject({ jsObject: parts2, s3ObjectKey: partsKey });
+      for (const { blobUrl, s3ObjectKey } of audioToUpload) {
+        await uploadWebmAudio({ blobUrl, s3ObjectKey });
+      }
+      dispatch(transcribeActions.incrementVersion());
+    }
     dispatch(commonActions.closeLoading());
+    // console.log('errors', errors);
+    if (errors.length > 0) {
+      // openAlert({ dispatch, title: 'Error', message: errors[0] });
+      dispatch(commonActions.openAlert({ title: 'Error', message: errors[0] }));
+    }
   }
 );
 
@@ -288,9 +313,10 @@ const getTranscript = createAsyncThunk(
   async ({ id }, { dispatch }) => {
     dispatch(commonActions.openLoading({ title: 'Loading' }));
     const res = await transcribeGqlClient.getTranscript({ id });
+    // console.log('res', res);
     if (res) {
-      const { title, preview, createdAt, updatedAt, partsOrder, partsKey } = res;
-      dispatch(transcribeActions.setSlice({ id, title, preview, createdAt, updatedAt, partsOrder }));
+      const { title, preview, createdAt, updatedAt, partsOrder, partsKey, version } = res;
+      dispatch(transcribeActions.setSlice({ id, title, preview, createdAt, updatedAt, partsOrder, version }));
       const parts = await downloadJsObject(partsKey);
       dispatch(transcribeActions.setSlice({ parts, newTranscript: false }));
       for (const partId of partsOrder) {
@@ -304,7 +330,7 @@ const getTranscript = createAsyncThunk(
         dispatch(transcribeActions.loadPart({ partId: firstPartId, timestamp: firstPartResults[0].timestamp }));
       }
     } else {
-      dispatch(transcribeActions.setSlice({ newTranscript: true }));
+      dispatch(transcribeActions.setSlice({ newTranscript: true, version: -1 }));
     }
     dispatch(commonActions.closeLoading());
   }
@@ -319,12 +345,18 @@ const transcribeSlice = createSlice({
     },
     addPart: (state) => {
       const partId = uuid();
+      const timestamp = Date.now();
+      const timestampISO = new Date(timestamp).toISOString();
       state.parts[partId] = {
-        createdAt: Date.now(),
+        createdAt: timestamp,
         duration: 0,
         results: [],
         unsaved: true,
       };
+      state.updatedAt = timestampISO;
+      if (!state.createdAt) {
+        state.createdAt = timestampISO;
+      }
       state.partsOrder.push(partId);
       state.newResultTime = 0;
       state.currentPartId = partId;
@@ -404,13 +436,6 @@ const transcribeSlice = createSlice({
       const { translation, partId, resultIndex } = action.payload;
       state.parts[partId].results[resultIndex].translation = translation;
     },
-    updateMetadata: (state) => {
-      if (!state.createdAt) {
-        state.createdAt = new Date().toISOString();
-      } else {
-        state.updatedAt = new Date().toISOString();
-      }
-    },
     setPlaybackSpeed: (state, action) => {
       const newSpeed = action.payload;
       if (newSpeed < 0.5 || newSpeed > 3) return;
@@ -478,6 +503,9 @@ const transcribeSlice = createSlice({
       audio.currentTime = timestamp;
       state.currentTime = timestamp;
       state.currentPartId = partId;
+    },
+    incrementVersion: (state) => {
+      state.version += 1;
     },
   },
 });

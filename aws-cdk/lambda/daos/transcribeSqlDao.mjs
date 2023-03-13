@@ -24,7 +24,7 @@ class TranscribeSqlDao {
     });
   }
 
-  async updateTranscript ({ id, title, partsKey, partsOrder, preview, createdAt, updatedAt }) {
+  async updateTranscript ({ id, title, partsKey, partsOrder, preview, createdAt, updatedAt, version }) {
     return prismaClient.transcript.update({
       where: {
         id,
@@ -36,6 +36,7 @@ class TranscribeSqlDao {
         preview,
         createdAt,
         updatedAt,
+        version,
       },
     });
   }

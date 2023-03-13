@@ -21,6 +21,7 @@ const transcribeTypedef = `
         updatedAt: String!
         partsOrder: [String]
         partsKey: String
+        version: Int!
     }
 
     input SearchTranscriptsInput {
@@ -43,6 +44,7 @@ const transcribeTypedef = `
         updatedAt: String!
         partsOrder: [String]!
         partsKey: String!
+        version: Int!
     }
 
     type TranscriptPreview {
@@ -107,12 +109,13 @@ const transcribeResolvers = {
         preview,
         createdAt,
         updatedAt,
+        version: 0,
       });
     },
     updateTranscript: async (_, { input }, { id: userId }) => {
       const errors = validateAuthenticated(userId);
       if (errors.length > 0) return errors;
-      const { id, title, preview, createdAt, updatedAt, partsOrder, partsKey } = input;
+      const { id, title, preview, createdAt, updatedAt, partsOrder, partsKey, version } = input;
       if (partsOrder.length > 100) return ['Parts order must not be greater than 100'];
       return transcribeDynamoDao.updateTranscript({
         userId,
@@ -123,6 +126,7 @@ const transcribeResolvers = {
         preview,
         createdAt,
         updatedAt,
+        version,
       });
     },
     deleteTranscript: async (_, { id }, { id: userId }) => {

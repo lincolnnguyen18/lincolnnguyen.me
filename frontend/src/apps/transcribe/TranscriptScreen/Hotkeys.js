@@ -4,7 +4,6 @@ import { saveTranscript, transcribeActions, transcribeSelector } from '../../../
 import { wait } from '../../../common/timeUtils';
 import { commonActions, commonSelector } from '../../../slices/commonSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { openAlert } from '../../../common/MenuUtils';
 
 const shortcuts = [
   { name: 'Play/pause', key: 'K' },
@@ -35,15 +34,16 @@ async function startStopRecording (dispatch, recorder, transcriber, mode) {
       recorder.start();
       transcriber.start();
       dispatch(transcribeActions.addPart());
-      const timestamp = new Date().toISOString();
-      dispatch(transcribeActions.setSlice({ createdAt: timestamp, updatedAt: timestamp, mode: 'record' }));
+      dispatch(transcribeActions.setSlice({ mode: 'record' }));
       await wait(50);
       dispatch(commonActions.scrollToBottomHard(true));
     } catch {
-      openAlert({ dispatch, title: 'Error', message: 'There was an error starting the transcription process. Please make sure this website has permission to access the mic and that there are no other tabs using the mic. Wait a few seconds and try again.' });
+      // openAlert({ dispatch, title: 'Error', message: 'There was an error starting the transcription process. Please make sure this website has permission to access the mic and that there are no other tabs using the mic. Wait a few seconds and try again.' });
+      commonActions.openAlert({ title: 'Error', message: 'There was an error starting the transcription process. Please make sure this website has permission to access the mic and that there are no other tabs using the mic. Wait a few seconds and try again.' });
     }
   } else {
     // console.log('window.lastInterim', window.lastInterim);
+    dispatch(commonActions.openLoading({ title: 'Saving'}));
     if (window.lastInterim !== '') {
       dispatch(transcribeActions.setSlice({ saving: true }));
     }
