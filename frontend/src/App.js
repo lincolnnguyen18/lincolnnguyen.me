@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { commonActions, commonSelector, getUser } from './slices/commonSlice';
 import { HomeScreen } from './apps/main/HomeScreen';
-import { TestScreen } from './apps/main/TestScreen';
 import { ContactsScreen } from './apps/messages/ContactsScreen';
 import { TranscriptsScreen } from './apps/transcribe/TranscriptsScreen/TranscriptsScreen';
 import { TranscriptScreen } from './apps/transcribe/TranscriptScreen/TranscriptScreen';
@@ -109,7 +108,6 @@ export function App () {
       {location.pathname !== '/testing' && <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85] bg-gray-background" style={{ backgroundSize: 'cover', backgroundImage: 'url(/bg.jpg)', backgroundPosition }} />}
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/testing" element={<TestScreen />} />
         <Route path="/messages/contacts" element={<Protected><ContactsScreen /></Protected>} />
         <Route path="/messages/contacts/:id" element={<Protected><ContactsScreen /></Protected>} />
         <Route path="/transcribe/transcripts" element={<Protected><TranscriptsScreen /></Protected>} />
