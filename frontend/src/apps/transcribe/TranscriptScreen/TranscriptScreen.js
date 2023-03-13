@@ -134,16 +134,6 @@ export function TranscriptScreen () {
   }
 
   React.useEffect(() => {
-    if (!transcriptionSupported) return;
-    dispatch(commonActions.setSlice({ scrollPosition: 0 }));
-
-    const recorder = new Recorder({ onRecordingReady, onRecordingStop });
-    const transcriber = new Transcriber({ onInterim, onFinal, lang: languages.find(l => l.name === transcribeLang)?.transcribe });
-    const translator = new Translator({ targetLang: languages.find(l => l.name === translateLang)?.translate });
-    dispatch(transcribeActions.setSlice({ recorder, transcriber, translator }));
-
-    handleDone();
-
     const audio = document.getElementById('audio');
     function onEnded () {
       dispatch(transcribeActions.setSlice({ playing: false }));
@@ -154,6 +144,15 @@ export function TranscriptScreen () {
       dispatch(transcribeActions.setSlice({ currentTime: audio.currentTime }));
     }
     audio.addEventListener('timeupdate', onTimeUpdate);
+
+    if (!transcriptionSupported) return;
+    dispatch(commonActions.setSlice({ scrollPosition: 0 }));
+
+    const recorder = new Recorder({ onRecordingReady, onRecordingStop });
+    const transcriber = new Transcriber({ onInterim, onFinal, lang: languages.find(l => l.name === transcribeLang)?.transcribe });
+    const translator = new Translator({ targetLang: languages.find(l => l.name === translateLang)?.translate });
+    dispatch(transcribeActions.setSlice({ recorder, transcriber, translator }));
+    handleDone();
 
     return () => {
       handleDone();
