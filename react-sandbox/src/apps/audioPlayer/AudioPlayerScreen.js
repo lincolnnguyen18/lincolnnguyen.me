@@ -7,14 +7,27 @@ import { OverflowContainer } from '../../components/OverflowContainer';
 import { NavbarButton } from '../../components/NavbarButton';
 
 export function AudioPlayerScreen () {
+  const [playing, setPlaying] = React.useState(false);
+
   React.useEffect(() => {
     const audio = document.getElementById('audio');
     audio.src = '/test.mp3';
   }, []);
 
-  function play () {
+  function playPause () {
     const audio = document.getElementById('audio');
-    audio.play();
+    if (playing) {
+      audio.pause();
+      setPlaying(false);
+    } else {
+      audio.play();
+      setPlaying(true);
+    }
+  }
+
+  function seekTo () {
+    const audio = document.getElementById('audio');
+    audio.currentTime = 10;
   }
 
   return (
@@ -27,8 +40,9 @@ export function AudioPlayerScreen () {
       <WhiteVignette />
       <OverflowContainer>
         <div className="flex flex-col gap-2 items-center w-full">
-          <audio hidden={true} id="audio" />
-          <NavbarButton dir="single" twStyle="justify-center" onClick={play}>Play</NavbarButton>
+          <audio hidden={false} controls id="audio" />
+          <NavbarButton dir="single" twStyle="justify-center" onClick={playPause}>{playing ? 'Pause' : 'Play'}</NavbarButton>
+          <NavbarButton dir="single" twStyle="justify-center" onClick={seekTo}>Seek to 10</NavbarButton>
         </div>
       </OverflowContainer>
     </>
