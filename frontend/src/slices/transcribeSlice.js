@@ -14,7 +14,7 @@ import { closeMenu } from '../common/MenuUtils';
 import { RenameTranscript } from '../apps/transcribe/TranscriptScreen/RenameTranscript';
 import { NameTranscript } from '../apps/transcribe/TranscriptScreen/NameTranscript';
 import { transcribeGqlClient } from '../gqlClients/transcribeGqlClient';
-import { downloadJsObject, downloadWebmAudio, uploadJsObject, uploadWebmAudio } from '../common/fileUtils';
+import { downloadJsObject, downloadMp3Audio, uploadJsObject, uploadMp3Audio } from '../common/fileUtils';
 
 const initialState = {
   // default, record, edit
@@ -218,8 +218,8 @@ const saveTranscript = createAsyncThunk(
       if (parts[partId].unsaved) {
         // console.log('unsaved part', parts[partId]);
         const blobUrl = parts[partId].audioUrl;
-        const audioKey = `transcribe/${id}/${partId}.webm`;
-        // await uploadWebmAudio({ blobUrl, s3ObjectKey: audioKey });
+        const audioKey = `transcribe/${id}/${partId}.mp3`;
+        // await uploadMp3Audio({ blobUrl, s3ObjectKey: audioKey });
         audioToUpload.push({ blobUrl, s3ObjectKey: audioKey });
         dispatch(transcribeActions.setPartAsSaved({ partId, s3ObjectKey: audioKey }));
       }
@@ -266,7 +266,7 @@ const saveTranscript = createAsyncThunk(
     if (errors.length === 0) {
       await uploadJsObject({ jsObject: parts2, s3ObjectKey: partsKey });
       for (const { blobUrl, s3ObjectKey } of audioToUpload) {
-        await uploadWebmAudio({ blobUrl, s3ObjectKey });
+        await uploadMp3Audio({ blobUrl, s3ObjectKey });
       }
       dispatch(transcribeActions.incrementVersion());
     }
@@ -321,7 +321,7 @@ const getTranscript = createAsyncThunk(
       dispatch(transcribeActions.setSlice({ parts, newTranscript: false }));
       for (const partId of partsOrder) {
         const s3ObjectKey = parts[partId].s3ObjectKey;
-        const audioUrl = await downloadWebmAudio(s3ObjectKey);
+        const audioUrl = await downloadMp3Audio(s3ObjectKey);
         dispatch(transcribeActions.setPartAudioUrl({ partId, audioUrl }));
       }
       const firstPartId = partsOrder[0];
