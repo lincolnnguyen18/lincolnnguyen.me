@@ -245,7 +245,7 @@ export function TranscriptScreen () {
     }
     content = (
       <IconMessage
-        iconStyle="icon-article text-purple-custom"
+        iconStyle="icon-mic text-purple-custom"
         messageText={messageText}
       />
     );

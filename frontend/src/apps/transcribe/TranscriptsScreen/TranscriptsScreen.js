@@ -94,14 +94,16 @@ export function TranscriptsScreen () {
             {i !== listTranscriptsResult.items.length - 1 && <Divider twStyle="sm:mx-0 mx-3.5" />}
           </React.Fragment>
         ))}
-        <Button
-          twStyle="my-3 flex items-center gap-0.5 sm:gap-1 select-auto mx-auto text-purple-custom"
-          onClick={() => dispatch(listTranscripts())}
-          disabled={!listTranscriptsResult?.lastEvaluatedKey}
-        >
-          <span className='icon-down' />
-          <span className="sm:text-base text-sm">Load more</span>
-        </Button>
+        {listTranscriptsResult?.items > 0 &&
+          <Button
+            twStyle="my-3 flex items-center gap-0.5 sm:gap-1 select-auto mx-auto text-purple-custom"
+            onClick={() => dispatch(listTranscripts())}
+            disabled={!listTranscriptsResult?.lastEvaluatedKey}
+          >
+            <span className='icon-down' />
+            <span className="sm:text-base text-sm">Load more</span>
+          </Button>
+        }
       </OverflowContainer>
       <div
         className="fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"

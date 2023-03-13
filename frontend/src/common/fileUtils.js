@@ -34,9 +34,7 @@ async function downloadJsObject (s3ObjectKey) {
 }
 
 async function downloadWebmAudio (s3ObjectKey) {
-  const downloadUrl = await fileGqlClient.getFile({ s3ObjectKey });
-  const blob = await fetch(downloadUrl).then(res => res.blob());
-  return URL.createObjectURL(blob);
+  return fileGqlClient.getFile({ s3ObjectKey });
 }
 
 export { uploadWebmAudio, uploadJsObject, downloadJsObject, downloadWebmAudio };
