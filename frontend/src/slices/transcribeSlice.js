@@ -302,6 +302,28 @@ const saveTranscript = createAsyncThunk(
   }
 );
 
+const stopRecording = createAsyncThunk(
+  'transcribe/stopRecording',
+  async (_, { getState, dispatch }) => {
+    // console.log('window.lastInterim', window.lastInterim);
+    const { recorder, transcriber } = getState().transcribe;
+    dispatch(commonActions.openLoading({ title: 'Saving' }));
+    if (window.lastInterim !== '') {
+      dispatch(transcribeActions.setSlice({ saving: true }));
+    }
+    recorder.stop();
+    transcriber.stop();
+    if (window.lastInterim === '') {
+      dispatch(transcribeActions.updatePreview());
+      dispatch(saveTranscript());
+      // dispatch(openNameTranscript());
+    }
+    window.lastInterim = '';
+    dispatch(transcribeActions.setSlice({ interimResult: '' }));
+    dispatch(transcribeActions.setCurrentPartDuration());
+  }
+);
+
 const listTranscripts = createAsyncThunk(
   'transcribe/listTranscripts',
   async (_, { dispatch, getState }) => {
@@ -561,4 +583,4 @@ const transcribeReducer = transcribeSlice.reducer;
 const transcribeSelector = (state) => state.transcribe;
 
 export { transcribeActions, transcribeReducer, transcribeSelector };
-export { translateFinalResult, openTranscriptsSearch, saveTranscript, openRenameTranscript, openNameTranscript, listTranscripts, deleteTranscript, getTranscript };
+export { translateFinalResult, openTranscriptsSearch, saveTranscript, openRenameTranscript, openNameTranscript, listTranscripts, deleteTranscript, getTranscript, stopRecording };

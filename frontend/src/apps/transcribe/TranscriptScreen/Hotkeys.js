@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { saveTranscript, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
+import { stopRecording, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
 import { wait } from '../../../common/timeUtils';
 import { commonActions, commonSelector } from '../../../slices/commonSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -59,21 +59,7 @@ async function startStopRecording (dispatch, recorder, transcriber, mode) {
       dispatch(commonActions.openAlert({ title: 'Error', message: 'There was an error starting the transcription process. Please make sure this website has permission to access the mic and that there are no other tabs using the mic. Wait a few seconds and try again.' }));
     }
   } else {
-    // console.log('window.lastInterim', window.lastInterim);
-    dispatch(commonActions.openLoading({ title: 'Saving'}));
-    if (window.lastInterim !== '') {
-      dispatch(transcribeActions.setSlice({ saving: true }));
-    }
-    recorder.stop();
-    transcriber.stop();
-    if (window.lastInterim === '') {
-      dispatch(transcribeActions.updatePreview());
-      dispatch(saveTranscript());
-      // dispatch(openNameTranscript());
-    }
-    window.lastInterim = '';
-    dispatch(transcribeActions.setSlice({ interimResult: '' }));
-    dispatch(transcribeActions.setCurrentPartDuration());
+    dispatch(stopRecording());
   }
 }
 

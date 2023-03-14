@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
+import { stopRecording, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { formatFloatToTime } from '../../../common/stringUtils.js';
 import { twMerge } from 'tailwind-merge';
 import { commonSelector } from '../../../slices/commonSlice';
@@ -47,7 +47,16 @@ export function BottomBar () {
   React.useEffect(() => {
     if (mode === 'record' && !window.interval) {
       window.interval = setInterval(() => {
-        setDuration((Date.now() - parts[currentPartId].createdAt) / 1000);
+        const newDuration = (Date.now() - parts[currentPartId].createdAt) / 1000;
+        // console.log('duration', newDuration);
+        setDuration(newDuration);
+        // limit a part to 5 seconds
+        // const maxDuration = 5;
+        // limit a part to 1 hour
+        const maxDuration = 60 * 60;
+        if (newDuration > maxDuration + 1) {
+          dispatch(stopRecording());
+        }
       }, 1000);
     } else {
       clearInterval(window.interval);
