@@ -515,6 +515,18 @@ const transcribeSlice = createSlice({
       }
       return newState;
     },
+    forceStop: (state) => {
+      if (state.transcriber) {
+        state.transcriber.stop();
+        state.transcriber = null;
+        window.recognition = null;
+      }
+      if (state.recorder) {
+        state.recorder.forceStop();
+        state.recorder = null;
+        window.mediaRecorder = null;
+      }
+    },
     setPartAudioUrl: (state, action) => {
       const { partId, audioUrl } = action.payload;
       state.parts[partId].audioUrl = audioUrl;

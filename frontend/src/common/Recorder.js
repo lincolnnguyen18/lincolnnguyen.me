@@ -3,6 +3,7 @@ export class Recorder {
     this.onRecordingReady = onRecordingReady;
 
     const setupRecorder = (stream) => {
+      if (window.mediaRecorder) {}
       window.mediaRecorder = new window.MediaRecorder(stream);
       window.mediaRecorder.addEventListener('dataavailable', e => {
         this.onRecordingReady(URL.createObjectURL(e.data));
@@ -31,6 +32,13 @@ export class Recorder {
   }
 
   stop () {
-    window.mediaRecorder.stop();
+    window.mediaRecorder?.stop();
+  }
+
+  forceStop () {
+    this.onRecordingReady = () => {};
+    try {
+      window.mediaRecorder?.stop();
+    } catch {}
   }
 }

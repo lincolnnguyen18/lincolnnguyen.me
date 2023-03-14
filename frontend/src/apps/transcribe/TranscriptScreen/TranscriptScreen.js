@@ -42,6 +42,7 @@ export function TranscriptScreen () {
     }
 
     return () => {
+      dispatch(transcribeActions.forceStop());
       dispatch(transcribeActions.resetState());
       dispatch(commonActions.closeLoading());
     };
@@ -140,7 +141,8 @@ export function TranscriptScreen () {
   }
 
   async function onFinal (final) {
-    if (final.trim() === '') {
+    final = final.trim();
+    if (final === '') {
       dispatch(transcribeActions.setSlice({ interimResult: '' }));
       return;
     }
@@ -204,11 +206,11 @@ export function TranscriptScreen () {
         } catch (e) {}
       }
     }
-    window.recognition.addEventListener('end', onEnd);
-    window.recognition.addEventListener('error', onEnd);
+    window.recognition?.addEventListener('end', onEnd);
+    window.recognition?.addEventListener('error', onEnd);
     return () => {
-      window.recognition.removeEventListener('end', onEnd);
-      window.recognition.removeEventListener('error', onEnd);
+      window.recognition?.removeEventListener('end', onEnd);
+      window.recognition?.removeEventListener('error', onEnd);
     };
   }, [mode, switchingLanguages, transcriptionSupported]);
 

@@ -3,7 +3,7 @@ export class Transcriber {
     this.onInterim = onInterim;
     this.onFinal = onFinal;
     window.lastInterim = '';
-    window.timeSinceLastResult = 0;
+    window.lastResultTime = null;
     this.interval = null;
     // eslint-disable-next-line new-cap
     window.recognition = new window.webkitSpeechRecognition();
@@ -14,19 +14,18 @@ export class Transcriber {
     function onResult (e) {
       let interim = '';
       let final = '';
+      window.lastResultTime = Date.now();
       for (let i = e.resultIndex; i < e.results.length; i++) {
         for (let j = 0; j < e.results[i].length; j++) {
           if (e.results[i].isFinal) {
             final += e.results[i][j].transcript;
             onFinal(final);
-            window.timeSinceLastResult = 0;
             window.lastInterim = '';
           } else {
             interim += e.results[i][j].transcript;
             if (interim !== window.lastInterim) {
               onInterim(interim);
               window.lastInterim = interim;
-              window.timeSinceLastResult = 0;
             }
           }
         }
@@ -52,23 +51,28 @@ export class Transcriber {
       throw e;
     }
     const timeoutAfter = 3;
-    const maxResultLength = 50;
+    const maxResultLength = 70;
+    window.lastResultTime = Date.now();
     this.interval = setInterval(() => {
       if (window.cutOffType === 'manual') return;
-      // console.log('Time since last result: ', window.timeSinceLastResult);
-      // console.log('lastInterim length', window.lastInterim?.length);
-      if (window.timeSinceLastResult > timeoutAfter || window.lastInterim.length > maxResultLength) {
+      const timeSinceLastResult = (Date.now() - window.lastResultTime) / 1000;
+      // console.log('Time since last result: ', timeSinceLastResult);
+      const timeout = timeSinceLastResult > timeoutAfter;
+      const tooLong = window.lastInterim.length > maxResultLength;
+      if (timeout || tooLong) {
         window.recognition.stop();
-        window.timeSinceLastResult = 0;
-        // console.log('Restarted due to timeout');
-      } else {
-        window.timeSinceLastResult += 1;
+        // window.timeSinceLastResult = 0;
+        window.lastResultTime = Date.now();
+        // if (timeout) {
+        //   console.log('Restarted due to timeout');
+        //   window.alert('Restarted due to timeout');
+        // }
       }
     }, 1000);
   }
 
   stop () {
-    window.recognition.stop();
+    window.recognition?.stop();
     clearInterval(this.interval);
   }
 
