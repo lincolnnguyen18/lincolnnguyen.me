@@ -17,25 +17,30 @@ const shortcuts = [
   { name: 'Switch between transcription cut off modes', key: 'M' },
 ];
 
-function handlePlayPause (dispatch, playing) {
+async function handlePlayPause (dispatch, playing) {
   const audio = document.getElementById('audio');
   if (playing) {
     audio.pause();
     dispatch(transcribeActions.setSlice({ playing: false }));
   } else {
+    dispatch(commonActions.openLoading({　title: 'Loading'　}));
+    // await wait(3000);
     const error = audio.play();
     if (error !== undefined) {
       error
         .then(() => {
+          dispatch(commonActions.closeLoading());
           dispatch(transcribeActions.setSlice({ playing: true }));
         })
         .catch(() => {
+          dispatch(commonActions.closeLoading());
           dispatch(commonActions.openAlert({
             title: 'Error',
             message: 'Unable to play audio for this part. If recorded recently, this part is likely still being processed. Please try refreshing this page in a few minutes. Otherwise, this part is missing or corrupted.',
           }));
         });
     } else {
+      dispatch(commonActions.closeLoading());
       dispatch(transcribeActions.setSlice({ playing: true }));
     }
   }
