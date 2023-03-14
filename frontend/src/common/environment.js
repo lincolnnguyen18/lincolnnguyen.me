@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  environment.VERSION = 'Version 7';
+  environment.VERSION = 'Version 8';
 }
 
 export { environment };

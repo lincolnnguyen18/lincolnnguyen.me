@@ -52,6 +52,7 @@ const userTypedef = `
 
       # auth required
       updateUser(input: UpdateUserInput!): [String!]!
+      convertWebmAudioToM4a(s3ObjectKey: String!): [String!]!
   }
 `;
 
@@ -117,6 +118,19 @@ const userResolvers = {
         id,
         ...input,
       });
+    },
+    convertWebmAudioToM4a: async (_, { s3ObjectKey }, { id }) => {
+      if (!id) return null;
+      s3ObjectKey = `${id}/${s3ObjectKey}`;
+
+      async function startConversion () {
+        console.log('starting conversion');
+        // await wait(10000);
+        await fileDao.convertWebmAudioToM4a(s3ObjectKey);
+      }
+      startConversion();
+
+      return [];
     },
   },
 };

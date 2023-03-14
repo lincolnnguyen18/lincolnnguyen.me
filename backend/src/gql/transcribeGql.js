@@ -84,6 +84,7 @@ const transcribeResolvers = {
     },
     getTranscript: async (_, { id }, { id: userId }) => {
       if (!userId) return null;
+      // await wait(3000);
       return transcribeDynamoDao.getTranscript({ userId, id });
     },
     // searchTranscripts: async (_, { input }, { id: userId }) => {

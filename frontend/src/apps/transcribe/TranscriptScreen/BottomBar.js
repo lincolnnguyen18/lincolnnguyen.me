@@ -95,7 +95,7 @@ export function BottomBar () {
               step={1}
             />
             <div className="flex items-center gap-1 justify-between">
-              <span className="text-sm">{formatFloatToTime(currentTime)}</span>
+              <span className="text-sm">{formatFloatToTime(Math.min(currentTime, Math.round(getCurrentPartDuration())))}</span>
               <div className="flex items-center gap-7 transition-all duration-300 absolute transform -translate-x-1/2 left-1/2">
                 <Button twStyle="icon-back-5" onClick={() => seekTo(dispatch, currentTime - 5)} />
                 <Button twStyle={twMerge(playing ? 'icon-pause-filled' : 'icon-play-filled', 'text-5xl')} onClick={() => handlePlayPause(dispatch, playing)} />

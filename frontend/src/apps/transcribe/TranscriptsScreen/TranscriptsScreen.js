@@ -94,7 +94,7 @@ export function TranscriptsScreen () {
             {i !== listTranscriptsResult.items.length - 1 && <Divider twStyle="sm:mx-0 mx-3.5" />}
           </React.Fragment>
         ))}
-        {listTranscriptsResult?.items > 0 &&
+        {listTranscriptsResult?.items.length > 0 &&
           <Button
             twStyle="my-3 flex items-center gap-0.5 sm:gap-1 select-auto mx-auto text-purple-custom"
             onClick={() => dispatch(listTranscripts())}

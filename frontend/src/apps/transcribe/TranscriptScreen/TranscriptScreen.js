@@ -11,7 +11,7 @@ import { BackButton } from '../../../components/BackButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
 import { Divider } from '../../../components/Divider';
-import { MoreMenu } from './MoreMenu';
+import { MoreMenuButton } from './MoreMenuButton';
 import { getTranscript, openRenameTranscript, transcribeActions, transcribeSelector, translateFinalResult } from '../../../slices/transcribeSlice.js';
 import { twMerge } from 'tailwind-merge';
 import { Radio } from '../../../components/Radio';
@@ -71,11 +71,25 @@ export function TranscriptScreen () {
     }
   }
 
-  function showSubNav () {
+  const [showSubNav, setShowSubNav] = React.useState(false);
+
+  // function showSubNav () {
+  //   const titleDiv = document.getElementById('title-div');
+  //   if (!titleDiv) return false;
+  //   return scrollPosition > titleDiv.offsetTop + titleDiv.offsetHeight - 52;
+  // }
+
+  React.useEffect(() => {
     const titleDiv = document.getElementById('title-div');
-    if (!titleDiv) return false;
-    return scrollPosition > titleDiv.offsetTop + titleDiv.offsetHeight - 52;
-  }
+    if (!titleDiv) {
+      setShowSubNav(false);
+    } else {
+      setShowSubNav(scrollPosition > titleDiv.offsetTop + titleDiv.offsetHeight - 52);
+    }
+    return () => {
+      setShowSubNav(false);
+    };
+  }, [scrollPosition]);
 
   function getCurrentPart () {
     const partElements = document.querySelectorAll('.part');
@@ -105,7 +119,9 @@ export function TranscriptScreen () {
     dispatch(transcribeActions.setSlice({ mode: 'default', selectedParts: [] }));
   }
 
-  function onRecordingReady (audioUrl) {
+  async function onRecordingReady (audioUrl) {
+    // await wait(5000);
+    // console.log('onRecordingReady', audioUrl);
     dispatch(transcribeActions.setLatestPart({ audioUrl }));
     const audio = document.getElementById('audio');
     audio.src = audioUrl;
@@ -363,7 +379,7 @@ export function TranscriptScreen () {
       <Navbar twStyle="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcripts" text="Transcripts" disabled={mode !== 'default'} />
         {/*{mode === 'default' && Object.keys(parts).length > 0 && <span className="absolute left-1/2 transform -translate-x-1/2 no-underline">{_.round(playbackSpeed, 2)}x</span>}*/}
-        {mode !== 'edit' ? <MoreMenu disabled={!transcriptionSupported && Object.keys(parts).length === 0} /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
+        {mode !== 'edit' ? <MoreMenuButton disabled={!transcriptionSupported && Object.keys(parts).length === 0} /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
       <WhiteVignette />
       {newTranscript !== null && (
@@ -373,7 +389,7 @@ export function TranscriptScreen () {
           </OverflowContainer>
           <div
             className="fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"
-            style={{ opacity: showSubNav() ? 1 : 0, pointerEvents: showSubNav() ? 'all' : 'none' }}
+            style={{ opacity: showSubNav ? 1 : 0, pointerEvents: showSubNav ? 'all' : 'none' }}
           >
             <div className="flex flex-col gap-0.5 my-2">
               <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{title}</span>

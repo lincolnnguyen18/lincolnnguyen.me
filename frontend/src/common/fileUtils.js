@@ -1,15 +1,15 @@
 import { fileGqlClient } from '../gqlClients/fileGqlClient';
 
-async function uploadMp3Audio ({ blobUrl, s3ObjectKey }) {
+async function uploadWebmAudio ({ blobUrl, s3ObjectKey }) {
   const arrayBuffer = await fetch(blobUrl).then(res => res.arrayBuffer());
-  const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
+  const blob = new Blob([arrayBuffer], { type: 'audio/webm' });
   const formData = new FormData();
   formData.append('audio', blob);
   const uploadUrl = await fileGqlClient.uploadFile({ s3ObjectKey });
   return fetch(uploadUrl, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'audio/mpeg',
+      'Content-Type': 'audio/webm',
     },
     body: formData.get('audio'),
   });
@@ -33,8 +33,8 @@ async function downloadJsObject (s3ObjectKey) {
   return fetch(downloadUrl).then(res => res.json());
 }
 
-async function downloadMp3Audio (s3ObjectKey) {
+async function getFileUrl (s3ObjectKey) {
   return fileGqlClient.getFile({ s3ObjectKey });
 }
 
-export { uploadMp3Audio, uploadJsObject, downloadJsObject, downloadMp3Audio };
+export { uploadWebmAudio, uploadJsObject, downloadJsObject, getFileUrl };

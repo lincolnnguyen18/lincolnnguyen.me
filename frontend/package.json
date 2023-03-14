@@ -18,8 +18,7 @@
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "tailwind-merge": "^1.10.0",
-    "uuid": "^9.0.0",
-    "vmsg": "^0.4.0"
+    "uuid": "^9.0.0"
   },
   "scripts": {
     "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",

@@ -14,7 +14,8 @@ import { closeMenu } from '../common/MenuUtils';
 import { RenameTranscript } from '../apps/transcribe/TranscriptScreen/RenameTranscript';
 import { NameTranscript } from '../apps/transcribe/TranscriptScreen/NameTranscript';
 import { transcribeGqlClient } from '../gqlClients/transcribeGqlClient';
-import { downloadJsObject, downloadMp3Audio, uploadJsObject, uploadMp3Audio } from '../common/fileUtils';
+import { downloadJsObject, getFileUrl, uploadJsObject, uploadWebmAudio } from '../common/fileUtils';
+import { fileGqlClient } from '../gqlClients/fileGqlClient';
 
 const initialState = {
   // default, record, edit
@@ -217,11 +218,28 @@ const saveTranscript = createAsyncThunk(
     for (const partId of partsOrder) {
       if (parts[partId].unsaved) {
         // console.log('unsaved part', parts[partId]);
-        const blobUrl = parts[partId].audioUrl;
-        const audioKey = `transcribe/${id}/${partId}.mp3`;
-        // await uploadMp3Audio({ blobUrl, s3ObjectKey: audioKey });
-        audioToUpload.push({ blobUrl, s3ObjectKey: audioKey });
-        dispatch(transcribeActions.setPartAsSaved({ partId, s3ObjectKey: audioKey }));
+        let blobUrl = parts[partId].audioUrl;
+
+        // if blobUrl is null, then wait until it's not null
+        if (!blobUrl) {
+          await new Promise((resolve) => {
+            const interval = setInterval(() => {
+              blobUrl = getState().transcribe.parts[partId].audioUrl;
+              // console.log('waiting for blobUrl', blobUrl);
+              if (blobUrl) {
+                clearInterval(interval);
+                resolve();
+              }
+            }, 1000);
+          });
+        }
+
+        const rawAudioKey = `transcribe/${id}/${partId}.webm`;
+        const convertedAudioKey = `transcribe/${id}/${partId}.m4a`;
+        // await uploadWebmAudio({ blobUrl, s3ObjectKey: audioKey });
+        // console.log('blobUrl', blobUrl);
+        audioToUpload.push({ blobUrl, s3ObjectKey: rawAudioKey });
+        dispatch(transcribeActions.setPartAsSaved({ partId, s3ObjectKey: convertedAudioKey }));
       }
     }
     const partsKey = `transcribe/${id}/parts.json`;
@@ -266,7 +284,12 @@ const saveTranscript = createAsyncThunk(
     if (errors.length === 0) {
       await uploadJsObject({ jsObject: parts2, s3ObjectKey: partsKey });
       for (const { blobUrl, s3ObjectKey } of audioToUpload) {
-        await uploadMp3Audio({ blobUrl, s3ObjectKey });
+        await uploadWebmAudio({ blobUrl, s3ObjectKey });
+        const errors = await fileGqlClient.convertWebmAudioToM4a({ s3ObjectKey });
+        if (errors.length > 0) {
+          dispatch(commonActions.openAlert({ title: 'Error', message: errors[0] }));
+          break;
+        }
       }
       dispatch(transcribeActions.incrementVersion());
     }
@@ -322,13 +345,14 @@ const getTranscript = createAsyncThunk(
       dispatch(transcribeActions.setSlice({ parts, newTranscript: false }));
       for (const partId of partsOrder) {
         const s3ObjectKey = parts[partId].s3ObjectKey;
-        const audioUrl = await downloadMp3Audio(s3ObjectKey);
+        const audioUrl = await getFileUrl(s3ObjectKey);
         dispatch(transcribeActions.setPartAudioUrl({ partId, audioUrl }));
       }
       const firstPartId = partsOrder[0];
       const firstPartResults = parts[firstPartId].results;
       if (firstPartResults.length > 0) {
-        dispatch(transcribeActions.loadPart({ partId: firstPartId, timestamp: firstPartResults[0].timestamp }));
+        dispatch(transcribeActions.loadPart({ partId: firstPartId, timestamp: 0 }));
+        // dispatch(transcribeActions.loadPart({ partId: firstPartId, timestamp: firstPartResults[0].timestamp }));
       }
     } else {
       dispatch(transcribeActions.setSlice({ newTranscript: true, version: -1 }));

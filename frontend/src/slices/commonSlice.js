@@ -52,10 +52,6 @@ const initialState = {
   alertOpen: false,
   alertTitle: null,
   alertMessage: null,
-  // alertOpen: true,
-  // alertTitle: 'Error',
-  // alertMessage: 'Transcript has been updated since last opened, please\n' +
-  //   'refresh the page and try again',
 };
 
 const openRegister = createAsyncThunk(
@@ -227,13 +223,6 @@ const commonSlice = createSlice({
     closeLoading: (state) => {
       state.loadingOpen = false;
     },
-    // alertOpen: false,
-    // alertTitle: null,
-    // alertMessage: null,
-    // // alertOpen: true,
-    // // alertTitle: 'Error',
-    // // alertMessage: 'Transcript has been updated since last opened, please\n' +
-    // //   'refresh the page and try again',
     openAlert: (state, action) => {
       const { open = true, title = 'Error', message = 'An error has occurred' } = action.payload || {};
       state.alertOpen = open;

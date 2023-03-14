@@ -11,7 +11,7 @@ export function AudioPlayerScreen () {
 
   React.useEffect(() => {
     const audio = document.getElementById('audio');
-    audio.src = '/test.mp3';
+    audio.src = '/test.m4a';
   }, []);
 
   function playPause () {
@@ -27,7 +27,7 @@ export function AudioPlayerScreen () {
 
   function seekTo () {
     const audio = document.getElementById('audio');
-    audio.currentTime = 10;
+    audio.currentTime = 480;
   }
 
   return (
@@ -42,7 +42,7 @@ export function AudioPlayerScreen () {
         <div className="flex flex-col gap-2 items-center w-full">
           <audio hidden={false} controls id="audio" />
           <NavbarButton dir="single" twStyle="justify-center" onClick={playPause}>{playing ? 'Pause' : 'Play'}</NavbarButton>
-          <NavbarButton dir="single" twStyle="justify-center" onClick={seekTo}>Seek to 10</NavbarButton>
+          <NavbarButton dir="single" twStyle="justify-center" onClick={seekTo}>Seek to 480</NavbarButton>
         </div>
       </OverflowContainer>
     </>

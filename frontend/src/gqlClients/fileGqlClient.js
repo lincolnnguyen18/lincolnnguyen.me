@@ -40,6 +40,19 @@ class FileGqlClient {
     const res = await gqlClient.request(query, variables);
     return res.getFileDirect;
   }
+
+  async convertWebmAudioToM4a ({ s3ObjectKey }) {
+    const mutation = gql`
+      mutation ($s3ObjectKey: String!) {
+        convertWebmAudioToM4a(s3ObjectKey: $s3ObjectKey)
+      }
+    `;
+    const variables = {
+      s3ObjectKey,
+    };
+    const res = await gqlClient.request(mutation, variables);
+    return res.convertWebmAudioToM4a;
+  }
 }
 
 const fileGqlClient = new FileGqlClient();

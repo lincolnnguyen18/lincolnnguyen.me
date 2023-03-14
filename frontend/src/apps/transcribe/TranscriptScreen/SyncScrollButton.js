@@ -29,6 +29,12 @@ export function SyncScrollButton () {
     }
   }, [mode]);
 
+  React.useEffect(() => {
+    return () => {
+      dispatch(commonActions.setSlice({ autoScrollOn: false }));
+    };
+  }, []);
+
   async function onClick () {
     dispatch(commonActions.setSlice({ autoScrollOn: true }));
     dispatch(commonActions.scrollToBottomHard());

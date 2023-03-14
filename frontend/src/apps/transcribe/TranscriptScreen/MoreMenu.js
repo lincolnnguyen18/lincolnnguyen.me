@@ -1,30 +1,29 @@
 import React from 'react';
 import _ from 'lodash';
-import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
-import { wait } from '../../../common/timeUtils.js';
 import { NavbarButton } from '../../../components/NavbarButton';
+import { languages } from '../../../common/data';
 import { GroupDivider } from '../../../components/GroupDivider';
+import { deleteTranscript, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
+import { wait } from '../../../common/timeUtils';
+import { commonActions, commonSelector } from '../../../slices/commonSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '../../../components/Button';
-import { deleteTranscript, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
+import { closeMenu, openConfirm } from '../../../common/MenuUtils';
+import { useNavigate } from 'react-router-dom';
+import { FormScreen } from '../../../components/FormScreen';
+import { Group } from '../../../components/Group';
+import { Blackbox } from '../../../components/BlackBox';
+import { formatUnixTimestampFull } from '../../../common/stringUtils';
+import { FormScreenBottom } from '../../../components/FormScreenBottom';
 import { GroupInput } from '../../../components/GroupInput';
 import { Dropdown } from '../../../components/Dropdown';
-import { Group } from '../../../components/Group';
-import { FormScreen } from '../../../components/FormScreen';
-import { Blackbox } from '../../../components/BlackBox';
-import { FormScreenBottom } from '../../../components/FormScreenBottom';
-import { languages } from '../../../common/data';
-import { closeMenu, openConfirm } from '../../../common/MenuUtils';
-import { shortcuts } from './Hotkeys';
 import { DropdownOption } from '../../../components/DropdownOption';
-import { useNavigate } from 'react-router-dom';
-import { formatUnixTimestampFull } from '../../../common/stringUtils';
+import { shortcuts } from './Hotkeys';
 
-export function MoreMenu ({ disabled }) {
+export function MoreMenu () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { mode, recorder, transcriber, playing, transcribeLang, translateLang, partsOrder, createdAt, playbackSpeed, cutOffType, id, title, updatedAt, transcriptionSupported } = useSelector(transcribeSelector);
-  const { scrollPosition } = useSelector(commonSelector);
+  const { recorder, transcriber, transcribeLang, translateLang, partsOrder, createdAt, playbackSpeed, cutOffType, id, title, updatedAt } = useSelector(transcribeSelector);
+  const { scrollPosition, transcriptionSupported } = useSelector(commonSelector);
 
   async function handleOpenInfo () {
     dispatch(commonActions.hideNavMenuChildren());
@@ -175,30 +174,37 @@ export function MoreMenu ({ disabled }) {
     }));
   }
 
-  // async function handleFilterBySpeaker () {
-  //   dispatch(commonActions.hideNavMenuChildren());
-  //   await wait();
-  //   const options = ['Both speakers', 'Lincoln Nguyen', 'Maimi Yoshikawa'];
-  //   dispatch(commonActions.openNavMenu({
-  //     position: 'right',
-  //     isMainMenu: false,
-  //     children: (
-  //       <div className="flex flex-col">
-  //         {options.map((option, index) => (
-  //           <React.Fragment key={index}>
-  //             <NavbarGroupButton twStyle="justify-between">
-  //               <span className="text-white">{option}</span>
-  //               {index === 0 && <span className="icon-check text-2xl text-white" />}
-  //             </NavbarGroupButton>
-  //             {index !== options.length - 1 && <NavbarGroupDivider />}
-  //           </React.Fragment>
-  //         ))}
-  //       </div>
-  //     ),
-  //   }));
-  // }
+  async function handleStart () {
+    dispatch(transcribeActions.addPart());
+    recorder.start();
+    transcriber.start();
+    dispatch(transcribeActions.setSlice({ mode: 'record' }));
+    // dispatch(transcribeActions.updateMetadata());
+    await wait(50);
+    dispatch(commonActions.scrollToBottomHard(true));
+  }
+
+  async function confirmDelete () {
+    dispatch(commonActions.hideNavMenuChildren());
+    await wait();
+    openConfirm({ dispatch, message: 'Are you sure you want to delete this transcript?', onConfirm: onDelete });
+  }
+
+  async function onDelete () {
+    await dispatch(deleteTranscript({ id }));
+    navigate('/transcribe/transcripts');
+  }
 
   const [turningOnEditMode, setTurningOnEditMode] = React.useState(false);
+
+  React.useEffect(() => {
+    if (scrollPosition === 0 && turningOnEditMode) {
+      setTimeout(() => {
+        dispatch(transcribeActions.setSlice({ mode: 'edit' }));
+        setTurningOnEditMode(false);
+      }, 50);
+    }
+  }, [scrollPosition]);
 
   function turnOnEditMode () {
     closeMenu(dispatch);
@@ -210,81 +216,38 @@ export function MoreMenu ({ disabled }) {
     }
   }
 
-  React.useEffect(() => {
-    if (scrollPosition === 0 && turningOnEditMode) {
-      setTimeout(() => {
-        dispatch(transcribeActions.setSlice({ mode: 'edit' }));
-        setTurningOnEditMode(false);
-      }, 50);
-    }
-  }, [scrollPosition]);
-
-  // function openShortcuts () {
-  //   showShortcuts({ dispatch, shortcuts });
-  // }
-
-  async function onDelete () {
-    await dispatch(deleteTranscript({ id }));
-    navigate('/transcribe/transcripts');
-  }
-
-  async function confirmDelete () {
-    dispatch(commonActions.hideNavMenuChildren());
-    await wait();
-    openConfirm({ dispatch, message: 'Are you sure you want to delete this transcript?', onConfirm: onDelete });
-  }
-
-  function openMoreMenu () {
-    async function handleStart () {
-      dispatch(transcribeActions.addPart());
-      recorder.start();
-      transcriber.start();
-      dispatch(transcribeActions.setSlice({ mode: 'record' }));
-      // dispatch(transcribeActions.updateMetadata());
-      await wait(50);
-      dispatch(commonActions.scrollToBottomHard(true));
-    }
-
-    dispatch(commonActions.openNavMenu({
-      position: 'right',
-      isMainMenu: false,
-      children: (
-        <div className="flex flex-col">
-          <NavbarButton onClick={handleStart} disabled={partsOrder?.length > 100 || !transcriptionSupported}>
-            {/*<span className='icon-mic text-2xl text-white' />*/}
-            <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{languages.find(l => l.name === transcribeLang).code}</span>
-            <span className="text-white">Transcribe</span>
+  return (
+    <div className="flex flex-col">
+      <NavbarButton onClick={handleStart} disabled={partsOrder?.length > 100 ||
+           !transcriptionSupported}>
+        {/*<span className='icon-mic text-2xl text-white' />*/}
+        <span className="text-[0.66rem] w-[20px] h-[20px] ml-[2px] mr-[1px] font-bold text-gray-500 bg-white rounded-md flex items-center justify-center">{languages.find(l => l.name === transcribeLang).code}</span>
+        <span className="text-white">Transcribe</span>
+      </NavbarButton>
+      <GroupDivider />
+      <NavbarButton stopPropagation={true} onClick={openSettings}>
+        <span className='icon-settings text-2xl text-white' />
+        <span className="text-white">Settings</span>
+      </NavbarButton>
+      {createdAt && (
+        <>
+          <GroupDivider />
+          <NavbarButton stopPropagation={true} onClick={turnOnEditMode} disabled={partsOrder.length === 0}>
+            <span className="icon-edit text-2xl text-white" />
+            <span className="text-white">Edit</span>
           </NavbarButton>
           <GroupDivider />
-          <NavbarButton stopPropagation={true} onClick={openSettings}>
-            <span className='icon-settings text-2xl text-white' />
-            <span className="text-white">Settings</span>
+          <NavbarButton stopPropagation={true} onClick={handleOpenInfo}>
+            <span className='icon-info text-2xl text-white' />
+            <span className="text-white">Transcript info</span>
           </NavbarButton>
-          {createdAt && (
-            <>
-              <GroupDivider />
-              <NavbarButton stopPropagation={true} onClick={turnOnEditMode} disabled={partsOrder.length === 0}>
-                <span className="icon-edit text-2xl text-white" />
-                <span className="text-white">Edit</span>
-              </NavbarButton>
-              <GroupDivider />
-              <NavbarButton stopPropagation={true} onClick={handleOpenInfo}>
-                <span className='icon-info text-2xl text-white' />
-                <span className="text-white">Transcript info</span>
-              </NavbarButton>
-              <GroupDivider />
-              <NavbarButton stopPropagation={true} onClick={confirmDelete}>
-                <span className='icon-delete text-2xl text-white' />
-                <span className="text-white">Delete</span>
-              </NavbarButton>
-            </>
-          )}
-        </div>
-      ),
-    }));
-  }
-
-  return (
-    <Button twStyle="icon-more-horiz" onClick={openMoreMenu} disabled={disabled || playing || mode !== 'default'} />
+          <GroupDivider />
+          <NavbarButton stopPropagation={true} onClick={confirmDelete}>
+            <span className='icon-delete text-2xl text-white' />
+            <span className="text-white">Delete</span>
+          </NavbarButton>
+        </>
+      )}
+    </div>
   );
 }

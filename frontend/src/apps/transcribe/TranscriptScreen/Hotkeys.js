@@ -23,8 +23,21 @@ function handlePlayPause (dispatch, playing) {
     audio.pause();
     dispatch(transcribeActions.setSlice({ playing: false }));
   } else {
-    dispatch(transcribeActions.setSlice({ playing: true }));
-    audio.play();
+    const error = audio.play();
+    if (error !== undefined) {
+      error
+        .then(() => {
+          dispatch(transcribeActions.setSlice({ playing: true }));
+        })
+        .catch(() => {
+          dispatch(commonActions.openAlert({
+            title: 'Error',
+            message: 'Unable to play audio for this part. If recorded recently, this part is likely still being processed. Please try refreshing this page in a few minutes. Otherwise, this part is missing or corrupted.',
+          }));
+        });
+    } else {
+      dispatch(transcribeActions.setSlice({ playing: true }));
+    }
   }
 }
 
@@ -38,8 +51,7 @@ async function startStopRecording (dispatch, recorder, transcriber, mode) {
       await wait(50);
       dispatch(commonActions.scrollToBottomHard(true));
     } catch {
-      // openAlert({ dispatch, title: 'Error', message: 'There was an error starting the transcription process. Please make sure this website has permission to access the mic and that there are no other tabs using the mic. Wait a few seconds and try again.' });
-      commonActions.openAlert({ title: 'Error', message: 'There was an error starting the transcription process. Please make sure this website has permission to access the mic and that there are no other tabs using the mic. Wait a few seconds and try again.' });
+      dispatch(commonActions.openAlert({ title: 'Error', message: 'There was an error starting the transcription process. Please make sure this website has permission to access the mic and that there are no other tabs using the mic. Wait a few seconds and try again.' }));
     }
   } else {
     // console.log('window.lastInterim', window.lastInterim);
@@ -80,10 +92,10 @@ function restartTranscriber () {
 
 export function Hotkeys () {
   const dispatch = useDispatch();
-  const { playing, recorder, transcriber, mode, currentTime, interimResult, playbackSpeed, cutOffType } = useSelector(transcribeSelector);
+  const { playing, recorder, transcriber, mode, currentTime, interimResult, playbackSpeed, cutOffType, loadingOpen } = useSelector(transcribeSelector);
   const { navMenu } = useSelector(commonSelector);
 
-  const enabled = !navMenu.open;
+  const enabled = !navMenu.open && !loadingOpen;
 
   function setPlaybackSpeed (delta) {
     dispatch(transcribeActions.setPlaybackSpeed(playbackSpeed + delta));

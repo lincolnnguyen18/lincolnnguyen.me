@@ -1,27 +1,36 @@
-import vmsg from 'vmsg';
-
 export class Recorder {
   constructor ({ onRecordingReady, onRecordingStop }) {
-    this.recorder = new vmsg.Recorder({ wasmURL: '/vmsg.wasm' });
     this.onRecordingReady = onRecordingReady;
-    this.onRecordingStop = onRecordingStop;
+
+    const setupRecorder = (stream) => {
+      window.mediaRecorder = new window.MediaRecorder(stream);
+      window.mediaRecorder.addEventListener('dataavailable', e => {
+        this.onRecordingReady(URL.createObjectURL(e.data));
+      });
+      window.mediaRecorder.addEventListener('stop', onRecordingStop);
+    };
+
+    window.navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        setupRecorder(stream);
+      })
+      .catch(e => {
+        console.log(e);
+        throw e;
+      });
   }
 
-  async start () {
+  start () {
     try {
-      await this.recorder.initAudio();
-      await this.recorder.initWorker();
-      this.recorder.startRecording();
+      window.mediaRecorder.start();
     } catch (e) {
       console.error(e);
       throw e;
     }
   }
 
-  async stop () {
-    const blob = await this.recorder.stopRecording();
-    const objectURL = URL.createObjectURL(blob);
-    this.onRecordingReady(objectURL);
-    this.onRecordingStop();
+  stop () {
+    window.mediaRecorder.stop();
   }
 }
