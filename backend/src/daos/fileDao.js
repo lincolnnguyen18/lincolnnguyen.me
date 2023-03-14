@@ -131,14 +131,33 @@ class FileDao {
     if (errors.length === 0) {
       // upload the m4a audio file to s3
       console.log('uploading m4a audio file to s3');
-      const uploadCommand = new PutObjectCommand({
+
+      // confirm at least 1 object exists in directory
+      const directory = s3ObjectKey.split('/').slice(0, -1).join('/');
+      console.log('Checking if directory exists', directory);
+      const listObjectsCommand = new ListObjectsCommand({
         Bucket: environment.API_S3_BUCKET_NAME,
-        Key: s3ObjectKey.replace('.webm', '.m4a'),
-        Body: fs.createReadStream(outputPath),
-        Metadata: { 'Content-Type': 'audio/m4a' },
+        Prefix: directory,
       });
-      await s3Client.send(uploadCommand);
+
+      let success = false;
+      const listObjectsResponse = await s3Client.send(listObjectsCommand);
+      const { Contents } = listObjectsResponse;
+      if (Contents && Contents.length > 0) {
+        success = true;
+        console.log('Directory exists');
+      }
+      if (success) {
+        const uploadCommand = new PutObjectCommand({
+          Bucket: environment.API_S3_BUCKET_NAME,
+          Key: s3ObjectKey.replace('.webm', '.m4a'),
+          Body: fs.createReadStream(outputPath),
+          Metadata: { 'Content-Type': 'audio/m4a' },
+        });
+        await s3Client.send(uploadCommand);
+      }
     }
+
     // delete the webm audio file from s3
     console.log('deleting webm audio file from s3');
     await s3Client.send(new DeleteObjectCommand({
