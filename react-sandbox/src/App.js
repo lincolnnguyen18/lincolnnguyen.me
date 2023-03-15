@@ -5,6 +5,7 @@ import { HomeScreen } from './apps/main/HomeScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from './slices/commonSlice';
 import { detect } from 'detect-browser';
+import { NotificationsScreen } from './apps/notifications/NotificationsScreen';
 
 export function App () {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ export function App () {
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/audio-player" element={<AudioPlayerScreen />} />
+        <Route path="/notifications" element={<NotificationsScreen />} />
       </Routes>
     </>
   );

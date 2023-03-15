@@ -99,4 +99,21 @@ function getActionName (action) {
   return action.type.split('/')[1];
 }
 
-export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestampFull, uuid, splitText, translate, removeEmptyLines, getActionName };
+function formatStringForTimer (time) {
+  // given 12, return 00:00:12
+  // given 120, return 00:01:20
+  // given 1200, return 00:12:00
+  // given 12041241, return 04:12:41
+
+  // convert time to string
+  // remove all non-digit characters
+  // keep only last 6 digits
+  // pad with 0s in beginning until length is 6
+  // insert colons
+  time = time.toString().replace(/\D/g, '').slice(-6);
+  time = time.padStart(6, '0');
+  time = time.slice(0, 2) + ':' + time.slice(2, 4) + ':' + time.slice(4, 6);
+  return time;
+}
+
+export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestampFull, uuid, splitText, translate, removeEmptyLines, getActionName, formatStringForTimer };

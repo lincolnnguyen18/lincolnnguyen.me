@@ -24,6 +24,7 @@ export function HomeScreen () {
       <NavbarBlur />
       <Grid>
         <AppIcon text="Audio Player" twStyle="bg-red-custom" placeholderInitials="A" path="/audio-player" />
+        <AppIcon text="Notifications" twStyle="bg-blue-custom" placeholderInitials="N" path="/notifications" />
         {dummyIcons}
       </Grid>
       <Navbar>
