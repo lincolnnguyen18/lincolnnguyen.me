@@ -1,13 +1,13 @@
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
-import { useDispatch, useSelector } from 'react-redux';
-import { commonActions, commonSelector } from '../slices/commonSlice.js';
+import { useDispatch } from 'react-redux';
+import { commonActions } from '../slices/commonSlice.js';
 
 export function OverflowContainer ({ children, twStyle }) {
   const dispatch = useDispatch();
-  const { browser } = useSelector(commonSelector);
-  const fixedScroll = browser?.os.startsWith('iOS') || browser?.name.startsWith('safari');/**/
-  // const fixedScroll = true;
+  // const { browser } = useSelector(commonSelector);
+  // const fixedScroll = browser?.os.startsWith('iOS') || browser?.name.startsWith('safari');/**/
+  const fixedScroll = false;
 
   React.useEffect(() => {
     if (fixedScroll) {
