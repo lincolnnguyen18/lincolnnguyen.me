@@ -4,22 +4,37 @@ import { BackButton } from '../../components/BackButton';
 import { Navbar } from '../../components/Navbar';
 import { WhiteVignette } from '../../components/WhiteVignette';
 import { OverflowContainer } from '../../components/OverflowContainer';
-import { formatStringForTimer } from '../../common/stringUtils';
+import { formatStringForTimer, openNotification } from '../../common/stringUtils';
 
 export function NotificationsScreen () {
   const inputRef = React.useRef(null);
   const [initialTimeString, setInitialTimeString] = React.useState('00:00:00');
   const [timeString, setTimeString] = React.useState(initialTimeString);
   const [inputFocused, setInputFocused] = React.useState(false);
-  const [alarmTime, setAlarmTime] = React.useState(null);
   const [remainingTime, setRemainingTime] = React.useState(null);
-  const [keepAlive, setKeepAlive] = React.useState(null);
 
   const worker = new Worker('/worker.js');
   worker.onmessage = function () {
     // console.log('Main thread received message:', e.data);
-    const randomNumber = Math.random();
-    setKeepAlive(randomNumber);
+    if (!window.alarmTime) return;
+    // console.log('Alarm time:', window.alarmTime);
+    const now = new Date();
+    const timeUntilAlarm = window.alarmTime - now;
+
+    if (timeUntilAlarm <= 0) {
+      // setAlarmTime(null);
+      setRemainingTime(null);
+      // alert('Timer finished');
+      openNotification('Timer finished', initialTimeString);
+      window.alarmTime = null;
+    } else {
+      // format timeUntilAlarm into hh:mm:ss
+      // console.log('Time until alarm:', timeUntilAlarm);
+      // format into hh:mm:ss
+      const timeUntilAlarmString = new Date(timeUntilAlarm).toISOString().substring(11, 19);
+      console.log(timeUntilAlarmString);
+      setRemainingTime(timeUntilAlarmString);
+    }
   };
 
   function startTimer () {
@@ -32,55 +47,20 @@ export function NotificationsScreen () {
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
     const now = new Date();
     const alarmTime = new Date(now.getTime() + totalSeconds * 1000);
-    setAlarmTime(alarmTime);
+    window.alarmTime = alarmTime;
+    // setAlarmTime(alarmTime);
   }
-
-  function openNotification (title, message) {
-    if (!window.Notification) {
-      alert(`${title}: ${message}`);
-    } else {
-      if (Notification.permission !== 'granted') return;
-      const notification = new Notification(title, {
-        body: message,
-      });
-      notification.onclick = function () {
-        window.focus();
-        notification.close();
-      };
-    }
-  }
-
-  React.useEffect(() => {
-    // log time in hh:mm:ss format
-    // console.log('keepAlive:', keepAlive, new Date().toLocaleTimeString());
-
-    if (alarmTime) {
-      const now = new Date();
-      const remainingTime = alarmTime - now;
-      // format remainingTime into hh:mm:ss
-      const hours = Math.floor(remainingTime / 1000 / 3600);
-      const minutes = Math.floor(remainingTime / 1000 / 60) % 60;
-      const seconds = Math.floor(remainingTime / 1000) % 60;
-      const remainingTimeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      setRemainingTime(remainingTimeString);
-      if (remainingTime <= 0) {
-        setAlarmTime(null);
-        setRemainingTime(null);
-        // alert('Timer finished');
-        openNotification('Timer finished', initialTimeString);
-      }
-    }
-  }, [keepAlive, alarmTime]);
 
   React.useEffect(() => {
     if (window.Notification && Notification.permission !== 'granted') {
       Notification.requestPermission();
     }
+    worker.postMessage('Start worker');
 
-    setTimeout(() => {
-      // console.log('Main thread sending message');
-      worker.postMessage('Message');
-    }, 3000);
+    // setTimeout(() => {
+    //   // console.log('Main thread sending message');
+    //   worker.postMessage('Message');
+    // }, 3000);
   }, []);
 
 
