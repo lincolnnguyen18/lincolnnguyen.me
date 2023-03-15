@@ -527,7 +527,7 @@ const transcribeSlice = createSlice({
       state.parts[partId].s3ObjectKey = s3ObjectKey;
     },
     resetState: (state) => {
-      const fieldsToSkip = ['transcribeLang', 'translateLang', 'playbackSpeed'];
+      const fieldsToSkip = ['transcribeLang', 'translateLang', 'playbackSpeed', 'cutOffType'];
       const newState = {};
       for (const field of Object.keys(initialState)) {
         if (fieldsToSkip.includes(field)) {

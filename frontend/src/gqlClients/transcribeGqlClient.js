@@ -3,6 +3,7 @@ import { gqlClient } from '../common/clients';
 
 class TranscribeGqlClient {
   async putTranscript ({ id, title, preview, createdAt, updatedAt, partsOrder, partsKey }) {
+    console.log('putTranscript');
     const mutation = gql`
       mutation ($id: ID!, $title: String!, $preview: String!, $createdAt: String!, $updatedAt: String!, $partsOrder: [String]!, $partsKey: String!) {
         putTranscript(input: { id: $id, title: $title, preview: $preview, createdAt: $createdAt, updatedAt: $updatedAt, partsOrder: $partsOrder, partsKey: $partsKey })
@@ -22,6 +23,7 @@ class TranscribeGqlClient {
   }
 
   async updateTranscript ({ id, title = undefined, preview = undefined, createdAt = undefined, updatedAt, partsOrder = undefined, partsKey = undefined, version }) {
+    console.log('updateTranscript');
     const mutation = gql`
       mutation ($id: ID!, $title: String, $preview: String, $createdAt: String, $updatedAt: String!, $partsOrder: [String], $partsKey: String, $version: Int!) {
         updateTranscript(input: { id: $id, title: $title, preview: $preview, createdAt: $createdAt, updatedAt: $updatedAt, partsOrder: $partsOrder, partsKey: $partsKey, version: $version })
@@ -55,6 +57,7 @@ class TranscribeGqlClient {
   }
 
   async listTranscripts ({ lastEvaluatedKey = undefined, limit = undefined, scanIndexForward = undefined }) {
+    console.log('listTranscripts');
     const query = gql`
       query ($lastEvaluatedKey: String, $limit: Int, $scanIndexForward: Boolean) {
         listTranscripts(input: { lastEvaluatedKey: $lastEvaluatedKey, limit: $limit, scanIndexForward: $scanIndexForward }) {
@@ -79,6 +82,7 @@ class TranscribeGqlClient {
   }
 
   async getTranscript ({ id }) {
+    console.log('getTranscript');
     const query = gql`
       query ($id: ID!) {
         getTranscript(id: $id) {

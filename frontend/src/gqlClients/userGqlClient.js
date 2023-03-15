@@ -17,6 +17,7 @@ class UserGqlClient {
   }
 
   async getUser () {
+    console.log('getUser');
     const query = gql`
       query {
         user {
@@ -51,6 +52,7 @@ class UserGqlClient {
   }
 
   async updateUser ({ username, password, playbackSpeed, transcribeLang, translateLang, transcribeCutOffType }) {
+    console.log('updateUser');
     const mutation = gql`
         mutation ($username: String, $password: String, $playbackSpeed: Float, $transcribeLang: String, $translateLang: String, $transcribeCutOffType: String) {
             updateUser(input: { username: $username, password: $password, playbackSpeed: $playbackSpeed, transcribeLang: $transcribeLang, translateLang: $translateLang, transcribeCutOffType: $transcribeCutOffType })
