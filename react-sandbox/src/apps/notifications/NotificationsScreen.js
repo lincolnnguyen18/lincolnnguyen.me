@@ -13,6 +13,14 @@ export function NotificationsScreen () {
   const [inputFocused, setInputFocused] = React.useState(false);
   const [alarmTime, setAlarmTime] = React.useState(null);
   const [remainingTime, setRemainingTime] = React.useState(null);
+  const [keepAlive, setKeepAlive] = React.useState(null);
+
+  const worker = new Worker('/worker.js');
+  worker.onmessage = function () {
+    // console.log('Main thread received message:', e.data);
+    const randomNumber = Math.random();
+    setKeepAlive(randomNumber);
+  };
 
   function startTimer () {
     setInputFocused(false);
@@ -27,27 +35,54 @@ export function NotificationsScreen () {
     setAlarmTime(alarmTime);
   }
 
-  React.useEffect(() => {
-    if (alarmTime) {
-      window.interval = setInterval(() => {
-        const now = new Date();
-        const remainingTime = alarmTime - now;
-        // format remainingTime into hh:mm:ss
-        const hours = Math.floor(remainingTime / 1000 / 3600);
-        const minutes = Math.floor(remainingTime / 1000 / 60) % 60;
-        const seconds = Math.floor(remainingTime / 1000) % 60;
-        const remainingTimeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        setRemainingTime(remainingTimeString);
-        if (remainingTime <= 0) {
-          clearInterval(window.interval);
-          setAlarmTime(null);
-          setRemainingTime(null);
-          alert('Timer finished');
-        }
-      }, 500);
-      return () => clearInterval(window.interval);
+  function openNotification (title, message) {
+    if (!window.Notification) {
+      alert(`${title}: ${message}`);
+    } else {
+      if (Notification.permission !== 'granted') return;
+      const notification = new Notification(title, {
+        body: message,
+      });
+      notification.onclick = function () {
+        window.focus();
+        notification.close();
+      };
     }
-  }, [alarmTime]);
+  }
+
+  React.useEffect(() => {
+    // log time in hh:mm:ss format
+    // console.log('keepAlive:', keepAlive, new Date().toLocaleTimeString());
+
+    if (alarmTime) {
+      const now = new Date();
+      const remainingTime = alarmTime - now;
+      // format remainingTime into hh:mm:ss
+      const hours = Math.floor(remainingTime / 1000 / 3600);
+      const minutes = Math.floor(remainingTime / 1000 / 60) % 60;
+      const seconds = Math.floor(remainingTime / 1000) % 60;
+      const remainingTimeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      setRemainingTime(remainingTimeString);
+      if (remainingTime <= 0) {
+        setAlarmTime(null);
+        setRemainingTime(null);
+        // alert('Timer finished');
+        openNotification('Timer finished', initialTimeString);
+      }
+    }
+  }, [keepAlive, alarmTime]);
+
+  React.useEffect(() => {
+    if (window.Notification && Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+
+    setTimeout(() => {
+      // console.log('Main thread sending message');
+      worker.postMessage('Message');
+    }, 3000);
+  }, []);
+
 
   function onTimerClick () {
     if (!inputFocused) {
