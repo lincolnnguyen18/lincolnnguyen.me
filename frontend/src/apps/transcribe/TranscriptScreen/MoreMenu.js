@@ -23,7 +23,7 @@ export function MoreMenu () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { recorder, transcriber, transcribeLang, translateLang, partsOrder, createdAt, playbackSpeed, cutOffType, id, title, updatedAt } = useSelector(transcribeSelector);
-  const { scrollPosition, transcriptionSupported } = useSelector(commonSelector);
+  const { transcriptionSupported } = useSelector(commonSelector);
 
   async function handleOpenInfo () {
     dispatch(commonActions.hideNavMenuChildren());
@@ -195,25 +195,10 @@ export function MoreMenu () {
     navigate('/transcribe/transcripts');
   }
 
-  const [turningOnEditMode, setTurningOnEditMode] = React.useState(false);
-
-  React.useEffect(() => {
-    if (scrollPosition === 0 && turningOnEditMode) {
-      setTimeout(() => {
-        dispatch(transcribeActions.setSlice({ mode: 'edit' }));
-        setTurningOnEditMode(false);
-      }, 50);
-    }
-  }, [scrollPosition]);
-
   function turnOnEditMode () {
+    dispatch(commonActions.scrollToTopHard(true));
     closeMenu(dispatch);
-    if (scrollPosition === 0) {
-      dispatch(transcribeActions.setSlice({ mode: 'edit' }));
-    } else {
-      dispatch(commonActions.scrollToTop());
-      setTurningOnEditMode(true);
-    }
+    dispatch(transcribeActions.setSlice({ mode: 'edit' }));
   }
 
   return (
