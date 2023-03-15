@@ -54,6 +54,10 @@ export function App () {
       console.log(environment.VERSION);
     }
 
+    if (window.Notification && Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+
     const token = Cookies.get('token');
     if (token) {
       dispatch(commonActions.setSlice({ token: token }));

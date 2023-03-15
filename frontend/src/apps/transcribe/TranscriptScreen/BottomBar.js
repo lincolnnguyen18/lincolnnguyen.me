@@ -57,6 +57,13 @@ export function BottomBar () {
         if (newDuration > maxDuration + 1) {
           dispatch(stopRecording());
         }
+
+        // send notification once a part is 50 minutes long
+        const warningDuration = 50 * 60;
+        // if (newDuration > 5) {
+        if (newDuration > warningDuration && !window.notificationSent) {
+          dispatch(transcribeActions.warnTimeLimit());
+        }
       }, 1000);
     } else {
       clearInterval(window.interval);
@@ -77,7 +84,7 @@ export function BottomBar () {
   if (mode === 'default') {
     if (Object.keys(parts).length === 0) {
       return (
-        <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-center bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-[border-radius] duration-300 transition-all duration-300'>
+        <div className='text-white max-w-screen-sm w-full h-11 flex items-center fixed bottom-0 transform -translate-x-1/2 left-1/2 px-3 z-[1] justify-center bg-purple-custom backdrop-blur bg-opacity-80 sm:rounded-t-2xl transition-[border-radius] duration-300'>
           <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={() => startStopRecording(dispatch, recorder, transcriber, mode)} disabled={!transcriptionSupported}>
             <span className='icon-mic' />
             <span className="sm:text-base text-sm overflow-hidden truncate max-w-[270px]">Start transcribing in {getLanguageName()}</span>

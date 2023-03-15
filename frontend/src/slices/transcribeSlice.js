@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { uuid } from '../common/stringUtils';
+import { openNotification, uuid } from '../common/stringUtils';
 import { commonActions } from './commonSlice';
 import { wait } from '../common/timeUtils';
 import { TextField } from '../components/TextField';
@@ -204,6 +204,7 @@ const openNameTranscript = createAsyncThunk(
 const saveTranscript = createAsyncThunk(
   'transcribe/saveTranscript',
   async (__, { getState, dispatch }) => {
+    dispatch(transcribeActions.setSlice({ notificationSent: false }));
     const { id, parts, partsOrder, preview, createdAt, updatedAt, version } = getState().transcribe;
     // console.log('version', version);
     const newTranscript = createdAt === updatedAt;
@@ -574,6 +575,11 @@ const transcribeSlice = createSlice({
       state.currentTime = newTime;
       const audio = document.querySelector('audio');
       audio.currentTime = newTime;
+    },
+    warnTimeLimit: (state) => {
+      if (state.notificationSent) return;
+      state.notificationSent = true;
+      openNotification('Warning', 'Parts have a time limit of 1 hour. Your part will be automatically ended and saved in 10 minutes.');
     },
   },
 });

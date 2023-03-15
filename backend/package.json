@@ -12,7 +12,8 @@
     "prismaMigrateProd": "dotenv -e .env.prod -- npx prisma migrate dev && npm run copyPrismaClient",
     "copyPrismaClient": "cp ./prisma/schema.prisma ../aws-cdk/lambda/schema.prisma && (cd ../aws-cdk/lambda && prisma generate)",
     "deploy": "npm run prismaMigrateProd && source .env.prod && docker build -t $IMAGE_NAME:latest . && docker tag $IMAGE_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest && aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com && docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest && docker images | grep $IMAGE_NAME | awk '{print $1\":\"$2}' | xargs docker rmi && aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment --task-definition $TASK_DEFINITION_ARN | cat",
-    "prismaStudio": "dotenv -e .env.test -- npx prisma studio"
+    "prismaStudio": "dotenv -e .env.test -- npx prisma studio",
+    "prismaStudioProd": "dotenv -e .env.prod -- npx prisma studio"
   },
   "keywords": [],
   "author": "",

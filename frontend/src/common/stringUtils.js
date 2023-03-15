@@ -99,4 +99,19 @@ function getActionName (action) {
   return action.type.split('/')[1];
 }
 
-export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestampFull, uuid, splitText, translate, removeEmptyLines, getActionName };
+function openNotification (title, message) {
+  if (!window.Notification) {
+    alert(`${title}: ${message}`);
+  } else {
+    if (Notification.permission !== 'granted') return;
+    const notification = new Notification(title, {
+      body: message,
+    });
+    notification.onclick = function () {
+      window.focus();
+      notification.close();
+    };
+  }
+}
+
+export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestampFull, uuid, splitText, translate, removeEmptyLines, getActionName, openNotification };
