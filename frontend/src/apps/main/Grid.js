@@ -6,10 +6,10 @@ import { OverflowContainer } from '../../components/OverflowContainer';
 export function Grid ({ children }) {
   const { browser } = useSelector(commonSelector);
 
-  if (!browser?.os.startsWith('Android')) {
+  if (!browser?.os.startsWith('Android') && !browser?.os.startsWith('iOS')) {
     return (
       <OverflowContainer twStyle="p-0">
-        <div className="max-w-screen-sm w-full mx-auto grid grid-cols-4 grid-flow-row gap-4 place-items-center w-full px-2 pt-12 pb-4">
+        <div className="max-w-screen-sm w-full mx-auto grid grid-cols-4 grid-flow-row gap-4 place-items-center px-2 pt-12 pb-4">
           {children}
         </div>
       </OverflowContainer>
