@@ -15,8 +15,8 @@ async function putUserHandler (record, keys) {
   const newImage = unmarshall(record.dynamodb.NewImage);
   console.log('newImage', newImage);
   const res = await userSqlDao.putUser({
-    id,
     ...newImage,
+    id,
     createdAt: newImage.userCreatedAt,
     updatedAt: newImage.userUpdatedAt,
   });
@@ -36,8 +36,8 @@ async function updateUserHandler (record, keys) {
   const newImage = unmarshall(record.dynamodb.NewImage);
   console.log('newImage', newImage);
   const res = await userSqlDao.updateUser({
-    id,
     ...newImage,
+    id,
     createdAt: newImage.userCreatedAt,
     updatedAt: newImage.userUpdatedAt,
   });

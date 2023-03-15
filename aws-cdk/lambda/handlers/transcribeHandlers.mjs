@@ -13,14 +13,14 @@ async function putTranscriptHandler (record, keys) {
 
   const userId = keys.pk.split('#')[1];
   const id = keys.sk.split('#')[1];
-  logger.log('userId', userId);
-  logger.log('id', id);
+  // console.log('userId', userId);
+  // console.log('id', id);
   const newImage = unmarshall(record.dynamodb.NewImage);
   console.log('newImage', newImage);
   const res = await transcribeSqlDao.putTranscript({
+    ...newImage,
     userId,
     id,
-    ...newImage,
     createdAt: newImage.transcriptCreatedAt,
     updatedAt: newImage.transcriptUpdatedAt,
   });
@@ -42,9 +42,9 @@ async function updateTranscriptHandler (record, keys) {
   const newImage = unmarshall(record.dynamodb.NewImage);
   console.log('newImage', newImage);
   const res = await transcribeSqlDao.updateTranscript({
+    ...newImage,
     userId,
     id,
-    ...newImage,
     createdAt: newImage.transcriptCreatedAt,
     updatedAt: newImage.transcriptUpdatedAt,
   });
@@ -67,7 +67,7 @@ async function deleteTranscriptHandler (record, keys) {
   logger.log('sql delete res', res);
 
   res = await fileDao.deleteDirectory(`${userId}/transcribe/${id}`);
-  // console.log('s3 delete res', res);
+  console.log('s3 delete res', res);
   return res;
 }
 

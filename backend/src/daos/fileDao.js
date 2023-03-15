@@ -85,7 +85,10 @@ class FileDao {
       try {
         await new Promise((resolve, reject) => {
           writeStream.on('finish', resolve);
-          writeStream.on('error', reject);
+          writeStream.on('error', (err) => {
+            console.log('writeStream error', err);
+            reject(err);
+          });
         });
       } catch (err) {
         console.log('writeStream error');
