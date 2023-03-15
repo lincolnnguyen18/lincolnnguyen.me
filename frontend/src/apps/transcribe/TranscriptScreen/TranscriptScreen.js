@@ -322,7 +322,7 @@ export function TranscriptScreen () {
                           id={isPlaying ? 'active-line' : undefined}
                         >
                           <div className="flex flex-row gap-3 p-2">
-                            <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-purple-custom2">
+                            <div className="h-6 rounded-[0.4rem] flex items-center px-1 bg-purple-custom2">
                               <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
                                 {formattedTimestamp}
                               </div>
@@ -346,7 +346,7 @@ export function TranscriptScreen () {
             className="flex items-center gap-3 w-full justify-between cursor-text"
           >
             <div className="flex flex-row gap-3 p-2">
-              <div className="h-6 rounded-[0.4rem] flex h-6 items-center px-1 bg-[#8c84c4]">
+              <div className="h-6 rounded-[0.4rem] flex items-center px-1 bg-[#8c84c4]">
                 <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none flex justify-center' style={{ width: getTimestampWidth(formatFloatToTime((newResultTime - parts[currentPartId].createdAt) / 1000)) }}>
                   {formatFloatToTime(Math.max(0, ((newResultTime - parts[currentPartId].createdAt) / 1000) - 2))}
                 </div>
@@ -395,7 +395,7 @@ export function TranscriptScreen () {
           >
             <div className="flex flex-col gap-0.5 my-2">
               <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{title}</span>
-              <span className="sm:text-sm text-xs text-gray-subtext text-sm mx-2 overflow-hidden truncate">Recorded on {formatUnixTimestampFull(getCurrentPart()?.createdAt)}</span>
+              <span className="sm:text-sm text-gray-subtext text-sm mx-2 overflow-hidden truncate">Recorded on {formatUnixTimestampFull(getCurrentPart()?.createdAt)}</span>
             </div>
             <Divider twStyle="sm:my-0 my-0" />
           </div>
