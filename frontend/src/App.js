@@ -15,6 +15,7 @@ import { gqlClient } from './common/clients';
 import { environment } from './common/environment';
 import { Loading } from './apps/main/Loading';
 import { Alert } from './apps/main/Alert';
+import { ResumeScreen } from './apps/resume/ResumeScreen';
 
 export function App () {
   const dispatch = useDispatch();
@@ -116,6 +117,7 @@ export function App () {
         <Route path="/messages/contacts/:id" element={<Protected><ContactsScreen /></Protected>} />
         <Route path="/transcribe/transcripts" element={<Protected><TranscriptsScreen /></Protected>} />
         <Route path="/transcribe/transcripts/:id" element={<Protected><TranscriptScreen /></Protected>} />
+        <Route path="/resume" element={<Protected><ResumeScreen /></Protected>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <NavbarMenu />
