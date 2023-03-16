@@ -346,9 +346,9 @@ export function TranscriptScreen () {
             className="flex items-center gap-3 w-full justify-between cursor-text"
           >
             <div className="flex flex-row gap-3 p-2">
-              <div className="h-6 rounded-[0.4rem] flex items-center px-1 bg-[#8c84c4]">
+              <div className="h-6 rounded-[0.4rem] flex items-center px-1 bg-purple-custom2">
                 <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none flex justify-center' style={{ width: getTimestampWidth(formatFloatToTime((newResultTime - parts[currentPartId].createdAt) / 1000)) }}>
-                  {formatFloatToTime(Math.max(0, ((newResultTime - parts[currentPartId].createdAt) / 1000) - 2))}
+                  {formatFloatToTime(Math.max(0, ((newResultTime - parts[currentPartId].createdAt) / 1000) - 1))}
                 </div>
               </div>
               <span className="text-sm sm:text-base text-left w-full">{interimResult}</span>
