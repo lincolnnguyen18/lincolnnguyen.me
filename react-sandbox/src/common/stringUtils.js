@@ -41,6 +41,15 @@ function formatFloatToTime (float) {
   }
 }
 
+function formatFloatToTimeFull (float) {
+  // return in hh:mm:ss format
+  // always return full two characters for each unit
+  const hours = Math.floor(float / 3600);
+  const minutes = Math.floor((float % 3600) / 60);
+  const seconds = Math.floor(float % 60);
+  return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+}
+
 function uuid () {
   return uuidv4();
 }
@@ -112,9 +121,29 @@ function formatStringForTimer (time) {
   // insert colons
   time = time.toString().replace(/\D/g, '').slice(-6);
   time = time.padStart(6, '0');
-  time = time.slice(0, 2) + ':' + time.slice(2, 4) + ':' + time.slice(4, 6);
-  return time;
+
+  // get number of seconds
+  const seconds = time.slice(4, 6);
+  // get number of minutes
+  const minutes = time.slice(2, 4);
+  // get number of hours
+  const hours = time.slice(0, 2);
+
+  return `${hours}:${minutes}:${seconds}`;
 }
+
+function calculateActualStringForTimer (time) {
+  // given 00:09:99
+
+  // split by colon
+  const [hours, minutes, seconds] = time.split(':');
+
+  // calculate total number of seconds
+  const totalSeconds = parseInt(seconds) + parseInt(minutes) * 60 + parseInt(hours) * 3600;
+
+  return formatFloatToTimeFull(totalSeconds);
+}
+
 
 function openNotification (title, message) {
   if (!window.Notification) {
@@ -131,4 +160,4 @@ function openNotification (title, message) {
   }
 }
 
-export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestampFull, uuid, splitText, translate, removeEmptyLines, getActionName, formatStringForTimer, openNotification };
+export { formatUnixTimestamp, formatFloatToTime, formatUnixTimestampFull, uuid, splitText, translate, removeEmptyLines, getActionName, formatStringForTimer, openNotification, calculateActualStringForTimer };

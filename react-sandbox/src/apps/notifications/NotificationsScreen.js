@@ -3,8 +3,8 @@ import { NavbarBlur } from '../../components/NavbarBlur';
 import { BackButton } from '../../components/BackButton';
 import { Navbar } from '../../components/Navbar';
 import { WhiteVignette } from '../../components/WhiteVignette';
+import { calculateActualStringForTimer, formatStringForTimer, openNotification } from '../../common/stringUtils';
 import { OverflowContainer } from '../../components/OverflowContainer';
-import { formatStringForTimer, openNotification } from '../../common/stringUtils';
 
 export function NotificationsScreen () {
   const inputRef = React.useRef(null);
@@ -32,23 +32,25 @@ export function NotificationsScreen () {
       // console.log('Time until alarm:', timeUntilAlarm);
       // format into hh:mm:ss
       const timeUntilAlarmString = new Date(timeUntilAlarm).toISOString().substring(11, 19);
-      console.log(timeUntilAlarmString);
+      // console.log(timeUntilAlarmString);
       setRemainingTime(timeUntilAlarmString);
     }
   };
 
   function startTimer () {
     setInputFocused(false);
-    setInitialTimeString(timeString);
+    const actualString = calculateActualStringForTimer(timeString);
+    console.log('Time string:', timeString);
+    console.log('Actual string:', actualString);
+    setInitialTimeString(actualString);
     // alert(`Timer started for ${timeString}`);
     inputRef.current.blur();
 
-    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+    const [hours, minutes, seconds] = actualString.split(':').map(Number);
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
     const now = new Date();
     const alarmTime = new Date(now.getTime() + totalSeconds * 1000);
     window.alarmTime = alarmTime;
-    // setAlarmTime(alarmTime);
   }
 
   React.useEffect(() => {
@@ -67,6 +69,7 @@ export function NotificationsScreen () {
   function onTimerClick () {
     if (!inputFocused) {
       setRemainingTime(null);
+      window.alarmTime = null;
       clearInterval(window.interval);
       setInputFocused(true);
       inputRef.current.focus();
