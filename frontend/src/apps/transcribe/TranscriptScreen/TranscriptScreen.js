@@ -279,11 +279,11 @@ export function TranscriptScreen () {
             {updatedAt !== createdAt && <span className="text-sm text-gray-subtext">Updated on {formatUnixTimestampFull(updatedAt)}</span>}
             {/*<div className="flex flex-wrap gap-1.5">*/}
             {/*  {testTags.map((tag, i) => (*/}
-            {/*    <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} twStyle="text-purple-custom text-sm" inactive={mode !== 'default'}>#{tag}</TextLink>*/}
+            {/*    <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} className="text-purple-custom text-sm" inactive={mode !== 'default'}>#{tag}</TextLink>*/}
             {/*  ))}*/}
             {/*</div>*/}
           </div>
-          <Divider twStyle="mx-2 sm:mx-1" />
+          <Divider className="mx-2 sm:mx-1" />
         </div>
         <div className="flex flex-col sm:gap-1">
           {/*{*/}
@@ -297,7 +297,7 @@ export function TranscriptScreen () {
 
               return part && (
                 <React.Fragment key={i}>
-                  <Radio twStyle="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'} data-part-id={partId} onClick={() => onRadioClick(partId)} selected={selectedParts.includes(partId)}>
+                  <Radio className="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'} data-part-id={partId} onClick={() => onRadioClick(partId)} selected={selectedParts.includes(partId)}>
                     <span>Recorded on {formatUnixTimestampFull(part.createdAt)}</span>
                   </Radio>
                   {maxPartResults(part.results).map((result, j) => {
@@ -315,7 +315,7 @@ export function TranscriptScreen () {
                     return (
                       <React.Fragment key={j}>
                         <ContainerButton
-                          twStyle={twMerge('flex items-center gap-3 w-full justify-between', isPlaying && mode === 'default' && 'bg-purple-custom2 hover:bg-purple-custom2 active:bg-purple-custom2 text-white', mode === 'record' && 'cursor-text')}
+                          className={twMerge('flex items-center gap-3 w-full justify-between', isPlaying && mode === 'default' && 'bg-purple-custom2 hover:bg-purple-custom2 active:bg-purple-custom2 text-white', mode === 'record' && 'cursor-text')}
                           disabled={mode === 'edit' || mode === 'record'}
                           onClick={() => onResultClick(partId, result.timestamp)}
                           key={i}
@@ -333,11 +333,11 @@ export function TranscriptScreen () {
                             </div>
                           </div>
                         </ContainerButton>
-                        {mode !== 'edit' && j === part.results.length - 1 && i !== partsOrder.length - 1 && <Divider twStyle="mx-2 sm:mx-1" />}
+                        {mode !== 'edit' && j === part.results.length - 1 && i !== partsOrder.length - 1 && <Divider className="mx-2 sm:mx-1" />}
                       </React.Fragment>
                     );
                   })}
-                  {mode === 'edit' && i !== partsOrder.length - 1 && <Divider twStyle="mx-2 sm:mx-1" />}
+                  {mode === 'edit' && i !== partsOrder.length - 1 && <Divider className="mx-2 sm:mx-1" />}
                 </React.Fragment>
               );
             })
@@ -377,16 +377,16 @@ export function TranscriptScreen () {
     <>
       <audio hidden={true} controls preload="metadata" id="audio" />
       <Hotkeys />
-      <NavbarBlur twStyle="bg-purple-custom" />
-      <Navbar twStyle="pr-3 pl-1">
+      <NavbarBlur className="bg-purple-custom" />
+      <Navbar className="pr-3 pl-1">
         <BackButton linkPath="/transcribe/transcripts" text="Transcripts" disabled={mode !== 'default'} />
         {/*{mode === 'default' && Object.keys(parts).length > 0 && <span className="absolute left-1/2 transform -translate-x-1/2 no-underline">{_.round(playbackSpeed, 2)}x</span>}*/}
-        {mode !== 'edit' ? <MoreMenuButton disabled={!transcriptionSupported && Object.keys(parts).length === 0} /> : <Button twStyle="text-base font-semibold" onClick={handleDone}>Done</Button>}
+        {mode !== 'edit' ? <MoreMenuButton disabled={!transcriptionSupported && Object.keys(parts).length === 0} /> : <Button className="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
       <WhiteVignette />
       {newTranscript !== null && (
         <>
-          <OverflowContainer twStyle={overflowStyle}>
+          <OverflowContainer className={overflowStyle}>
             {content}
           </OverflowContainer>
           <div
@@ -397,7 +397,7 @@ export function TranscriptScreen () {
               <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{title}</span>
               <span className="sm:text-sm text-gray-subtext text-sm mx-2 overflow-hidden truncate">Recorded on {formatUnixTimestampFull(getCurrentPart()?.createdAt)}</span>
             </div>
-            <Divider twStyle="sm:my-0 my-0" />
+            <Divider className="sm:my-0 my-0" />
           </div>
           <BottomBar />
           <SyncScrollButton />

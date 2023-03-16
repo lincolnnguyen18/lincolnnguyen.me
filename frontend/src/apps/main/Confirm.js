@@ -22,9 +22,9 @@ export function Confirm ({ title, message, onConfirm }) {
         </div>
       </div>
       <div className="flex">
-        <NavbarButton disabled={confirmed} onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
+        <NavbarButton disabled={confirmed} onClick={() => closeMenu(dispatch)} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
         <GroupDivider dir="horiz w-36" />
-        <NavbarButton onClick={handleConfirm} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit" disabled={confirmed}>Confirm</NavbarButton>
+        <NavbarButton onClick={handleConfirm} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit" disabled={confirmed}>Confirm</NavbarButton>
       </div>
     </div>
   );

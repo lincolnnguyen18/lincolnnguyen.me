@@ -57,9 +57,9 @@ export function TranscriptsScreen () {
 
   return (
     <>
-      <NavbarBlur twStyle="bg-purple-custom" />
+      <NavbarBlur className="bg-purple-custom" />
       <Navbar>
-        <Button twStyle="icon-menu" onClick={openNavMenu} />
+        <Button className="icon-menu" onClick={openNavMenu} />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2 no-underline">Transcripts</span>
         <div className="flex gap-3">
           <MoreMenu />
@@ -75,7 +75,7 @@ export function TranscriptsScreen () {
               <span className="overflow-hidden truncate">"{keywords}"</span>
             </div>
           </div>
-          <Divider twStyle="mx-2 sm:mx-1" />
+          <Divider className="mx-2 sm:mx-1" />
         </div>}
         {listTranscriptsResult?.items.length === 0 && <IconMessage
           iconStyle="icon-article text-purple-custom"
@@ -85,18 +85,18 @@ export function TranscriptsScreen () {
           <React.Fragment key={i}>
             <div className="flex flex-col gap-1.5 px-4 sm:px-1">
               <div className="w-full">
-                <TextLink to={`/transcribe/transcripts/${transcript.id}`} twStyle="sm:text-lg text-purple-custom w-fit">{transcript.title}</TextLink>
+                <TextLink to={`/transcribe/transcripts/${transcript.id}`} className="sm:text-lg text-purple-custom w-fit">{transcript.title}</TextLink>
               </div>
               <span className="sm:text-base text-sm">{transcript.preview}</span>
               {transcript.updatedAt !== transcript.createdAt && <span className="text-gray-subtext text-xs">Created {formatUnixTimestamp(transcript.createdAt)} · Updated {formatUnixTimestamp(transcript.updatedAt)}</span>}
               {transcript.updatedAt === transcript.createdAt && <span className="text-gray-subtext text-xs">Created {formatUnixTimestamp(transcript.createdAt)}</span>}
             </div>
-            {i !== listTranscriptsResult.items.length - 1 && <Divider twStyle="sm:mx-0 mx-3.5" />}
+            {i !== listTranscriptsResult.items.length - 1 && <Divider className="sm:mx-0 mx-3.5" />}
           </React.Fragment>
         ))}
         {listTranscriptsResult?.items.length > 0 &&
           <Button
-            twStyle="my-3 flex items-center gap-0.5 sm:gap-1 select-auto mx-auto text-purple-custom"
+            className="my-3 flex items-center gap-0.5 sm:gap-1 select-auto mx-auto text-purple-custom"
             onClick={() => dispatch(listTranscripts())}
             disabled={!listTranscriptsResult?.lastEvaluatedKey}
           >
@@ -113,7 +113,7 @@ export function TranscriptsScreen () {
           <span className="sm:text-base text-sm font-semibold flex-shrink-0">Keywords:</span>
           <span className="sm:text-base text-sm overflow-hidden truncate">"{keywords}"</span>
         </div>
-        <Divider twStyle="sm:my-0 my-0" />
+        <Divider className="sm:my-0 my-0" />
       </div>
     </>
   );

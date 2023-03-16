@@ -13,7 +13,7 @@ export function HomeScreen () {
   const dummyIcons = [];
   for (let i = 0; i < 50; i++) {
     dummyIcons.push(
-      <AppIcon text="Placeholder" twStyle="bg-gray-500 text-white" placeholderInitials="P" path="/placeholder" key={i} />,
+      <AppIcon text="Placeholder" className="bg-gray-500 text-white" placeholderInitials="P" path="/placeholder" key={i} />,
     );
   }
 
@@ -32,13 +32,13 @@ export function HomeScreen () {
     <>
       <NavbarBlur />
       <Grid>
-        <AppIcon text="Messages" twStyle="bg-red-custom" placeholderInitials="M" path="/messages/contacts" />
-        <AppIcon text="Resume" twStyle="bg-green-custom" placeholderInitials="R" path="/resume" />
-        <AppIcon text="Transcribe" twStyle="bg-purple-custom" placeholderInitials="T" path="/transcribe/transcripts" />
+        <AppIcon text="Messages" className="bg-red-custom" placeholderInitials="M" path="/messages/contacts" />
+        <AppIcon text="Resume" className="bg-green-custom" placeholderInitials="R" path="/resume" />
+        <AppIcon text="Transcribe" className="bg-purple-custom" placeholderInitials="T" path="/transcribe/transcripts" />
         {dummyIcons}
       </Grid>
       <Navbar>
-        <Button twStyle="icon-menu" onClick={openNavMenu} />
+        <Button className="icon-menu" onClick={openNavMenu} />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Apps</span>
       </Navbar>
     </>

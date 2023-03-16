@@ -48,7 +48,7 @@ async function showShortcuts ({ dispatch, shortcuts }) {
           ))}
         </Group>
         <FormScreenBottom>
-          <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="single">Close</NavbarButton>
+          <NavbarButton onClick={() => closeMenu(dispatch)} className="justify-center" outerClassName="sm:w-48 w-36" dir="single">Close</NavbarButton>
         </FormScreenBottom>
       </FormScreen>
     ),

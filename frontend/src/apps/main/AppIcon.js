@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector, openLogin } from '../../slices/commonSlice';
 
-export function AppIcon ({ text, placeholderInitials, path, twStyle }) {
+export function AppIcon ({ text, placeholderInitials, path, className }) {
   const dispatch = useDispatch();
   const { loggedIn } = useSelector(commonSelector);
 
@@ -18,7 +18,7 @@ export function AppIcon ({ text, placeholderInitials, path, twStyle }) {
   if (loggedIn) {
     link = (
       <Link
-        className={twMerge('active:brightness-75 hover:brightness-95 flex items-center justify-center sm:w-20 sm:h-20 w-[3.85rem] h-[3.85rem] rounded-[1rem] sm:rounded-[1.125rem] m-2 text-white cursor-pointer', twStyle)}
+        className={twMerge('active:brightness-75 hover:brightness-95 flex items-center justify-center sm:w-20 sm:h-20 w-[3.85rem] h-[3.85rem] rounded-[1rem] sm:rounded-[1.125rem] m-2 text-white cursor-pointer', className)}
         to={loggedIn ? path : '/'}
       >
         <span className="text-2xl sm:text-3xl">{placeholderInitials}</span>
@@ -27,7 +27,7 @@ export function AppIcon ({ text, placeholderInitials, path, twStyle }) {
   } else {
     link = (
       <div
-        className={twMerge('active:brightness-75 hover:brightness-95 flex items-center justify-center sm:w-20 sm:h-20 w-[3.85rem] h-[3.85rem] rounded-[1rem] sm:rounded-[1.125rem] m-2 text-white cursor-pointer', twStyle)}
+        className={twMerge('active:brightness-75 hover:brightness-95 flex items-center justify-center sm:w-20 sm:h-20 w-[3.85rem] h-[3.85rem] rounded-[1rem] sm:rounded-[1.125rem] m-2 text-white cursor-pointer', className)}
         onClick={handleNotLoggedInClick}
       >
         <span className="text-2xl sm:text-3xl">{placeholderInitials}</span>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export function BackButton ({ twStyle, linkPath, text = 'Back', onClick, stopPropagation = true, disabled, ...rest }) {
+export function BackButton ({ className, linkPath, text = 'Back', onClick, stopPropagation = true, disabled, ...rest }) {
   function handleClick (e) {
     if (stopPropagation && (e.metaKey || e.ctrlKey)) {
       e.stopPropagation();
@@ -13,7 +13,7 @@ export function BackButton ({ twStyle, linkPath, text = 'Back', onClick, stopPro
 
   let content = (
     <button
-      className={`flex items-center gap-1 cursor-pointer active:opacity-50 transition-opacity duration-75 ${twStyle}`}
+      className={`flex items-center gap-1 cursor-pointer active:opacity-50 transition-opacity duration-75 ${className}`}
       type="button"
       onClick={handleClick}
       {...rest}
@@ -25,7 +25,7 @@ export function BackButton ({ twStyle, linkPath, text = 'Back', onClick, stopPro
 
   if (disabled) {
     content = (
-      <div className={`flex items-center gap-1 cursor-not-allowed select-none opacity-50 ${twStyle}`}>
+      <div className={`flex items-center gap-1 cursor-not-allowed select-none opacity-50 ${className}`}>
         <span className="icon-back text-2xl " />
         <span>{text}</span>
       </div>

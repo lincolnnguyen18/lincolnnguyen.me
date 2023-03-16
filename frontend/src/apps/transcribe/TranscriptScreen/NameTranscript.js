@@ -38,7 +38,7 @@ export function NameTranscript () {
         <TextField placeholder="Transcript name" autoFocus={true} defaultValue={title} name="title" />
       </Group>
       <FormScreenBottom>
-        <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarButton>
+        <NavbarButton onClick={() => closeMenu(dispatch)} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit">Save</NavbarButton>
       </FormScreenBottom>
     </FormScreen>
   );

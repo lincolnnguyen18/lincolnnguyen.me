@@ -20,8 +20,8 @@ const initialState = {
     children: null,
     // left: items-start, ml-3, ml-1
     // right: items-end, mr-3 and mr-1
-    containerTwStyle: 'items-start',
-    menuTwStyle: 'mr-1',
+    containerClassName: 'items-start',
+    menuClassName: 'mr-1',
     centerContent: false,
     easyClose: true,
     hideCloseButton: false,
@@ -154,12 +154,12 @@ const commonSlice = createSlice({
       const { position = 'left', children = null, isMainMenu = true, hideOnlyChildren = false, centerContent = false, easyClose = true, hideCloseButton = false } = action.payload || {};
 
       if (position === 'left') {
-        _.merge(state.navMenu, { containerTwStyle: 'items-start', menuTwStyle: '' });
+        _.merge(state.navMenu, { containerClassName: 'items-start', menuClassName: '' });
       } else if (position === 'right') {
-        _.merge(state.navMenu, { containerTwStyle: 'items-end', menuTwStyle: '' });
+        _.merge(state.navMenu, { containerClassName: 'items-end', menuClassName: '' });
       }
       if (centerContent) {
-        _.merge(state.navMenu, { menuTwStyle: 'w-full' });
+        _.merge(state.navMenu, { menuClassName: 'w-full' });
       }
       const navMenu = document.getElementById('nav-menu');
       if (navMenu) {

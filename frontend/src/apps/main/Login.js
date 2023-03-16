@@ -29,7 +29,7 @@ export function Login () {
   const loading = pending['getUser'] || pending['getToken'];
 
   return (
-    <FormScreen onSubmit={onLogin} isForm={true} twStyle="max-w-none">
+    <FormScreen onSubmit={onLogin} isForm={true} className="max-w-none">
       <Group title="Login">
         <div className="flex flex-col">
           <TextField placeholder="Username" autoFocus={true} type="username" name="username" dir="vert" />
@@ -43,9 +43,9 @@ export function Login () {
       </Group>
       <Errors />
       <FormScreenBottom>
-        <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" disabled={loading}>Cancel</NavbarButton>
+        <NavbarButton onClick={() => closeMenu(dispatch)} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" disabled={loading}>Cancel</NavbarButton>
         <GroupDivider dir="horiz" />
-        <NavbarButton twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit" disabled={loading}>Login</NavbarButton>
+        <NavbarButton className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit" disabled={loading}>Login</NavbarButton>
       </FormScreenBottom>
     </FormScreen>
   );

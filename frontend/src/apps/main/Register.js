@@ -29,7 +29,7 @@ export function Register () {
   const loading = pending['registerUser'];
 
   return (
-    <FormScreen onSubmit={onRegister} isForm={true} twStyle="max-w-none">
+    <FormScreen onSubmit={onRegister} isForm={true} className="max-w-none">
       <Group title="Register">
         <div className="flex flex-col">
           <TextField placeholder="Username" autoFocus={true} type="username" dir="vert" name="username" />
@@ -45,9 +45,9 @@ export function Register () {
       </Group>
       <Errors />
       <FormScreenBottom>
-        <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" disabled={loading}>Cancel</NavbarButton>
+        <NavbarButton onClick={() => closeMenu(dispatch)} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" disabled={loading}>Cancel</NavbarButton>
         <GroupDivider dir="horiz" />
-        <NavbarButton twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit" disabled={loading}>Register</NavbarButton>
+        <NavbarButton className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit" disabled={loading}>Register</NavbarButton>
       </FormScreenBottom>
     </FormScreen>
   );

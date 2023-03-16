@@ -20,7 +20,7 @@ export function MoreMenu () {
   //           <span className="text-white">Start new</span>
   //         </NavbarButton>
   //         <GroupDivider />
-  //         <NavbarButton twStyle="rounded-b-lg" stopPropagation={true} onClick={() => dispatch(openTranscriptsSearch())}>
+  //         <NavbarButton className="rounded-b-lg" stopPropagation={true} onClick={() => dispatch(openTranscriptsSearch())}>
   //           <span className='icon-search text-2xl text-white' />
   //           <span className="text-white">Search</span>
   //         </NavbarButton>
@@ -30,10 +30,10 @@ export function MoreMenu () {
   // }
 
   return (
-    // <Button twStyle="icon-more-horiz" onClick={openMoreMenu} />
+    // <Button className="icon-more-horiz" onClick={openMoreMenu} />
     <>
-      <Button twStyle="icon-search" onClick={() => dispatch(openTranscriptsSearch(navigate))} />
-      <Button twStyle="icon-add" linkPath={`/transcribe/transcripts/${uuid()}`} />
+      <Button className="icon-search" onClick={() => dispatch(openTranscriptsSearch(navigate))} />
+      <Button className="icon-add" linkPath={`/transcribe/transcripts/${uuid()}`} />
     </>
   );
 }

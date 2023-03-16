@@ -61,7 +61,7 @@ export function MoreMenu () {
             </Blackbox>
           </Group>
           <FormScreenBottom>
-            <NavbarButton onClick={() => closeMenu(dispatch)} dir="single" twStyle="justify-center">Close</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} dir="single" className="justify-center">Close</NavbarButton>
           </FormScreenBottom>
         </FormScreen>
       ),
@@ -107,7 +107,7 @@ export function MoreMenu () {
       children: (
         <FormScreen>
           <Group title="Change Playback Speed">
-            <Blackbox twStyle="gap-4 py-4">
+            <Blackbox className="gap-4 py-4">
               <div className="flex justify-between w-full">
                 <span>Slower</span>
                 <span id="playbackspeed-label">{_.round(playbackSpeed, 2)}x</span>
@@ -167,7 +167,7 @@ export function MoreMenu () {
             ))}
           </Group>
           <FormScreenBottom>
-            <NavbarButton onClick={() => closeMenu(dispatch)} dir="single" twStyle="justify-center">Close</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} dir="single" className="justify-center">Close</NavbarButton>
           </FormScreenBottom>
         </FormScreen>
       ),

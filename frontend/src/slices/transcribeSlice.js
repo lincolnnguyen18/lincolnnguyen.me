@@ -148,7 +148,7 @@ const openTranscriptsSearch = createAsyncThunk(
             <TextField placeholder="Enter keywords here" autoFocus={true} defaultValue={keywords} name="keywords" />
             <span className="text-xs sm:text-sm text-gray-subtext2 mt-2">For example, enter "cse 416" to search for all transcripts with "cse 416" anywhere in their title.</span>
           </Group>
-          {/*<GroupInput twStyle="rounded-lg mt-6">*/}
+          {/*<GroupInput className="rounded-lg mt-6">*/}
           {/*  <span>Sorted by</span>*/}
           {/*  <Dropdown defaultValue={sort} name="sort">*/}
           {/*    <DropdownOption value="updated_at">Updated at</DropdownOption>*/}
@@ -156,9 +156,9 @@ const openTranscriptsSearch = createAsyncThunk(
           {/*  </Dropdown>*/}
           {/*</GroupInput>*/}
           <FormScreenBottom>
-            <NavbarButton onClick={() => closeMenu(dispatch)} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
+            <NavbarButton onClick={() => closeMenu(dispatch)} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
             <GroupDivider dir="horiz" />
-            <NavbarButton twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="horiz" type="submit">Search</NavbarButton>
+            <NavbarButton className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit">Search</NavbarButton>
           </FormScreenBottom>
         </FormScreen>
       ),

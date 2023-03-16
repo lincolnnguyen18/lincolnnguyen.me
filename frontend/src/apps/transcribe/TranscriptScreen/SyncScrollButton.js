@@ -53,7 +53,7 @@ export function SyncScrollButton () {
       }}
       onClick={onClick}
     >
-      <Button twStyle="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={onClick}>
+      <Button className="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={onClick}>
         <span className='icon-down' />
         <span className="sm:text-base text-sm">Sync scroll</span>
       </Button>

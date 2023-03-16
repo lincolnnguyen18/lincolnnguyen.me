@@ -32,7 +32,7 @@ export function Alert () {
               <span>{alertMessage}</span>
             </div>
           </div>
-          <NavbarButton onClick={handleClose} twStyle="justify-center" outerTwStyle="sm:w-48 w-36" dir="single">Close</NavbarButton>
+          <NavbarButton onClick={handleClose} className="justify-center" outerClassName="sm:w-48 w-36" dir="single">Close</NavbarButton>
         </div>
       </div>
     </>

@@ -20,6 +20,6 @@ export function MoreMenuButton ({ disabled }) {
   }
 
   return (
-    <Button twStyle="icon-more-horiz" onClick={openMoreMenu} disabled={disabled || playing || mode !== 'default'} />
+    <Button className="icon-more-horiz" onClick={openMoreMenu} disabled={disabled || playing || mode !== 'default'} />
   );
 }

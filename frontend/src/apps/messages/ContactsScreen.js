@@ -17,18 +17,18 @@ export function ContactsScreen () {
 
   return (
     <>
-      <NavbarBlur twStyle="bg-red-custom" />
+      <NavbarBlur className="bg-red-custom" />
       <Navbar>
-        <Button twStyle="icon-menu" onClick={openNavMenu} />
+        <Button className="icon-menu" onClick={openNavMenu} />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Contacts</span>
-        <Button twStyle="icon-add" />
+        <Button className="icon-add" />
       </Navbar>
       <WhiteVignette />
       <OverflowContainer>
         <div className="flex flex-col sm:gap-2 gap-1">
           {[...Array(50)].map((_, i) => (
             <ContainerButton
-              twStyle="flex items-center gap-3 px-3 py-2 w-full justify-between"
+              className="flex items-center gap-3 px-3 py-2 w-full justify-between"
               key={i}
             >
               <div className="flex gap-3">
