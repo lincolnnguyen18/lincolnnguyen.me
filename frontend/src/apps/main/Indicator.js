@@ -45,7 +45,7 @@ export function Indicator () {
       {/*  onClick={closeIndicator}*/}
       {/*/>*/}
       <div
-        className="text-white py-2 px-3 flex gap-1 flex-col items-center fixed transform -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/2 z-[2] justify-center bg-black backdrop-blur bg-opacity-75 rounded-xl transition-all duration-100 cursor-default"
+        className="text-white py-2 px-3 flex gap-1 flex-col items-center fixed transform -translate-x-1/2 left-1/2 top-48 z-[2] justify-center bg-black backdrop-blur bg-opacity-75 rounded-xl transition-all duration-100 cursor-default"
         style={{
           opacity: !open ? 0 : 1,
           pointerEvents: !open ? 'none' : 'auto',
