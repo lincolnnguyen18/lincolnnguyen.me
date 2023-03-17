@@ -1,16 +1,20 @@
 import React from 'react';
 import { NavbarButton } from '../../components/NavbarButton';
 import { GroupDivider } from '../../components/GroupDivider';
-import { closeMenu } from '../../common/MenuUtils';
 import { useDispatch } from 'react-redux';
+import { commonActions } from '../../slices/commonSlice';
 
-export function Confirm ({ title, message, onConfirm }) {
+export function Confirm ({ title = 'Please Confirm', message, onConfirm }) {
   const dispatch = useDispatch();
   const [confirmed, setConfirmed] = React.useState(false);
 
   function handleConfirm () {
     setConfirmed(true);
     onConfirm();
+  }
+
+  function handleClose () {
+    dispatch(commonActions.closeMenu());
   }
 
   return (
@@ -22,7 +26,7 @@ export function Confirm ({ title, message, onConfirm }) {
         </div>
       </div>
       <div className="flex">
-        <NavbarButton disabled={confirmed} onClick={() => closeMenu(dispatch)} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
+        <NavbarButton disabled={confirmed} onClick={handleClose} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
         <GroupDivider dir="horiz w-36" />
         <NavbarButton onClick={handleConfirm} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit" disabled={confirmed}>Confirm</NavbarButton>
       </div>

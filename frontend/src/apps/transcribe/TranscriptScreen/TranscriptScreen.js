@@ -31,7 +31,7 @@ import { Indicator } from '../../main/Indicator';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
-  const { windowValues, scrollPosition, transcriptionSupported, navMenu } = useSelector(commonSelector);
+  const { windowValues, scrollPosition, transcriptionSupported, menuOpen } = useSelector(commonSelector);
   const { mode, parts, partsOrder, title, updatedAt, createdAt, interimResult, newResultTime, playing, transcribeLang, currentTime, currentPartId, selectedParts, translateLang, transcriber, translator, switchingLanguages, playbackSpeed, newTranscript } = useSelector(transcribeSelector);
   const { id } = useParams();
 
@@ -369,7 +369,7 @@ export function TranscriptScreen () {
   }, [mode, partsOrder]);
 
   React.useEffect(() => {
-    if (navMenu.open) return;
+    if (menuOpen) return;
     dispatch(commonActions.setSlice({ indicatorTitle: 'Playback Speed', indicatorMessage: _.round(playbackSpeed, 2) + 'x' }));
   }, [playbackSpeed]);
 

@@ -17,6 +17,7 @@ import { Loading } from './apps/main/Loading';
 import { Alert } from './apps/main/Alert';
 import { ResumeScreen } from './apps/resume/ResumeScreen';
 import { SettingsScreen } from './apps/settings/SettingsScreen';
+import { Menu } from './components/Menu';
 
 export function App () {
   const dispatch = useDispatch();
@@ -127,6 +128,7 @@ export function App () {
       <NavbarMenu />
       <Loading />
       <Alert />
+      <Menu />
     </>
   );
 }

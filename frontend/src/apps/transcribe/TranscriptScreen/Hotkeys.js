@@ -56,7 +56,7 @@ async function startStopRecording (dispatch, recorder, transcriber, mode) {
       await wait(50);
       dispatch(commonActions.scrollToBottomHard(true));
     } catch {
-      dispatch(commonActions.openAlert({ title: 'Error', message: 'There was an error starting the transcription process. Please make sure this website has permission to access the mic and that there are no other tabs using the mic. Wait a few seconds and try again.' }));
+      dispatch(commonActions.openAlert({ title: 'Error', message: 'There was an error starting the transcription process. Please make sure this website has permission to access the mic and that there are no other tabs using the mic. Refresh the page and try again after a few minutes.' }));
     }
   } else {
     dispatch(stopRecording());
@@ -84,9 +84,9 @@ function restartTranscriber () {
 export function Hotkeys () {
   const dispatch = useDispatch();
   const { playing, recorder, transcriber, mode, currentTime, interimResult, playbackSpeed, cutOffType, loadingOpen } = useSelector(transcribeSelector);
-  const { navMenu } = useSelector(commonSelector);
+  const { menuOpen } = useSelector(commonSelector);
 
-  const enabled = !navMenu.open && !loadingOpen;
+  const enabled = !menuOpen && !loadingOpen;
 
   function setPlaybackSpeed (delta) {
     dispatch(transcribeActions.setPlaybackSpeed(playbackSpeed + delta));
@@ -106,8 +106,8 @@ export function Hotkeys () {
   useHotkeys('l', () => seekTo(dispatch, currentTime + 5), { enabled: enabled && mode === 'default' });
   useHotkeys('j', () => seekTo(dispatch, currentTime - 5), { enabled: enabled && mode === 'default' });
   useHotkeys('p', () => switchLanguages(dispatch, interimResult), { enabled: enabled && mode === 'record' });
-  useHotkeys(']', () => setPlaybackSpeed(0.25), { enabled: enabled && mode === 'default' });
-  useHotkeys('[', () => setPlaybackSpeed(-0.25), { enabled: enabled && mode === 'default' });
+  useHotkeys(']', () => setPlaybackSpeed(0.25), { enabled: !loadingOpen && mode === 'default' });
+  useHotkeys('[', () => setPlaybackSpeed(-0.25), { enabled: !loadingOpen && mode === 'default' });
   useHotkeys('i', restartTranscriber, { enabled: enabled && cutOffType === 'manual' && mode === 'record' });
   useHotkeys('m', () => switchMode(), { enabled: enabled && mode === 'record' });
 

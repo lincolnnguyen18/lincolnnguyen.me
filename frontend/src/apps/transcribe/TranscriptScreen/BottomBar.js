@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { stopRecording, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { formatFloatToTime } from '../../../common/stringUtils.js';
 import { twMerge } from 'tailwind-merge';
-import { commonSelector } from '../../../slices/commonSlice';
+import { commonActions, commonSelector } from '../../../slices/commonSlice';
 import { languages } from '../../../common/data';
-import { closeMenu, openConfirm } from '../../../common/MenuUtils';
+import { closeMenu } from '../../../common/MenuUtils';
 import { handlePlayPause, restartTranscriber, seekTo, startStopRecording, switchLanguages } from './Hotkeys';
+import { Confirm } from '../../main/Confirm';
 
 export function BottomBar () {
   const dispatch = useDispatch();
@@ -34,7 +35,18 @@ export function BottomBar () {
       }
     }
 
-    openConfirm({ dispatch, message: deleteMessage(selectedParts.length), onConfirm: onDelete });
+    dispatch(
+      commonActions.setSlice({
+        menuOpen: true,
+        menuChildren: (
+          <Confirm
+            message={deleteMessage(selectedParts.length)}
+            onConfirm={onDelete}
+          />
+        ),
+        menuEasyClose: false,
+      })
+    );
   }
 
   function getLanguageName () {

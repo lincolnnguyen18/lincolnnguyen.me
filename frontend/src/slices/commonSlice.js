@@ -52,6 +52,10 @@ const initialState = {
   alertOpen: false,
   alertTitle: null,
   alertMessage: null,
+  menuOpen: false,
+  menuChildren: null,
+  menuChildrenHidden: false,
+  menuEasyClose: true,
 };
 
 const openRegister = createAsyncThunk(
@@ -130,6 +134,18 @@ const registerUser = createAsyncThunk(
     } else {
       dispatch(commonActions.setSlice({ errors }));
     }
+  },
+);
+
+const switchMenuChildren = createAsyncThunk(
+  'common/switchMenuChildren',
+  async (props, { dispatch }) => {
+    const { children, easyClose = true } = props;
+    dispatch(commonActions.setSlice({ menuChildrenHidden: true }));
+    await wait(200);
+    dispatch(commonActions.setSlice({ menuChildren: children, menuEasyClose: easyClose }));
+    await wait(50);
+    dispatch(commonActions.setSlice({ menuChildrenHidden: false }));
   },
 );
 
@@ -246,6 +262,10 @@ const commonSlice = createSlice({
     closeAlert: (state) => {
       state.alertOpen = false;
     },
+    closeMenu: (state) => {
+      state.menuOpen = false;
+      state.menuEasyClose = true;
+    },
   },
   extraReducers (builder) {
     builder
@@ -271,4 +291,4 @@ const commonReducer = commonSlice.reducer;
 const commonSelector = (state) => state.common;
 
 export { commonActions, commonReducer, commonSelector };
-export { getToken, getUser, openLogin, openRegister, registerUser };
+export { getToken, getUser, openLogin, openRegister, registerUser, switchMenuChildren };

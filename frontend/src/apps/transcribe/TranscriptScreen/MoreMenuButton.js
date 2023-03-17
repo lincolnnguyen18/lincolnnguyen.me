@@ -10,13 +10,7 @@ export function MoreMenuButton ({ disabled }) {
   const { mode, playing } = useSelector(transcribeSelector);
 
   function openMoreMenu () {
-    dispatch(commonActions.openNavMenu({
-      position: 'right',
-      isMainMenu: false,
-      children: (
-        <MoreMenu />
-      ),
-    }));
+    dispatch(commonActions.setSlice({ menuOpen: true, menuChildren: <MoreMenu /> }));
   }
 
   return (

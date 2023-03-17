@@ -53,7 +53,7 @@ export function NavbarMenu () {
   return (
     <>
       <div
-        className='left-0 right-0 h-screen fixed top-0 backdrop-blur transition-[opacity] z-[1] transition-all duration-200'
+        className='left-0 right-0 h-screen fixed top-0 backdrop-blur z-[1] transition-all duration-200'
         style={{ opacity: navMenu.open ? 1 : 0, pointerEvents: navMenu.open ? 'all' : 'none', backgroundColor: !navMenu.easyClose && 'rgba(0,0,0,0.55)' }}
         onClick={onBackdropClick}
       />

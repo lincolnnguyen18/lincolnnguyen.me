@@ -30,11 +30,10 @@ export function Loading () {
   return (
     <>
       <div
-        className='left-0 right-0 h-screen fixed top-0 backdrop-blur-sm transition-[opacity] z-[2] transition-all duration-200 cursor-default'
+        className='left-0 right-0 h-screen fixed top-0 backdrop-blur-sm z-[2] transition-all duration-200 cursor-default'
         style={{ opacity: open ? 1 : 0, pointerEvents: open ? 'all' : 'none', backgroundColor: 'rgba(0,0,0,0.55)' }}
       />
       <div
-        // className="text-white py-2 px-3 flex gap-1 flex-col items-center fixed transform -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/2 z-[2] justify-center transition-all duration-100 w-full"
         className="text-white py-2 px-3 flex gap-1 flex-col items-center fixed transform -translate-x-1/2 left-1/2 top-9 z-[2] justify-center transition-all duration-100 w-full"
         style={{
           opacity: !open ? 0 : 1,

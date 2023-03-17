@@ -14,7 +14,7 @@ export function Alert () {
   return (
     <>
       <div
-        className='left-0 right-0 h-screen fixed top-0 backdrop-blur-sm transition-[opacity] z-[2] transition-all duration-200 cursor-pointer'
+        className='left-0 right-0 h-screen fixed top-0 backdrop-blur-sm z-[2] transition-all duration-200 cursor-pointer'
         style={{ opacity: alertOpen ? 1 : 0, pointerEvents: alertOpen ? 'all' : 'none', backgroundColor: 'rgba(0,0,0,0.55)' }}
       />
       <div
