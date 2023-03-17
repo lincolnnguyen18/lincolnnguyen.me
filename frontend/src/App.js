@@ -8,37 +8,33 @@ import { ContactsScreen } from './apps/messages/ContactsScreen';
 import { TranscriptsScreen } from './apps/transcribe/TranscriptsScreen/TranscriptsScreen';
 import { TranscriptScreen } from './apps/transcribe/TranscriptScreen/TranscriptScreen';
 import { Protected } from './components/Protected';
-import { NavbarMenu } from './components/NavbarMenu';
 import { detect } from 'detect-browser';
-import { closeMenu } from './common/MenuUtils';
 import { gqlClient } from './common/clients';
 import { environment } from './common/environment';
 import { Loading } from './apps/main/Loading';
-import { Alert } from './apps/main/Alert';
 import { ResumeScreen } from './apps/resume/ResumeScreen';
 import { SettingsScreen } from './apps/settings/SettingsScreen';
 import { Menu } from './components/Menu';
+import { WhiteVignette } from './components/WhiteVignette';
 
 export function App () {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const { backgroundPosition, navMenu, browser, windowValues, token, showLogin, user } = useSelector(commonSelector);
+  const { backgroundPosition, browser, windowValues, token, showLogin, user, menuOpen } = useSelector(commonSelector);
+  const [isHome, setIsHome] = React.useState(false);
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
-    if (navMenu.open) {
-      dispatch(commonActions.closeNavMenu());
+    if (menuOpen) {
+      dispatch(commonActions.closeMenu());
+    }
+    if (location.pathname === '/') {
+      setIsHome(true);
+    } else {
+      setIsHome(false);
     }
   }, [location.pathname]);
-
-  React.useEffect(() => {
-    if (!navMenu.open) {
-      setTimeout(() => {
-        dispatch(commonActions.clearNavMenuChildren());
-      }, 100);
-    }
-  }, [navMenu.open]);
 
   React.useEffect(() => {
     if (token) {
@@ -47,7 +43,6 @@ export function App () {
         dispatch(getUser());
       } else if (showLogin) {
         navigate(showLogin);
-        closeMenu(dispatch);
       }
     }
   }, [user, token]);
@@ -115,6 +110,7 @@ export function App () {
   return token !== undefined && user !== undefined && (
     <>
       <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85] bg-gray-background" style={{ backgroundSize: 'cover', backgroundImage: `url(${imageUrl})`, backgroundPosition }} />
+      <WhiteVignette open={!isHome} />
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/messages" element={<Protected><ContactsScreen /></Protected>} />
@@ -125,9 +121,7 @@ export function App () {
         <Route path="/settings" element={<Protected><SettingsScreen /></Protected>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      <NavbarMenu />
       <Loading />
-      <Alert />
       <Menu />
     </>
   );

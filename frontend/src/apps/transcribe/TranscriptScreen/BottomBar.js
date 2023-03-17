@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { stopRecording, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice.js';
 import { formatFloatToTime } from '../../../common/stringUtils.js';
 import { twMerge } from 'tailwind-merge';
-import { commonActions, commonSelector } from '../../../slices/commonSlice';
+import { commonActions, commonSelector, openMenu } from '../../../slices/commonSlice';
 import { languages } from '../../../common/data';
-import { closeMenu } from '../../../common/MenuUtils';
 import { handlePlayPause, restartTranscriber, seekTo, startStopRecording, switchLanguages } from './Hotkeys';
 import { Confirm } from '../../main/Confirm';
 
@@ -21,10 +20,14 @@ export function BottomBar () {
     audio.currentTime = e.target.value;
   }
 
+  function handleClose () {
+    dispatch(commonActions.closeMenu());
+  }
+
   function handleDelete () {
     function onDelete () {
       dispatch(transcribeActions.deleteSelectedParts());
-      closeMenu(dispatch);
+      handleClose();
     }
 
     function deleteMessage (numParts) {
@@ -35,18 +38,10 @@ export function BottomBar () {
       }
     }
 
-    dispatch(
-      commonActions.setSlice({
-        menuOpen: true,
-        menuChildren: (
-          <Confirm
-            message={deleteMessage(selectedParts.length)}
-            onConfirm={onDelete}
-          />
-        ),
-        menuEasyClose: false,
-      })
-    );
+    dispatch(openMenu({
+      children: <Confirm message={deleteMessage(selectedParts.length)} onConfirm={onDelete} />,
+      easyClose: false,
+    }));
   }
 
   function getLanguageName () {

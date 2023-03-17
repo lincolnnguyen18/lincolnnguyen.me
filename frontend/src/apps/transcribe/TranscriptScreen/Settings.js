@@ -9,7 +9,7 @@ import { FormScreenBottom } from '../../../components/FormScreenBottom';
 import { Group } from '../../../components/Group';
 import { GroupDivider } from '../../../components/GroupDivider';
 import { GroupInput } from '../../../components/GroupInput';
-import { NavbarButton } from '../../../components/NavbarButton';
+import { StyledButton } from '../../../components/StyledButton';
 import { transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
 import { languages } from '../../../common/data';
 import { shortcuts } from './Hotkeys';
@@ -111,7 +111,7 @@ export function Settings () {
         ))}
       </Group>
       <FormScreenBottom>
-        <NavbarButton onClick={handleClose} dir="single" className="justify-center">Close</NavbarButton>
+        <StyledButton onClick={handleClose} dir="single" className="justify-center">Close</StyledButton>
       </FormScreenBottom>
     </FormScreen>
   );

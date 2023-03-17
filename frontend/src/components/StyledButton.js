@@ -2,7 +2,7 @@ import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import { Link } from 'react-router-dom';
 
-export function NavbarButton ({ children, className, linkPath, outerClassName, stopPropagation = false, onClick, disabled = false, dir = 'vert', ...rest }) {
+export function StyledButton ({ children, className, linkPath, outerClassName, stopPropagation = false, onClick, disabled = false, dir = 'vert', ...rest }) {
   function handleClick (e) {
     if (stopPropagation || disabled) {
       e.stopPropagation();

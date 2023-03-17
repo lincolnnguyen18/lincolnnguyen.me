@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavbarButton } from '../../components/NavbarButton';
+import { StyledButton } from '../../components/StyledButton';
 import { GroupDivider } from '../../components/GroupDivider';
 import { useDispatch } from 'react-redux';
 import { commonActions } from '../../slices/commonSlice';
@@ -26,9 +26,9 @@ export function Confirm ({ title = 'Please Confirm', message, onConfirm }) {
         </div>
       </div>
       <div className="flex">
-        <NavbarButton disabled={confirmed} onClick={handleClose} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
+        <StyledButton disabled={confirmed} onClick={handleClose} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz">Cancel</StyledButton>
         <GroupDivider dir="horiz w-36" />
-        <NavbarButton onClick={handleConfirm} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit" disabled={confirmed}>Confirm</NavbarButton>
+        <StyledButton onClick={handleConfirm} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit" disabled={confirmed}>Confirm</StyledButton>
       </div>
     </div>
   );

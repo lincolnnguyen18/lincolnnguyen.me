@@ -1,21 +1,12 @@
-import React from 'react';
 import _ from 'lodash';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { openNotification, uuid } from '../common/stringUtils';
-import { commonActions } from './commonSlice';
+import { commonActions, openMenu } from './commonSlice';
 import { wait } from '../common/timeUtils';
-import { TextField } from '../components/TextField';
-import { NavbarButton } from '../components/NavbarButton';
-import { GroupDivider } from '../components/GroupDivider';
-import { FormScreen } from '../components/FormScreen';
-import { FormScreenBottom } from '../components/FormScreenBottom';
-import { Group } from '../components/Group';
-import { closeMenu } from '../common/MenuUtils';
-import { RenameTranscript } from '../apps/transcribe/TranscriptScreen/RenameTranscript';
-import { NameTranscript } from '../apps/transcribe/TranscriptScreen/NameTranscript';
 import { transcribeGqlClient } from '../gqlClients/transcribeGqlClient';
 import { downloadJsObject, getFileUrl, uploadJsObject, uploadWebmAudio } from '../common/fileUtils';
 import { fileGqlClient } from '../gqlClients/fileGqlClient';
+import { Alert } from '../apps/main/Alert';
 
 const initialState = {
   // default, record, edit
@@ -118,89 +109,6 @@ const translateFinalResult = createAsyncThunk(
   },
 );
 
-const openTranscriptsSearch = createAsyncThunk(
-  'transcribe/openTranscriptsSearch',
-  async (navigate, { dispatch, getState }) => {
-    const { keywords } = getState().transcribe;
-    dispatch(commonActions.hideNavMenuChildren());
-    await wait();
-
-    function onSearch (e) {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const { keywords } = Object.fromEntries(formData);
-      if (keywords?.trim()) {
-        navigate(`/transcribe?keywords=${encodeURIComponent(keywords)}`);
-      } else {
-        navigate('/transcribe');
-      }
-      closeMenu(dispatch);
-    }
-
-    dispatch(commonActions.openNavMenu({
-      position: 'right',
-      isMainMenu: false,
-      centerContent: true,
-      easyClose: false,
-      children: (
-        <FormScreen isForm={true} onSubmit={onSearch}>
-          <Group title="Keywords">
-            <TextField placeholder="Enter keywords here" autoFocus={true} defaultValue={keywords} name="keywords" />
-            <span className="text-xs sm:text-sm text-gray-subtext2 mt-2">For example, enter "cse 416" to search for all transcripts with "cse 416" anywhere in their title.</span>
-          </Group>
-          {/*<GroupInput className="rounded-lg mt-6">*/}
-          {/*  <span>Sorted by</span>*/}
-          {/*  <Dropdown defaultValue={sort} name="sort">*/}
-          {/*    <DropdownOption value="updated_at">Updated at</DropdownOption>*/}
-          {/*    <DropdownOption value="created_at">Created at</DropdownOption>*/}
-          {/*  </Dropdown>*/}
-          {/*</GroupInput>*/}
-          <FormScreenBottom>
-            <NavbarButton onClick={() => closeMenu(dispatch)} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz">Cancel</NavbarButton>
-            <GroupDivider dir="horiz" />
-            <NavbarButton className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit">Search</NavbarButton>
-          </FormScreenBottom>
-        </FormScreen>
-      ),
-    }));
-  },
-);
-
-const openRenameTranscript = createAsyncThunk(
-  'transcribe/openRenameTranscript',
-  async (_, { dispatch }) => {
-    dispatch(commonActions.hideNavMenuChildren());
-    await wait();
-    dispatch(commonActions.openNavMenu({
-      position: 'right',
-      isMainMenu: false,
-      centerContent: true,
-      easyClose: false,
-      children: (
-        <RenameTranscript />
-      ),
-    }));
-  },
-);
-
-const openNameTranscript = createAsyncThunk(
-  'transcribe/openNameTranscript',
-  async (_, { dispatch }) => {
-    dispatch(commonActions.hideNavMenuChildren());
-    await wait();
-    dispatch(commonActions.openNavMenu({
-      position: 'right',
-      isMainMenu: false,
-      centerContent: true,
-      easyClose: false,
-      hideCloseButton: true,
-      children: (
-        <NameTranscript />
-      ),
-    }));
-  },
-);
-
 const saveTranscript = createAsyncThunk(
   'transcribe/saveTranscript',
   async (__, { getState, dispatch }) => {
@@ -288,7 +196,10 @@ const saveTranscript = createAsyncThunk(
         await uploadWebmAudio({ blobUrl, s3ObjectKey });
         const errors = await fileGqlClient.convertWebmAudioToM4a({ s3ObjectKey });
         if (errors.length > 0) {
-          dispatch(commonActions.openAlert({ title: 'Error', message: errors[0] }));
+          dispatch(openMenu({
+            children: <Alert message={errors[0]} />,
+            easyClose: false,
+          }));
           break;
         }
       }
@@ -297,8 +208,10 @@ const saveTranscript = createAsyncThunk(
     dispatch(commonActions.closeLoading());
     // console.log('errors', errors);
     if (errors.length > 0) {
-      // openAlert({ dispatch, title: 'Error', message: errors[0] });
-      dispatch(commonActions.openAlert({ title: 'Error', message: errors[0] }));
+      dispatch(openMenu({
+        children: <Alert message={errors[0]} />,
+        easyClose: false,
+      }));
     }
   }
 );
@@ -589,4 +502,4 @@ const transcribeReducer = transcribeSlice.reducer;
 const transcribeSelector = (state) => state.transcribe;
 
 export { transcribeActions, transcribeReducer, transcribeSelector };
-export { translateFinalResult, openTranscriptsSearch, saveTranscript, openRenameTranscript, openNameTranscript, listTranscripts, deleteTranscript, getTranscript, stopRecording };
+export { translateFinalResult, saveTranscript, listTranscripts, deleteTranscript, getTranscript, stopRecording };

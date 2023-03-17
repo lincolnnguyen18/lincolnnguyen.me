@@ -1,29 +1,20 @@
 import React from 'react';
 import { Button } from '../../components/Button';
 import { ContainerButton } from '../../components/ContainerButton';
-import { commonActions } from '../../slices/commonSlice.js';
-import { useDispatch } from 'react-redux';
 import { OverflowContainer } from '../../components/OverflowContainer';
-import { WhiteVignette } from '../../components/WhiteVignette';
 import { NavbarBlur } from '../../components/NavbarBlur';
 import { Navbar } from '../../components/Navbar';
+import { BackButton } from '../../components/BackButton';
 
 export function ContactsScreen () {
-  const dispatch = useDispatch();
-
-  function openNavMenu () {
-    dispatch(commonActions.openNavMenu());
-  }
-
   return (
     <>
       <NavbarBlur className="bg-red-custom" />
       <Navbar>
-        <Button className="icon-menu" onClick={openNavMenu} />
+        <BackButton linkPath="/" text="Apps" />
         <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Contacts</span>
         <Button className="icon-add" />
       </Navbar>
-      <WhiteVignette />
       <OverflowContainer>
         <div className="flex flex-col sm:gap-2 gap-1">
           {[...Array(50)].map((_, i) => (

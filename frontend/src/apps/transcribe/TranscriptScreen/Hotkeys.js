@@ -2,8 +2,9 @@ import React from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { stopRecording, transcribeActions, transcribeSelector } from '../../../slices/transcribeSlice';
 import { wait } from '../../../common/timeUtils';
-import { commonActions, commonSelector } from '../../../slices/commonSlice';
+import { commonActions, commonSelector, openMenu } from '../../../slices/commonSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { Alert } from '../../main/Alert';
 
 const shortcuts = [
   { name: 'Play/pause', key: 'K' },
@@ -34,9 +35,9 @@ async function handlePlayPause (dispatch, playing) {
         })
         .catch(() => {
           dispatch(commonActions.closeLoading());
-          dispatch(commonActions.openAlert({
-            title: 'Error',
-            message: 'Unable to play audio for this part. If recorded recently, this part is likely still being processed. Please try refreshing this page in a few minutes. Otherwise, this part is missing or corrupted.',
+          dispatch(openMenu({
+            children: <Alert message='Unable to play audio for this part. If recorded recently, this part is likely still being processed. Please try refreshing this page in a few minutes. Otherwise, this part is missing or corrupted.' />,
+            easyClose: false,
           }));
         });
     } else {
@@ -56,7 +57,10 @@ async function startStopRecording (dispatch, recorder, transcriber, mode) {
       await wait(50);
       dispatch(commonActions.scrollToBottomHard(true));
     } catch {
-      dispatch(commonActions.openAlert({ title: 'Error', message: 'There was an error starting the transcription process. Please make sure this website has permission to access the mic and that there are no other tabs using the mic. Refresh the page and try again after a few minutes.' }));
+      dispatch(openMenu({
+        children: <Alert message='Unable to play audio for this part. If recorded recently, this part is likely still being processed. Please try refreshing this page in a few minutes. Otherwise, this part is missing or corrupted.' />,
+        easyClose: false,
+      }));
     }
   } else {
     dispatch(stopRecording());

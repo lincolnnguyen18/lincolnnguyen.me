@@ -3,16 +3,15 @@ import theme from 'tailwindcss/defaultTheme.js';
 import _ from 'lodash';
 import { NavbarBlur } from '../../../components/NavbarBlur';
 import { Button } from '../../../components/Button';
-import { WhiteVignette } from '../../../components/WhiteVignette';
 import { Navbar } from '../../../components/Navbar';
 import { ContainerButton } from '../../../components/ContainerButton';
 import { OverflowContainer } from '../../../components/OverflowContainer';
 import { BackButton } from '../../../components/BackButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
+import { commonActions, commonSelector, openMenu } from '../../../slices/commonSlice.js';
 import { Divider } from '../../../components/Divider';
 import { MoreMenuButton } from './MoreMenuButton';
-import { getTranscript, openRenameTranscript, transcribeActions, transcribeSelector, translateFinalResult } from '../../../slices/transcribeSlice.js';
+import { getTranscript, transcribeActions, transcribeSelector, translateFinalResult } from '../../../slices/transcribeSlice.js';
 import { twMerge } from 'tailwind-merge';
 import { Radio } from '../../../components/Radio';
 import { BottomBar } from './BottomBar';
@@ -28,6 +27,7 @@ import { Hotkeys } from './Hotkeys';
 import { SyncTranscriberSettings } from './SyncTranscriberSettings';
 import { useParams } from 'react-router-dom';
 import { Indicator } from '../../main/Indicator';
+import { RenameTranscript } from './RenameTranscript';
 
 export function TranscriptScreen () {
   const dispatch = useDispatch();
@@ -215,7 +215,12 @@ export function TranscriptScreen () {
   }, [mode, switchingLanguages, transcriptionSupported]);
 
   async function handleEditTitle () {
-    dispatch(openRenameTranscript());
+    dispatch(
+      openMenu({
+        children: <RenameTranscript />,
+        easyClose: false,
+      })
+    );
   }
 
   React.useEffect(() => {
@@ -383,7 +388,6 @@ export function TranscriptScreen () {
         {/*{mode === 'default' && Object.keys(parts).length > 0 && <span className="absolute left-1/2 transform -translate-x-1/2 no-underline">{_.round(playbackSpeed, 2)}x</span>}*/}
         {mode !== 'edit' ? <MoreMenuButton disabled={!transcriptionSupported && Object.keys(parts).length === 0} /> : <Button className="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>
-      <WhiteVignette />
       {newTranscript !== null && (
         <>
           <OverflowContainer className={overflowStyle}>

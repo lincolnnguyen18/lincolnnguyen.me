@@ -1,11 +1,10 @@
 import React from 'react';
-import { commonSelector, getToken, openRegister } from '../../slices/commonSlice';
+import { commonActions, commonSelector, getToken, openRegister } from '../../slices/commonSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField } from '../../components/TextField';
 import { GroupDivider } from '../../components/GroupDivider';
 import { TextLink } from '../../components/TextLink';
-import { NavbarButton } from '../../components/NavbarButton';
-import { closeMenu } from '../../common/MenuUtils';
+import { StyledButton } from '../../components/StyledButton';
 import { FormScreenBottom } from '../../components/FormScreenBottom';
 import { FormScreen } from '../../components/FormScreen';
 import { Group } from '../../components/Group';
@@ -28,6 +27,10 @@ export function Login () {
 
   const loading = pending['getUser'] || pending['getToken'];
 
+  function handleClose () {
+    dispatch(commonActions.closeMenu());
+  }
+
   return (
     <FormScreen onSubmit={onLogin} isForm={true} className="max-w-none">
       <Group title="Login">
@@ -43,9 +46,9 @@ export function Login () {
       </Group>
       <Errors />
       <FormScreenBottom>
-        <NavbarButton onClick={() => closeMenu(dispatch)} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" disabled={loading}>Cancel</NavbarButton>
+        <StyledButton onClick={handleClose} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" disabled={loading}>Cancel</StyledButton>
         <GroupDivider dir="horiz" />
-        <NavbarButton className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit" disabled={loading}>Login</NavbarButton>
+        <StyledButton className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit" disabled={loading}>Login</StyledButton>
       </FormScreenBottom>
     </FormScreen>
   );

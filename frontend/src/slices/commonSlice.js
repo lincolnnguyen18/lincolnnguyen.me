@@ -14,19 +14,6 @@ const positions = ['center center', 'center top', 'center bottom'];
 const initialState = {
   scrollPosition: 0,
   distanceFromBottom: 0,
-  navMenu: {
-    open: false,
-    hideOnlyChildren: false,
-    children: null,
-    // left: items-start, ml-3, ml-1
-    // right: items-end, mr-3 and mr-1
-    containerClassName: 'items-start',
-    menuClassName: 'mr-1',
-    centerContent: false,
-    easyClose: true,
-    hideCloseButton: false,
-  },
-  navMenuCloseButtonDisabled: false,
   windowValues: {
     width: 0,
     height: 0,
@@ -49,58 +36,48 @@ const initialState = {
   pending: {},
   loadingOpen: false,
   loadingTitle: 'Loading',
-  alertOpen: false,
-  alertTitle: null,
-  alertMessage: null,
   menuOpen: false,
   menuChildren: null,
   menuChildrenHidden: false,
   menuEasyClose: true,
+  menuCloseDisabled: false,
 };
 
 const openRegister = createAsyncThunk(
   'common/openRegister',
   async (_, { dispatch }) => {
-    dispatch(commonActions.hideNavMenuChildren());
-    await wait();
-
-    dispatch(commonActions.openNavMenu({
-      position: 'left',
-      isMainMenu: false,
-      centerContent: true,
-      easyClose: false,
-      children: (
-        <Register />
-      ),
-    }));
+    dispatch(
+      openMenu({
+        children: <Register />,
+        easyClose: false,
+      })
+    );
   },
 );
 
 const openLogin = createAsyncThunk(
   'common/openLogin',
   async (_, { dispatch }) => {
-    dispatch(commonActions.hideNavMenuChildren());
-    await wait();
-
-    dispatch(commonActions.openNavMenu({
-      position: 'left',
-      isMainMenu: false,
-      centerContent: true,
-      easyClose: false,
-      children: (
-        <Login />
-      ),
-    }));
+    dispatch(
+      openMenu({
+        children: <Login />,
+        easyClose: false,
+      })
+    );
   },
 );
 
 const getToken = createAsyncThunk(
   'common/getToken',
   async ({ username, password }, { dispatch }) => {
-    const token = await userGqlClient.getToken({
-      username,
-      password,
-    });
+    let token;
+    try {
+      token = await userGqlClient.getToken({
+        username,
+        password,
+      });
+    } catch { }
+
     if (token) {
       Cookies.set('token', token, { expires: 7 });
     } else {
@@ -137,15 +114,24 @@ const registerUser = createAsyncThunk(
   },
 );
 
-const switchMenuChildren = createAsyncThunk(
-  'common/switchMenuChildren',
-  async (props, { dispatch }) => {
+const openMenu = createAsyncThunk(
+  'common/openMenu',
+  async (props, { dispatch, getState }) => {
+    const { menuOpen } = getState().common;
     const { children, easyClose = true } = props;
-    dispatch(commonActions.setSlice({ menuChildrenHidden: true }));
-    await wait(200);
-    dispatch(commonActions.setSlice({ menuChildren: children, menuEasyClose: easyClose }));
-    await wait(50);
-    dispatch(commonActions.setSlice({ menuChildrenHidden: false }));
+    if (menuOpen) {
+      console.log('menu already open');
+      dispatch(commonActions.setSlice({ menuChildrenHidden: true }));
+      await wait(100);
+      dispatch(commonActions.setSlice({ menuChildren: children, menuEasyClose: easyClose }));
+      await wait(50);
+      dispatch(commonActions.setSlice({ menuChildrenHidden: false }));
+    } else {
+      console.log('menu not open');
+      dispatch(commonActions.setSlice({ menuOpen: true, menuChildren: children, menuEasyClose: easyClose }));
+    }
+    const focusElement = document.getElementById('focus');
+    if (focusElement) focusElement.focus();
   },
 );
 
@@ -155,34 +141,6 @@ const commonSlice = createSlice({
   reducers: {
     setSlice: (state, action) => {
       return { ...state, ...action.payload };
-    },
-    closeNavMenu: (state) => {
-      // if (!state.loggedIn) state.showLogin = null;
-      _.merge(state.navMenu, { open: false, items: [], easyClose: true });
-    },
-    hideNavMenuChildren: (state) => {
-      _.merge(state.navMenu, { hideOnlyChildren: true });
-    },
-    clearNavMenuChildren: (state) => {
-      _.merge(state.navMenu, { children: null });
-    },
-    openNavMenu: (state, action) => {
-      const { position = 'left', children = null, isMainMenu = true, hideOnlyChildren = false, centerContent = false, easyClose = true, hideCloseButton = false } = action.payload || {};
-
-      if (position === 'left') {
-        _.merge(state.navMenu, { containerClassName: 'items-start', menuClassName: '' });
-      } else if (position === 'right') {
-        _.merge(state.navMenu, { containerClassName: 'items-end', menuClassName: '' });
-      }
-      if (centerContent) {
-        _.merge(state.navMenu, { menuClassName: 'w-full' });
-      }
-      const navMenu = document.getElementById('nav-menu');
-      if (navMenu) {
-        navMenu.scrollTop = 0;
-      }
-      _.merge(state.navMenu, { open: true, isMainMenu, hideOnlyChildren, centerContent, easyClose, hideCloseButton });
-      state.navMenu.children = children;
     },
     scrollToTop: (_, action) => {
       const { useSmoothScroll = true } = action.payload || {};
@@ -253,15 +211,6 @@ const commonSlice = createSlice({
     closeLoading: (state) => {
       state.loadingOpen = false;
     },
-    openAlert: (state, action) => {
-      const { open = true, title = 'Error', message = 'An error has occurred' } = action.payload || {};
-      state.alertOpen = open;
-      state.alertTitle = title;
-      state.alertMessage = message;
-    },
-    closeAlert: (state) => {
-      state.alertOpen = false;
-    },
     closeMenu: (state) => {
       state.menuOpen = false;
       state.menuEasyClose = true;
@@ -272,16 +221,15 @@ const commonSlice = createSlice({
       .addMatcher(isPending, (state, action) => {
         state.errors = [];
         state.pending[getActionName(action)] = true;
-        state.navMenuCloseButtonDisabled = true;
-
+        state.menuCloseDisabled = true;
       })
       .addMatcher(isFulfilled, (state, action) => {
         state.pending[getActionName(action)] = false;
-        state.navMenuCloseButtonDisabled = false;
+        state.menuCloseDisabled = false;
       })
       .addMatcher(isRejected, (state, action) => {
         state.pending[getActionName(action)] = false;
-        state.navMenuCloseButtonDisabled = false;
+        state.menuCloseDisabled = false;
       });
   },
 });
@@ -291,4 +239,4 @@ const commonReducer = commonSlice.reducer;
 const commonSelector = (state) => state.common;
 
 export { commonActions, commonReducer, commonSelector };
-export { getToken, getUser, openLogin, openRegister, registerUser, switchMenuChildren };
+export { getToken, getUser, openLogin, openRegister, registerUser, openMenu };

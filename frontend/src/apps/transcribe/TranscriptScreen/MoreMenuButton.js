@@ -1,5 +1,5 @@
 import React from 'react';
-import { commonActions } from '../../../slices/commonSlice.js';
+import { openMenu } from '../../../slices/commonSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../components/Button';
 import { MoreMenu } from './MoreMenu';
@@ -10,7 +10,7 @@ export function MoreMenuButton ({ disabled }) {
   const { mode, playing } = useSelector(transcribeSelector);
 
   function openMoreMenu () {
-    dispatch(commonActions.setSlice({ menuOpen: true, menuChildren: <MoreMenu /> }));
+    dispatch(openMenu({ children: <MoreMenu /> }));
   }
 
   return (

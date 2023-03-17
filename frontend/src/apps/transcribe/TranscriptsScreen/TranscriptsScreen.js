@@ -3,7 +3,6 @@ import { Button } from '../../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { commonActions, commonSelector } from '../../../slices/commonSlice.js';
 import { OverflowContainer } from '../../../components/OverflowContainer';
-import { WhiteVignette } from '../../../components/WhiteVignette';
 import { NavbarBlur } from '../../../components/NavbarBlur';
 import { Navbar } from '../../../components/Navbar';
 import { TextLink } from '../../../components/TextLink';
@@ -56,14 +55,12 @@ export function TranscriptsScreen () {
     <>
       <NavbarBlur className='bg-purple-custom' />
       <Navbar>
-        {/* <Button className='icon-menu' onClick={openNavMenu} /> */}
         <BackButton linkPath='/' text='Apps' />
         <span className='font-semibold absolute left-1/2 transform -translate-x-1/2 no-underline'>Transcripts</span>
         <div className='flex gap-3'>
           <MoreMenu />
         </div>
       </Navbar>
-      <WhiteVignette />
       <OverflowContainer>
         {keywords?.trim() && <div className='top-11' id='title-div'>
           <div className='sm:px-1 px-4 flex flex-col gap-0.5 w-full'>

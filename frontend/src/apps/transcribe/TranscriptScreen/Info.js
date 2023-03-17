@@ -4,7 +4,7 @@ import { Blackbox } from '../../../components/BlackBox';
 import { FormScreen } from '../../../components/FormScreen';
 import { FormScreenBottom } from '../../../components/FormScreenBottom';
 import { Group } from '../../../components/Group';
-import { NavbarButton } from '../../../components/NavbarButton';
+import { StyledButton } from '../../../components/StyledButton';
 import { transcribeSelector } from '../../../slices/transcribeSlice';
 import { commonActions } from '../../../slices/commonSlice';
 import { formatUnixTimestampFull } from '../../../common/stringUtils';
@@ -44,7 +44,7 @@ export function Info () {
         </Blackbox>
       </Group>
       <FormScreenBottom>
-        <NavbarButton onClick={handleClose} dir="single" className="justify-center">Close</NavbarButton>
+        <StyledButton onClick={handleClose} dir="single" className="justify-center">Close</StyledButton>
       </FormScreenBottom>
     </FormScreen>
   );
