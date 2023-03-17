@@ -279,7 +279,7 @@ export function TranscriptScreen () {
             {updatedAt !== createdAt && <span className="text-sm text-gray-subtext">Updated on {formatUnixTimestampFull(updatedAt)}</span>}
             {/*<div className="flex flex-wrap gap-1.5">*/}
             {/*  {testTags.map((tag, i) => (*/}
-            {/*    <TextLink to={`/transcribe/transcripts?keywords=${encodeURIComponent('#' + tag)}`} key={i} className="text-purple-custom text-sm" inactive={mode !== 'default'}>#{tag}</TextLink>*/}
+            {/*    <TextLink to={`/transcribe?keywords=${encodeURIComponent('#' + tag)}`} key={i} className="text-purple-custom text-sm" inactive={mode !== 'default'}>#{tag}</TextLink>*/}
             {/*  ))}*/}
             {/*</div>*/}
           </div>
@@ -378,8 +378,8 @@ export function TranscriptScreen () {
       <audio hidden={true} controls preload="metadata" id="audio" />
       <Hotkeys />
       <NavbarBlur className="bg-purple-custom" />
-      <Navbar className="pr-3 pl-1">
-        <BackButton linkPath="/transcribe/transcripts" text="Transcripts" disabled={mode !== 'default'} />
+      <Navbar>
+        <BackButton linkPath="/transcribe" text="Transcripts" disabled={mode !== 'default'} />
         {/*{mode === 'default' && Object.keys(parts).length > 0 && <span className="absolute left-1/2 transform -translate-x-1/2 no-underline">{_.round(playbackSpeed, 2)}x</span>}*/}
         {mode !== 'edit' ? <MoreMenuButton disabled={!transcriptionSupported && Object.keys(parts).length === 0} /> : <Button className="text-base font-semibold" onClick={handleDone}>Done</Button>}
       </Navbar>

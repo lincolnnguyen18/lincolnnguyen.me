@@ -192,7 +192,7 @@ export function MoreMenu () {
 
   async function onDelete () {
     await dispatch(deleteTranscript({ id }));
-    navigate('/transcribe/transcripts');
+    navigate('/transcribe');
   }
 
   function turnOnEditMode () {

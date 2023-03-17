@@ -30,6 +30,15 @@ module.exports = {
           background: '#dadada',
           custom: '#555',
         },
+        blue: {
+          custom: '#6592BB',
+        },
+        yellow: {
+          custom: '#CDD47B',
+        },
+        orange: {
+          custom: '#DAA95F',
+        },
       },
     },
   },

@@ -118,8 +118,8 @@ export function App () {
         <Route path="/" element={<HomeScreen />} />
         <Route path="/messages/contacts" element={<Protected><ContactsScreen /></Protected>} />
         <Route path="/messages/contacts/:id" element={<Protected><ContactsScreen /></Protected>} />
-        <Route path="/transcribe/transcripts" element={<Protected><TranscriptsScreen /></Protected>} />
-        <Route path="/transcribe/transcripts/:id" element={<Protected><TranscriptScreen /></Protected>} />
+        <Route path="/transcribe" element={<Protected><TranscriptsScreen /></Protected>} />
+        <Route path="/transcribe/:id" element={<Protected><TranscriptScreen /></Protected>} />
         <Route path="/resume" element={<Protected><ResumeScreen /></Protected>} />
         <Route path="/settings" element={<Protected><SettingsScreen /></Protected>} />
         <Route path="*" element={<Navigate to="/" replace />} />

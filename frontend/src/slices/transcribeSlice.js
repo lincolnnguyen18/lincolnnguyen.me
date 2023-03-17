@@ -130,9 +130,9 @@ const openTranscriptsSearch = createAsyncThunk(
       const formData = new FormData(e.target);
       const { keywords } = Object.fromEntries(formData);
       if (keywords?.trim()) {
-        navigate(`/transcribe/transcripts?keywords=${encodeURIComponent(keywords)}`);
+        navigate(`/transcribe?keywords=${encodeURIComponent(keywords)}`);
       } else {
-        navigate('/transcribe/transcripts');
+        navigate('/transcribe');
       }
       closeMenu(dispatch);
     }

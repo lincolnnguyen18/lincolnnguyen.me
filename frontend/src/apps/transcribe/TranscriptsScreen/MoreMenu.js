@@ -15,7 +15,7 @@ export function MoreMenu () {
   //     isMainMenu: false,
   //     children: (
   //       <div className="flex flex-col">
-  //         <NavbarButton linkPath="/transcribe/transcripts/new">
+  //         <NavbarButton linkPath="/transcribe/new">
   //           <span className='icon-add text-2xl text-white' />
   //           <span className="text-white">Start new</span>
   //         </NavbarButton>
@@ -33,7 +33,7 @@ export function MoreMenu () {
     // <Button className="icon-more-horiz" onClick={openMoreMenu} />
     <>
       <Button className="icon-search" onClick={() => dispatch(openTranscriptsSearch(navigate))} />
-      <Button className="icon-add" linkPath={`/transcribe/transcripts/${uuid()}`} />
+      <Button className="icon-add" linkPath={`/transcribe/${uuid()}`} />
     </>
   );
 }
