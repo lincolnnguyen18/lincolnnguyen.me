@@ -88,9 +88,9 @@ export function App () {
   }, []);
 
   React.useEffect(() => {
-    if (browser?.os.startsWith('Android')) {
-      document.body.style.overscrollBehaviorY = 'none';
-    }
+    // if (browser?.os.startsWith('Android')) {
+    //   document.body.style.overscrollBehaviorY = 'none';
+    // }
 
     if (browser?.name === 'chrome' && (browser?.os.startsWith('Mac') || browser?.os.startsWith('Windows') || browser?.os.startsWith('Linux'))) {
       dispatch(commonActions.setSlice({ transcriptionSupported: true }));
