@@ -16,6 +16,7 @@ import { environment } from './common/environment';
 import { Loading } from './apps/main/Loading';
 import { Alert } from './apps/main/Alert';
 import { ResumeScreen } from './apps/resume/ResumeScreen';
+import { SettingsScreen } from './apps/settings/SettingsScreen';
 
 export function App () {
   const dispatch = useDispatch();
@@ -108,9 +109,11 @@ export function App () {
     }
   }, [windowValues.width]);
 
+  const imageUrl = '/bg.webp';
+
   return token !== undefined && user !== undefined && (
     <>
-      <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85] bg-gray-background" style={{ backgroundSize: 'cover', backgroundImage: 'url(/bg.webp)', backgroundPosition }} />
+      <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85] bg-gray-background" style={{ backgroundSize: 'cover', backgroundImage: `url(${imageUrl})`, backgroundPosition }} />
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/messages/contacts" element={<Protected><ContactsScreen /></Protected>} />
@@ -118,6 +121,7 @@ export function App () {
         <Route path="/transcribe/transcripts" element={<Protected><TranscriptsScreen /></Protected>} />
         <Route path="/transcribe/transcripts/:id" element={<Protected><TranscriptScreen /></Protected>} />
         <Route path="/resume" element={<Protected><ResumeScreen /></Protected>} />
+        <Route path="/settings" element={<Protected><SettingsScreen /></Protected>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <NavbarMenu />

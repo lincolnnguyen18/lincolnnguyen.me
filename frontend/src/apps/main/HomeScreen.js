@@ -10,12 +10,12 @@ import { Grid } from './Grid';
 export function HomeScreen () {
   const dispatch = useDispatch();
 
-  const dummyIcons = [];
-  for (let i = 0; i < 50; i++) {
-    dummyIcons.push(
-      <AppIcon text="Placeholder" className="bg-gray-500 text-white" placeholderInitials="P" path="/placeholder" key={i} />,
-    );
-  }
+  // const dummyIcons = [];
+  // for (let i = 0; i < 50; i++) {
+  //   dummyIcons.push(
+  //     <AppIcon text="Placeholder" className="bg-gray-500 text-white" placeholderInitials="P" path="/placeholder" key={i} />,
+  //   );
+  // }
 
   function openNavMenu () {
     dispatch(commonActions.openNavMenu());
@@ -32,10 +32,11 @@ export function HomeScreen () {
     <>
       <NavbarBlur />
       <Grid>
-        <AppIcon text="Messages" className="bg-red-custom" placeholderInitials="M" path="/messages/contacts" />
+        {/* <AppIcon text="Messages" className="bg-red-custom" placeholderInitials="M" path="/messages/contacts" /> */}
         <AppIcon text="Resume" className="bg-green-custom" placeholderInitials="R" path="/resume" />
+        <AppIcon text="Settings" className="bg-gray-custom text-white" placeholderInitials="S" path="/settings" />
         <AppIcon text="Transcribe" className="bg-purple-custom" placeholderInitials="T" path="/transcribe/transcripts" />
-        {dummyIcons}
+        {/* {dummyIcons} */}
       </Grid>
       <Navbar>
         <Button className="icon-menu" onClick={openNavMenu} />

@@ -6,7 +6,7 @@ import { OverflowContainer } from '../../components/OverflowContainer';
 import { WhiteVignette } from '../../components/WhiteVignette';
 import { commonActions } from '../../slices/commonSlice';
 
-export function ResumeScreen () {
+export function SettingsScreen () {
   const dispatch = useDispatch();
 
   function openNavMenu () {
@@ -15,15 +15,14 @@ export function ResumeScreen () {
 
   return (
     <>
-      <NavbarBlur className="bg-green-custom" />
+      <NavbarBlur className="bg-gray-custom" />
       <Navbar>
         <Button className="icon-menu" onClick={openNavMenu} />
-        <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Resume</span>
-        <Button className="icon-add" />
+        <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Settings</span>
       </Navbar>
       <WhiteVignette />
       <OverflowContainer>
-        <span>Resume</span>
+        <span>Settings</span>
       </OverflowContainer>
     </>
   );
