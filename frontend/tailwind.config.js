@@ -28,7 +28,7 @@ module.exports = {
           // gray-200
           divider: '#e5e7eb',
           background: '#dadada',
-          custom: '#555',
+          custom: '#424242',
         },
         blue: {
           custom: '#6592BB',
@@ -38,6 +38,9 @@ module.exports = {
         },
         orange: {
           custom: '#DAA95F',
+        },
+        pink: {
+          custom: '#CE83B9',
         },
       },
     },
