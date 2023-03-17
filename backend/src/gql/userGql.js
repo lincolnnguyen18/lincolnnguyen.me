@@ -1,60 +1,15 @@
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import fs from 'fs';
+import path from 'path';
 import { environment } from '../common/environment.js';
 import { userDynamoDao } from '../daos/userDynamoDao.js';
 import { fileDao } from '../daos/fileDao.js';
 import { validateAuthenticated, validatePutUser, validateUpdateUser } from '../common/validators.js';
 import { uuid } from '../common/stringUtils.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
-// language=GraphQL
-const userTypedef = `
-  type User {
-      id: ID!
-      username: String!
-      password: String!
-      createdAt: String!
-      updatedAt: String!
-  
-      # transcribe
-      playbackSpeed: Float!
-      translateLang: String!
-      transcribeLang: String!
-      transcribeCutOffType: String!
-      transcripts: [Transcript!]!
-  }
-  
-  input UpdateUserInput {
-      username: String
-      password: String
-  
-      # transcribe
-      playbackSpeed: Float
-      translateLang: String
-      transcribeLang: String
-      transcribeCutOffType: String
-  }
-
-  type Query {
-      # no auth required
-      login(username: String!, password: String!): String
-      version: String!
-
-      # auth required
-      user: User
-      uploadFile(s3ObjectKey: String!): String
-      getFile(s3ObjectKey: String!): String
-      getFileDirect(s3ObjectKey: String!): String
-  }
-
-  type Mutation {
-      # no auth required
-      register(username: String!, password: String!, confirmPassword: String!): [String!]!
-
-      # auth required
-      updateUser(input: UpdateUserInput!): [String!]!
-      convertWebmAudioToM4a(s3ObjectKey: String!): [String!]!
-  }
-`;
+const schemaPath = './src/gql/user.gql';
+const userTypedef = fs.readFileSync(path.resolve(schemaPath), 'utf8');
 
 const userResolvers = {
   Query: {

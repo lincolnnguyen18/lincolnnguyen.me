@@ -1,0 +1,69 @@
+input PutTranscriptInput {
+  id: ID!
+  title: String!
+  preview: String!
+  createdAt: String!
+  updatedAt: String!
+  partsOrder: [String]!
+  partsKey: String!
+}
+
+input UpdateTranscriptInput {
+  id: ID!
+  title: String
+  preview: String
+  createdAt: String
+  updatedAt: String!
+  partsOrder: [String]
+  partsKey: String
+  version: Int!
+}
+
+input SearchTranscriptsInput {
+  search: String
+  skip: Int = 0
+  take: Int = 10
+}
+
+input ListTranscriptsInput {
+  lastEvaluatedKey: String
+  limit: Int = 10
+  scanIndexForward: Boolean = false
+}
+
+type Transcript {
+  id: ID!
+  title: String!
+  preview: String!
+  createdAt: String!
+  updatedAt: String!
+  partsOrder: [String]!
+  partsKey: String!
+  version: Int!
+}
+
+type TranscriptPreview {
+  id: ID!
+  title: String!
+  preview: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type ListTranscriptResults {
+  items: [TranscriptPreview!]!
+  lastEvaluatedKey: String
+}
+
+extend type Query {
+  searchTranscripts(input: SearchTranscriptsInput!): [TranscriptPreview!]
+  listTranscripts(input: ListTranscriptsInput!): ListTranscriptResults
+  getTranscript(id: ID!): Transcript
+}
+
+extend type Mutation {
+  # transcribe
+  putTranscript(input: PutTranscriptInput!): [String!]!
+  updateTranscript(input: UpdateTranscriptInput!): [String!]!
+  deleteTranscript(id: ID!): [String!]!
+}
