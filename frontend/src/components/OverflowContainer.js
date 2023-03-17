@@ -33,7 +33,7 @@ export function OverflowContainer ({ children, className }) {
 
   if (fixedScroll) {
     return (
-      <div className="overflow-y-scroll fixed top-0 bottom-0 left-0 right-0" id="overflow-container">
+      <div className='overflow-y-scroll fixed top-0 bottom-0 left-0 right-0' id='overflow-container'>
         <div className={twMerge('max-w-screen-sm mx-auto w-full sm:px-2 pt-14 pb-3 flex flex-col', className)}>
           {children}
         </div>
@@ -41,7 +41,7 @@ export function OverflowContainer ({ children, className }) {
     );
   } else {
     return (
-      <div className="top-0 bottom-0 left-0 right-0 relative overflow-y-auto">
+      <div className='top-0 bottom-0 left-0 right-0 relative overflow-y-auto'>
         <div className={twMerge('max-w-screen-sm mx-auto w-full sm:px-2 pt-14 pb-3 flex flex-col', className)}>
           {children}
         </div>

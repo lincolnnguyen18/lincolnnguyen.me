@@ -32,25 +32,25 @@ export function Register () {
   }
 
   return (
-    <FormScreen onSubmit={onRegister} isForm={true} className="max-w-none">
-      <Group title="Register">
-        <div className="flex flex-col">
-          <TextField placeholder="Username" autoFocus={true} type="username" dir="vert" name="username" />
-          <GroupDivider dir="vert" />
-          <TextField placeholder="Password" type="password" name="password" dir="vert" />
-          <GroupDivider dir="vert" />
-          <TextField placeholder="Confirm password" name="confirmPassword" type="password" dir="vert" />
+    <FormScreen onSubmit={onRegister} isForm={true} className='max-w-none'>
+      <Group title='Register'>
+        <div className='flex flex-col'>
+          <TextField placeholder='Username' autoFocus={true} type='username' dir='vert' name='username' />
+          <GroupDivider dir='vert' />
+          <TextField placeholder='Password' type='password' name='password' dir='vert' />
+          <GroupDivider dir='vert' />
+          <TextField placeholder='Confirm password' name='confirmPassword' type='password' dir='vert' />
         </div>
-        <div className="flex flex-col items-start mt-2">
+        <div className='flex flex-col items-start mt-2'>
           <span>Already have an account?</span>
-          <TextLink type="button" onClick={onLogin}>Login</TextLink>
+          <TextLink type='button' onClick={onLogin}>Login</TextLink>
         </div>
       </Group>
       <Errors />
       <FormScreenBottom>
-        <StyledButton onClick={handleClose} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" disabled={loading}>Cancel</StyledButton>
-        <GroupDivider dir="horiz" />
-        <StyledButton className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit" disabled={loading}>Register</StyledButton>
+        <StyledButton onClick={handleClose} className='justify-center' outerClassName='sm:w-48 w-36' dir='horiz' disabled={loading}>Cancel</StyledButton>
+        <GroupDivider dir='horiz' />
+        <StyledButton className='justify-center' outerClassName='sm:w-48 w-36' dir='horiz' type='submit' disabled={loading}>Register</StyledButton>
       </FormScreenBottom>
     </FormScreen>
   );

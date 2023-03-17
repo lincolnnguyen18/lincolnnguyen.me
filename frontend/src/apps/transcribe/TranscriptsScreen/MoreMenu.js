@@ -17,8 +17,8 @@ export function MoreMenu () {
 
   return (
     <>
-      <Button className="icon-search" onClick={handleOpenSearch} />
-      <Button className="icon-add" linkPath={`/transcribe/${uuid()}`} />
+      <Button className='icon-search' onClick={handleOpenSearch} />
+      <Button className='icon-add' linkPath={`/transcribe/${uuid()}`} />
     </>
   );
 }

@@ -46,16 +46,16 @@ export function SyncScrollButton () {
 
   return (
     <div
-      className="text-white h-11 flex items-center fixed transform -translate-x-1/2 left-1/2 bottom-14 px-3 z-[1] justify-center bg-purple-custom backdrop-blur bg-opacity-80 rounded-xl transition-all duration-100 cursor-pointer"
+      className='text-white h-11 flex items-center fixed transform -translate-x-1/2 left-1/2 bottom-14 px-3 z-[1] justify-center bg-purple-custom backdrop-blur bg-opacity-80 rounded-xl transition-all duration-100 cursor-pointer'
       style={{
         opacity: hideButton() ? 0 : 1,
         pointerEvents: hideButton() ? 'none' : 'auto',
       }}
       onClick={onClick}
     >
-      <Button className="flex items-center gap-0.5 sm:gap-1 select-auto" onClick={onClick}>
+      <Button className='flex items-center gap-0.5 sm:gap-1 select-auto' onClick={onClick}>
         <span className='icon-down' />
-        <span className="sm:text-base text-sm">Sync scroll</span>
+        <span className='sm:text-base text-sm'>Sync scroll</span>
       </Button>
     </div>
   );

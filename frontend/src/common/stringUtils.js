@@ -23,7 +23,7 @@ function formatUnixTimestamp (unix) {
 }
 
 function formatUnixTimestampFull (unix) {
-  // e.g. "January 1, 2022 at 7:00 AM"
+  // e.g. 'January 1, 2022 at 7:00 AM'
   const date = new Date(unix);
   return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
 }

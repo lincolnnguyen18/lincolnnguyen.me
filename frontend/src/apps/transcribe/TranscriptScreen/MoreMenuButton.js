@@ -14,6 +14,6 @@ export function MoreMenuButton ({ disabled }) {
   }
 
   return (
-    <Button className="icon-more-horiz" onClick={openMoreMenu} disabled={disabled || playing || mode !== 'default'} />
+    <Button className='icon-more-horiz' onClick={openMoreMenu} disabled={disabled || playing || mode !== 'default'} />
   );
 }

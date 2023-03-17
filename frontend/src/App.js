@@ -109,17 +109,17 @@ export function App () {
 
   return token !== undefined && user !== undefined && (
     <>
-      <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85] bg-gray-background" style={{ backgroundSize: 'cover', backgroundImage: `url(${imageUrl})`, backgroundPosition }} />
+      <div className='z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85] bg-gray-background' style={{ backgroundSize: 'cover', backgroundImage: `url(${imageUrl})`, backgroundPosition }} />
       <WhiteVignette open={!isHome} />
       <Routes>
-        <Route path="/" element={<HomeScreen />} />
-        <Route path="/messages" element={<Protected><ContactsScreen /></Protected>} />
-        <Route path="/messages/:id" element={<Protected><ContactsScreen /></Protected>} />
-        <Route path="/transcribe" element={<Protected><TranscriptsScreen /></Protected>} />
-        <Route path="/transcribe/:id" element={<Protected><TranscriptScreen /></Protected>} />
-        <Route path="/resume" element={<Protected><ResumeScreen /></Protected>} />
-        <Route path="/settings" element={<Protected><SettingsScreen /></Protected>} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path='/' element={<HomeScreen />} />
+        <Route path='/messages' element={<Protected><ContactsScreen /></Protected>} />
+        <Route path='/messages/:id' element={<Protected><ContactsScreen /></Protected>} />
+        <Route path='/transcribe' element={<Protected><TranscriptsScreen /></Protected>} />
+        <Route path='/transcribe/:id' element={<Protected><TranscriptScreen /></Protected>} />
+        <Route path='/resume' element={<Protected><ResumeScreen /></Protected>} />
+        <Route path='/settings' element={<Protected><SettingsScreen /></Protected>} />
+        <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
       <Loading />
       <Menu />

@@ -24,27 +24,27 @@ export function Info () {
 
   return (
     <FormScreen>
-      <Group title="Transcript Info">
+      <Group title='Transcript Info'>
         <Blackbox>
-          <span className="font-semibold sm:text-lg text-base mb-2">{title}</span>
-          <div className="flex flex-col gap-2 justify-between w-full">
-            <div className="flex flex-col">
-              <span className="font-semibold sm:text-base text-sm">Created</span>
-              <span className="sm:text-base text-sm">{formatUnixTimestampFull(createdAt)}</span>
+          <span className='font-semibold sm:text-lg text-base mb-2'>{title}</span>
+          <div className='flex flex-col gap-2 justify-between w-full'>
+            <div className='flex flex-col'>
+              <span className='font-semibold sm:text-base text-sm'>Created</span>
+              <span className='sm:text-base text-sm'>{formatUnixTimestampFull(createdAt)}</span>
             </div>
-            <div className="flex flex-col">
-              <span className="font-semibold sm:text-base text-sm">Updated</span>
-              <span className="sm:text-base text-sm">{formatUnixTimestampFull(updatedAt)}</span>
+            <div className='flex flex-col'>
+              <span className='font-semibold sm:text-base text-sm'>Updated</span>
+              <span className='sm:text-base text-sm'>{formatUnixTimestampFull(updatedAt)}</span>
             </div>
-            {/*<div className="flex flex-col">*/}
-            {/*  <span className="font-semibold sm:text-base text-sm">Total Parts</span>*/}
-            {/*  <span className="sm:text-base text-sm">{partsOrder.length}</span>*/}
+            {/*<div className='flex flex-col'>*/}
+            {/*  <span className='font-semibold sm:text-base text-sm'>Total Parts</span>*/}
+            {/*  <span className='sm:text-base text-sm'>{partsOrder.length}</span>*/}
             {/*</div>*/}
           </div>
         </Blackbox>
       </Group>
       <FormScreenBottom>
-        <StyledButton onClick={handleClose} dir="single" className="justify-center">Close</StyledButton>
+        <StyledButton onClick={handleClose} dir='single' className='justify-center'>Close</StyledButton>
       </FormScreenBottom>
     </FormScreen>
   );

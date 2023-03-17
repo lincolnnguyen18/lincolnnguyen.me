@@ -18,7 +18,7 @@ export function Protected ({ children }) {
   }, [loggedIn]);
 
   if (!loggedIn) {
-    return (<Navigate to="/" replace />);
+    return (<Navigate to='/' replace />);
   } else {
     return children;
   }

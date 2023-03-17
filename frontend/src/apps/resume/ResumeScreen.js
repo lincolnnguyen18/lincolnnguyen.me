@@ -6,10 +6,10 @@ import { OverflowContainer } from '../../components/OverflowContainer';
 export function ResumeScreen () {
   return (
     <>
-      <NavbarBlur className="bg-green-custom" />
+      <NavbarBlur className='bg-green-custom' />
       <Navbar>
-        <BackButton linkPath="/" text="Apps" />
-        <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Resume</span>
+        <BackButton linkPath='/' text='Apps' />
+        <span className='font-semibold absolute left-1/2 transform -translate-x-1/2'>Resume</span>
       </Navbar>
       <OverflowContainer>
         <span>Resume</span>

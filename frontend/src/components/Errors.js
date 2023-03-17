@@ -9,8 +9,8 @@ export function Errors () {
   if (errors.length > 1) {
     return (
       <Blackbox>
-        <div className="font-semibold sm:text-lg text-base mb-1">Error</div>
-        <ul className="list-inside list-disc space-y-0.5">
+        <div className='font-semibold sm:text-lg text-base mb-1'>Error</div>
+        <ul className='list-inside list-disc space-y-0.5'>
           {errors.map((error, i) => <li key={i}>{error}</li>)}
         </ul>
       </Blackbox>
@@ -18,7 +18,7 @@ export function Errors () {
   } else if (errors.length === 1) {
     return (
       <Blackbox>
-        <div className="font-semibold sm:text-lg text-base mb-1">Error</div>
+        <div className='font-semibold sm:text-lg text-base mb-1'>Error</div>
         <div>{errors[0]}</div>
       </Blackbox>
     );

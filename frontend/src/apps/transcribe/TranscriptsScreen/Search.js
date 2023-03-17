@@ -33,21 +33,21 @@ export function Search () {
 
   return (
     <FormScreen isForm={true} onSubmit={onSearch}>
-      <Group title="Keywords">
-        <TextField placeholder="Enter keywords here" autoFocus={true} defaultValue={keywords} name="keywords" id="focus" />
-        <span className="text-xs sm:text-sm text-gray-subtext2 mt-2">For example, enter "cse 416" to search for all transcripts with "cse 416" anywhere in their title.</span>
+      <Group title='Keywords'>
+        <TextField placeholder='Enter keywords here' autoFocus={true} defaultValue={keywords} name='keywords' id='focus' />
+        <span className='text-xs sm:text-sm text-gray-subtext2 mt-2'>For example, enter 'cse 416' to search for all transcripts with 'cse 416' anywhere in their title.</span>
       </Group>
-      {/*<GroupInput className="rounded-lg mt-6">*/}
+      {/*<GroupInput className='rounded-lg mt-6'>*/}
       {/*  <span>Sorted by</span>*/}
-      {/*  <Dropdown defaultValue={sort} name="sort">*/}
-      {/*    <DropdownOption value="updated_at">Updated at</DropdownOption>*/}
-      {/*    <DropdownOption value="created_at">Created at</DropdownOption>*/}
+      {/*  <Dropdown defaultValue={sort} name='sort'>*/}
+      {/*    <DropdownOption value='updated_at'>Updated at</DropdownOption>*/}
+      {/*    <DropdownOption value='created_at'>Created at</DropdownOption>*/}
       {/*  </Dropdown>*/}
       {/*</GroupInput>*/}
       <FormScreenBottom>
-        <StyledButton onClick={handleClose} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz">Cancel</StyledButton>
-        <GroupDivider dir="horiz" />
-        <StyledButton className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit">Search</StyledButton>
+        <StyledButton onClick={handleClose} className='justify-center' outerClassName='sm:w-48 w-36' dir='horiz'>Cancel</StyledButton>
+        <GroupDivider dir='horiz' />
+        <StyledButton className='justify-center' outerClassName='sm:w-48 w-36' dir='horiz' type='submit'>Search</StyledButton>
       </FormScreenBottom>
     </FormScreen>
   );

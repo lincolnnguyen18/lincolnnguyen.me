@@ -50,17 +50,17 @@ export function Settings () {
 
   return (
     <FormScreen>
-      <Group title="Change Playback Speed">
-        <Blackbox className="gap-4 py-4">
-          <div className="flex justify-between w-full">
+      <Group title='Change Playback Speed'>
+        <Blackbox className='gap-4 py-4'>
+          <div className='flex justify-between w-full'>
             <span>Slower</span>
-            <span id="playbackspeed-label">{_.round(playbackSpeed, 2)}x</span>
+            <span id='playbackspeed-label'>{_.round(playbackSpeed, 2)}x</span>
             <span>Faster</span>
           </div>
           <input
-            type="range"
+            type='range'
             min={minSpeed}
-            className="appearance-none w-full h-1 bg-white rounded-full white cursor-pointer"
+            className='appearance-none w-full h-1 bg-white rounded-full white cursor-pointer'
             value={_.round(playbackSpeed, 2)}
             onChange={updatePlaybackSpeed}
             onInput={updatePlaybackSpeed}
@@ -69,10 +69,10 @@ export function Settings () {
           />
         </Blackbox>
       </Group>
-      <Group title="Transcription Settings">
+      <Group title='Transcription Settings'>
         <GroupInput>
           <span>Transcribe in</span>
-          <div className="flex items-center">
+          <div className='flex items-center'>
             <Dropdown onChange={onTranscribeSelectChange} defaultValue={transcribeLang}>
               {languages.map((language, i) => (
                 <DropdownOption key={i} value={language.name}>{language.name}</DropdownOption>
@@ -84,7 +84,7 @@ export function Settings () {
         <GroupInput>
           <span>Translate to</span>
           <Dropdown onChange={onTranslateSelectChange} defaultValue={translateLang}>
-            <DropdownOption value="None">None</DropdownOption>
+            <DropdownOption value='None'>None</DropdownOption>
             {languages.map((language, i) => (
               <DropdownOption key={i} value={language.name}>{language.name}</DropdownOption>
             ))}
@@ -94,12 +94,12 @@ export function Settings () {
         <GroupInput>
           <span>Cut off transcription results</span>
           <Dropdown onChange={onCutOffTypeSelectChange} defaultValue={cutOffType}>
-            <DropdownOption value="auto">Automatically</DropdownOption>
-            <DropdownOption value="manual">Manually</DropdownOption>
+            <DropdownOption value='auto'>Automatically</DropdownOption>
+            <DropdownOption value='manual'>Manually</DropdownOption>
           </Dropdown>
         </GroupInput>
       </Group>
-      <Group title="Keyboard Shortcuts">
+      <Group title='Keyboard Shortcuts'>
         {shortcuts.map(({ name, key }, i) => (
           <React.Fragment key={i}>
             <GroupInput>
@@ -111,7 +111,7 @@ export function Settings () {
         ))}
       </Group>
       <FormScreenBottom>
-        <StyledButton onClick={handleClose} dir="single" className="justify-center">Close</StyledButton>
+        <StyledButton onClick={handleClose} dir='single' className='justify-center'>Close</StyledButton>
       </FormScreenBottom>
     </FormScreen>
   );

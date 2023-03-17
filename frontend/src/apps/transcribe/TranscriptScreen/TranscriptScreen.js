@@ -267,30 +267,30 @@ export function TranscriptScreen () {
     }
     content = (
       <IconMessage
-        iconStyle="icon-mic text-purple-custom"
+        iconStyle='icon-mic text-purple-custom'
         messageText={messageText}
       />
     );
   } else {
     content = (
       <>
-        <div className="top-11" id="title-div">
-          <div className="flex flex-col gap-1 mx-2">
-            <div className="flex gap-2 items-center">
+        <div className='top-11' id='title-div'>
+          <div className='flex flex-col gap-1 mx-2'>
+            <div className='flex gap-2 items-center'>
               <span className={twMerge('sm:text-xl text-lg font-semibold', mode === 'edit' && 'overflow-hidden truncate')}>{title}</span>
-              {mode === 'edit' && <Button onClick={handleEditTitle}><span className="icon-edit text-2xl cursor-pointer" /></Button>}
+              {mode === 'edit' && <Button onClick={handleEditTitle}><span className='icon-edit text-2xl cursor-pointer' /></Button>}
             </div>
-            {updatedAt === createdAt && <span className="text-sm text-gray-subtext">Created on {formatUnixTimestampFull(createdAt)}</span>}
-            {updatedAt !== createdAt && <span className="text-sm text-gray-subtext">Updated on {formatUnixTimestampFull(updatedAt)}</span>}
-            {/*<div className="flex flex-wrap gap-1.5">*/}
+            {updatedAt === createdAt && <span className='text-sm text-gray-subtext'>Created on {formatUnixTimestampFull(createdAt)}</span>}
+            {updatedAt !== createdAt && <span className='text-sm text-gray-subtext'>Updated on {formatUnixTimestampFull(updatedAt)}</span>}
+            {/*<div className='flex flex-wrap gap-1.5'>*/}
             {/*  {testTags.map((tag, i) => (*/}
-            {/*    <TextLink to={`/transcribe?keywords=${encodeURIComponent('#' + tag)}`} key={i} className="text-purple-custom text-sm" inactive={mode !== 'default'}>#{tag}</TextLink>*/}
+            {/*    <TextLink to={`/transcribe?keywords=${encodeURIComponent('#' + tag)}`} key={i} className='text-purple-custom text-sm' inactive={mode !== 'default'}>#{tag}</TextLink>*/}
             {/*  ))}*/}
             {/*</div>*/}
           </div>
-          <Divider className="mx-2 sm:mx-1" />
+          <Divider className='mx-2 sm:mx-1' />
         </div>
-        <div className="flex flex-col sm:gap-1">
+        <div className='flex flex-col sm:gap-1'>
           {/*{*/}
           {/*  randomNumbers.map((num, i) => (*/}
           {/*    <span key={i}>{num}</span>*/}
@@ -302,7 +302,7 @@ export function TranscriptScreen () {
 
               return part && (
                 <React.Fragment key={i}>
-                  <Radio className="mx-2 font-semibold part sm:text-base text-sm" active={mode === 'edit'} data-part-id={partId} onClick={() => onRadioClick(partId)} selected={selectedParts.includes(partId)}>
+                  <Radio className='mx-2 font-semibold part sm:text-base text-sm' active={mode === 'edit'} data-part-id={partId} onClick={() => onRadioClick(partId)} selected={selectedParts.includes(partId)}>
                     <span>Recorded on {formatUnixTimestampFull(part.createdAt)}</span>
                   </Radio>
                   {maxPartResults(part.results).map((result, j) => {
@@ -326,37 +326,37 @@ export function TranscriptScreen () {
                           key={i}
                           id={isPlaying ? 'active-line' : undefined}
                         >
-                          <div className="flex flex-row gap-3 p-2">
-                            <div className="h-6 rounded-[0.4rem] flex items-center px-1 bg-purple-custom2">
+                          <div className='flex flex-row gap-3 p-2'>
+                            <div className='h-6 rounded-[0.4rem] flex items-center px-1 bg-purple-custom2'>
                               <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate' style={{ width: timestampWidth }}>
                                 {formattedTimestamp}
                               </div>
                             </div>
-                            <div className="flex flex-col">
-                              <span className="text-sm sm:text-base text-left w-full">{result.text}</span>
-                              <span className="text-sm sm:text-base text-left w-full">{result.translation}</span>
+                            <div className='flex flex-col'>
+                              <span className='text-sm sm:text-base text-left w-full'>{result.text}</span>
+                              <span className='text-sm sm:text-base text-left w-full'>{result.translation}</span>
                             </div>
                           </div>
                         </ContainerButton>
-                        {mode !== 'edit' && j === part.results.length - 1 && i !== partsOrder.length - 1 && <Divider className="mx-2 sm:mx-1" />}
+                        {mode !== 'edit' && j === part.results.length - 1 && i !== partsOrder.length - 1 && <Divider className='mx-2 sm:mx-1' />}
                       </React.Fragment>
                     );
                   })}
-                  {mode === 'edit' && i !== partsOrder.length - 1 && <Divider className="mx-2 sm:mx-1" />}
+                  {mode === 'edit' && i !== partsOrder.length - 1 && <Divider className='mx-2 sm:mx-1' />}
                 </React.Fragment>
               );
             })
           }
           {interimResult.trim() && <div
-            className="flex items-center gap-3 w-full justify-between cursor-text"
+            className='flex items-center gap-3 w-full justify-between cursor-text'
           >
-            <div className="flex flex-row gap-3 p-2">
-              <div className="h-6 rounded-[0.4rem] flex items-center px-1 bg-purple-custom2">
+            <div className='flex flex-row gap-3 p-2'>
+              <div className='h-6 rounded-[0.4rem] flex items-center px-1 bg-purple-custom2'>
                 <div className='text-xs sm:text-sm text-white shrink-0 overflow-hidden truncate select-none flex justify-center' style={{ width: getTimestampWidth(formatFloatToTime((newResultTime - parts[currentPartId].createdAt) / 1000)) }}>
                   {formatFloatToTime(Math.max(0, ((newResultTime - parts[currentPartId].createdAt) / 1000) - 1))}
                 </div>
               </div>
-              <span className="text-sm sm:text-base text-left w-full">{interimResult}</span>
+              <span className='text-sm sm:text-base text-left w-full'>{interimResult}</span>
             </div>
           </div>}
         </div>
@@ -380,13 +380,13 @@ export function TranscriptScreen () {
 
   return (
     <>
-      <audio hidden={true} controls preload="metadata" id="audio" />
+      <audio hidden={true} controls preload='metadata' id='audio' />
       <Hotkeys />
-      <NavbarBlur className="bg-purple-custom" />
+      <NavbarBlur className='bg-purple-custom' />
       <Navbar>
-        <BackButton linkPath="/transcribe" text="Transcripts" disabled={mode !== 'default'} />
-        {/*{mode === 'default' && Object.keys(parts).length > 0 && <span className="absolute left-1/2 transform -translate-x-1/2 no-underline">{_.round(playbackSpeed, 2)}x</span>}*/}
-        {mode !== 'edit' ? <MoreMenuButton disabled={!transcriptionSupported && Object.keys(parts).length === 0} /> : <Button className="text-base font-semibold" onClick={handleDone}>Done</Button>}
+        <BackButton linkPath='/transcribe' text='Transcripts' disabled={mode !== 'default'} />
+        {/*{mode === 'default' && Object.keys(parts).length > 0 && <span className='absolute left-1/2 transform -translate-x-1/2 no-underline'>{_.round(playbackSpeed, 2)}x</span>}*/}
+        {mode !== 'edit' ? <MoreMenuButton disabled={!transcriptionSupported && Object.keys(parts).length === 0} /> : <Button className='text-base font-semibold' onClick={handleDone}>Done</Button>}
       </Navbar>
       {newTranscript !== null && (
         <>
@@ -394,14 +394,14 @@ export function TranscriptScreen () {
             {content}
           </OverflowContainer>
           <div
-            className="fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200"
+            className='fixed top-11 bg-white w-full max-w-screen-sm transform -translate-x-1/2 left-1/2 backdrop-blur bg-opacity-80 transition-[opacity] duration-200'
             style={{ opacity: showSubNav ? 1 : 0, pointerEvents: showSubNav ? 'all' : 'none' }}
           >
-            <div className="flex flex-col gap-0.5 my-2">
-              <span className="sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate">{title}</span>
-              <span className="sm:text-sm text-gray-subtext text-sm mx-2 overflow-hidden truncate">Recorded on {formatUnixTimestampFull(getCurrentPart()?.createdAt)}</span>
+            <div className='flex flex-col gap-0.5 my-2'>
+              <span className='sm:text-base text-sm font-semibold mx-2 overflow-hidden truncate'>{title}</span>
+              <span className='sm:text-sm text-gray-subtext text-sm mx-2 overflow-hidden truncate'>Recorded on {formatUnixTimestampFull(getCurrentPart()?.createdAt)}</span>
             </div>
-            <Divider className="sm:my-0 my-0" />
+            <Divider className='sm:my-0 my-0' />
           </div>
           <BottomBar />
           <SyncScrollButton />

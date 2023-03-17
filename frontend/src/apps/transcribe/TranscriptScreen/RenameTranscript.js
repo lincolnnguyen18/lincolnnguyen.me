@@ -27,13 +27,13 @@ export function RenameTranscript () {
 
   return (
     <FormScreen isForm={true} onSubmit={onEdit}>
-      <Group title="Set Transcript Name">
-        <TextField placeholder="Transcript name" autoFocus={true} defaultValue={title} name="title" />
+      <Group title='Set Transcript Name'>
+        <TextField placeholder='Transcript name' autoFocus={true} defaultValue={title} name='title' />
       </Group>
       <FormScreenBottom>
-        <StyledButton onClick={handleClose} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz">Cancel</StyledButton>
-        <GroupDivider dir="horiz w-36" />
-        <StyledButton onClick={handleClose} className="justify-center" outerClassName="sm:w-48 w-36" dir="horiz" type="submit">Save</StyledButton>
+        <StyledButton onClick={handleClose} className='justify-center' outerClassName='sm:w-48 w-36' dir='horiz'>Cancel</StyledButton>
+        <GroupDivider dir='horiz w-36' />
+        <StyledButton onClick={handleClose} className='justify-center' outerClassName='sm:w-48 w-36' dir='horiz' type='submit'>Save</StyledButton>
       </FormScreenBottom>
     </FormScreen>
   );

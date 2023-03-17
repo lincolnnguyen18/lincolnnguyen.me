@@ -6,10 +6,10 @@ import { OverflowContainer } from '../../components/OverflowContainer';
 export function SettingsScreen () {
   return (
     <>
-      <NavbarBlur className="bg-gray-custom" />
+      <NavbarBlur className='bg-gray-custom' />
       <Navbar>
-        <BackButton linkPath="/" text="Apps" />
-        <span className="font-semibold absolute left-1/2 transform -translate-x-1/2">Settings</span>
+        <BackButton linkPath='/' text='Apps' />
+        <span className='font-semibold absolute left-1/2 transform -translate-x-1/2'>Settings</span>
       </Navbar>
       <OverflowContainer>
         <span>Settings</span>
