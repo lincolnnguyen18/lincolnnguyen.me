@@ -41,6 +41,7 @@ const initialState = {
   menuChildrenHidden: false,
   menuEasyClose: true,
   menuCloseDisabled: false,
+  backgroundColor: 'white',
 };
 
 const openRegister = createAsyncThunk(

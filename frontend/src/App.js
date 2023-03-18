@@ -21,7 +21,7 @@ export function App () {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const { backgroundPosition, browser, windowValues, token, showLogin, user, menuOpen } = useSelector(commonSelector);
+  const { backgroundPosition, browser, windowValues, token, showLogin, user, menuOpen, backgroundColor } = useSelector(commonSelector);
   const [isHome, setIsHome] = React.useState(false);
 
   React.useEffect(() => {
@@ -110,7 +110,7 @@ export function App () {
   return token !== undefined && user !== undefined && (
     <>
       <div className='z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85] bg-gray-background' style={{ backgroundSize: 'cover', backgroundImage: `url(${imageUrl})`, backgroundPosition }} />
-      <WhiteVignette open={!isHome} />
+      <WhiteVignette open={!isHome} color={backgroundColor} />
       <Routes>
         <Route path='/' element={<HomeScreen />} />
         <Route path='/messages' element={<Protected><ContactsScreen /></Protected>} />

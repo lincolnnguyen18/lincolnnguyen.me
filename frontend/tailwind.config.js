@@ -21,11 +21,10 @@ module.exports = {
         gray: {
           hover: '#f3f4f6',
           active: '#e5e7eb',
-          // gray-500
           subtext: '#6c727f',
           subtext2: '#e0e0e0',
+          subtext3: '#434343',
           input: '#c2c2c2',
-          // gray-200
           divider: '#e5e7eb',
           background: '#dadada',
           custom: '#424242',
