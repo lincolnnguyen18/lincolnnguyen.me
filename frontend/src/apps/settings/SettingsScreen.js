@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { BackButton } from '../../components/BackButton';
@@ -6,7 +7,8 @@ import { Navbar } from '../../components/Navbar';
 import { NavbarBlur } from '../../components/NavbarBlur';
 import { OverflowContainer } from '../../components/OverflowContainer';
 import { WhiteButton } from '../../components/WhiteButton';
-import { commonActions } from '../../slices/commonSlice';
+import { commonActions, openMenu } from '../../slices/commonSlice';
+import { Confirm } from '../main/Confirm';
 
 export function SettingsScreen () {
   const dispatch = useDispatch();
@@ -19,6 +21,18 @@ export function SettingsScreen () {
     };
   }, []);
 
+  function onLogout () {
+    Cookies.remove('token');
+    dispatch(commonActions.setSlice({ showLogin: '/', loggedIn: false, token: null, user: null, loggingOut: true }));
+  }
+
+  function onLogoutClick () {
+    dispatch(openMenu({
+      children: <Confirm message='Are you sure you want to logout?' onConfirm={onLogout} />,
+      easyClose: false,
+    }));
+  }
+
   return (
     <>
       <NavbarBlur className='bg-gray-custom' />
@@ -28,7 +42,7 @@ export function SettingsScreen () {
       </Navbar>
       <OverflowContainer className='px-3'>
         <Group title='Account' className='text-black'>
-          <WhiteButton className='rounded-lg'>
+          <WhiteButton className='rounded-lg' onClick={onLogoutClick}>
             <span>Logout</span>
             <span className='icon-chevron-right text-2xl text-gray-subtext' />
           </WhiteButton>
