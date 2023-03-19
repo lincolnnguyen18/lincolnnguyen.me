@@ -1,0 +1,21 @@
+{
+  "name": "timetable-parser",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_PATH=./src ts-node src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "webdriverio": "^8.6.3"
+  },
+  "devDependencies": {
+    "@types/web": "^0.0.99",
+    "@typescript-eslint/eslint-plugin": "^5.55.0",
+    "@typescript-eslint/parser": "^5.55.0",
+    "eslint": "^8.36.0"
+  },
+  "description": ""
+}

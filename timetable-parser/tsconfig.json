@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "baseUrl": "src",
+    "types": [
+      "node",
+      "web"
+    ],
+  },
+  "include": [
+    "src"
+  ],
+}
