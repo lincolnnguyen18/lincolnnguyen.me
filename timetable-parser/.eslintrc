@@ -45,6 +45,7 @@
       }
     ],
     "react-hooks/exhaustive-deps": "off",
-    "prefer-const": "error"
+    "prefer-const": "error",
+    "no-constant-condition": "warn"
   }
 }
