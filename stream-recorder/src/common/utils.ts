@@ -2,7 +2,7 @@ import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { spawn } from 'child_process';
 import { s3Client } from 'common/clients';
 import { environment } from 'common/environment';
-import { createReadStream } from 'fs';
+import { createReadStream, unlinkSync } from 'fs';
 
 enum Resolution {
   Low = '160:120',
@@ -43,11 +43,20 @@ function downloadHlsStream (url: string, filename: string, resolution: Resolutio
       console.log(`Download for ${filename} complete`);
       await uploadFile(path, filename, 'video/mp4');
       console.log(`Upload for ${filename} complete`);
+      unlinkSync(path);
     } else {
       console.log(`Download failed for ${filename} with code ${code}`);
     }
   });
 }
 
-export { uploadFile, downloadHlsStream };
+/**
+ * Custom setInterval function that calls the callback function immediately when called.
+ */
+function setIntervalCustom (callback: () => void, interval: number) {
+  callback();
+  return setInterval(callback, interval);
+}
+
+export { uploadFile, downloadHlsStream, setIntervalCustom };
 export { Resolution };
