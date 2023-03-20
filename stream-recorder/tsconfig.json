@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "baseUrl": "src",
+    "types": [
+      "node"
+    ],
+  },
+  "include": [
+    "src"
+  ],
+}

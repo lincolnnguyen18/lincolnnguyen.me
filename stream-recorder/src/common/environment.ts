@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 dotenv.config({ override: true });
-// console.log(process.env);
 
 const environment = {
   AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
