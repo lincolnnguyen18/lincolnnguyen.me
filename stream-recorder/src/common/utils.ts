@@ -2,7 +2,7 @@ import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { spawn } from 'child_process';
 import { s3Client } from 'common/clients';
 import { environment } from 'common/environment';
-import { createReadStream, unlinkSync } from 'fs';
+import { createReadStream, readdirSync, unlinkSync } from 'fs';
 
 enum Resolution {
   Low = '160:120',
@@ -48,6 +48,15 @@ function downloadHlsStream (url: string, filename: string, resolution: Resolutio
       console.log(`Download failed for ${filename} with code ${code}`);
     }
   });
+
+  // log stdout and stderr
+  process.stdout.on('data', (data) => {
+    console.log(data.toString());
+  });
+
+  process.stderr.on('data', (data) => {
+    console.error(data.toString());
+  });
 }
 
 /**
@@ -58,5 +67,33 @@ function setIntervalCustom (callback: () => void, interval: number) {
   return setInterval(callback, interval);
 }
 
-export { uploadFile, downloadHlsStream, setIntervalCustom };
+/**
+ * Return a promise that does not resolve until the directory is empty.
+ */
+function directoryIsEmpty (directory: string) : Promise<void> {
+  return new Promise((resolve) => {
+    const interval = setInterval(() => {
+      const files = readdirSync(directory);
+      if (files.length === 0) {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 1000);
+  });
+}
+
+function countDownFrom (seconds: number, message: string) {
+  // count down from seconds
+  const interval = setInterval(() => {
+    const minutesRemaining = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const secondsRemaining = (seconds % 60).toString().padStart(2, '0');
+    console.log(`${minutesRemaining}:${secondsRemaining} ${message}`);
+    seconds--;
+    if (seconds === 0) {
+      clearInterval(interval);
+    }
+  }, 1000);
+}
+
+export { uploadFile, downloadHlsStream, setIntervalCustom, directoryIsEmpty, countDownFrom };
 export { Resolution };
