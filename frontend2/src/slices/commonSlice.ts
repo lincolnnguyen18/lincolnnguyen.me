@@ -5,6 +5,7 @@ interface CommonState {
   scrollPositionFromTop: number;
   scrollPositionFromBottom: number;
   screenWidth: number;
+  screenHeight: number;
   errors: string[];
 }
 
@@ -17,6 +18,7 @@ const initialState: CommonState = {
   scrollPositionFromTop: window.scrollY,
   scrollPositionFromBottom: getScrollPositionFromBottom(),
   screenWidth: window.innerWidth,
+  screenHeight: window.innerHeight,
   errors: [],
 };
 

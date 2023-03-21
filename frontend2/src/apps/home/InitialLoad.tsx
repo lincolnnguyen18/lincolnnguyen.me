@@ -19,6 +19,7 @@ export default function InitialLoad () {
     dispatch(
       commonActions.updateSlice({
         screenWidth: window.innerWidth,
+        screenHeight: window.innerHeight,
       }),
     );
   }
