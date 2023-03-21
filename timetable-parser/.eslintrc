@@ -16,7 +16,13 @@
     ],
     "comma-dangle": [
       "error",
-      "always-multiline"
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "always-multiline"
+      }
     ],
     "indent": [
       "error",
@@ -46,6 +52,23 @@
     ],
     "react-hooks/exhaustive-deps": "off",
     "prefer-const": "error",
-    "no-constant-condition": "warn"
+    "no-constant-condition": "off",
+    "space-in-parens": [
+      "error",
+      "never"
+    ],
+    "@typescript-eslint/type-annotation-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true,
+        "overrides": {
+          "arrow": {
+            "before": true,
+            "after": true
+          }
+        }
+      }
+    ]
   }
 }
