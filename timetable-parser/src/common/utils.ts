@@ -132,7 +132,6 @@ function setAttributeOfElements (
   });
 }
 
-
 export {
   textIsPresent,
   wait,
