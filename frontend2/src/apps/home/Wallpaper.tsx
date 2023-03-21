@@ -15,6 +15,6 @@ export default function Wallpaper (props: WallpaperProps) {
   }, []);
 
   return (
-    <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85] bg-cover" style={{ backgroundImage: `url(${props.imageUrl})`, backgroundPosition }} />
+    <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85] bg-cover bg-black" style={{ backgroundImage: `url(${props.imageUrl})`, backgroundPosition }} />
   );
 }

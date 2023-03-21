@@ -25,9 +25,15 @@ export default function InitialLoad () {
   }
 
   React.useEffect(() => {
+    const body = document.body as HTMLElement;
+    const classes = ['overflow-y-scroll'];
+    body.classList.add(...classes);
+
     window.addEventListener('scroll', onScroll);
     window.addEventListener('resize', onResize);
     return () => {
+      body.classList.remove(...classes);
+
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
     };

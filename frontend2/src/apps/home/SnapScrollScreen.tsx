@@ -7,7 +7,7 @@ interface SnapScrollContainerProps {
 }
 
 export default function SnapScrollContainer (props: SnapScrollContainerProps) {
-  const className = twMerge('snap-start shrink-0 h-[100vh] w-[100vw]', props.className);
+  const className = twMerge('snap-start shrink-0 w-screen', props.className);
 
   return (
     <div className={className}>

@@ -14,12 +14,21 @@ export default function HomeScreen () {
     numIconsPerScreen = Math.floor(screenHeight / 130) * 4;
   }
 
+  React.useEffect(() => {
+    const root = document.getElementById('root') as HTMLElement;
+    const classes = ['snap-x', 'snap-mandatory', 'overflow-x-scroll', 'h-screen'];
+    root.classList.add(...classes);
+    return () => {
+      root.classList.remove(...classes);
+    };
+  }, []);
+
   return (
     <React.Fragment>
       <Nav className='text-white justify-center'>
         <span className='font-semibold'>Apps</span>
       </Nav>
-      <div className='flex flex-row snap-x snap-mandatory overflow-x-auto'>
+      <div className='flex flex-row'>
         <SnapScrollContainer>
           <Screen>
             <div className='grid grid-cols-4 grid-flow-row gap-4 place-items-center px-2 pt-2 pb-4'>
