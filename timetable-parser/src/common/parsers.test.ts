@@ -1,11 +1,11 @@
 import nhkg from 'output/nhkg.json';
-import { parseTvTokyoTimetableData } from 'common/parsers';
+import { parseNhkTimetableData } from 'common/parsers';
 import { writeFileSync } from 'fs';
 
 describe('Parsers', () => {
-  it('should parse a string', () => {
-    const res = parseTvTokyoTimetableData(nhkg, new Date('2022-02-21'));
+  it('parseNhkTimetableData', () => {
+    const res = parseNhkTimetableData(nhkg, new Date('2022-02-21'));
     console.log(res);
-    writeFileSync('src/output/tvtokyo-parsed.json', JSON.stringify(res, null, 2));
+    writeFileSync('src/output/nhkg-parsed.json', JSON.stringify(res, null, 2));
   });
 });

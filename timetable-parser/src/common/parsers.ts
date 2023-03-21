@@ -17,7 +17,7 @@ function replaceAllWhiteSpaceWithOneSpace (str: string): string {
   return str.replace(/\s+/g, ' ');
 }
 
-function parseTvTokyoTimetableData (dailySchedule: string[][], startDate: Date): Day[] {
+function parseNhkTimetableData (dailySchedule: string[][], startDate: Date): Day[] {
   const parsedDays = [];
   for (let i = 0; i < dailySchedule.length; i++) {
     const day = dailySchedule[i];
@@ -36,4 +36,4 @@ function parseTvTokyoTimetableData (dailySchedule: string[][], startDate: Date):
   return parsedDays;
 }
 
-export { parseTvTokyoTimetableData };
+export { parseNhkTimetableData };
