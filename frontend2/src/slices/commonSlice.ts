@@ -7,6 +7,7 @@ interface CommonState {
   screenWidth: number;
   screenHeight: number;
   errors: string[];
+  root: any;
 }
 
 interface UpdateSliceAction {
@@ -20,6 +21,7 @@ const initialState: CommonState = {
   screenWidth: window.innerWidth,
   screenHeight: window.innerHeight,
   errors: [],
+  root: document.getElementById('root') as HTMLElement,
 };
 
 const commonSlice = createSlice({

@@ -5,7 +5,7 @@ import InitialLoad from 'apps/home/InitialLoad';
 import { Route, Routes } from 'react-router-dom';
 import Wallpaper from 'apps/home/Wallpaper';
 
-function App () {
+export default function App () {
   return (
     <React.Fragment>
       <Routes>
@@ -17,5 +17,3 @@ function App () {
     </React.Fragment>
   );
 }
-
-export default App;

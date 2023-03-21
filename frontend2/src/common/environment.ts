@@ -3,7 +3,7 @@ interface Environment {
 }
 
 const environment: Environment = {
-  showDebug: process.env.REACT_APP_SHOW_DEBUG === 'true',
+  showDebug: false,
 };
 
 export default environment;

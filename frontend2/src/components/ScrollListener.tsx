@@ -1,23 +1,30 @@
 import React from 'react';
 
+interface onScrollChangeProps {
+  isScrolling: boolean;
+  scrollLeft: number;
+  scrollTop: number;
+}
+
 interface ScrollListenerProps {
   target?: HTMLElement | Window;
   scrollTimeout?: number;
-  onScrollChange: (_isScrolling: boolean) => void;
+  onScrollChange: (_props: onScrollChangeProps) => void;
 }
 
-function ScrollListener ({
+export default function ScrollListener ({
   target = window,
   scrollTimeout = 100,
   onScrollChange,
 }: ScrollListenerProps) {
   let scrollTimeoutId: ReturnType<typeof setTimeout>;
 
-  const handleScroll = () => {
+  const handleScroll = (e: Event) => {
+    const { scrollLeft, scrollTop } = e.target as HTMLElement;
     clearTimeout(scrollTimeoutId);
-    onScrollChange(true);
+    onScrollChange({ isScrolling: true, scrollLeft, scrollTop });
     scrollTimeoutId = setTimeout(() => {
-      onScrollChange(false);
+      onScrollChange({ isScrolling: false, scrollLeft, scrollTop });
     }, scrollTimeout);
   };
 
@@ -32,4 +39,4 @@ function ScrollListener ({
   return null;
 }
 
-export default ScrollListener;
+export type { onScrollChangeProps };

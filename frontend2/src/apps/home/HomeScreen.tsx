@@ -2,17 +2,14 @@ import React from 'react';
 import Nav from 'components/Nav';
 import Apps from 'apps/home/Apps';
 import AppIcon from 'apps/home/AppIcon';
-import ScrollListener from 'components/ScrollListener';
+import { useSelector } from 'react-redux';
+import { commonSelector } from 'slices/commonSlice';
 
 export default function HomeScreen () {
+  const { root } = useSelector(commonSelector);
   const [apps, setApps] = React.useState<React.ReactNode[]>([]);
-  const [isScrolling, setIsScrolling] = React.useState(false);
-  const [root, setRoot] = React.useState<HTMLElement | undefined>(undefined);
 
   React.useEffect(() => {
-    const root = document.getElementById('root') as HTMLElement;
-    setRoot(root);
-
     // setup horizontal snap scrolling
     const classes = ['snap-x', 'snap-mandatory', 'overflow-x-scroll', 'h-screen'];
     root.classList.add(...classes);
@@ -35,25 +32,12 @@ export default function HomeScreen () {
     };
   }, []);
 
-  React.useEffect(() => {
-    console.log('isScrolling', isScrolling);
-  }, [isScrolling]);
-
   return (
     <React.Fragment>
       <Nav className='text-white justify-center'>
         <span className='font-semibold'>Apps</span>
       </Nav>
       <Apps apps={apps} />
-      <div className='flex flex-row gap-3 justify-center fixed bottom-5 w-screen pointer-events-none'>
-        <div className='bg-white w-2 h-2 rounded-full bg-opacity-100' />
-        <div className='bg-white w-2 h-2 rounded-full bg-opacity-50' />
-        <div className='bg-white w-2 h-2 rounded-full bg-opacity-50' />
-        <div className='bg-white w-2 h-2 rounded-full bg-opacity-50' />
-        <div className='bg-white w-2 h-2 rounded-full bg-opacity-50' />
-        <div className='bg-white w-2 h-2 rounded-full bg-opacity-50' />
-      </div>
-      <ScrollListener target={root} onScrollChange={setIsScrolling} />
     </React.Fragment>
   );
 }
