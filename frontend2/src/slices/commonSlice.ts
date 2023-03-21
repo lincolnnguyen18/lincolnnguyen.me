@@ -16,7 +16,7 @@ interface UpdateSliceAction {
 const initialState: CommonState = {
   scrollPositionFromTop: window.scrollY,
   scrollPositionFromBottom: getScrollPositionFromBottom(),
-  screenWidth: 0,
+  screenWidth: window.innerWidth,
   errors: [],
 };
 

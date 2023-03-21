@@ -15,9 +15,21 @@ export default function InitialLoad () {
     );
   }
 
+  function onResize () {
+    dispatch(
+      commonActions.updateSlice({
+        screenWidth: window.innerWidth,
+      }),
+    );
+  }
+
   React.useEffect(() => {
     window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+    };
   }, []);
 
   return <React.Fragment />;

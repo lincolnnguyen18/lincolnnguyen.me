@@ -15,7 +15,4 @@ module.exports = {
     quotes: ['error', 'single'],
     'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
   },
-  env: {
-    'jest': true,
-  }
 };

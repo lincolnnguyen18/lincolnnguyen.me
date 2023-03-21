@@ -1,16 +1,19 @@
-import Debug from 'apps/home/Debug';
-import InitialLoad from 'apps/home/InitialLoad';
 import React from 'react';
+import Debug from 'apps/home/Debug';
+import HomeScreen from 'apps/home/HomeScreen';
+import InitialLoad from 'apps/home/InitialLoad';
+import { Route, Routes } from 'react-router-dom';
+import Wallpaper from 'apps/home/Wallpaper';
 
 function App () {
   return (
     <React.Fragment>
-      <div className="flex flex-col">
-        {/* <span>Hello</span> */}
-        {Array(100).fill(0).map((_, i) => <span key={i}>Hello</span>)}
-      </div>
+      <Routes>
+        <Route path='/' element={<HomeScreen />} />
+      </Routes>
       <InitialLoad />
       <Debug />
+      <Wallpaper imageUrl='/bg.webp' />
     </React.Fragment>
   );
 }

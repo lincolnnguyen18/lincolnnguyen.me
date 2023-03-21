@@ -6,8 +6,16 @@
 
 input[type=range].white::-webkit-slider-thumb {
   -webkit-appearance: none !important;
-  background-color: white;
   height: 18px;
   width: 18px;
   border-radius: 50%;
+}
+
+:root {
+  --gray-color-1: #efefef;
+  --red-color-1: #ff0000;
+}
+
+html {
+  background-color: var(--gray-color);
 }
