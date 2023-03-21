@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { commonActions } from 'slices/commonSlice';
-import { getScrollPositionFromBottom } from 'utils/measurementUtils';
+import { getScrollPositionFromBottom } from 'utils/scrollUtils';
 
 export default function InitialLoad () {
   const dispatch = useDispatch();

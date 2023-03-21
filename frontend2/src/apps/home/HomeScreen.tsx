@@ -1,62 +1,59 @@
 import React from 'react';
 import Nav from 'components/Nav';
-import Screen from 'components/Screen';
-import SnapScrollContainer from 'apps/home/SnapScrollScreen';
+import Apps from 'apps/home/Apps';
 import AppIcon from 'apps/home/AppIcon';
-import theme from 'tailwindcss/defaultTheme';
-import { useSelector } from 'react-redux';
-import { commonSelector } from 'slices/commonSlice';
+import ScrollListener from 'components/ScrollListener';
 
 export default function HomeScreen () {
-  const { screenHeight, screenWidth } = useSelector(commonSelector);
-  let numIconsPerScreen = Math.floor(screenHeight / 170) * 4;
-  if (screenWidth <= parseInt(theme.screens.sm)) {
-    numIconsPerScreen = Math.floor(screenHeight / 130) * 4;
-  }
+  const [apps, setApps] = React.useState<React.ReactNode[]>([]);
+  const [isScrolling, setIsScrolling] = React.useState(false);
+  const [root, setRoot] = React.useState<HTMLElement | undefined>(undefined);
 
   React.useEffect(() => {
     const root = document.getElementById('root') as HTMLElement;
+    setRoot(root);
+
+    // setup horizontal snap scrolling
     const classes = ['snap-x', 'snap-mandatory', 'overflow-x-scroll', 'h-screen'];
     root.classList.add(...classes);
+
+    // set apps
+    setApps([
+      ...Array.from({ length: 30 }).map((_, i) => (
+        <AppIcon abbreviation='AB' name='Aiden B' className='bg-red-400' key={i} />
+      )),
+      ...Array.from({ length: 37 }).map((_, i) => (
+        <AppIcon abbreviation='AB' name='Aiden B' className='bg-blue-400' key={i} />
+      )),
+      ...Array.from({ length: 30 }).map((_, i) => (
+        <AppIcon abbreviation='AB' name='Aiden B' className='bg-green-400' key={i} />
+      )),
+    ]);
+
     return () => {
       root.classList.remove(...classes);
     };
   }, []);
+
+  React.useEffect(() => {
+    console.log('isScrolling', isScrolling);
+  }, [isScrolling]);
 
   return (
     <React.Fragment>
       <Nav className='text-white justify-center'>
         <span className='font-semibold'>Apps</span>
       </Nav>
-      <div className='flex flex-row'>
-        <SnapScrollContainer>
-          <Screen>
-            <div className='grid grid-cols-4 grid-flow-row gap-4 place-items-center px-2 pt-2 pb-4'>
-              {Array.from({ length: numIconsPerScreen }).map((_, i) => (
-                <AppIcon abbreviation='AB' name='Aiden B' className='bg-red-400' key={i} />
-              ))}
-            </div>
-          </Screen>
-        </SnapScrollContainer>
-        <SnapScrollContainer>
-          <Screen>
-            <div className='grid grid-cols-4 grid-flow-row gap-4 place-items-center px-2 pt-2 pb-4'>
-              {Array.from({ length: numIconsPerScreen }).map((_, i) => (
-                <AppIcon abbreviation='AB' name='Aiden B' className='bg-blue-400' key={i} />
-              ))}
-            </div>
-          </Screen>
-        </SnapScrollContainer>
-        <SnapScrollContainer>
-          <Screen>
-            <div className='grid grid-cols-4 grid-flow-row gap-4 place-items-center px-2 pt-2 pb-4'>
-              {Array.from({ length: numIconsPerScreen }).map((_, i) => (
-                <AppIcon abbreviation='AB' name='Aiden B' className='bg-green-400' key={i} />
-              ))}
-            </div>
-          </Screen>
-        </SnapScrollContainer>
+      <Apps apps={apps} />
+      <div className='flex flex-row gap-3 justify-center fixed bottom-5 w-screen pointer-events-none'>
+        <div className='bg-white w-2 h-2 rounded-full bg-opacity-100' />
+        <div className='bg-white w-2 h-2 rounded-full bg-opacity-50' />
+        <div className='bg-white w-2 h-2 rounded-full bg-opacity-50' />
+        <div className='bg-white w-2 h-2 rounded-full bg-opacity-50' />
+        <div className='bg-white w-2 h-2 rounded-full bg-opacity-50' />
+        <div className='bg-white w-2 h-2 rounded-full bg-opacity-50' />
       </div>
+      <ScrollListener target={root} onScrollChange={setIsScrolling} />
     </React.Fragment>
   );
 }

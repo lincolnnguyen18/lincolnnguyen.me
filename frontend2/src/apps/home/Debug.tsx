@@ -1,4 +1,3 @@
-import React from 'react';
 import environment from 'common/environment';
 import { useSelector } from 'react-redux';
 import { commonSelector } from 'slices/commonSlice';

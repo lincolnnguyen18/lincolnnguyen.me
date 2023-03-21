@@ -14,7 +14,18 @@ export default function Wallpaper (props: WallpaperProps) {
     setBackgroundPosition(_.sample(positions)!);
   }, []);
 
+  // TODO: darken when on homescreen
+  const brightness = 0.85;
+  // const brightness = 0.60;
+
   return (
-    <div className="z-[-1] fixed bottom-0 right-0 top-0 left-0 brightness-[0.85] bg-cover bg-black" style={{ backgroundImage: `url(${props.imageUrl})`, backgroundPosition }} />
+    <div
+      className='z-[-1] fixed bottom-0 right-0 top-0 left-0 bg-cover bg-black'
+      style={{
+        backgroundImage: `url(${props.imageUrl})`,
+        backgroundPosition,
+        filter: `brightness(${brightness})`,
+      }}
+    />
   );
 }

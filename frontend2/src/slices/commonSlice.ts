@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getScrollPositionFromBottom } from 'utils/measurementUtils';
+import { getScrollPositionFromBottom } from 'utils/scrollUtils';
 
 interface CommonState {
   scrollPositionFromTop: number;
