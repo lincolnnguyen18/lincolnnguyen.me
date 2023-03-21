@@ -12,10 +12,9 @@ input[type=range].white::-webkit-slider-thumb {
 }
 
 :root {
-  --gray-color-1: #efefef;
-  --red-color-1: #ff0000;
+  --tv-schedules-app-color: #f87171;
 }
 
 html {
-  background-color: var(--gray-color);
+  background-color: black;
 }

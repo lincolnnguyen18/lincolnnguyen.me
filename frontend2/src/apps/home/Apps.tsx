@@ -14,17 +14,7 @@ export default function Apps ({ apps }: AppsProps) {
   const { root } = useSelector(commonSelector);
   const { screenHeight, screenWidth } = useSelector(commonSelector);
   const [currentPage, setCurrentPage] = React.useState(0);
-
-  let numIconsPerScreen = Math.floor(screenHeight / 170) * 4;
-  if (screenWidth <= parseInt(theme.screens.sm)) {
-    numIconsPerScreen = Math.floor(screenHeight / 130) * 4;
-  }
-
-  // divide apps into groups of numIconsPerScreen
-  const appGroups = [];
-  for (let i = 0; i < apps.length; i += numIconsPerScreen) {
-    appGroups.push(apps.slice(i, i + numIconsPerScreen));
-  }
+  const [appGroups, setAppGroups] = React.useState<React.ReactNode[][]>([]);
 
   function onScrollChange (props: onScrollChangeProps) {
     const { scrollLeft } = props;
@@ -32,6 +22,26 @@ export default function Apps ({ apps }: AppsProps) {
     setCurrentPage(currentPage);
   }
 
+  // divide apps into groups of numIconsPerScreen
+  React.useEffect(() => {
+    let numIconsPerScreen = Math.floor(screenHeight / 170) * 4;
+    if (screenWidth <= parseInt(theme.screens.sm)) {
+      numIconsPerScreen = Math.floor(screenHeight / 130) * 4;
+    }
+
+    const appGroups = [];
+    for (let i = 0; i < apps.length; i += numIconsPerScreen) {
+      appGroups.push(apps.slice(i, i + numIconsPerScreen));
+    }
+
+    if (appGroups.length === 1) {
+      appGroups.push([]);
+    }
+
+    setAppGroups(appGroups);
+  }, [screenHeight, screenWidth]);
+
+  // add/remove horizontal scroll classes
   React.useEffect(() => {
     const horizonalScrollClasses = ['snap-x', 'snap-mandatory', 'overflow-x-scroll', 'h-screen'];
     if (screenWidth <= parseInt(theme.screens.sm)) {
@@ -44,6 +54,7 @@ export default function Apps ({ apps }: AppsProps) {
     };
   }, [screenWidth]);
 
+  // scroll horizontally on mobile and vertically on desktop
   if (screenWidth <= parseInt(theme.screens.sm)) {
     return (
       <React.Fragment>
@@ -58,11 +69,11 @@ export default function Apps ({ apps }: AppsProps) {
             </SnapScrollContainer>
           ))}
         </div>
-        <div className='flex flex-row gap-3 justify-center fixed w-screen pointer-events-none mt-8'>
+        <div className='flex flex-row gap-3 justify-center fixed w-screen pointer-events-none bottom-0'>
           {appGroups.map((_, i) => (
             <div
               key={i}
-              className='bg-white w-2 h-2 rounded-full transition-opacity duration-200 mb-11'
+              className='bg-white w-2 h-2 rounded-full transition-opacity duration-200 mb-5'
               style={{ opacity: i === currentPage ? 1 : 0.4 }}
             />
           ))}

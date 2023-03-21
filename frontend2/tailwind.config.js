@@ -4,8 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'gray-color-1': 'var(--gray-color-1)',
-        'red-color-1': 'var(--red-color-1)',
+        'tv-schedules-app-color': 'var(--tv-schedules-app-color)',
       },
     },
   },

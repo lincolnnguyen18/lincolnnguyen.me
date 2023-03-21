@@ -7,17 +7,10 @@ export default function HomeScreen () {
   const [apps, setApps] = React.useState<React.ReactNode[]>([]);
 
   React.useEffect(() => {
-    setApps([
-      ...Array.from({ length: 30 }).map((_, i) => (
-        <AppIcon abbreviation='AB' name='Aiden B' className='bg-red-400' key={i} />
-      )),
-      ...Array.from({ length: 37 }).map((_, i) => (
-        <AppIcon abbreviation='AB' name='Aiden B' className='bg-blue-400' key={i} />
-      )),
-      ...Array.from({ length: 30 }).map((_, i) => (
-        <AppIcon abbreviation='AB' name='Aiden B' className='bg-green-400' key={i} />
-      )),
-    ]);
+    const apps = [
+      <AppIcon abbreviation='TV' name='TV Schedules' className='bg-tv-schedules-app-color' />,
+    ];
+    setApps(apps);
   }, []);
 
   return (
