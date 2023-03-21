@@ -1,5 +1,5 @@
-import SnapScrollContainer from 'apps/home/SnapScrollScreen';
-import Screen from 'components/Screen';
+import SnapScrollContainer from 'apps/home/SnapScrollContainer';
+import ScreenContainer from 'components/ScreenContainer';
 import React from 'react';
 import theme from 'tailwindcss/defaultTheme';
 import ScrollListener, { onScrollChangeProps } from 'components/ScrollListener';
@@ -61,11 +61,11 @@ export default function Apps ({ apps }: AppsProps) {
         <div className='flex flex-row'>
           {appGroups.map((appGroup, i) => (
             <SnapScrollContainer key={i}>
-              <Screen>
+              <ScreenContainer>
                 <div className='grid grid-cols-4 grid-flow-row gap-4 place-items-center px-6 pt-2 pb-4'>
                   {appGroup}
                 </div>
-              </Screen>
+              </ScreenContainer>
             </SnapScrollContainer>
           ))}
         </div>
@@ -83,11 +83,11 @@ export default function Apps ({ apps }: AppsProps) {
     );
   } else {
     return (
-      <Screen>
+      <ScreenContainer>
         <div className='grid grid-cols-4 grid-flow-row gap-4 place-items-center px-6 pt-2 pb-4'>
           {apps}
         </div>
-      </Screen>
+      </ScreenContainer>
     );
   }
 }
