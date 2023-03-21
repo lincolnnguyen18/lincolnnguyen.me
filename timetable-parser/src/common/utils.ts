@@ -18,8 +18,8 @@ function getElementInfo (element: Element): { text: string; rect: DOMRect } {
   };
 }
 
-function logInBrowser (message): void {
-  console.log(message);
+function logInBrowser (...args): void {
+  console.log(...args);
 }
 
 function getElementAtPoint (point: Point): Element | null {
@@ -38,10 +38,15 @@ function scrollTo (scrollPosition: number): void {
   window.scrollTo(0, scrollPosition);
 }
 
+function getScrollY (): number {
+  return window.scrollY;
+}
+
 async function getCellsInColumn (
   browser: WebdriverIO.Browser,
   firstCell: Point,
   scrollByAmount: number,
+  bottomScrollY: number,
 ): Promise<string[]> {
   const cells = [];
   await browser.execute(scrollTo, 0);
@@ -49,7 +54,9 @@ async function getCellsInColumn (
   do {
     const element = await browser.execute(getElementAtPoint, firstCell);
     const { text } = await browser.execute(getElementInfo, element);
-    if (text === '' && cells.length > 0) {
+    const scrollY = await browser.execute(getScrollY);
+    // if (text === '' && cells.length > 0) {
+    if (scrollY >= bottomScrollY) {
       break;
     }
     // check if text contains numbers matching time format such as 27:15 or 4:00 in addition to other text
@@ -68,7 +75,6 @@ async function getCellsInColumn (
       );
     }
     await wait(1);
-    await browser.execute(scrollBy, 0, scrollByAmount);
     await wait(1);
   } while (true);
 
@@ -81,6 +87,7 @@ async function getCellsInTable (
   columnWidth: number,
   numColumns: number,
   scrollAmount: number,
+  bottomScrollY: number,
 ): Promise<string[][]> {
   const columns = [];
   for (let i = 0; i < numColumns; i++) {
@@ -88,6 +95,7 @@ async function getCellsInTable (
       browser,
       { x: firstCell.x + i * columnWidth, y: firstCell.y },
       scrollAmount,
+      bottomScrollY,
     );
     // console.log('cells:', cells);
     columns.push(cells);
@@ -96,10 +104,6 @@ async function getCellsInTable (
     await wait(100);
   }
   return columns;
-}
-
-function scrollBy (x: number, y: number): void {
-  window.scrollBy(x, y);
 }
 
 /**
@@ -124,6 +128,7 @@ function setAttributeOfElements (
 ): void {
   if (typeof elements === 'string') {
     const nodeList = document.querySelectorAll(elements);
+    // console.log('nodeList:', nodeList);
     elements = Array.from(nodeList);
   }
   if (!elements) return;

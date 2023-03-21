@@ -1,9 +1,14 @@
-import { parseTvTokyoTimetable } from 'common/parsers';
+import { parseNhkgTimetable } from 'common/parsers';
 import fs from 'fs';
 
 async function main () {
-  const columns = await parseTvTokyoTimetable();
-  fs.writeFileSync('src/data/tvtokyo.json', JSON.stringify(columns, null, 2));
+  const timestamp = Date.now();
+
+  // const columns = await parseTvTokyoTimetable();
+  // fs.writeFileSync('src/output/tvtokyo.json', JSON.stringify(columns, null, 2));
+
+  const columns = await parseNhkgTimetable();
+  fs.writeFileSync(`src/output/nhkg#${timestamp}.json`, JSON.stringify(columns, null, 2));
 }
 
 main();
