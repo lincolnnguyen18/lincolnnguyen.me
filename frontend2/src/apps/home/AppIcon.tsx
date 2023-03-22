@@ -1,8 +1,8 @@
-import theme from 'tailwindcss/defaultTheme';
+import CustomLink, { CustomLinkProps } from 'components/CustomLink';
 import { useSelector } from 'react-redux';
 import { commonSelector } from 'slices/commonSlice';
+import { screens } from 'tailwindcss/defaultTheme';
 import { twMerge } from 'tailwind-merge';
-import CustomLink, { CustomLinkProps } from 'components/CustomLink';
 
 interface AppIconProps extends Omit<CustomLinkProps, 'to'> {
   className?: string;
@@ -24,7 +24,8 @@ export default function AppIcon (props: AppIconProps) {
   );
 
   // limit name length depending on screen width
-  const nameLengthLimit = screenWidth > parseInt(theme.screens.sm) ? 12 : 11;
+  // desktop : mobile
+  const nameLengthLimit = screenWidth > parseInt(screens.sm) ? 12 : 11;
   if (name.length > nameLengthLimit) {
     nameDiv = (
       <span className='text-xs whitespace-nowrap tracking-tighter font-semibold text-white sm:text-sm drop-shadow'>

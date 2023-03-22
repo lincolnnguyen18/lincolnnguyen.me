@@ -9,7 +9,6 @@ interface CommonState {
   scrollPositionFromBottom: number;
   screenWidth: number;
   screenHeight: number;
-  root: any;
 
   // async values
   errors: string[];
@@ -22,7 +21,6 @@ const initialState: CommonState = {
   scrollPositionFromBottom: getScrollPositionFromBottom(),
   screenWidth: window.innerWidth,
   screenHeight: window.innerHeight,
-  root: document.getElementById('root') as HTMLElement,
   
   // async values
   errors: [],

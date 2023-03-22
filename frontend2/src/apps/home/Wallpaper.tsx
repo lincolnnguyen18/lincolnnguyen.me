@@ -1,17 +1,20 @@
-import React from 'react';
-import _ from 'lodash';
+import { sample } from 'lodash';
+import { useEffect, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 interface WallpaperProps {
   imageUrl: string;
+  className?: string;
 }
 
 const positions = ['center center', 'center top', 'center bottom'];
 
 export default function Wallpaper (props: WallpaperProps) {
-  const [backgroundPosition, setBackgroundPosition] = React.useState('');
+  const className = twMerge('z-[-1] fixed bottom-0 right-0 top-0 left-0 bg-cover', props.className);
+  const [backgroundPosition, setBackgroundPosition] = useState('');
 
-  React.useEffect(() => {
-    setBackgroundPosition(_.sample(positions)!);
+  useEffect(() => {
+    setBackgroundPosition(sample(positions)!);
   }, []);
 
   // TODO: darken when on homescreen
@@ -20,7 +23,7 @@ export default function Wallpaper (props: WallpaperProps) {
 
   return (
     <div
-      className='z-[-1] fixed bottom-0 right-0 top-0 left-0 bg-cover bg-black'
+      className={className}
       style={{
         backgroundImage: `url(${props.imageUrl})`,
         backgroundPosition,

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 
 interface onScrollChangeProps {
   isScrolling: boolean;
@@ -7,13 +7,16 @@ interface onScrollChangeProps {
 }
 
 interface ScrollListenerProps {
-  target?: HTMLElement | Window;
+  target?: HTMLDivElement | null;
+  /**
+   * How long before isScrolling is set to false
+   */
   scrollTimeout?: number;
   onScrollChange: (_props: onScrollChangeProps) => void;
 }
 
 export default function ScrollListener ({
-  target = window,
+  target,
   scrollTimeout = 100,
   onScrollChange,
 }: ScrollListenerProps) {
@@ -28,7 +31,8 @@ export default function ScrollListener ({
     }, scrollTimeout);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (!target) return;
     target.addEventListener('scroll', handleScroll);
     return () => {
       target.removeEventListener('scroll', handleScroll);

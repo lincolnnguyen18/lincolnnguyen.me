@@ -1,4 +1,3 @@
-import React from 'react';
 import Nav from 'components/Nav';
 import Apps from 'apps/home/Apps';
 import AppIcon from 'apps/home/AppIcon';
@@ -6,12 +5,13 @@ import { appsData } from 'common/data';
 import { useSelector } from 'react-redux';
 import { commonSelector } from 'slices/commonSlice';
 import { enablePropOnCondition } from 'utils/miscUtils';
+import { Fragment, useEffect, useState } from 'react';
 
 export default function HomeScreen () {
   const { user } = useSelector(commonSelector);
-  const [apps, setApps] = React.useState<React.ReactNode[]>([]);
+  const [apps, setApps] = useState<React.ReactNode[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const apps = appsData.map((app, index) => (
       <AppIcon
         abbreviation={app.abbreviation}
@@ -28,11 +28,11 @@ export default function HomeScreen () {
   }, [user]);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Nav className='text-white justify-center'>
         <span className='font-semibold'>Apps</span>
       </Nav>
       <Apps apps={apps} />
-    </React.Fragment>
+    </Fragment>
   );
 }

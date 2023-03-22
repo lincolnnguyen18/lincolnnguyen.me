@@ -1,10 +1,10 @@
-import React from 'react';
 import { fetchUser } from 'slices/commonAsyncActions';
 import { useAppDispatch } from 'common/store';
 import { useSelector } from 'react-redux';
 import { commonSelector } from 'slices/commonSlice';
 import { Navigate, useLocation } from 'react-router-dom';
 import { appsData } from 'common/data';
+import { useEffect } from 'react';
 
 // check if pathname is in appsData as hypenatedName and isProtected
 function isProtectedPath (pathname: string) {
@@ -26,7 +26,7 @@ export default function AppContainer ({ children }: any) {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     // TODO: save pathname in state before redirecting to /login
     onLoad();
   }, []);

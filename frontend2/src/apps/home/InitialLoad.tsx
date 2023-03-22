@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { commonActions } from 'slices/commonSlice';
 import { getScrollPositionFromBottom } from 'utils/scrollUtils';
@@ -25,7 +25,7 @@ export default function InitialLoad () {
     );
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const body = document.body as HTMLElement;
     const classes = ['overflow-y-scroll'];
     body.classList.add(...classes);
@@ -40,5 +40,5 @@ export default function InitialLoad () {
     };
   }, []);
 
-  return <React.Fragment />;
+  return <Fragment />;
 }

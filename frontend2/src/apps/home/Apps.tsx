@@ -1,20 +1,20 @@
 import SnapScrollContainer from 'apps/home/SnapScrollContainer';
 import ScreenContainer from 'components/ScreenContainer';
-import React from 'react';
-import theme from 'tailwindcss/defaultTheme';
 import ScrollListener, { onScrollChangeProps } from 'components/ScrollListener';
+import { screens } from 'tailwindcss/defaultTheme';
 import { useSelector } from 'react-redux';
 import { commonSelector } from 'slices/commonSlice';
+import { Fragment, useEffect, useRef, useState } from 'react';
 
 interface AppsProps {
   apps: React.ReactNode[];
 }
 
 export default function Apps ({ apps }: AppsProps) {
-  const { root } = useSelector(commonSelector);
   const { screenHeight, screenWidth } = useSelector(commonSelector);
-  const [currentPage, setCurrentPage] = React.useState(0);
-  const [appGroups, setAppGroups] = React.useState<React.ReactNode[][]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [appGroups, setAppGroups] = useState<React.ReactNode[][]>([]);
+  const horizontalScrollContainer = useRef<HTMLDivElement>(null);
 
   function onScrollChange (props: onScrollChangeProps) {
     const { scrollLeft } = props;
@@ -23,9 +23,9 @@ export default function Apps ({ apps }: AppsProps) {
   }
 
   // divide apps into groups of numIconsPerScreen
-  React.useEffect(() => {
+  useEffect(() => {
     let numIconsPerScreen = Math.floor(screenHeight / 170) * 4;
-    if (screenWidth <= parseInt(theme.screens.sm)) {
+    if (screenWidth <= parseInt(screens.sm)) {
       numIconsPerScreen = Math.floor(screenHeight / 130) * 4;
     }
 
@@ -39,26 +39,16 @@ export default function Apps ({ apps }: AppsProps) {
     }
 
     setAppGroups(appGroups);
-  }, [screenHeight, screenWidth]);
+  }, [screenHeight, screenWidth, apps]);
 
-  // add/remove horizontal scroll classes
-  React.useEffect(() => {
-    const horizonalScrollClasses = ['snap-x', 'snap-mandatory', 'overflow-x-scroll', 'h-screen'];
-    if (screenWidth <= parseInt(theme.screens.sm)) {
-      root.classList.add(...horizonalScrollClasses);
-    } else {
-      root.classList.remove(...horizonalScrollClasses);
-    }
-    return () => {
-      root.classList.remove(...horizonalScrollClasses);
-    };
-  }, [screenWidth]);
-
-  // scroll horizontally on mobile and vertically on desktop
-  if (screenWidth <= parseInt(theme.screens.sm)) {
+  // scroll horizontally on mobile
+  if (screenWidth <= parseInt(screens.sm)) {
     return (
-      <React.Fragment>
-        <div className='flex flex-row'>
+      <Fragment>
+        <div
+          className='fixed top-0 bottom-0 left-0 right-0 snap-x snap-mandatory overflow-x-scroll flex flex-row'
+          ref={horizontalScrollContainer}
+        >
           {appGroups.map((appGroup, i) => (
             <SnapScrollContainer key={i}>
               <ScreenContainer>
@@ -78,9 +68,14 @@ export default function Apps ({ apps }: AppsProps) {
             />
           ))}
         </div>
-        <ScrollListener target={root} onScrollChange={onScrollChange} scrollTimeout={100} />
-      </React.Fragment>
+        <ScrollListener
+          target={horizontalScrollContainer.current}
+          onScrollChange={onScrollChange}
+          scrollTimeout={100}
+        />
+      </Fragment>
     );
+  // scroll vertically on desktop
   } else {
     return (
       <ScreenContainer>
