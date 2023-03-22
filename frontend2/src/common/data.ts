@@ -8,10 +8,12 @@ interface AppData {
 
 // Possible future colors
 // #F2C94C
+// #E0B840
+// #99978F
 
 enum Colors {
   TvSchedulesApp = '#9D7EAC',
-  Demos = '#F2C94C',
+  DemosApp = '#343330',
 }
 
 const appsData: AppData[] = [
@@ -27,7 +29,7 @@ const appsData: AppData[] = [
     abbreviation: 'DM',
     hyphenatedName: 'demos',
     isProtected: false,
-    color: Colors.Demos,
+    color: Colors.DemosApp,
   },
 ];
 

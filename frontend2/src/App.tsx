@@ -1,3 +1,4 @@
+import DemosScreen from 'apps/demos/DemosScreen';
 import Debug from 'apps/home/Debug';
 import HomeScreen from 'apps/home/HomeScreen';
 import InitialLoad from 'apps/home/InitialLoad';
@@ -15,6 +16,7 @@ export default function App () {
       <Routes>
         <Route path='/' element={<HomeScreen />} />
         <Route path='/tv-schedules' element={<TvSchedulesScreen />} />
+        <Route path='/demos' element={<DemosScreen />} />
         <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
     </Fragment>
