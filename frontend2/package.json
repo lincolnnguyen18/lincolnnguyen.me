@@ -58,7 +58,8 @@
         "error",
         "single"
       ],
-      "no-unused-vars": [
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
         "error",
         {
           "argsIgnorePattern": "^_"
@@ -90,6 +91,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/js-cookie": "^3.0.3",
     "@types/lodash": "^4.14.191",
+    "@types/uuid": "^9.0.1",
     "tailwindcss": "^3.2.7"
   }
 }

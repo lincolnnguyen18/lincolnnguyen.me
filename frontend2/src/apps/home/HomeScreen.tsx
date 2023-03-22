@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { commonSelector } from 'slices/commonSlice';
 import { enablePropOnCondition } from 'utils/miscUtils';
 import { Fragment, useEffect, useState } from 'react';
+import { testApps } from 'common/testData';
 
 export default function HomeScreen () {
   const { user } = useSelector(commonSelector);
@@ -16,14 +17,16 @@ export default function HomeScreen () {
       <AppIcon
         abbreviation={app.abbreviation}
         name={app.name}
-        className={`bg-${app.hyphenatedName}-app-color`}
-        path={`/${app.hyphenatedName}`}
+        className={`bg-${app.color.tailwindName}`}
+        to={`/${app.hyphenatedName}`}
         disabled={user === null && app.isProtected}
         key={index}
         // TODO: replace with navigate to /login
         onClick={enablePropOnCondition(user === null, () => {})}
       />
     ));
+    // TODO: remove testApps
+    apps.push(...testApps);
     setApps(apps);
   }, [user]);
 
