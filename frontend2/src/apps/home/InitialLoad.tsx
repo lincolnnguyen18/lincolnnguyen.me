@@ -6,6 +6,7 @@ import { getScrollPositionFromBottom } from 'utils/scrollUtils';
 export default function InitialLoad () {
   const dispatch = useDispatch();
 
+  // add event listeners to update scroll position, screen width and screen height
   function onScroll () {
     dispatch(
       commonActions.updateSlice({
