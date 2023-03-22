@@ -11,7 +11,7 @@ interface AppIconProps extends CustomLinkProps {
 }
 
 export default function AppIcon (props: AppIconProps) {
-  const { disabled = false, name, abbreviation, onClick, to, className } = props;
+  const { disabled = false, name, abbreviation, className, ...restOfProps } = props;
   const mergedClassName = twMerge('active:brightness-75 hover:brightness-95 flex items-center justify-center sm:w-20 sm:h-20 w-[3.85rem] h-[3.85rem] rounded-[1rem] sm:rounded-[1.125rem] m-2 text-white cursor-pointer', className);
 
   const { screenWidth } = useSelector(commonSelector);
@@ -33,7 +33,7 @@ export default function AppIcon (props: AppIconProps) {
 
   return (
     <div className='flex flex-col items-center justify-center w-fit'>
-      <CustomLink className={mergedClassName} disabled={disabled} onClick={onClick} to={to}>
+      <CustomLink className={mergedClassName} disabled={disabled} {...restOfProps}>
         <span className='text-2xl sm:text-3xl font-semibold'>{abbreviation}</span>
       </CustomLink>
       {nameDiv}

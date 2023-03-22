@@ -3,20 +3,16 @@ interface AppData {
   abbreviation: string;
   hyphenatedName: string;
   isProtected: boolean;
-  color: Color;
+  color: string;
 }
 
-interface Color {
-  hex: string;
-  tailwindName: string;
-}
+// Possible future colors
+// #F2C94C
 
-const colors: Record<string, Color> = {
-  TvSchedulesApp: {
-    hex: '#9D7EAC',
-    tailwindName: 'tv-schedules-app-color',
-  },
-};
+enum Colors {
+  TvSchedulesApp = '#9D7EAC',
+  Demos = '#F2C94C',
+}
 
 const appsData: AppData[] = [
   {
@@ -24,9 +20,16 @@ const appsData: AppData[] = [
     abbreviation: 'TV',
     hyphenatedName: 'tv-schedules',
     isProtected: false,
-    color: colors.TvSchedulesApp,
+    color: Colors.TvSchedulesApp,
+  },
+  {
+    name: 'Demos',
+    abbreviation: 'DM',
+    hyphenatedName: 'demos',
+    isProtected: false,
+    color: Colors.Demos,
   },
 ];
 
-export type { AppData, Color };
-export { appsData, colors };
+export type { AppData };
+export { appsData, Colors };

@@ -1,4 +1,5 @@
 import AppIcon from 'apps/home/AppIcon';
+import { Colors } from 'common/data';
 import { User } from 'slices/commonAsyncActions';
 import { uuid } from 'utils/miscUtils';
 
@@ -7,7 +8,7 @@ const testApps = [
     <AppIcon
       abbreviation='TV'
       name='TV Schedules'
-      className='bg-tv-schedules-app-color'
+      style={{ backgroundColor: Colors.TvSchedulesApp }}
       to='/'
       key={uuid()}
     />

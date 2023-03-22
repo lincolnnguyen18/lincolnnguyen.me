@@ -13,18 +13,20 @@ export default function HomeScreen () {
   const [apps, setApps] = useState<React.ReactNode[]>([]);
 
   useEffect(() => {
-    const apps = appsData.map((app, index) => (
+    console.log(appsData);
+    const apps: React.ReactNode[] = [];
+    apps.push(...appsData.map((app, index) => (
       <AppIcon
         abbreviation={app.abbreviation}
         name={app.name}
-        className={`bg-${app.color.tailwindName}`}
+        style={{ backgroundColor: app.color }}
         to={`/${app.hyphenatedName}`}
         disabled={user === null && app.isProtected}
         key={index}
         // TODO: replace with navigate to /login
         onClick={enablePropOnCondition(user === null, () => {})}
       />
-    ));
+    )));
     // TODO: remove testApps
     apps.push(...testApps);
     setApps(apps);

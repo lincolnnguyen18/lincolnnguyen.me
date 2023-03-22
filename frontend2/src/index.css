@@ -11,10 +11,6 @@ input[type=range].white::-webkit-slider-thumb {
   border-radius: 50%;
 }
 
-:root {
-  --tv-schedules-app-color: #9D7EAC;
-}
-
 html {
   background-color: black;
 }
