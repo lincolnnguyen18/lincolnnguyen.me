@@ -1,5 +1,5 @@
 import SnapScrollContainer from 'apps/home/SnapScrollContainer';
-import ScreenContainer from 'components/ScreenContainer';
+import LimitWidthContainer from 'components/LimitWidthContainer';
 import ScrollListener, { onScrollChangeProps } from 'components/ScrollListener';
 import { screens } from 'tailwindcss/defaultTheme';
 import { useSelector } from 'react-redux';
@@ -51,11 +51,11 @@ export default function Apps ({ apps }: AppsProps) {
         >
           {appGroups.map((appGroup, i) => (
             <SnapScrollContainer key={i}>
-              <ScreenContainer>
+              <LimitWidthContainer>
                 <div className='grid grid-cols-4 grid-flow-row gap-4 place-items-center px-6 pt-2 pb-4'>
                   {appGroup}
                 </div>
-              </ScreenContainer>
+              </LimitWidthContainer>
             </SnapScrollContainer>
           ))}
         </div>
@@ -78,11 +78,11 @@ export default function Apps ({ apps }: AppsProps) {
   // scroll vertically on desktop
   } else {
     return (
-      <ScreenContainer>
+      <LimitWidthContainer>
         <div className='grid grid-cols-4 grid-flow-row gap-4 place-items-center px-6 pt-2 pb-4'>
           {apps}
         </div>
-      </ScreenContainer>
+      </LimitWidthContainer>
     );
   }
 }

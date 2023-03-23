@@ -1,11 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 
-interface SnapScrollContainerProps {
-  className?: string;
-  children?: React.ReactNode;
-}
-
-export default function SnapScrollContainer (props: SnapScrollContainerProps) {
+export default function SnapScrollContainer (props: React.HTMLAttributes<HTMLDivElement>) {
   const className = twMerge('snap-start shrink-0 w-screen', props.className);
 
   return (

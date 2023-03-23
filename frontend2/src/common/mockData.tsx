@@ -3,7 +3,7 @@ import { Colors } from 'common/data';
 import { User } from 'slices/commonAsyncActions';
 import { uuid } from 'utils/miscUtils';
 
-const testApps = [
+const mockApps = [
   ...Array.from({ length: 10 }).map(() => (
     <AppIcon
       abbreviation='TV'
@@ -17,7 +17,7 @@ const testApps = [
     <AppIcon
       abbreviation='AB'
       name='Aiden B'
-      className='bg-blue-400'
+      className='bg-[#BB6565]'
       to='/'
       key={uuid()}
     />
@@ -26,14 +26,14 @@ const testApps = [
     <AppIcon
       abbreviation='AB'
       name='Aiden B'
-      className='bg-green-400'
+      className='bg-[#65BB7C]'
       to='/'
       key={uuid()}
     />
   )),
 ];
 
-const testUser: User = {
+const mockUser: User = {
   id: 'uuid',
   firstName: 'Aiden',
   lastName: 'Biden',
@@ -41,4 +41,4 @@ const testUser: User = {
 };
 
 
-export { testApps, testUser };
+export { mockApps, mockUser };

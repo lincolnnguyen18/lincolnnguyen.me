@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 
-function enablePropOnCondition (condition: boolean, prop: any) {
-  return condition ? prop : undefined;
+function enableCallbackIfTrue (condition: boolean, callback: () => void) {
+  return condition ? callback : undefined;
 }
 
 async function wait (ms: number): Promise<void> {
@@ -12,4 +12,4 @@ function uuid () {
   return v4();
 }
 
-export { enablePropOnCondition, wait, uuid };
+export { enableCallbackIfTrue, wait, uuid };

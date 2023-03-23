@@ -1,19 +1,19 @@
 import Nav from 'components/Nav';
 import Apps from 'apps/home/Apps';
 import AppIcon from 'apps/home/AppIcon';
+import AppContainer from 'components/AppContainer';
 import { appsData } from 'common/data';
 import { useSelector } from 'react-redux';
 import { commonSelector } from 'slices/commonSlice';
-import { enablePropOnCondition } from 'utils/miscUtils';
-import { Fragment, useEffect, useState } from 'react';
-import { testApps } from 'common/testData';
+import { enableCallbackIfTrue } from 'utils/miscUtils';
+import { useEffect, useState } from 'react';
+import { mockApps } from 'common/mockData';
 
 export default function HomeScreen () {
   const { user } = useSelector(commonSelector);
   const [apps, setApps] = useState<React.ReactNode[]>([]);
 
   useEffect(() => {
-    console.log(appsData);
     const apps: React.ReactNode[] = [];
     apps.push(...appsData.map((app, index) => (
       <AppIcon
@@ -24,20 +24,18 @@ export default function HomeScreen () {
         disabled={user === null && app.isProtected}
         key={index}
         // TODO: replace with navigate to /login
-        onClick={enablePropOnCondition(user === null, () => {})}
+        onClick={enableCallbackIfTrue(user === null, () => {})}
       />
     )));
-    // TODO: remove testApps
-    apps.push(...testApps);
+    // TODO: remove mockApps
+    apps.push(...mockApps);
     setApps(apps);
   }, [user]);
 
   return (
-    <Fragment>
-      <Nav className='text-white justify-center'>
-        <span className='font-semibold'>Apps</span>
-      </Nav>
+    <AppContainer>
+      <Nav className='text-white' text="Apps" />
       <Apps apps={apps} />
-    </Fragment>
+    </AppContainer>
   );
 }

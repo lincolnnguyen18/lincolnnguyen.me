@@ -2,9 +2,8 @@ import { sample } from 'lodash';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-interface WallpaperProps {
+interface WallpaperProps extends React.HTMLAttributes<HTMLDivElement> {
   imageUrl: string;
-  className?: string;
 }
 
 const positions = ['center center', 'center top', 'center bottom'];

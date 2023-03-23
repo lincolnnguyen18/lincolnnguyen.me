@@ -1,10 +1,10 @@
 import { fetchUser } from 'slices/commonAsyncActions';
 import { useAppDispatch } from 'common/store';
 import { useSelector } from 'react-redux';
-import { commonSelector } from 'slices/commonSlice';
+import { commonActions, commonSelector } from 'slices/commonSlice';
 import { Navigate, useLocation } from 'react-router-dom';
 import { appsData } from 'common/data';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 
 // check if pathname is in appsData as hypenatedName and isProtected
 function isProtectedPath (pathname: string) {
@@ -12,28 +12,37 @@ function isProtectedPath (pathname: string) {
   return appsData.some(app => app.hyphenatedName === path && app.isProtected);
 }
 
-export default function AppContainer ({ children }: any) {
+export default function AppContainer (props: React.HTMLAttributes<HTMLDivElement>) {
+  const { children } = props;
+
   const dispatch = useAppDispatch();
   const location = useLocation();
   const { user } = useSelector(commonSelector);
 
-  async function onLoad () {
-    // TODO: use actual cookie to get token
-    // const token = Cookies.get('token');
-    const token = 'token';
-    if (token) {
-      await dispatch(fetchUser(token));
-    }
-  }
-
   useEffect(() => {
-    // TODO: save pathname in state before redirecting to /login
-    onLoad();
-  }, []);
+    // if attempt to fetch user has not been made, attempt to fetch user
+    if (user === undefined) {
+      // TODO: use actual cookie to get token
+      // const token = Cookies.get('token');
+      const token = 'token';
+      // const token = null;
+      if (!token) {
+        dispatch(commonActions.updateSlice({ user: null }));
+      } else {
+        dispatch(fetchUser(token));
+      }
+    }
+  }, [user]);
+
+  const wrappedChildren = (
+    <Fragment>
+      {children}
+    </Fragment>
+  );
 
   // if not protected path, return children
   if (!isProtectedPath(location.pathname)) {
-    return children;
+    return wrappedChildren;
   // if waiting for fetchUser, return null
   } else if (user === undefined) {
     return null;
@@ -43,6 +52,6 @@ export default function AppContainer ({ children }: any) {
     return (<Navigate to='/' replace />);
   // else, return children
   } else {
-    return children;
+    return wrappedChildren;
   }
 }
