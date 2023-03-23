@@ -1,10 +1,11 @@
+import FadeInOnLoad from 'components/FadeInOnLoad';
 import { fetchUser } from 'slices/commonAsyncActions';
 import { useAppDispatch } from 'common/store';
 import { useSelector } from 'react-redux';
 import { commonActions, commonSelector } from 'slices/commonSlice';
 import { Navigate, useLocation } from 'react-router-dom';
 import { appsData } from 'common/data';
-import { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
 
 // check if pathname is in appsData as hypenatedName and isProtected
 function isProtectedPath (pathname: string) {
@@ -35,9 +36,9 @@ export default function AppContainer (props: React.HTMLAttributes<HTMLDivElement
   }, [user]);
 
   const wrappedChildren = (
-    <Fragment>
+    <FadeInOnLoad>
       {children}
-    </Fragment>
+    </FadeInOnLoad>
   );
 
   // if not protected path, return children
