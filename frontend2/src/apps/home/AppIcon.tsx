@@ -4,13 +4,13 @@ import { commonSelector } from 'slices/commonSlice';
 import { screens } from 'tailwindcss/defaultTheme';
 import { twMerge } from 'tailwind-merge';
 
-interface AppIconProps extends CustomLinkProps {
+interface Props extends CustomLinkProps {
   abbreviation: string;
   name: string;
   disabled?: boolean;
 }
 
-export default function AppIcon (props: AppIconProps) {
+export default function AppIcon (props: Props) {
   const { disabled = false, name, abbreviation, className, ...remainingProps } = props;
   const mergedClassName = twMerge('active:brightness-75 hover:brightness-95 flex items-center justify-center sm:w-20 sm:h-20 w-[3.85rem] h-[3.85rem] rounded-[1rem] sm:rounded-[1.125rem] m-2 text-white cursor-pointer', className);
 

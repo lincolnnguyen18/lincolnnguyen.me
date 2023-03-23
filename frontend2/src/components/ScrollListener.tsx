@@ -15,11 +15,8 @@ interface ScrollListenerProps {
   onScrollChange: (_props: onScrollChangeProps) => void;
 }
 
-export default function ScrollListener ({
-  target,
-  scrollTimeout = 100,
-  onScrollChange,
-}: ScrollListenerProps) {
+export default function ScrollListener (props: ScrollListenerProps) {
+  const { target, scrollTimeout = 100, onScrollChange } = props;
   let scrollTimeoutId: ReturnType<typeof setTimeout>;
 
   const handleScroll = (e: Event) => {

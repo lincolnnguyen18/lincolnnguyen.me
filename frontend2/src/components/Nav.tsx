@@ -2,12 +2,12 @@ import hexToRgba from 'hex-to-rgba';
 import { Fragment } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   backgroundColor?: string;
   text?: string;
 }
 
-export default function Nav (props: NavProps) {
+export default function Nav (props: Props) {
   const { className, children, backgroundColor, text, ...rest } = props;
   const mergedClassName = twMerge('w-full h-11 justify-between fixed transition-[border-radius] duration-300 z-[1] flex items-center', className);
 

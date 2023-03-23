@@ -25,7 +25,7 @@ export default function CustomLink (props: CustomLinkProps) {
   }
 }
 
-export interface BackButtonProps extends CustomLinkProps {
+interface BackButtonProps extends CustomLinkProps {
   text: string;
 }
 

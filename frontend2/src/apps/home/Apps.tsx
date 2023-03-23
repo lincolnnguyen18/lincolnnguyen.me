@@ -6,11 +6,12 @@ import { useSelector } from 'react-redux';
 import { commonSelector } from 'slices/commonSlice';
 import { Fragment, useEffect, useRef, useState } from 'react';
 
-interface AppsProps {
+interface Props {
   apps: React.ReactNode[];
 }
 
-export default function Apps ({ apps }: AppsProps) {
+export default function Apps (props: Props) {
+  const { apps } = props;
   const { screenHeight, screenWidth } = useSelector(commonSelector);
   const [currentPage, setCurrentPage] = useState(0);
   const [appGroups, setAppGroups] = useState<React.ReactNode[][]>([]);
