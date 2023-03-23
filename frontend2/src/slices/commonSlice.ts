@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { User } from 'slices/commonAsyncActions';
-import { getScrollPositionFromBottom } from 'utils/scrollUtils';
+import { getScrollPositionFromBottom } from 'utils/miscUtils';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface CommonState {

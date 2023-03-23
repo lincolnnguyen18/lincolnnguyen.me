@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { commonActions } from 'slices/commonSlice';
-import { getScrollPositionFromBottom } from 'utils/scrollUtils';
+import { getScrollPositionFromBottom } from 'utils/miscUtils';
 
 export default function InitialLoad () {
   const dispatch = useDispatch();

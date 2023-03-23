@@ -1,4 +1,6 @@
 import { v4 } from 'uuid';
+import { AsyncThunkAction } from '@reduxjs/toolkit';
+import { AppDispatch } from 'common/store';
 
 function enableCallbackIfTrue (condition: boolean, callback: () => void) {
   return condition ? callback : undefined;
@@ -12,4 +14,23 @@ function uuid () {
   return v4();
 }
 
-export { enableCallbackIfTrue, wait, uuid };
+async function fetchPayload<T> (dispatch: AppDispatch, action: AsyncThunkAction<T, any, any>): Promise<T> {
+  const result = await dispatch(action);
+  return result.payload as T;
+}
+
+function getScrollPositionFromBottom () {
+  const scrollPosition = window.scrollY;
+  const viewportHeight = window.innerHeight;
+  const documentHeight = document.body.scrollHeight;
+  const distanceFromBottom = documentHeight - (scrollPosition + viewportHeight);
+  return distanceFromBottom;
+}
+
+export {
+  enableCallbackIfTrue,
+  wait,
+  uuid,
+  fetchPayload,
+  getScrollPositionFromBottom,
+};
