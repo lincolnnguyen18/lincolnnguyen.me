@@ -8,18 +8,17 @@ export interface CustomLinkProps extends LinkProps {
 
 export default function CustomLink (props: CustomLinkProps) {
   const { disabled = false, imitateButton = true, className, children, ...remainingProps } = props;
+  let mergedClassName = className;
   if (disabled) {
-    let mergedClassName = className;
     // if disabled and imitateButton is true, fade out and show cursor not allowed icon on hover
     if (imitateButton) {
       mergedClassName = twMerge('select-none cursor-not-allowed opacity-50', className);
     }
     return <span className={mergedClassName} {...remainingProps}>{children}</span>;
   } else {
-    let mergedClassName = className;
     // if not disabled and imitateButton is true, fade out on hover and when clicked
     if (imitateButton) {
-      mergedClassName = twMerge('select-none active:opacity-50 transition-opacity duration-75', className);
+      mergedClassName = twMerge('active:opacity-50 transition-opacity duration-75', className);
     }
     return <Link {...remainingProps} className={mergedClassName}>{children}</Link>;
   }
@@ -31,7 +30,7 @@ interface BackButtonProps extends CustomLinkProps {
 
 export function BackButton (props: BackButtonProps) {
   const { text, className, ...remainingProps } = props;
-  const mergedClassName = twMerge('flex items-center gap-1 ml-1', className);
+  const mergedClassName = twMerge('flex items-center gap-1 ml-1 pr-1.5 w-fit', className);
 
   return (
     <CustomLink className={mergedClassName} {...remainingProps}>

@@ -3,6 +3,7 @@ import HomeScreen from 'apps/home/HomeScreen';
 import InitialLoad from 'apps/home/InitialLoad';
 import Wallpaper from 'apps/home/Wallpaper';
 import { appsData } from 'common/data';
+import { NavBlur } from 'components/Nav';
 import { Fragment } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
@@ -12,8 +13,9 @@ export default function App () {
       <InitialLoad />
       <Debug />
       <Wallpaper imageUrl='/bg.webp' className='bg-black' />
+      <NavBlur />
       <Routes>
-        <Route path='/' element={<HomeScreen />} />
+        <Route path='/home/*' element={<HomeScreen />} />
         {appsData.map((app, index) => (
           <Route
             path={`/${app.hyphenatedName}`}
@@ -21,7 +23,7 @@ export default function App () {
             key={index}
           />
         ))}
-        <Route path='*' element={<Navigate to='/' replace />} />
+        <Route path='*' element={<Navigate to='/home' replace />} />
       </Routes>
     </Fragment>
   );

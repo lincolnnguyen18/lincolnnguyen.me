@@ -7,7 +7,7 @@ export default function Debug (): JSX.Element | null {
 
   if (environment.showDebug) {
     return (
-      <div className='bg-black bg-opacity-70 fixed bottom-0 left-0 p-2 text-white z-50'>
+      <div className='bg-black bg-opacity-70 fixed bottom-0 left-0 p-2 text-white z-[3]'>
         <div>scrollPositionFromTop: {scrollPositionFromTop}</div>
         <div>scrollDistanceFromBottom: {scrollPositionFromBottom}</div>
         <div>screenWidth: {screenWidth}</div>

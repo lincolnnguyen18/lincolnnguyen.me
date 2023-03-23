@@ -13,8 +13,8 @@ interface AppData {
 }
 
 // saved colors
-// #F2C94C
-// #E0B840
+// #F2F2F6
+// #D1D1D1
 // #99978F
 // #7D7D7D
 // #343330
@@ -23,12 +23,25 @@ interface AppData {
 // #6591BB
 // #BB6565
 // #65BB7C
+// #F2C94C
+// #E0B840
+
+// z indices
+// -1: background
+// 0: default
+// 1: nav
+// 2: modal
+// 3: debug
 
 enum Colors {
+  // app theme colors
   TvSchedulesApp = '#6591BB',
   DemosApp = '#343330',
   TranscribeApp = '#9D7EAC',
-  SettingsApp = '#7D7D7D',
+  SettingsApp = '#565656',
+
+  // other colors
+  Background = '#F2F2F6',
 }
 
 const appsData: AppData[] = [

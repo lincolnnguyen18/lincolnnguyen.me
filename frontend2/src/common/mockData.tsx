@@ -1,36 +1,33 @@
-import AppIcon from 'apps/home/AppIcon';
-import { Colors } from 'common/data';
+import { AppData, appsData, Colors } from 'common/data';
+import { Fragment } from 'react';
 import { User } from 'slices/commonAsyncActions';
-import { uuid } from 'utils/miscUtils';
 
-const mockApps = [
-  ...Array.from({ length: 10 }).map(() => (
-    <AppIcon
-      abbreviation='TV'
-      name='TV Schedules'
-      style={{ backgroundColor: Colors.TvSchedulesApp }}
-      to='/'
-      key={uuid()}
-    />
-  )),
-  ...Array.from({ length: 37 }).map(() => (
-    <AppIcon
-      abbreviation='AB'
-      name='Aiden B'
-      className='bg-[#BB6565]'
-      to='/'
-      key={uuid()}
-    />
-  )),
-  ...Array.from({ length: 30 }).map(() => (
-    <AppIcon
-      abbreviation='AB'
-      name='Aiden B'
-      className='bg-[#65BB7C]'
-      to='/'
-      key={uuid()}
-    />
-  )),
+const mockAppsData: AppData[] = [
+  ...appsData,
+  ...Array.from({ length: 10 }).map(() => ({
+    name: 'TV Schedules',
+    abbreviation: 'TV',
+    hyphenatedName: 'home',
+    isProtected: false,
+    color: Colors.TvSchedulesApp,
+    mainScreen: <Fragment></Fragment>,
+  })),
+  ...Array.from({ length: 37 }).map(() => ({
+    name: 'Aiden B',
+    abbreviation: 'AB',
+    hyphenatedName: 'home',
+    isProtected: false,
+    color: '#BB6565',
+    mainScreen: <Fragment></Fragment>,
+  })),
+  ...Array.from({ length: 30 }).map(() => ({
+    name: 'Aiden B',
+    abbreviation: 'AB',
+    hyphenatedName: 'home',
+    isProtected: false,
+    color: '#65BB7C',
+    mainScreen: <Fragment></Fragment>,
+  })),
 ];
 
 const mockUser: User = {
@@ -41,4 +38,4 @@ const mockUser: User = {
 };
 
 
-export { mockApps, mockUser };
+export { mockAppsData, mockUser };

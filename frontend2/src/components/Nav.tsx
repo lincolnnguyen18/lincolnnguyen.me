@@ -1,5 +1,4 @@
 import hexToRgba from 'hex-to-rgba';
-import { Fragment } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -21,15 +20,19 @@ export default function Nav (props: Props) {
   }
 
   return (
-    <Fragment>
-      <div
-        className='w-[1000%] h-11 fixed backdrop-blur bg-opacity-80 z-[1]'
-        style={{ backgroundColor: backgroundColorAdjusted }}
-      />
-      <nav className={mergedClassName} {...rest}>
-        {textDiv}
-        {children}
-      </nav>
-    </Fragment>
+    <nav
+      className={mergedClassName}
+      style={{ backgroundColor: backgroundColorAdjusted }}
+      {...rest}
+    >
+      {textDiv}
+      {children}
+    </nav>
+  );
+}
+
+export function NavBlur () {
+  return (
+    <div className='w-[1000%] h-11 fixed backdrop-blur bg-opacity-80 z-[1]' />
   );
 }

@@ -2,10 +2,6 @@ import { v4 } from 'uuid';
 import { AsyncThunkAction } from '@reduxjs/toolkit';
 import { AppDispatch } from 'common/store';
 
-function enableCallbackIfTrue (condition: boolean, callback: () => void) {
-  return condition ? callback : undefined;
-}
-
 async function wait (ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -28,7 +24,6 @@ function getScrollPositionFromBottom () {
 }
 
 export {
-  enableCallbackIfTrue,
   wait,
   uuid,
   fetchPayload,
