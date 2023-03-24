@@ -1,12 +1,12 @@
-import { fetchUser } from 'slices/commonAsyncActions';
+import { fetchUser } from 'slices/userAsyncActions';
 import { useAppDispatch } from 'common/store';
 import { useSelector } from 'react-redux';
-import { commonActions, commonSelector } from 'slices/commonSlice';
 import { Navigate, useLocation } from 'react-router-dom';
 import { appsData } from 'common/data';
 import { Fragment, useEffect } from 'react';
+import { userActions, userSelector } from 'slices/userSlice';
 
-// check if pathname is in appsData as hypenatedName and isProtected
+// check if pathname is in appsData as hyphenatedName and isProtected
 function isProtectedPath (pathname: string) {
   const path = pathname.slice(1);
   return appsData.some(app => app.hyphenatedName === path && app.isProtected);
@@ -17,7 +17,7 @@ export default function AppContainer (props: React.HTMLAttributes<HTMLDivElement
 
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const { user } = useSelector(commonSelector);
+  const { user } = useSelector(userSelector);
 
   useEffect(() => {
     // if attempt to fetch user has not been made, attempt to fetch user
@@ -27,13 +27,13 @@ export default function AppContainer (props: React.HTMLAttributes<HTMLDivElement
       const token = 'token';
       // const token = null;
       if (!token) {
-        dispatch(commonActions.updateSlice({ user: null }));
+        dispatch(userActions.updateSlice({ user: null }));
       } else {
         dispatch(fetchUser(token));
       }
     // else if user is null and current path is protected, update redirectToAfterLogin before navigating to /
     } else if (user === null && isProtectedPath(location.pathname) && location.pathname !== '/') {
-      dispatch(commonActions.updateSlice({ redirectToAfterLogin: location.pathname }));
+      dispatch(userActions.updateSlice({ redirectToAfterLogin: location.pathname }));
     }
   }, [user, location.pathname]);  
 

@@ -2,6 +2,7 @@ import Debug from 'apps/home/Debug';
 import HomeScreen from 'apps/home/HomeScreen';
 import InitialLoad from 'apps/home/InitialLoad';
 import Wallpaper from 'apps/home/Wallpaper';
+import Menu from 'components/Menu';
 import { appsData } from 'common/data';
 import { NavBlur } from 'components/Nav';
 import { Fragment } from 'react';
@@ -14,6 +15,7 @@ export default function App () {
       <Debug />
       <Wallpaper imageUrl='/bg.webp' className='bg-black' />
       <NavBlur />
+      <Menu />
       <Routes>
         <Route path='/' element={<HomeScreen />} />
         {appsData.map((app, index) => (

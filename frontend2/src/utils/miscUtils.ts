@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { AsyncThunkAction } from '@reduxjs/toolkit';
+import { AsyncThunkAction, PayloadAction } from '@reduxjs/toolkit';
 import { AppDispatch } from 'common/store';
 
 async function wait (ms: number): Promise<void> {
@@ -23,9 +23,15 @@ function getScrollPositionFromBottom () {
   return distanceFromBottom;
 }
 
+function getActionTypePrefix (action: PayloadAction<any>) {
+  // remove /pending, /fulfilled, /rejected from end of action type
+  return action.type.split('/').slice(0, 2).join('/');
+}
+
 export {
   wait,
   uuid,
   fetchPayload,
   getScrollPositionFromBottom,
+  getActionTypePrefix,
 };

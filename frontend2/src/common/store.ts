@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { commonReducer } from 'slices/commonSlice';
+import { menuReducer } from 'slices/menuSlice';
+import { userReducer } from 'slices/userSlice';
 
 const store = configureStore({
   reducer: {
     common: commonReducer,
+    user: userReducer,
+    menu: menuReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

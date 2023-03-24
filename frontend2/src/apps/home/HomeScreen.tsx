@@ -3,23 +3,24 @@ import Apps from 'apps/home/Apps';
 import AppIcon from 'apps/home/AppIcon';
 import AppContainer from 'components/AppContainer';
 import FadeInOnLoad from 'components/FadeInOnLoad';
-import AuthModal from 'apps/home/AuthModal';
-import { useDispatch, useSelector } from 'react-redux';
-import { commonActions, commonSelector } from 'slices/commonSlice';
-import { Fragment, useState } from 'react';
+import LoginModal from 'apps/home/LoginModal';
+import { useSelector } from 'react-redux';
+import { Fragment } from 'react';
 import { mockAppsData } from 'common/mockData';
 import { AppData } from 'common/data';
+import { openMenu } from 'slices/menuAsyncActions';
+import { useAppDispatch } from 'common/store';
+import { userActions, userSelector } from 'slices/userSlice';
 
 export default function HomeScreen () {
-  const dispatch = useDispatch();
-  const { user } = useSelector(commonSelector);
-  const [authModalIsOpen, setAuthModalIsOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const { user } = useSelector(userSelector);
 
   function onAppIconClick (app: AppData) {
     // if app is protected and user is not logged in, set redirectToAfterLogin and open auth modal
     if (app.isProtected && user === null) {
-      dispatch(commonActions.updateSlice({ redirectToAfterLogin: `/${app.hyphenatedName}` }));
-      setAuthModalIsOpen(true);
+      dispatch(userActions.updateSlice({ redirectToAfterLogin: `/${app.hyphenatedName}` }));
+      dispatch(openMenu({ menuChildren: <LoginModal />, menuCanBeClosedByClickingOutside: false }));
     }
   }
 
@@ -41,7 +42,6 @@ export default function HomeScreen () {
           ))} />
         </FadeInOnLoad>
       </AppContainer>
-      <AuthModal isOpen={authModalIsOpen} onClose={() => setAuthModalIsOpen(false)} />
     </Fragment>
   );
 }

@@ -8,7 +8,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export default function Nav (props: Props) {
   const { className, children, backgroundColor, text, ...rest } = props;
-  const mergedClassName = twMerge('w-full h-11 justify-between fixed transition-[border-radius] duration-300 z-[1] flex items-center', className);
+  const mergedClassName = twMerge('w-full h-11 justify-between fixed z-[1] flex items-center', className);
 
   const backgroundColorAdjusted = backgroundColor ? hexToRgba(backgroundColor, 0.8) : 'transparent';
 

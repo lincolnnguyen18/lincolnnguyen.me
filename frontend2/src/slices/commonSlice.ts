@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { User } from 'slices/commonAsyncActions';
-import { getScrollPositionFromBottom } from 'utils/miscUtils';
+import { createSlice, isAnyOf, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { getActionTypePrefix, getScrollPositionFromBottom } from 'utils/miscUtils';
+import { xor } from 'lodash';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface CommonState {
@@ -9,11 +9,10 @@ interface CommonState {
   scrollPositionFromBottom: number;
   screenWidth: number;
   screenHeight: number;
-  redirectToAfterLogin?: string;
 
   // async values
   errors: string[];
-  user?: User | null;
+  isPending: string[];
 }
 
 const initialState: CommonState = {
@@ -22,11 +21,10 @@ const initialState: CommonState = {
   scrollPositionFromBottom: getScrollPositionFromBottom(),
   screenWidth: window.innerWidth,
   screenHeight: window.innerHeight,
-  redirectToAfterLogin: undefined,
-  
+
   // async values
   errors: [],
-  user: undefined,
+  isPending: [],
 };
 
 const commonSlice = createSlice({
@@ -36,6 +34,12 @@ const commonSlice = createSlice({
     updateSlice: (state, action: PayloadAction<Partial<CommonState>>) => {
       return { ...state, ...action.payload };
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(isAnyOf(isPending, isFulfilled, isRejected), (state, action) => {
+        state.isPending = xor(state.isPending, [getActionTypePrefix(action)]);
+      });
   },
 });
 

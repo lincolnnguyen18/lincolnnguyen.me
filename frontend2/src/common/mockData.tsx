@@ -1,6 +1,6 @@
 import { AppData, appsData, Colors } from 'common/data';
 import { Fragment } from 'react';
-import { User } from 'slices/commonAsyncActions';
+import { User } from 'slices/userAsyncActions';
 
 const mockAppsData: AppData[] = [
   ...appsData,
