@@ -1,3 +1,4 @@
+import IconButton from 'components/IconButton';
 import LimitWidthContainer from 'components/LimitWidthContainer';
 import Nav from 'components/Nav';
 import { useRef } from 'react';
@@ -35,7 +36,7 @@ export default function Menu (props: MenuProps) {
               <div style={{ minHeight: 'calc(100vh + 1px)' }}>
                 <Nav className='relative'>
                   <LimitWidthContainer className='flex justify-end px-3'>
-                    <button className='text-2xl icon-close cursor-pointer' onClick={onClose} />
+                    <IconButton className='icon-close' onClick={onClose} />
                   </LimitWidthContainer>
                 </Nav>
                 {children}
