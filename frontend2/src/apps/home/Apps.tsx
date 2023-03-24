@@ -52,7 +52,7 @@ export default function Apps (props: Props) {
         >
           {appGroups.map((appGroup, i) => (
             <SnapScrollContainer key={i}>
-              <LimitWidthContainer>
+              <LimitWidthContainer addNavPadding={true}>
                 <div className='grid grid-cols-4 grid-flow-row gap-4 place-items-center px-6 pt-2 pb-4'>
                   {appGroup}
                 </div>
@@ -79,7 +79,7 @@ export default function Apps (props: Props) {
   // scroll vertically on desktop
   } else {
     return (
-      <LimitWidthContainer>
+      <LimitWidthContainer addNavPadding={true}>
         <div className='grid grid-cols-4 grid-flow-row gap-4 place-items-center px-6 pt-2 pb-4'>
           {apps}
         </div>

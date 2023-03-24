@@ -15,7 +15,7 @@ export default function App () {
       <Wallpaper imageUrl='/bg.webp' className='bg-black' />
       <NavBlur />
       <Routes>
-        <Route path='/home/*' element={<HomeScreen />} />
+        <Route path='/' element={<HomeScreen />} />
         {appsData.map((app, index) => (
           <Route
             path={`/${app.hyphenatedName}`}
@@ -23,7 +23,7 @@ export default function App () {
             key={index}
           />
         ))}
-        <Route path='*' element={<Navigate to='/home' replace />} />
+        <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
     </Fragment>
   );

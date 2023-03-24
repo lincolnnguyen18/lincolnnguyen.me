@@ -1,12 +1,12 @@
 import { twMerge } from 'tailwind-merge';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  isInNav?: boolean;
+  addNavPadding?: boolean;
 }
 
 export default function LimitWidthContainer (props: Props) {
-  const { isInNav = false } = props;
-  const className = twMerge('max-w-screen-sm mx-auto pt-11', isInNav && 'pt-0 w-full', props.className);
+  const { addNavPadding = false } = props;
+  const className = twMerge('max-w-screen-sm mx-auto w-full', addNavPadding && 'pt-11', props.className);
 
   return (
     <div className={className}>

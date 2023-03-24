@@ -7,7 +7,7 @@ const mockAppsData: AppData[] = [
   ...Array.from({ length: 10 }).map(() => ({
     name: 'TV Schedules',
     abbreviation: 'TV',
-    hyphenatedName: 'home',
+    hyphenatedName: '',
     isProtected: false,
     color: Colors.TvSchedulesApp,
     mainScreen: <Fragment></Fragment>,
@@ -15,7 +15,7 @@ const mockAppsData: AppData[] = [
   ...Array.from({ length: 37 }).map(() => ({
     name: 'Aiden B',
     abbreviation: 'AB',
-    hyphenatedName: 'home',
+    hyphenatedName: '',
     isProtected: false,
     color: '#BB6565',
     mainScreen: <Fragment></Fragment>,
@@ -23,7 +23,7 @@ const mockAppsData: AppData[] = [
   ...Array.from({ length: 30 }).map(() => ({
     name: 'Aiden B',
     abbreviation: 'AB',
-    hyphenatedName: 'home',
+    hyphenatedName: '',
     isProtected: false,
     color: '#65BB7C',
     mainScreen: <Fragment></Fragment>,

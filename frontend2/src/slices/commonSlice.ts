@@ -9,6 +9,7 @@ interface CommonState {
   scrollPositionFromBottom: number;
   screenWidth: number;
   screenHeight: number;
+  redirectToAfterLogin?: string;
 
   // async values
   errors: string[];
@@ -21,6 +22,7 @@ const initialState: CommonState = {
   scrollPositionFromBottom: getScrollPositionFromBottom(),
   screenWidth: window.innerWidth,
   screenHeight: window.innerHeight,
+  redirectToAfterLogin: undefined,
   
   // async values
   errors: [],

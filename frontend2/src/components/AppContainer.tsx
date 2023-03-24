@@ -31,8 +31,11 @@ export default function AppContainer (props: React.HTMLAttributes<HTMLDivElement
       } else {
         dispatch(fetchUser(token));
       }
+    // else if user is null and current path is protected, update redirectToAfterLogin before navigating to /
+    } else if (user === null && isProtectedPath(location.pathname) && location.pathname !== '/') {
+      dispatch(commonActions.updateSlice({ redirectToAfterLogin: location.pathname }));
     }
-  }, [user]);
+  }, [user, location.pathname]);  
 
   const wrappedChildren = (
     <Fragment>
@@ -46,9 +49,9 @@ export default function AppContainer (props: React.HTMLAttributes<HTMLDivElement
   // if waiting for fetchUser, return null
   } else if (user === undefined) {
     return null;
-  // if result of fetchUser is null, redirect to /login
+  // if result of fetchUser is null, redirect to /
   } else if (user === null) {
-    return (<Navigate to='/home/login' replace />);
+    return (<Navigate to='/' replace />);
   // else, return children
   } else {
     return wrappedChildren;

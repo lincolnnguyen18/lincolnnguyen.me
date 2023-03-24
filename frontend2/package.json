@@ -15,6 +15,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.5",
     "tailwind-merge": "^1.10.0",
     "uuid": "^9.0.0"
   },
@@ -92,6 +93,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/js-cookie": "^3.0.3",
     "@types/lodash": "^4.14.191",
+    "@types/react-transition-group": "^4.4.5",
     "@types/uuid": "^9.0.1",
     "tailwindcss": "^3.2.7"
   }

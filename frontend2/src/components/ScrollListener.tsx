@@ -19,7 +19,7 @@ export default function ScrollListener (props: ScrollListenerProps) {
   const { target, scrollTimeout = 100, onScrollChange } = props;
   let scrollTimeoutId: ReturnType<typeof setTimeout>;
 
-  const handleScroll = (e: Event) => {
+  const onScroll = (e: Event) => {
     const { scrollLeft, scrollTop } = e.target as HTMLElement;
     clearTimeout(scrollTimeoutId);
     onScrollChange({ isScrolling: true, scrollLeft, scrollTop });
@@ -30,9 +30,9 @@ export default function ScrollListener (props: ScrollListenerProps) {
 
   useEffect(() => {
     if (!target) return;
-    target.addEventListener('scroll', handleScroll);
+    target.addEventListener('scroll', onScroll);
     return () => {
-      target.removeEventListener('scroll', handleScroll);
+      target.removeEventListener('scroll', onScroll);
       clearTimeout(scrollTimeoutId);
     };
   }, [target, scrollTimeout]);

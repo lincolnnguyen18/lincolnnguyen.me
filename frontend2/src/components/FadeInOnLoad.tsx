@@ -3,12 +3,15 @@ import { useNavigationType } from 'react-router-dom';
 import { Action } from '@remix-run/router';
 
 interface FadeInOnLoadProps extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Duration of fade in transition in milliseconds (default: 200)
+   */
   duration?: number;
   fadeOnNavigationPop?: boolean;
 }
 
 function FadeInOnLoad (props: FadeInOnLoadProps) {
-  const { duration = 150, fadeOnNavigationPop = true } = props;
+  const { duration = 200, fadeOnNavigationPop = false } = props;
   const navigationType = useNavigationType();
   const { children } = props;
   const [isVisible, setIsVisible] = useState(false);

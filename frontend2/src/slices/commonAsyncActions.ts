@@ -14,7 +14,7 @@ const fetchUser = createAsyncThunk<User | null , string> ('common/fetchUser', as
   // TODO: fetch user from server
   // const user = mockUser;
   const user = null;
-  await wait(2000);
+  await wait(500);
   dispatch(commonActions.updateSlice({ user }));
   return user;
 });

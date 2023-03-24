@@ -41,7 +41,7 @@ enum Colors {
   SettingsApp = '#565656',
 
   // other colors
-  Background = '#F2F2F6',
+  AppBackground = '#F2F2F6',
 }
 
 const appsData: AppData[] = [

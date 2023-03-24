@@ -16,8 +16,6 @@ export default function Wallpaper (props: Props) {
     setBackgroundPosition(sample(positions)!);
   }, []);
 
-  // TODO: darken when on homescreen
-  // const brightness = 0.85;
   const brightness = 0.60;
 
   return (
