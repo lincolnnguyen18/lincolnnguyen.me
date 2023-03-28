@@ -1,11 +1,11 @@
 import Network from './components/Network';
-import Postgres from './components/Database';
+import Ec2Instance from './components/Ec2Instance';
 
 const network = new Network('pulumi-network');
 
-const postgres = new Postgres('pulumi-postgres', {
+const instance = new Ec2Instance('pulumi-instance', {
   publicSubnet: network.publicSubnet,
   securityGroup: network.allowAllSecurityGroup,
 });
 
-export const postgresPublicDns = postgres.ec2Instance.publicDns;
+export const instancePublicDns = instance.ec2Instance.publicDns;

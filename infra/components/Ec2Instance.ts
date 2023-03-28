@@ -1,6 +1,5 @@
 import { Instance, SecurityGroup, Subnet } from '@pulumi/aws/ec2';
 import { ComponentResource } from '@pulumi/pulumi';
-import { postgresInit } from '../common/scripts';
 
 interface Props {
   publicSubnet: Subnet;
@@ -10,21 +9,11 @@ interface Props {
   securityGroup: SecurityGroup;
 }
 
-/**
- * Run command below on ec2 instance to check userData script logs
- * cat /var/log/cloud-init-output.log
- * 
- * Run command below to test postgres connection
- * psql -h $(pulumi stack output postgresPublicDns) -p 5432 -U postgres -d postgres
- * 
- * Run command below to ssh into postgres ec2 instance
- * ssh -i "~/pems/default.pem" ubuntu@$(pulumi stack output postgresPublicDns)
- */
-export default class Postgres extends ComponentResource {
+export default class Ec2Instance extends ComponentResource {
   public readonly ec2Instance: Instance;
 
   constructor (name: string, props: Props) {
-    super('custom:Database', name);
+    super('custom:Ec2Instance', name);
 
     const { publicSubnet, securityGroup } = props;
 
@@ -38,11 +27,11 @@ export default class Postgres extends ComponentResource {
       vpcSecurityGroupIds: [securityGroup.id],
 
       tags: {
-        Name: 'pulumi-postgres',
+        Name: name,
       },
 
-      userData: postgresInit,
-      userDataReplaceOnChange: true,
+      // userData: postgresInit,
+      // userDataReplaceOnChange: true,
     });
   }
 }

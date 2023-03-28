@@ -1,0 +1,35 @@
+{
+  "name": "backend2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=development ts-node src/index.ts",
+    "start:prod": "NODE_ENV=production nodemon dist/src",
+    "build": "tsc",
+    "buildImage": "source .env.production && docker rmi -f $IMAGE_NAME:latest && docker build -t $IMAGE_NAME:latest . && docker tag $IMAGE_NAME:latest ln342000/$IMAGE_NAME:latest",
+    "pushImage": "source .env.production && docker push ln342000/$IMAGE_NAME:latest",
+    "pruneImages": "docker image prune -a -f",
+    "updateImage": "npm run buildImage && npm run pushImage && npm run pruneImages"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.5.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^18.15.10",
+    "@types/web": "^0.0.99",
+    "@typescript-eslint/eslint-plugin": "^5.55.0",
+    "@typescript-eslint/parser": "^5.55.0",
+    "eslint": "^8.36.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.0.5",
+    "typescript": "^5.0.2"
+  }
+}
