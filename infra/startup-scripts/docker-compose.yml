@@ -1,0 +1,60 @@
+version: '3.9'
+services:
+  development_db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    ports:
+      - "5432:5432"
+  staging_db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    ports:
+      - "5433:5432"
+  production_db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    ports:
+      - "5434:5432"
+  development_api:
+    image: ln342000/lincolnnguyen-me-development-api:latest
+    ports:
+      - "4000"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+  staging_api:
+    image: ln342000/lincolnnguyen-me-staging-api:latest
+    ports:
+      - "4000"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+  production_api:
+    image: ln342000/lincolnnguyen-me-production-api:latest
+    ports:
+      - "80"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+  lb:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - development-api
+      - staging-api
+      - production-api

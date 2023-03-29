@@ -1,5 +1,6 @@
 import { Instance, SecurityGroup, Subnet } from '@pulumi/aws/ec2';
 import { ComponentResource } from '@pulumi/pulumi';
+import { userDataScript } from '../common/scripts';
 
 interface Props {
   publicSubnet: Subnet;
@@ -18,9 +19,9 @@ export default class Ec2Instance extends ComponentResource {
     const { publicSubnet, securityGroup } = props;
 
     this.ec2Instance = new Instance('ec2-instance', {
-      // AMI for Ubuntu on t4g.nano in us-east-1
-      ami: 'ami-0f9bd9098aca2d42b',
-      instanceType: 't4g.nano',
+      // AMI for Ubuntu on t3a.nano in us-east-1
+      ami: 'ami-007855ac798b5175e',
+      instanceType: 't3a.nano',
       keyName: 'default',
       associatePublicIpAddress: true,
       subnetId: publicSubnet.id,
@@ -30,8 +31,8 @@ export default class Ec2Instance extends ComponentResource {
         Name: name,
       },
 
-      // userData: postgresInit,
-      // userDataReplaceOnChange: true,
+      userData: userDataScript,
+      userDataReplaceOnChange: true,
     });
   }
 }
