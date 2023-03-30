@@ -12,10 +12,10 @@ psql -h development.database.lincolnnguyen.me -p 5432 -U postgres -d postgres
 psql -h staging.database.lincolnnguyen.me -p 5432 -U postgres -d postgres
 
 # Run command below to ssh into postgres ec2 instance
-`ssh -i "~/pems/default.pem" ubuntu@$(pulumi stack output instancePublicDns)`
+ssh -i "~/pems/default.pem" ubuntu@$(pulumi stack output instancePublicDns)
 
 # Run command below to scale docker swarm
-docker service scale api=2
+docker service scale stack_production_api=0
 # Run command below to check docker swarm logs
 docker service logs api
 # running the service
@@ -74,8 +74,10 @@ sudo env POSTGRES_PASSWORD=enter_password docker stack deploy --compose-file doc
 sudo docker stack rm stack
 # Run command below to restart a service
 sudo docker service update --force api
+# Run command below to remove a service
+sudo docker service rm stack_production_api
 # Run command below to do docker compose up
-sudo env POSTGRES_PASSWORD=enter_password docker-compose up -d
+docker-compose pull && env POSTGRES_PASSWORD=enter_password docker-compose up stack -d
 
 
 # Run command below to forcefully stop an EC2 instance

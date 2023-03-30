@@ -8,6 +8,9 @@ COPY common.conf /etc/nginx/
 # Copy the Let's Encrypt directory to the appropriate location
 COPY letsencrypt /etc/letsencrypt
 
+# Copy error-pages to the appropriate location
+COPY error/error.html /var/www/html/
+
 # Expose ports for HTTP and HTTPS traffic
 EXPOSE 80 443
 

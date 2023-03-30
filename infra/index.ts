@@ -3,24 +3,7 @@ import { userDataScript } from './common/scripts';
 
 /* Networking */
 
-const allowAll = [
-  {
-    fromPort: 0,
-    toPort: 0,
-    protocol: '-1',
-    cidrBlocks: ['0.0.0.0/0'],
-  },
-];
-
-const defaultSubnet = new aws.ec2.DefaultSubnet('default-subnet', {
-  availabilityZone: 'us-east-1a',
-});
-
-const allowAllSecurityGroup = new aws.ec2.SecurityGroup('security-group', {
-  description: 'Allow inbound traffic from the internet',
-  ingress: allowAll,
-  egress: allowAll,
-});
+const instanceIp = '65.109.172.137';
 
 /* Certificates */
 const certificate = new aws.acm.Certificate('certificate', {
@@ -31,8 +14,8 @@ const certificate = new aws.acm.Certificate('certificate', {
 
 /* S3 Buckets */
 
-const ecStartupScriptsBucket = new aws.s3.Bucket('bucket', {});
-export const ec2StartupScriptsBucketName = ecStartupScriptsBucket.id;
+const startupScriptsBucket = new aws.s3.Bucket('bucket', {});
+export const startupScriptsBucketName = startupScriptsBucket.id;
 
 const letsencryptS3Bucket = new aws.s3.Bucket('bucket-2', {});
 export const letsencryptS3BucketName = letsencryptS3Bucket.id;
@@ -67,30 +50,6 @@ export const letsencryptS3BucketName = letsencryptS3Bucket.id;
 
 // });
 
-/* IAM */
-
-const ec2InstanceRole = new aws.iam.Role('ec2-instance-role', {
-  assumeRolePolicy: JSON.stringify({
-    Version: '2012-10-17',
-    Statement: [
-      {
-        Effect: 'Allow',
-        Principal: {
-          Service: 'ec2.amazonaws.com',
-        },
-        Action: 'sts:AssumeRole',
-      },
-    ],
-  }),
-  managedPolicyArns: [
-    'arn:aws:iam::aws:policy/AmazonS3FullAccess',
-  ],
-});
-
-const ec2InstanceProfile = new aws.iam.InstanceProfile('ec2-instance-profile', {
-  role: ec2InstanceRole,
-});
-
 /* DynamoDB */
 
 const prodTable = new aws.dynamodb.Table('table', {
@@ -122,27 +81,6 @@ const prodTable = new aws.dynamodb.Table('table', {
 });
 export const prodTableName = prodTable.name;
 
-/* EC2 Instances */
-
-const instance = new aws.ec2.Instance('ec2-instance', {
-  // AMI for Ubuntu on t4g.nano in us-east-1
-  ami: 'ami-0c6c29c5125214c77',
-  instanceType: 't4g.micro',
-  keyName: 'default',
-  associatePublicIpAddress: true,
-  subnetId: defaultSubnet.id,
-  vpcSecurityGroupIds: [allowAllSecurityGroup.id],
-
-  userData: userDataScript,
-  userDataReplaceOnChange: false,
-  iamInstanceProfile: ec2InstanceProfile.name,
-});
-const elasticIp = new aws.ec2.Eip('elastic-ip', {
-  instance: instance.id,
-});
-export const instancePublicDns = instance.publicDns;
-export const instanceId = instance.id;
-export const instanceElasticIp = elasticIp.publicIp;
 
 /* Domains */
 
@@ -156,6 +94,9 @@ for (const subdomain of subdomains) {
     name: subdomain,
     type: 'A',
     ttl: 300,
-    records: [elasticIp.publicIp],
+    records: [instanceIp],
   });
 }
+
+/* Other exports */
+export const userData = userDataScript;

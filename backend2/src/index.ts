@@ -25,7 +25,7 @@ const code = Math.random().toString(36).substring(2, 15) + Math.random().toStrin
 
 
 app.get('/', (req, res) => {
-  res.send(`Staging API, code: ${code}`);
+  res.send(`Development API, code: ${code}`);
 });
 
 async function startApolloServer () {

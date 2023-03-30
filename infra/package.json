@@ -5,7 +5,7 @@
 		"@types/node": "^16"
 	},
 	"scripts": {
-		"syncToStartupScripts": "source .env && aws s3 sync startup-scripts s3://$STARTUP_SCRIPTS_BUCKET_NAME",
+		"syncToStartupScripts": "source .env && aws s3 sync startup-scripts s3://$STARTUP_SCRIPTS_BUCKET_NAME --delete",
 		"syncFromStartupScripts": "source .env && aws s3 sync s3://$STARTUP_SCRIPTS_BUCKET_NAME startup-scripts",
 		"syncToLetsEncrypt": "source .env && aws s3 sync nginx-image/letsencrypt s3://$LETS_ENCRYPT_BUCKET_NAME",
 		"syncFromLetsEncrypt": "source .env && aws s3 sync s3://$LETS_ENCRYPT_BUCKET_NAME nginx-image/letsencrypt"

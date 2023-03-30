@@ -26,8 +26,11 @@ echo "Installing AWS CLI"
 sudo apt-get install awscli -y
 
 echo "Downloading startup scripts"
-aws s3 sync s3://${environment.STARTUP_SCRIPTS_BUCKET_NAME} ~
-cd ~
+aws s3 sync s3://${environment.STARTUP_SCRIPTS_BUCKET_NAME} ~/startup-scripts
+cd ~/startup-scripts
+
+echo "Pulling Docker images"
+sudo docker-compose pull
 
 echo "Deploying stack to Docker Swarm"
 sudo env POSTGRES_PASSWORD=${environment.POSTGRES_PASSWORD} docker stack deploy --compose-file docker-compose.yml stack
