@@ -1,17 +1,22 @@
 {
-    "name": "infra",
-    "main": "index.ts",
-    "devDependencies": {
-        "@types/node": "^16"
-    },
-    "dependencies": {
-        "@pulumi/aws": "^5.0.0",
-        "@pulumi/awsx": "^1.0.0",
-        "@pulumi/pulumi": "^3.0.0",
-        "@pulumi/synced-folder": "^0.10.2",
-        "@typescript-eslint/eslint-plugin": "^5.55.0",
-        "@typescript-eslint/parser": "^5.55.0",
-        "dotenv": "^16.0.3",
-        "eslint": "^8.36.0"
-    }
+	"name": "infra",
+	"main": "index.ts",
+	"devDependencies": {
+		"@types/node": "^16"
+	},
+	"scripts": {
+		"syncToStartupScripts": "source .env && aws s3 sync startup-scripts s3://$STARTUP_SCRIPTS_BUCKET_NAME",
+		"syncFromStartupScripts": "source .env && aws s3 sync s3://$STARTUP_SCRIPTS_BUCKET_NAME startup-scripts",
+		"syncToLetsEncrypt": "source .env && aws s3 sync nginx-image/letsencrypt s3://$LETS_ENCRYPT_BUCKET_NAME",
+		"syncFromLetsEncrypt": "source .env && aws s3 sync s3://$LETS_ENCRYPT_BUCKET_NAME nginx-image/letsencrypt"
+	},
+	"dependencies": {
+		"@pulumi/aws": "^5.0.0",
+		"@pulumi/awsx": "^1.0.0",
+		"@pulumi/pulumi": "^3.0.0",
+		"@typescript-eslint/eslint-plugin": "^5.55.0",
+		"@typescript-eslint/parser": "^5.55.0",
+		"dotenv": "^16.0.3",
+		"eslint": "^8.36.0"
+	}
 }

@@ -1,5 +1,4 @@
 import * as aws from '@pulumi/aws';
-import * as synced from '@pulumi/synced-folder';
 import { userDataScript } from './common/scripts';
 
 /* Networking */
@@ -23,17 +22,50 @@ const allowAllSecurityGroup = new aws.ec2.SecurityGroup('security-group', {
   egress: allowAll,
 });
 
+/* Certificates */
+const certificate = new aws.acm.Certificate('certificate', {
+  domainName: 'lincolnnguyen.me',
+  subjectAlternativeNames: ['*.lincolnnguyen.me', '*.api.lincolnnguyen.me'],
+  validationMethod: 'DNS',
+});
+
 /* S3 Buckets */
 
 const ecStartupScriptsBucket = new aws.s3.Bucket('bucket', {});
 export const ec2StartupScriptsBucketName = ecStartupScriptsBucket.id;
 
-new synced.S3BucketFolder('synced-folder', {
-  path: './startup-scripts',
-  bucketName: ecStartupScriptsBucket.id,
-  acl: aws.s3.PrivateAcl,
-  includeHiddenFiles: true,
-});
+const letsencryptS3Bucket = new aws.s3.Bucket('bucket-2', {});
+export const letsencryptS3BucketName = letsencryptS3Bucket.id;
+
+// const prodStaticAssetsBucket = new aws.s3.Bucket('bucket-2', {});
+// const prodStaticAssetsDistribution = new aws.cloudfront.Distribution('distribution', {
+//   enabled: true,
+//   origins: [
+//     {
+//       originId: prodStaticAssetsBucket.arn,
+//       domainName: prodStaticAssetsBucket.bucketRegionalDomainName,
+//     },
+//   ],
+//   defaultCacheBehavior: {
+//     allowedMethods: [
+//         "GET",
+//         "HEAD",
+//     ],
+//     cachedMethods: [
+//         "GET",
+//         "HEAD",
+//     ],
+//     targetOriginId: prodStaticAssetsBucket.id,
+//     viewerProtocolPolicy: "redirect-to-https",
+//   },
+//   restrictions: {
+//     geoRestriction: {
+//       restrictionType: "none",
+//     },
+//   },
+//   viewerCertificate: {
+
+// });
 
 /* IAM */
 
@@ -51,7 +83,7 @@ const ec2InstanceRole = new aws.iam.Role('ec2-instance-role', {
     ],
   }),
   managedPolicyArns: [
-    'arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess',
+    'arn:aws:iam::aws:policy/AmazonS3FullAccess',
   ],
 });
 

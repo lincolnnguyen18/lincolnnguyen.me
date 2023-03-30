@@ -12,8 +12,10 @@ import { userResolvers, userTypedef } from './gql/userGql.js';
 const app = express();
 const httpServer = http.createServer(app);
 
+const code = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
 app.get('/', (req, res) => {
-  res.send('Old api');
+  res.send(`Production API, code: ${code}`);
 });
 
 const server = new ApolloServer({

@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "buildImage": "source .env && docker rmi -f $IMAGE_NAME:latest && docker build -t $IMAGE_NAME:latest . && docker tag $IMAGE_NAME:latest ln342000/$IMAGE_NAME:latest",
+    "pushImage": "source .env && docker push ln342000/$IMAGE_NAME:latest",
+    "pruneImages": "docker image prune -a -f",
+    "buildAndPushImage": "npm run buildImage && npm run pushImage"
+  }
+}
