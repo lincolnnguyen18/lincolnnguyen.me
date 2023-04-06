@@ -6,3 +6,5 @@
 node_modules
 .idea
 .DS_Store
+venv
+__pycache__

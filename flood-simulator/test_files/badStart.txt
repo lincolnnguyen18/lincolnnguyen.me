@@ -1,0 +1,8 @@
+10 10
+6
+HHHHHH
+      
+HH HH 
+   HH 
+H HHHH
+H    H
