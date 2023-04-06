@@ -1,0 +1,5 @@
+- [ ] create example python graphql api
+- [ ] try pure terraform again
+- [ ] restore old lincolnnguyen.me
+- [ ] setup mono repo ci/cd process for shared infra, infra, frontend, backend
+- [ ] begin python graphql api

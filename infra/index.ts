@@ -1,57 +1,48 @@
 import * as aws from '@pulumi/aws';
-import { userDataScript } from './common/scripts';
+import CustomDistribution from './components/CustomDistribution';
 
-/* Networking */
-
-const instanceIp = '65.109.172.137';
+const zoneId = 'Z10155421ZV6VX4DLYNZ1';
 
 /* Certificates */
 const certificate = new aws.acm.Certificate('certificate', {
   domainName: 'lincolnnguyen.me',
   subjectAlternativeNames: ['*.lincolnnguyen.me', '*.api.lincolnnguyen.me'],
   validationMethod: 'DNS',
-});
+}); 
 
 /* S3 Buckets */
-
-const startupScriptsBucket = new aws.s3.Bucket('bucket', {});
+const startupScriptsBucket = new aws.s3.Bucket('bucket');
 export const startupScriptsBucketName = startupScriptsBucket.id;
 
-const letsencryptS3Bucket = new aws.s3.Bucket('bucket-2', {});
+const letsencryptS3Bucket = new aws.s3.Bucket('bucket-2');
 export const letsencryptS3BucketName = letsencryptS3Bucket.id;
 
-// const prodStaticAssetsBucket = new aws.s3.Bucket('bucket-2', {});
-// const prodStaticAssetsDistribution = new aws.cloudfront.Distribution('distribution', {
-//   enabled: true,
-//   origins: [
-//     {
-//       originId: prodStaticAssetsBucket.arn,
-//       domainName: prodStaticAssetsBucket.bucketRegionalDomainName,
-//     },
-//   ],
-//   defaultCacheBehavior: {
-//     allowedMethods: [
-//         "GET",
-//         "HEAD",
-//     ],
-//     cachedMethods: [
-//         "GET",
-//         "HEAD",
-//     ],
-//     targetOriginId: prodStaticAssetsBucket.id,
-//     viewerProtocolPolicy: "redirect-to-https",
-//   },
-//   restrictions: {
-//     geoRestriction: {
-//       restrictionType: "none",
-//     },
-//   },
-//   viewerCertificate: {
+const prodStaticAssetsBucket = new aws.s3.Bucket('bucket-3');
+export const prodStaticAssetsBucketName = prodStaticAssetsBucket.id;
+const stagingStaticAssetsBucket = new aws.s3.Bucket('bucket-4');
+export const stagingStaticAssetsBucketName = stagingStaticAssetsBucket.id;
+const devStaticAssetsBucket = new aws.s3.Bucket('bucket-5');
+export const devStaticAssetsBucketName = devStaticAssetsBucket.id;
 
+const prodAssetsBucket = new aws.s3.Bucket('bucket-6');
+export const prodAssetsBucketName = prodAssetsBucket.id;
+
+/* Distributions */
+const prodStaticAssetsDistribution = new CustomDistribution('distribution', {
+  bucket: prodStaticAssetsBucket,
+  certificate,
+  aliases: ['lincolnnguyen.me', 'staging.lincolnnguyen.me', 'development.lincolnnguyen.me'],
+});
+export const prodStaticAssetsDistributionDomainName = prodStaticAssetsDistribution.distribution.domainName;
+export const prodStaticAssetsDistributionId = prodStaticAssetsDistribution.distribution.id;
+
+// const prodAssetsDistribution = new CustomDistribution('distribution-2', {
+//   bucket: prodAssetsBucket,
+//   certificate,
+//   aliases: ['assets.lincolnnguyen.me'],
 // });
 
 /* DynamoDB */
-
 const prodTable = new aws.dynamodb.Table('table', {
   attributes: [
     { name: 'pk', type: 'S' },
@@ -83,20 +74,34 @@ export const prodTableName = prodTable.name;
 
 
 /* Domains */
-
-const subdomains = [
+const backendSubdomains = [
   'api', 'staging.api', 'development.api',
   'database', 'staging.database', 'development.database',
 ];
-for (const subdomain of subdomains) {
-  new aws.route53.Record(`${subdomain}-A-record`, {
-    zoneId: 'Z10155421ZV6VX4DLYNZ1',
+backendSubdomains.forEach((subdomain, index) => {
+  let name = `A-record-${index + 1}`;
+  if (index === 0) {
+    name = 'A-record';
+  }
+  new aws.route53.Record(name, {
+    zoneId,
     name: subdomain,
     type: 'A',
     ttl: 300,
-    records: [instanceIp],
+    records: ['65.109.172.137'],
   });
-}
+});
 
-/* Other exports */
-export const userData = userDataScript;
+// const frontendSubdomains = [
+//   '', 'staging', 'development',
+// ];
+new aws.route53.Record('A-record-7', {
+  zoneId,
+  name: 'lincolnnguyen.me',
+  type: 'A',
+  aliases: [{
+    name: prodStaticAssetsDistributionDomainName,
+    zoneId: prodStaticAssetsDistribution.distribution.hostedZoneId,
+    evaluateTargetHealth: true,
+  }],
+});
