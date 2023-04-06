@@ -1,4 +1,4 @@
-from entrypoints.path_util import add_project_root_to_sys_path
+from path_util import add_project_root_to_sys_path
 add_project_root_to_sys_path()
 from core.calculator import add, subtract
 from utils.helper import greet
