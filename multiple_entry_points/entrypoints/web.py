@@ -1,3 +1,5 @@
+from path_util import add_project_root_to_sys_path
+add_project_root_to_sys_path()
 from flask import Flask, jsonify
 from core.calculator import add, subtract
 
