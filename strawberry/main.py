@@ -1,6 +1,6 @@
-from fastapi import FastAPI
 import uvicorn
-from core.app import graphql_app
+from fastapi import FastAPI
+from api.schema import graphql_app
 
 
 app = FastAPI()

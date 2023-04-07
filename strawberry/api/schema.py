@@ -1,6 +1,4 @@
 import strawberry
-
-
 from strawberry.fastapi import GraphQLRouter
 
 
