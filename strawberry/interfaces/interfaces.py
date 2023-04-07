@@ -6,19 +6,19 @@ from entities.entities import Author, BlogPost
 
 class AuthorRepository(ABC):
     @abstractmethod
-    def create_author(self, name: str, email: str) -> Author:
+    async def create_author(self, name: str, email: str) -> Author:
         pass
 
     @abstractmethod
-    def get_author_by_id(self, author_id: int) -> Optional[Author]:
+    async def get_author_by_id(self, author_id: int) -> Optional[Author]:
         pass
 
     @abstractmethod
-    def update_author(self, author: Author) -> Author:
+    async def update_author(self, author: Author) -> Author:
         pass
 
     @abstractmethod
-    def delete_author(self, author_id: int) -> None:
+    async def delete_author(self, author_id: int) -> None:
         pass
 
 

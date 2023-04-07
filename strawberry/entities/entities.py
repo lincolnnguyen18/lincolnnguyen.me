@@ -1,14 +1,15 @@
 from dataclasses import dataclass
+from uuid import UUID
 
 @dataclass
 class Author:
-    id_: int
+    uuid: UUID
     name: str
     email: str
 
 @dataclass
 class BlogPost:
-    id_: int
+    id_: UUID
     title: str
     content: str
-    author_id: int
+    author_id: UUID

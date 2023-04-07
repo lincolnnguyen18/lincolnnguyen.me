@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+cassandra-driver = "*"
+fastapi = "*"
+uvicorn = "*"
+strawberry-graphql = "*"
+
+[dev-packages]
+black = "*"
+
+[scripts]
+start = "python main.py"
+test = "pytest tests/"
+
+[requires]
+python_version = "3.11"
+python_full_version = "3.11.2"
